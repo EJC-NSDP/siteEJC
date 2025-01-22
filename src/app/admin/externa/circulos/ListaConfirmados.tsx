@@ -1,3 +1,4 @@
+import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
 import { Card } from '@/components/ui/card'
 import { useDroppable } from '@dnd-kit/core'
 import { useUniqueId } from '@dnd-kit/utilities'
@@ -41,6 +42,10 @@ export function ListaConfirmadosSemCirculo({
         </div>
 
         <div className="flex flex-col gap-4">
+          {encontristasWithoutCirculo.length === 0 && (
+            <CardEncontristasListEmpty />
+          )}
+
           {encontristasWithoutCirculo.map((encontrista) => {
             return (
               <CardEncontrista

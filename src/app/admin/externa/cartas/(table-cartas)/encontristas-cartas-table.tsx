@@ -2,6 +2,7 @@ import type {
   CartaSummary,
   CartaSummaryData,
 } from '@/app/api/carta/get-cartas-sumary'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { Pagination } from '@/components/Table/Pagination'
 import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import {
@@ -102,7 +103,14 @@ export function EncontristasCartasTable() {
             </TableHeader>
             <TableBody className="bg-transparent">
               {isLoadingEncontrista && <EncontristaCartasTableSkeleton />}
+              {cartaSumary && cartaSumary.encontristas.length === 0 && (
+                <EmptyTableRow
+                  colspan={7}
+                  content="Sem encontristas cadastrados neste encontro"
+                />
+              )}
               {cartaSumary &&
+                cartaSumary.encontristas.length !== 0 &&
                 cartaSumary.encontristas.map((encontrista) => {
                   return (
                     <EncontristaCartasTableRow

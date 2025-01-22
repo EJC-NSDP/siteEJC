@@ -1,6 +1,7 @@
 'use client'
 
 import type { CarroPendencias } from '@/app/api/encontro/[numeroEncontro]/pendencias/get-pendencias'
+import { CarroEmpty } from '@/components/Table/CarroEmpty'
 import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
 import { PendenciasSkeleton } from './PendenciasSkeleton'
@@ -27,6 +28,8 @@ export function TiosExterna() {
     <>
       {isLoadingPendencias && <PendenciasSkeleton />}
       <div className="grid grid-cols-2">
+        {carrosPendencias && carrosPendencias.length === 0 && <CarroEmpty />}
+
         {carrosPendencias &&
           carrosPendencias.map((carroPendencia) => {
             return <TioExterna key={carroPendencia.id} carro={carroPendencia} />

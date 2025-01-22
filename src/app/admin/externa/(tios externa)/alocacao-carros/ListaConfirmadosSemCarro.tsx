@@ -1,3 +1,4 @@
+import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { useDroppable } from '@dnd-kit/core'
@@ -86,6 +87,9 @@ export function ListaConfirmadosSemCarro({
 
           <div className="flex flex-col gap-4">
             {/* <ScrollArea className="max-h-96 rounded-md px-4"> */}
+            {encontristasWithoutCarro.length === 0 && (
+              <CardEncontristasListEmpty />
+            )}
             {encontristasPorZona.map((encontristasZona) => {
               if (encontristasZona.encontristas.length === 0)
                 return <div key={encontristasZona.zona} className="sr-only" />
