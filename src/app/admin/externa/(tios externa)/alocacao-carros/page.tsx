@@ -29,10 +29,8 @@ import { ListaConfirmadosSemCarro } from './ListaConfirmadosSemCarro'
 export type CarroId = string
 
 async function getCarros() {
-  const encontro = 72
-
   const response: CarroFromEncontro[] = await api
-    .get(`encontro/${encontro}/carros`)
+    .get(`encontro/1/carros`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

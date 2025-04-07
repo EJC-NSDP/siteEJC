@@ -6,8 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { CreateEncontristaContext } from '@/context/CreateEncontristaContext'
-import { getMonthBR } from '@/utils/get-month-locale'
-import { toProper } from '@/utils/to-proper'
+import dayjs from 'dayjs'
 import { useContext } from 'react'
 import { useWizard } from 'react-use-wizard'
 
@@ -16,6 +15,12 @@ interface CardWithEncontroProps {
 }
 
 function CardWithEncontro({ date }: CardWithEncontroProps) {
+  const friday = dayjs(date)
+  const saturday = dayjs(date).add(1, 'day')
+  const sunday = dayjs(date).add(2, 'day')
+
+  console.log(friday)
+
   return (
     <>
       <p>
@@ -24,7 +29,7 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
         Nosso próximo encontrão acontecerá nos dias:
       </p>
       <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
-        {`${date.getDate()}, ${date.getDate() + 1} e ${date.getDate() + 2} de ${toProper(getMonthBR(date))}`}
+        {`${friday.date()}/${friday.month() + 1}, ${saturday.date()}/${saturday.month() + 1} e ${sunday.date()}/${sunday.month() + 1} de ${friday.year()}`}
       </p>
       <p>
         Para realizar sua inscrição, vamos fazer algumas perguntas para te

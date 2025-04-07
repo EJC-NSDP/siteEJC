@@ -106,7 +106,7 @@ export function EncontristasCartasTable() {
               {cartaSumary && cartaSumary.encontristas.length === 0 && (
                 <EmptyTableRow
                   colspan={7}
-                  content="Sem encontristas cadastrados neste encontro"
+                  content="Sem encontristas confirmados neste encontro"
                 />
               )}
               {cartaSumary &&

@@ -4,7 +4,9 @@ import { ParticipeForm } from './(form)/ParticipeForm'
 
 async function fetchDataEncontro() {
   try {
-    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/encontro/72`)
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/encontro/1/get-current-encontro`,
+    )
     if (response.ok) {
       const data: EncontroData = await response.json()
       const date = new Date(data.dataInicio.split('T')[0])

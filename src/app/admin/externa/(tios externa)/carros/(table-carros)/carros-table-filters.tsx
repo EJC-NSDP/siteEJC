@@ -116,6 +116,7 @@ export function CarrosTableFilters() {
                     value={field.value}
                   >
                     <SelectItem value="all" text="Todos encontros" />
+                    <SelectItem value="73" text="73" />
                     <SelectItem value="72" text="72" />
                     <SelectItem value="71" text="71" />
                     <SelectItem value="70" text="70" />

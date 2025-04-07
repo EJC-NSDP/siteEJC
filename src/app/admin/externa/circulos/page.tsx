@@ -55,10 +55,8 @@ function ordenarCirculos(baseOrder: string, circulos: CirculoEncontro[]) {
 }
 
 async function getCirculos() {
-  const encontro = 71
-
   const response: CirculosResponse = await api
-    .get(`encontro/${encontro}/circulos`)
+    .get(`encontro/1/circulos`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

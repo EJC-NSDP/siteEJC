@@ -10,9 +10,8 @@ import { MensagemAberta } from './MensagemAberta'
 import { MensagemFechada } from './MensagemFechada'
 
 async function getConfirmados() {
-  const encontro = '72'
   const response: EncontristaConfirmadosData[] = await api
-    .get(`encontro/${encontro}/confirmados`)
+    .get(`encontro/1/confirmados`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -30,7 +29,7 @@ async function getConfirmados() {
 }
 
 async function getCartasStatus() {
-  const res = await api.get(`encontro/72/get-carta-status`)
+  const res = await api.get(`encontro/1/get-carta-status`)
   return res.data as boolean
 }
 

@@ -7,8 +7,6 @@ export type EncontristaConfirmadosData = {
 }
 
 export async function getConfirmados() {
-  // const numeroEncontro = 71
-
   return await prisma.pessoa.findMany({
     select: {
       slug: true,
@@ -27,12 +25,6 @@ export async function getConfirmados() {
         },
         { role: 'TIOSECRETO' },
       ],
-
-      // encontreiro: {
-      //   encontro: {
-      //     numeroEncontro,
-      //   },
-      // },
     },
     orderBy: {
       nome: 'asc',

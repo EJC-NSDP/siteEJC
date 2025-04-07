@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { api } from '@/lib/axios'
-import type { Value_Status as valueStatus } from '@prisma/client'
+import type { Encontro, Value_Status as valueStatus } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -44,10 +44,17 @@ interface EncontristaTableRowProps {
 }
 
 async function getEquipeExterna() {
-  const encontro = 71
-
   const equipe = await api
-    .get(`encontro/${encontro}/externa`)
+    .get(`encontro/1/externa`)
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  return equipe
+}
+
+async function getCurrentEncontro() {
+  const equipe = await api
+    .get(`encontro/1/get-current-encontro`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -57,12 +64,19 @@ async function getEquipeExterna() {
 export function CarrosTableRow({ carro }: EncontristaTableRowProps) {
   const [open, setOpen] = useState(false)
 
-  const isFromThisEncontro = carro.ultimaExterna === 72
-
   const { data: equipeExterna, isLoading } = useQuery<SelectItemAvatarProps[]>({
     queryFn: async () => await getEquipeExterna(),
     queryKey: ['equipeExterna'],
   })
+
+  const { data: currentEnconto } = useQuery<Encontro>({
+    queryFn: async () => await getCurrentEncontro(),
+    queryKey: ['currentEnconto'],
+  })
+
+  const isFromThisEncontro = currentEnconto
+    ? carro.ultimaExterna === currentEnconto.numeroEncontro
+    : carro.ultimaExterna === 71
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
