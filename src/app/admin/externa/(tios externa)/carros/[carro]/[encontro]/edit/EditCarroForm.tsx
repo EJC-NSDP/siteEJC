@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Role } from '@prisma/client'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -103,7 +103,6 @@ export type EditCarroFormDataInput = z.infer<typeof editFormScheme>
 
 export function EditCarroForm({ data, disabled }: EditCarroProps) {
   const [isUpdating, setUpdating] = useState(false)
-  const router = useRouter()
 
   const form = useForm<EditCarroFormDataInput>({
     resolver: zodResolver(editFormScheme),
@@ -183,62 +182,64 @@ export function EditCarroForm({ data, disabled }: EditCarroProps) {
   return (
     <FormProvider {...form}>
       <form id="editCarroForm" onSubmit={handleSubmit(handleUpdateCarro)}>
-        <fieldset disabled={disabled}>
-          <div className="grid w-full grid-cols-12 gap-7">
-            <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
-              <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
-                <CardContent className="w-full py-0">
-                  <EditNavigation />
-                </CardContent>
-              </Card>
-            </div>
-            <div className="col-span-full lg:col-start-4">
-              <div className="flex flex-col gap-6">
+        {/* <fieldset disabled={disabled}> */}
+        <div className="grid w-full grid-cols-12 gap-7">
+          <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
+            <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
+              <CardContent className="w-full py-0">
+                <EditNavigation />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="col-span-full lg:col-start-4">
+            <div className="flex flex-col gap-6">
+              <fieldset disabled={disabled}>
                 <CarroCard />
                 <MotoristaCard />
                 <CaronaCard />
-                <Card
-                  id="save-section"
-                  className="w-full px-3 pt-8 text-zinc-700 "
-                >
-                  <CardContent className="w-full">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-2xl font-bold lg:text-nowrap">
-                        Salvar Mudanças
-                      </span>
+              </fieldset>
+              <Card
+                id="save-section"
+                className="w-full px-3 pt-8 text-zinc-700 "
+              >
+                <CardContent className="w-full">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-2xl font-bold lg:text-nowrap">
+                      Salvar Mudanças
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
+                    <div className="px-0 py-5 text-lg lg:py-7">
+                      Lembre-se de salvar qualquer mudança realizada nessa
+                      página.
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
-                      <div className="px-0 py-5 text-lg lg:py-7">
-                        Lembre-se de salvar qualquer mudança realizada nessa
-                        página.
-                      </div>
-                      <div className="flex items-center justify-center gap-5 px-0 py-5 text-lg lg:flex-row lg:gap-7 lg:py-7">
+                    <div className="flex items-center justify-center gap-5 px-0 py-5 text-lg lg:flex-row lg:gap-7 lg:py-7">
+                      <Link href="/admin/externa/carros">
                         <Button
-                          onClick={() => {
-                            router.push('/admin/externa/carros')
-                          }}
                           type="button"
                           variant="outline"
-                          className="disabled:opacity-50' h-10 w-40 disabled:cursor-wait"
-                          disabled={isUpdating}
+                          className="cursor-pointer"
                         >
                           Voltar
                         </Button>
-                        <Button
-                          type="submit"
-                          className="h-10 w-40"
-                          disabled={isUpdating}
-                        >
-                          Atualizar
-                        </Button>
-                      </div>
+                      </Link>
+
+                      <Button
+                        type="submit"
+                        className="flex h-10 w-40 aria-hidden:hidden"
+                        disabled={isUpdating}
+                        aria-hidden={disabled}
+                      >
+                        Atualizar
+                      </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </fieldset>
+        </div>
+        {/* </fieldset> */}
       </form>
     </FormProvider>
   )
