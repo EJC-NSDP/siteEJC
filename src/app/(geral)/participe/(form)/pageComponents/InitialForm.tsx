@@ -15,11 +15,10 @@ interface CardWithEncontroProps {
 }
 
 function CardWithEncontro({ date }: CardWithEncontroProps) {
-  const friday = dayjs(date)
-  const saturday = dayjs(date).add(1, 'day')
-  const sunday = dayjs(date).add(2, 'day')
-
-  console.log(friday)
+  const friday = dayjs(date).format('DD/MM')
+  const saturday = dayjs(date).add(1, 'day').format('DD/MM')
+  const sunday = dayjs(date).add(2, 'day').format('DD/MM')
+  const year = dayjs(date).format('YYYY')
 
   return (
     <>
@@ -29,7 +28,7 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
         Nosso próximo encontrão acontecerá nos dias:
       </p>
       <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
-        {`${friday.date()}/${friday.month() + 1}, ${saturday.date()}/${saturday.month() + 1} e ${sunday.date()}/${sunday.month() + 1} de ${friday.year()}`}
+        {`${friday}, ${saturday} e ${sunday} de ${year}`}
       </p>
       <p>
         Para realizar sua inscrição, vamos fazer algumas perguntas para te

@@ -7,8 +7,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CreateEncontristaContext } from '@/context/CreateEncontristaContext'
-import { getMonthBR } from '@/utils/get-month-locale'
-import { toProper } from '@/utils/to-proper'
+import dayjs from 'dayjs'
 import { Check, X } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { useWizard } from 'react-use-wizard'
@@ -17,6 +16,11 @@ interface FinalFormProps {
   dataEncontro: Date | null
 }
 function SuccessCreation({ dataEncontro }: FinalFormProps) {
+  const friday = dayjs(dataEncontro).format('DD/MM')
+  const saturday = dayjs(dataEncontro).add(1, 'day').format('DD/MM')
+  const sunday = dayjs(dataEncontro).add(2, 'day').format('DD/MM')
+  const year = dayjs(dataEncontro).format('YYYY')
+
   return (
     <>
       <CardHeader className="flex w-full flex-col items-center gap-6 py-0">
@@ -35,7 +39,7 @@ function SuccessCreation({ dataEncontro }: FinalFormProps) {
               participação nos dias:
             </p>
             <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
-              {`${dataEncontro.getDate()}, ${dataEncontro.getDate() + 1} e ${dataEncontro.getDate() + 2} de ${toProper(getMonthBR(dataEncontro))}`}
+              {`${friday}, ${saturday} e ${sunday} de ${year}`}
             </p>
             <p>Nos vemos lá!</p>
           </>
