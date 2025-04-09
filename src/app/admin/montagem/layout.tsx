@@ -1,4 +1,7 @@
+import { authOptions } from '@/lib/auth/auth-options'
 import type { Metadata } from 'next'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 import { Header } from './(sectionComponents)/Header'
 
 export const metadata: Metadata = {
@@ -6,11 +9,21 @@ export const metadata: Metadata = {
   description: '',
 }
 
-export default function RestrictedLayout({
+export default async function RestrictedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await getServerSession(authOptions)
+
+  const isAuthorized =
+    session &&
+    (session.user.role === 'ADMIN' || session.user.role === 'DIRIGENTE')
+
+  if (!isAuthorized) {
+    redirect('/admin/profile')
+  }
+
   return (
     <div className="z-50 h-screen w-auto bg-primary">
       <Header />
