@@ -27,6 +27,17 @@ async function main() {
       { id: 'outra', religiao: 'Outra' },
     ],
   })
+  
+  const disponibilidade = await prisma.domainDisponibilidade.createMany({
+    data: [
+      { id: 'MUITO_BAIXA', disponibilidade: 'Muito baixa' },
+      { id: 'BAIXA', disponibilidade: 'Baixa' },
+      { id: 'MEDIA', disponibilidade: 'Média' },
+      { id: 'ALTA', disponibilidade: 'Alta' },
+      { id: 'MUITO_ALTA', disponibilidade: 'Muito alta' },
+      { id: 'NAO_PREENCHEU', disponibilidade: 'Não preencheu' },
+    ],
+  })
   const bairrosRJ = await prisma.domainBairroEncontro.createMany({
     data: [
       {
@@ -1099,6 +1110,7 @@ async function main() {
     status,
     religioes,
     bairrosRJ,
+    disponibilidade,
     moraCom,
     statusPais,
     tamanhosCamisa,

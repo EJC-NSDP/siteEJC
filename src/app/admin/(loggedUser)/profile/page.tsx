@@ -10,6 +10,7 @@ import { CarFront, ClipboardList, FolderOpen, Users } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
+import { EncontroCard } from './(sectionComponents)/EncontroCard'
 
 async function getProfile(id: string) {
   const res = await api.get(`profile/${id}`)
@@ -193,30 +194,7 @@ export default function Profile() {
               </div>
             </CardContent>
           </Card>
-          <Card className="w-100 border-none bg-zinc-100 p-8">
-            <CardContent className="flex flex-col justify-start gap-4">
-              <div>
-                <h4 className="text-sm text-zinc-400">Edição</h4>
-                <span className="text-zinc-700">71º EJC</span>
-              </div>
-              <div>
-                <h4 className="text-sm text-zinc-400">Data</h4>
-                <span>24 de maio</span>
-              </div>
-              <div>
-                <h4 className="text-sm text-zinc-400">Local</h4>
-                <span>Colégio Divina Providência</span>
-              </div>
-              <div>
-                <h4 className="text-sm text-zinc-400">Tema espiritual</h4>
-                <span>O Amor de Cristo nos uniu</span>
-              </div>
-              <div>
-                <h4 className="text-sm text-zinc-400">Tema fantasia</h4>
-                <span>Madagascar</span>
-              </div>
-            </CardContent>
-          </Card>
+          <EncontroCard />
         </CardContent>
       </Card>
     </div>

@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma'
 
-export async function getCurrentEncontro() {
-  return await prisma.encontro.findFirst({
+export async function getLastEncontro() {
+  const encontro = await prisma.encontro.findMany({
+    take: 2,
     include: {
       local: true,
     },
@@ -9,4 +10,6 @@ export async function getCurrentEncontro() {
       numeroEncontro: 'desc',
     },
   })
+
+  return encontro[1]
 }

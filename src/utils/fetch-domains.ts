@@ -1,3 +1,5 @@
+import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disponibilidade'
+import type { Equipes } from '@/app/api/domains/equipes/get-equipes'
 import type { MoraCom } from '@/app/api/domains/mora_com/get-mora-com'
 import type { Religiao } from '@/app/api/domains/religiao/get-religiao'
 import type { StatusPais } from '@/app/api/domains/status_pais/get-status-pais'
@@ -76,6 +78,47 @@ export async function getTamanhoCamisa() {
     }
 
     selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+export async function getDisponibilidade() {
+  const response: Disponibilidade[] = await api
+    .get('domains/disponibilidade')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: `${item.disponibilidade} - ${item.descricao}`,
+      value: item.id,
+    }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+
+export async function getEquipes() {
+  const response: Equipes[] = await api
+    .get('domains/equipes')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: item.equipeLabel,
+      value: item.equipeValue,
+    }
+
+    if (item.equipeValue !== 'dirigente' && item.equipeValue !== 'tio_circulo' ) {
+      selectData.push(selectItem)
+    }
   })
 
   return selectData

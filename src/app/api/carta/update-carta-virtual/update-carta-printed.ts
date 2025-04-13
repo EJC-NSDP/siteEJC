@@ -5,7 +5,6 @@ export async function updateCartaPrinted({
   id,
   cartaStatus,
 }: updateCartaVirtualRouteProps) {
-  console.log(id, cartaStatus)
   return await prisma.carta.update({
     data: {
       isPrinted: cartaStatus,

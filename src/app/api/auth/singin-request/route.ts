@@ -8,7 +8,7 @@ interface LoginProps {
   password: string
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   user: User
   token: string
 }

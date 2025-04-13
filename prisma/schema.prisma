@@ -87,22 +87,23 @@ model Encontrista {
 }
 
 model Encontreiro {
-  idPessoa                String               @id @map("id_pessoa")
-  dataNasc                DateTime             @map("data_nasc")
+  idPessoa                String                 @id @map("id_pessoa")
+  dataNasc                DateTime               @map("data_nasc")
   instagram               String?
-  restricaoAlimentar      String?              @map("restricao_alimentar")
-  idEncontro              String?              @map("id_encontro")
-  idCirculo               String?              @map("id_circulo")
-  idTamanhoCamisa         Value_TamanhoCamisa? @map("id_tamanho_camisa")
-  disponibilidade         DisponibilidadePre?
-  obsBanda                String?              @map("obs_banda")
+  restricaoAlimentar      String?                @map("restricao_alimentar")
+  idEncontro              String?                @map("id_encontro")
+  idCirculo               String?                @map("id_circulo")
+  idTamanhoCamisa         Value_TamanhoCamisa?   @map("id_tamanho_camisa")
+  idDisponibilidade       Value_Disponibilidade? @map("id_disponibilidade")
+  obsBanda                String?                @map("obs_banda")
   observacoes             String?
   statusMontagem          StatusEncontreiro?
-  responsavelCarroExterna CarroEncontro[]      @relation("PessoaResponsavelExterna")
-  circulo                 Circulo?             @relation(fields: [idCirculo], references: [id])
-  encontro                Encontro?            @relation(fields: [idEncontro], references: [id])
-  pessoa                  Pessoa               @relation(fields: [idPessoa], references: [id], onDelete: Cascade)
-  tamanhoCamisa           DomainTamanhoCamisa? @relation(fields: [idTamanhoCamisa], references: [id])
+  responsavelCarroExterna CarroEncontro[]        @relation("PessoaResponsavelExterna")
+  circulo                 Circulo?               @relation(fields: [idCirculo], references: [id])
+  encontro                Encontro?              @relation(fields: [idEncontro], references: [id])
+  pessoa                  Pessoa                 @relation(fields: [idPessoa], references: [id], onDelete: Cascade)
+  tamanhoCamisa           DomainTamanhoCamisa?   @relation(fields: [idTamanhoCamisa], references: [id])
+  disponibilidade         DomainDisponibilidade? @relation(fields: [idDisponibilidade], references: [id])
   equipeEncontro          EquipeEncontro[]
   equipeMontagem          EquipeMontagem?
   listaPreferencias       ListaPreferencia[]
@@ -324,6 +325,15 @@ model DomainCorCirculo {
   @@map("@cor_circulo")
 }
 
+model DomainDisponibilidade {
+  id              Value_Disponibilidade @id @unique
+  disponibilidade String                @unique
+  descricao       String                @default("")
+  encontreiro     Encontreiro[]
+
+  @@map("@disponibilidade")
+}
+
 model DomainEquipes {
   equipeLabel      String             @unique @map("equipe_label")
   equipeValue      String             @id @map("equipe_value")
@@ -421,7 +431,7 @@ enum Role {
   TIOSECRETO
 }
 
-enum DisponibilidadePre {
+enum Value_Disponibilidade {
   MUITO_BAIXA
   BAIXA
   MEDIA
