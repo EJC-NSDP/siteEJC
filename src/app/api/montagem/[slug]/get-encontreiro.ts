@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import type { DisponibilidadePre, StatusEncontreiro } from '@prisma/client'
+import type { StatusEncontreiro } from '@prisma/client'
+import type { Disponibilidade } from '../../domains/disponibilidade/get-disponibilidade'
 
 export type EncontreiroMontagemData = {
   id: string
@@ -12,7 +13,7 @@ export type EncontreiroMontagemData = {
   numeroEncontro?: number
   corCirculo?: string
   obsBanda?: string
-  disponibilidade?: DisponibilidadePre
+  disponibilidade?: Disponibilidade
   obs?: string
   preferencias: { posicao: number; equipe: string }[] | []
   equipeEncontro:
