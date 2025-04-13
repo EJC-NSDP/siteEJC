@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import type { StatusEncontreiro } from '@prisma/client'
-import type { Disponibilidade } from '../../domains/disponibilidade/get-disponibilidade'
 
 export type EncontreiroMontagemData = {
   id: string
@@ -13,7 +12,7 @@ export type EncontreiroMontagemData = {
   numeroEncontro?: number
   corCirculo?: string
   obsBanda?: string
-  disponibilidade?: Disponibilidade
+  disponibilidade?: string
   obs?: string
   preferencias: { posicao: number; equipe: string }[] | []
   equipeEncontro:
@@ -142,7 +141,7 @@ export async function getEncontreiroMontagem(slug: string) {
     corCirculo: encontreiro.encontreiro?.circulo?.corCirculo.cor,
     disponibilidade:
       encontreiro.encontreiro && encontreiro.encontreiro.disponibilidade
-        ? encontreiro.encontreiro.disponibilidade
+        ? encontreiro.encontreiro.disponibilidade.id
         : undefined,
     obs:
       encontreiro.encontreiro && encontreiro.encontreiro.observacoes
