@@ -50,7 +50,10 @@ export function AddressCard() {
           name="cep"
           render={({ field }) => (
             <TextInput label={'CEP *'}>
-              <Input {...field} {...registerWithMask(field.name, '99999-999')} />
+              <Input
+                {...field}
+                {...registerWithMask(field.name, '99999-999')}
+              />
             </TextInput>
           )}
         />

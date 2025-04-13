@@ -1,7 +1,7 @@
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
-  type SelectArray
+  type SelectArray,
 } from '@/components/Form/SelectInput/SelectItem'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField, FormLabel } from '@/components/ui/form'
@@ -54,16 +54,16 @@ export function ProxEncontroCard() {
             )
           }}
         />
-        <div className='flex flex-col gap-6'>
+        <div className="flex flex-col gap-6">
           <FormLabel>Lista de preferências:</FormLabel>
           <FormField
             control={control}
             name="preferencia1"
             render={({ field }) => {
               return (
-                <label className='flex gap-4 w-full items-center'>
+                <label className="flex w-full items-center gap-4">
                   <FormLabel>1.</FormLabel>
-                  <div className='w-full'>
+                  <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}
@@ -90,9 +90,9 @@ export function ProxEncontroCard() {
             name="preferencia2"
             render={({ field }) => {
               return (
-                <label className='flex gap-4 w-full items-center'>
+                <label className="flex w-full items-center gap-4">
                   <FormLabel>2.</FormLabel>
-                  <div className='w-full'>
+                  <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}
@@ -120,9 +120,9 @@ export function ProxEncontroCard() {
             name="preferencia3"
             render={({ field }) => {
               return (
-                <label className='flex gap-4 w-full items-center'>
+                <label className="flex w-full items-center gap-4">
                   <FormLabel>3.</FormLabel>
-                  <div className='w-full'>
+                  <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}

@@ -21,15 +21,20 @@ export function EncontroCard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
         <DisabledInput label="EJC que fez" value={`${encontroValue}º EJC`} />
         <DisabledInput label="Círculo" value={circuloValue}>
-          {corCirculoValue && <div
-            className={cn(
-              corCirculoValue,
-              'flex h-5 w-5 items-center justify-center rounded-full  shadow-sm',
-            )}
-          />}
+          {corCirculoValue && (
+            <div
+              className={cn(
+                corCirculoValue,
+                'flex h-5 w-5 items-center justify-center rounded-full  shadow-sm',
+              )}
+            />
+          )}
         </DisabledInput>
 
-        <DisabledInput label="Equipe no último encontro" value={equipeAnteriorValue}>
+        <DisabledInput
+          label="Equipe no último encontro"
+          value={equipeAnteriorValue}
+        >
           <div> {equipeAnteriorCoordValue && <Badge>C</Badge>}</div>
         </DisabledInput>
 

@@ -99,7 +99,7 @@ export async function getEncontreiroCadastro(id: string) {
           encontro: {
             select: {
               numeroEncontro: true,
-            }
+            },
           },
           listaPreferencias: {
             select: {
@@ -145,7 +145,7 @@ export async function getEncontreiroCadastro(id: string) {
       },
     },
   })
-  
+
   const equipeEncontroPassado = await prisma.equipeEncontro.findUnique({
     select: {
       equipe: {
@@ -207,7 +207,9 @@ export async function getEncontreiroCadastro(id: string) {
       equipe: equipeEncontroPassado
         ? equipeEncontroPassado.equipe.equipeLabel
         : 'Não irá participar',
-      coordenou: equipeEncontroPassado ? equipeEncontroPassado.coordenou : false,
+      coordenou: equipeEncontroPassado
+        ? equipeEncontroPassado.coordenou
+        : false,
     },
     encontro: {
       equipe: equipeEncontroAtual
@@ -216,7 +218,9 @@ export async function getEncontreiroCadastro(id: string) {
       coordenou: equipeEncontroAtual ? equipeEncontroAtual.coordenou : false,
     },
     proxEncontro: {
-      disponibilidade: encontreiro.encontreiro!.disponibilidade? encontreiro.encontreiro!.disponibilidade.id : 'NAO_PREENCHEU',
+      disponibilidade: encontreiro.encontreiro!.disponibilidade
+        ? encontreiro.encontreiro!.disponibilidade.id
+        : 'NAO_PREENCHEU',
       preferencias: listaPreferencias,
     },
   }

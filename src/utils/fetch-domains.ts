@@ -102,7 +102,6 @@ export async function getDisponibilidade() {
   return selectData
 }
 
-
 export async function getEquipes() {
   const response: Equipes[] = await api
     .get('domains/equipes')
@@ -116,7 +115,10 @@ export async function getEquipes() {
       value: item.equipeValue,
     }
 
-    if (item.equipeValue !== 'dirigente' && item.equipeValue !== 'tio_circulo' ) {
+    if (
+      item.equipeValue !== 'dirigente' &&
+      item.equipeValue !== 'tio_circulo'
+    ) {
       selectData.push(selectItem)
     }
   })

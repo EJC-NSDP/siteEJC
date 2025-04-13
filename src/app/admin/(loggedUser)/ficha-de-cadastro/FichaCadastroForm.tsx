@@ -20,7 +20,9 @@ interface FichaCadastroProps {
   data: EncontreiroData
 }
 
-const tamanhoCamisaEnum = z.enum(['p', 'm', 'g', 'gg', 'xgg', 'outro']).optional()
+const tamanhoCamisaEnum = z
+  .enum(['p', 'm', 'g', 'gg', 'xgg', 'outro'])
+  .optional()
 const disponibilidadeEnum = z.enum([
   'MUITO_BAIXA',
   'BAIXA',
@@ -28,7 +30,6 @@ const disponibilidadeEnum = z.enum([
   'ALTA',
   'MUITO_ALTA',
 ])
-
 
 const editCadastroFormScheme = z.object({
   id: z.string(),
@@ -76,16 +77,26 @@ const editCadastroFormScheme = z.object({
 })
 
 export type EditCadastroFormDataInput = z.infer<typeof editCadastroFormScheme>
-type TamanhoCamisa = z.infer<typeof tamanhoCamisaEnum>;
-type Disponibilidade = z.infer<typeof disponibilidadeEnum>;
-
+type TamanhoCamisa = z.infer<typeof tamanhoCamisaEnum>
+type Disponibilidade = z.infer<typeof disponibilidadeEnum>
 
 export function FichaCadastroForm({ data }: FichaCadastroProps) {
   const [isUpdating, setUpdating] = useState(false)
 
   const router = useRouter()
 
-  const corCirculo = data.circulo.corCirculo === 'Amarelo' ? 'bg-yellow-500' : data.circulo.corCirculo === 'Azul' ? 'bg-blue-500' : data.circulo.corCirculo === 'Laranja' ? 'bg-orange-500' : data.circulo.corCirculo === 'Verde' ? 'bg-emerald-500' : data.circulo.corCirculo === 'Vermelho' ? 'bg-red-500' : 'bg-zinc-200'
+  const corCirculo =
+    data.circulo.corCirculo === 'Amarelo'
+      ? 'bg-yellow-500'
+      : data.circulo.corCirculo === 'Azul'
+        ? 'bg-blue-500'
+        : data.circulo.corCirculo === 'Laranja'
+          ? 'bg-orange-500'
+          : data.circulo.corCirculo === 'Verde'
+            ? 'bg-emerald-500'
+            : data.circulo.corCirculo === 'Vermelho'
+              ? 'bg-red-500'
+              : 'bg-zinc-200'
 
   const form = useForm<EditCadastroFormDataInput>({
     resolver: zodResolver(editCadastroFormScheme),
@@ -98,10 +109,14 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
       apelido: data.pessoa.apelido !== null ? data.pessoa.apelido : '',
       celular: data.pessoa.celular,
       instagram: data.pessoa.instagram !== null ? data.pessoa.instagram : '',
-      tamanhoCamisa: tamanhoCamisaEnum.safeParse(data.pessoa.idTamanhoCamisa).success
+      tamanhoCamisa: tamanhoCamisaEnum.safeParse(data.pessoa.idTamanhoCamisa)
+        .success
         ? (data.pessoa.idTamanhoCamisa as TamanhoCamisa)
         : undefined,
-      restricaoAlimentar: data.pessoa.restricaoAlimentar !== null ? data.pessoa.restricaoAlimentar : '',
+      restricaoAlimentar:
+        data.pessoa.restricaoAlimentar !== null
+          ? data.pessoa.restricaoAlimentar
+          : '',
 
       cep: data.endereco.cep,
       estado: data.endereco.estado,
@@ -111,21 +126,23 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
       numero: data.endereco.numero !== null ? data.endereco.numero : 0,
 
       encontroQueFez: data.pessoa.encontro,
-      corCirculo: corCirculo,
-      nomeCirculo: data.circulo.nomeCirculo !== null ? data.circulo.nomeCirculo : '',
+      corCirculo,
+      nomeCirculo:
+        data.circulo.nomeCirculo !== null ? data.circulo.nomeCirculo : '',
       equipeAnterior: data.ultimoEncontro.equipe,
       equipeAnteriorCoord: data.ultimoEncontro.coordenou,
       equipe: data.encontro.equipe,
       equipeCoord: data.encontro.coordenou,
 
-      disponibilidade: disponibilidadeEnum.safeParse(data.proxEncontro.disponibilidade).success
-      ? (data.proxEncontro.disponibilidade as Disponibilidade)
-      : undefined,
+      disponibilidade: disponibilidadeEnum.safeParse(
+        data.proxEncontro.disponibilidade,
+      ).success
+        ? (data.proxEncontro.disponibilidade as Disponibilidade)
+        : undefined,
       preferencia1: data.proxEncontro.preferencias[0].valueEquipe,
       preferencia2: data.proxEncontro.preferencias[1].valueEquipe,
       preferencia3: data.proxEncontro.preferencias[2].valueEquipe,
-      obsBanda:
-        data.pessoa.obsBanda !== null ? data.pessoa.obsBanda : '',
+      obsBanda: data.pessoa.obsBanda !== null ? data.pessoa.obsBanda : '',
       observacoes:
         data.pessoa.observacoes !== null ? data.pessoa.observacoes : '',
     },
@@ -180,8 +197,8 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
                     <div className="px-0 py-5 text-lg lg:py-7">
-                      [LGPD] Lembre-se de salvar qualquer mudança realizada nessa
-                      página.
+                      [LGPD] Lembre-se de salvar qualquer mudança realizada
+                      nessa página.
                     </div>
                     <div className="flex items-center justify-center gap-5 px-0 py-5 text-lg lg:flex-row lg:gap-7 lg:py-7">
                       <Button

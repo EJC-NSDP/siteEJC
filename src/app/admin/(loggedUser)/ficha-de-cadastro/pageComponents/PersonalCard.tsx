@@ -22,11 +22,7 @@ export function PersonalCard() {
 
   const form = useFormContext()
 
-  const {
-    register,
-    watch,
-    control,
-  } = form
+  const { register, watch, control } = form
 
   const nomeValue = watch('nome')
   const sobrenomeValue = watch('sobrenome')
