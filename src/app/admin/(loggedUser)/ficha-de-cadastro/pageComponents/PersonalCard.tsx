@@ -33,7 +33,7 @@ export function PersonalCard() {
 
   return (
     <CardForm title="Sobre você" sectionId="personal-section">
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DisabledInput label="Nome" value={nomeValue} />
         <DisabledInput label="Sobrenome" value={sobrenomeValue} />
         <DisabledInput label="Email" value={emailValue} />
@@ -69,7 +69,10 @@ export function PersonalCard() {
           name="instagram"
           render={({ field }) => {
             return (
-              <TextInput label={'Instagram'}>
+              <TextInput
+                label={'Instagram'}
+                description="Aproveita pra seguir a @pdcejc! Já ativou o sininho pra receber as noticias e fofocas do EJC em primeira mão?"
+              >
                 <Input {...field} prefix="instagram.com/" />
               </TextInput>
             )

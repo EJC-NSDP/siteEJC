@@ -8,6 +8,13 @@ export function EditNavigation() {
 
   return (
     <nav className="flex flex-col">
+      <Link href="#password-section">
+        <EditNavItem
+          title="Sua senha"
+          icon={User}
+          active={path === '#password-section'}
+        />
+      </Link>
       <Link href="#personal-section">
         <EditNavItem
           title="Sobre você"

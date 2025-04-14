@@ -27,7 +27,7 @@ async function main() {
       { id: 'outra', religiao: 'Outra' },
     ],
   })
-  
+
   const disponibilidade = await prisma.domainDisponibilidade.createMany({
     data: [
       { id: 'MUITO_BAIXA', disponibilidade: 'Muito baixa' },

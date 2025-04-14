@@ -3,7 +3,6 @@
 import type { EncontreiroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { api } from '@/lib/axios'
 import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -13,6 +12,7 @@ import { z } from 'zod'
 import { AddressCard } from './pageComponents/AddressCard'
 import { EncontroCard } from './pageComponents/EncontroCard'
 import { EditNavigation } from './pageComponents/Nav/edit-nav'
+import { PasswordCard } from './pageComponents/PasswordCard'
 import { PersonalCard } from './pageComponents/PersonalCard'
 import { ProxEncontroCard } from './pageComponents/ProxEncontroCard'
 
@@ -31,50 +31,79 @@ const disponibilidadeEnum = z.enum([
   'MUITO_ALTA',
 ])
 
-const editCadastroFormScheme = z.object({
-  id: z.string(),
-  nome: z.string().optional(),
-  sobrenome: z.string().optional(),
-  email: z.string().optional(),
-  dataNascimento: z.string().optional(),
-  apelido: z.string().optional(),
-  celular: z
-    .string()
-    .min(14, { message: 'O número de celular está incompleto' }),
-  instagram: z.string().optional(),
-  tamanhoCamisa: tamanhoCamisaEnum,
-  restricaoAlimentar: z.string().optional(),
+// const passwordSchema = z
+//   .string()
+//   .min(8, { message: minLengthErrorMessage })
+//   .max(20, { message: maxLengthErrorMessage })
+//   .refine((password) => /[A-Z]/.test(password), {
+//     message: uppercaseErrorMessage,
+//   })
+//   .refine((password) => /[a-z]/.test(password), {
+//     message: lowercaseErrorMessage,
+//   })
+//   .refine((password) => /[0-9]/.test(password), { message: numberErrorMessage })
+//   .refine((password) => /[!@#$%^&*]/.test(password), {
+//     message: specialCharacterErrorMessage,
+//   })
 
-  cep: z
-    .string({ required_error: 'O cep é obrigatório.' })
-    .min(9, { message: 'O cep está incompleto.' }),
-  estado: z.string().optional(),
-  cidade: z.string().optional(),
-  bairro: z.string().optional(),
-  rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
-  numero: z.preprocess(
-    (val) => {
-      // Se o valor é string, tenta converter para número, se já for número, mantém
-      return typeof val === 'string' ? parseInt(val, 10) : val
-    },
-    z.number().min(1, { message: 'O número é obrigatório.' }),
-  ),
+const editCadastroFormScheme = z
+  .object({
+    id: z.string(),
+    password: z
+      .string({
+        required_error: 'A senha é obrigatória',
+      })
+      .min(8, { message: 'Sua senha tem que ter no mínimo 8 digitos' }),
+    password_confirmation: z
+      .string({
+        required_error: 'Confirme a senha',
+      })
+      .min(8, { message: 'Sua senha tem que ter no mínimo 8 digitos' }),
+    nome: z.string().optional(),
+    sobrenome: z.string().optional(),
+    email: z.string().optional(),
+    dataNascimento: z.string().optional(),
+    apelido: z.string().optional(),
+    celular: z
+      .string()
+      .min(14, { message: 'O número de celular está incompleto' }),
+    instagram: z.string().optional(),
+    tamanhoCamisa: tamanhoCamisaEnum,
+    restricaoAlimentar: z.string().optional(),
 
-  encontroQueFez: z.number().optional(),
-  corCirculo: z.string(),
-  nomeCirculo: z.string().optional(),
-  equipeAnterior: z.string(),
-  equipeAnteriorCoord: z.boolean(),
-  equipe: z.string(),
-  equipeCoord: z.boolean(),
+    cep: z
+      .string({ required_error: 'O cep é obrigatório.' })
+      .min(9, { message: 'O cep está incompleto.' }),
+    estado: z.string().optional(),
+    cidade: z.string().optional(),
+    bairro: z.string().optional(),
+    rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
+    numero: z.preprocess(
+      (val) => {
+        return typeof val === 'string' ? parseInt(val, 10) : val
+      },
+      z.number().min(1, { message: 'O número é obrigatório.' }),
+    ),
 
-  preferencia1: z.string(),
-  preferencia2: z.string(),
-  preferencia3: z.string(),
-  disponibilidade: disponibilidadeEnum,
-  obsBanda: z.string().optional(),
-  observacoes: z.string().optional(),
-})
+    encontroQueFez: z.number().optional(),
+    corCirculo: z.string(),
+    nomeCirculo: z.string().optional(),
+    equipeAnterior: z.string(),
+    equipeAnteriorCoord: z.boolean(),
+    equipe: z.string(),
+    equipeCoord: z.boolean(),
+
+    preferencia1: z.string(),
+    preferencia2: z.string(),
+    preferencia3: z.string(),
+    disponibilidade: disponibilidadeEnum,
+    obsBanda: z.string().optional(),
+    observacoes: z.string().optional(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    path: ['password_confirmation'],
+    message: 'As senhas não são a mesma',
+  })
 
 export type EditCadastroFormDataInput = z.infer<typeof editCadastroFormScheme>
 type TamanhoCamisa = z.infer<typeof tamanhoCamisaEnum>
@@ -150,19 +179,20 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
 
   const {
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = form
 
   async function handleUpdateEncontreiro(
     formDataInput: EditCadastroFormDataInput,
   ) {
     setUpdating(true)
-    await api
-      .put('encontrista/update', formDataInput)
-      .then(async () => {
-        router.push('/admin/externa')
-      })
-      .catch((err) => console.log(err, errors))
+    console.log(formDataInput)
+    // await api
+    //   .put('encontreiro/update', formDataInput)
+    //   .then(async () => {
+    //     router.push('/admin/profile')
+    //   })
+    //   .catch((err) => console.log(err, errors))
   }
 
   return (
@@ -171,7 +201,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
         id="editEncontristaForm"
         onSubmit={handleSubmit(handleUpdateEncontreiro)}
       >
-        <div className="grid w-full grid-cols-12 gap-7">
+        <div className="grid grid-cols-12 gap-7">
           <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
             <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
               <CardContent className="w-full py-0">
@@ -181,6 +211,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
           </div>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
+              <PasswordCard />
               <PersonalCard />
               <AddressCard />
               <EncontroCard />
@@ -189,21 +220,24 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
                 id="save-section"
                 className="w-full px-3 pt-8 text-zinc-700 "
               >
-                <CardContent className="w-full">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-2xl font-bold lg:text-nowrap">
-                      Salvar Mudanças
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
-                    <div className="px-0 py-5 text-lg lg:py-7">
-                      [LGPD] Lembre-se de salvar qualquer mudança realizada
-                      nessa página.
+                <CardContent className="flex w-full flex-col gap-3">
+                  <span className="text-2xl font-bold lg:text-nowrap">
+                    Salvar Mudanças
+                  </span>
+                  <div className="flex flex-col gap-3">
+                    <div className="">
+                      Ao clicar no botão <b>Salvar</b>, autorizo, de forma
+                      livre, informada e consciente, o uso dos meus dados
+                      pessoais pelo Encontro de Jovens com Cristo da Paróquia
+                      Nossa Senhora da Divina Providência, conforme a Lei Geral
+                      de Proteção de Dados (Lei nº 13.709/18) e outras normas
+                      aplicáveis. Essa autorização se refere às finalidades
+                      relacionadas às atividades do Encontro.
                     </div>
                     <div className="flex items-center justify-center gap-5 px-0 py-5 text-lg lg:flex-row lg:gap-7 lg:py-7">
                       <Button
                         onClick={() => {
-                          router.push('/admin/externa')
+                          router.push('/admin/profile')
                         }}
                         type="button"
                         variant="outline"

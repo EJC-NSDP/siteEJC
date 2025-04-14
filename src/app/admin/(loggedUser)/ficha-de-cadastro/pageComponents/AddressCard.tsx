@@ -44,7 +44,7 @@ export function AddressCard() {
 
   return (
     <CardForm title="Seu endereço" sectionId="address-section">
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <FormField
           control={control}
           name="cep"

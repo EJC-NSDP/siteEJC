@@ -4,7 +4,7 @@ import {
   type SelectArray,
 } from '@/components/Form/SelectInput/SelectItem'
 import { TextInput } from '@/components/Form/TextInput'
-import { FormField, FormLabel } from '@/components/ui/form'
+import { FormDescription, FormField, FormLabel } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
 import { getDisponibilidade, getEquipes } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
@@ -28,7 +28,7 @@ export function ProxEncontroCard() {
 
   return (
     <CardForm title="Sobre o próximo EJC" sectionId="prox-ejc-section">
-      <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <FormField
           control={control}
           name="disponibilidade"
@@ -54,8 +54,18 @@ export function ProxEncontroCard() {
             )
           }}
         />
-        <div className="flex flex-col gap-6">
-          <FormLabel>Lista de preferências:</FormLabel>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
+            <FormLabel>
+              Lista de preferências para o próximo Encontrão:
+            </FormLabel>
+            <FormDescription className="mt-1 text-xs text-zinc-500">
+              Lembramos que essas preferências não serão necessariamente
+              seguidas à risca, mas, para facilitar que seu pedido seja
+              atendido, escolha equipes diferentes em cada uma das 3 opções que
+              vai nos dar.
+            </FormDescription>
+          </div>
           <FormField
             control={control}
             name="preferencia1"
@@ -151,7 +161,12 @@ export function ProxEncontroCard() {
           name="obsBanda"
           render={({ field }) => {
             return (
-              <TextInput label={'Observações Banda'}>
+              <TextInput
+                label={
+                  'Caso tenha marcado "Banda" em alguma opção anterior, como você acha que pode contribuir na equipe?'
+                }
+                description="Por exemplo, nós diris temos o talento de bater palma alto demais..."
+              >
                 <Textarea {...field} />
               </TextInput>
             )
@@ -163,7 +178,10 @@ export function ProxEncontroCard() {
           name="observacoes"
           render={({ field }) => {
             return (
-              <TextInput label={'Observações Gerais'}>
+              <TextInput
+                label={'Alguma observação final?'}
+                description="Se tiver algo para dizer essa é a hora!"
+              >
                 <Textarea {...field} />
               </TextInput>
             )

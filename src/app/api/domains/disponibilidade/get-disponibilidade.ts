@@ -10,6 +10,9 @@ export type Disponibilidade = {
 export async function getDisponibilidade() {
   const disponibilidade: Disponibilidade[] =
     await prisma.domainDisponibilidade.findMany({
+      where: {
+        NOT: { id: 'NAO_PREENCHEU' },
+      },
       select: {
         id: true,
         disponibilidade: true,

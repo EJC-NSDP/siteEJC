@@ -42,7 +42,7 @@ export default function FichaCadastro() {
   }, [])
 
   return (
-    <div className="w-full px-40 py-7">
+    <div>
       {encontreiroData === undefined ? (
         <CardLoading />
       ) : (

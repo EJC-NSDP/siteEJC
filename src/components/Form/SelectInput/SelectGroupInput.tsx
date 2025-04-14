@@ -33,7 +33,7 @@ export function SelectGroupInput({
 }: SelectGroupInputProps) {
   return (
     <FormItem>
-      <label>
+      <label className="flex flex-col gap-2">
         {label && <FormLabel>{label}</FormLabel>}
         <Select disabled={disabled} onValueChange={onChange} value={value}>
           <FormControl>

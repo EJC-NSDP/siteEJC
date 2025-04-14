@@ -18,7 +18,7 @@ export function EncontroCard() {
 
   return (
     <CardForm title="Sobre o EJC" sectionId="ejc-section">
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DisabledInput label="EJC que fez" value={`${encontroValue}º EJC`} />
         <DisabledInput label="Círculo" value={circuloValue}>
           {corCirculoValue && (
@@ -35,11 +35,11 @@ export function EncontroCard() {
           label="Equipe no último encontro"
           value={equipeAnteriorValue}
         >
-          <div> {equipeAnteriorCoordValue && <Badge>C</Badge>}</div>
+          <div> {equipeAnteriorCoordValue && <Badge>Coordenou</Badge>}</div>
         </DisabledInput>
 
         <DisabledInput label="Equipe nesse encontro" value={equiperValue}>
-          <div> {equipeCoordValue && <Badge>C</Badge>}</div>
+          <div> {equipeCoordValue && <Badge>Coordenou</Badge>}</div>
         </DisabledInput>
       </div>
     </CardForm>
