@@ -12,9 +12,6 @@ export function EncontreiroTableSkeleton() {
           <Skeleton className="h-4 w-52" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-4 w-7" />
-        </TableCell>
-        <TableCell>
           <Skeleton className="h-4 w-32" />
         </TableCell>
         <TableCell>

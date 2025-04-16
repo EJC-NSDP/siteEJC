@@ -19,6 +19,7 @@ export async function GET(request: Request) {
 
   const pageParams = requestUrl.searchParams.get('page')
   const encontreiroName = requestUrl.searchParams.get('name')
+  const encontreiroStatus = requestUrl.searchParams.get('encontreiroStatus')
   const orderByField = requestUrl.searchParams.get('orderByField')
   const orderDirection = requestUrl.searchParams.get('orderDirection')
 
@@ -27,6 +28,7 @@ export async function GET(request: Request) {
   const encontreiros = await getEncontreirosSummary({
     page,
     encontreiroName,
+    encontreiroStatus,
     orderByField,
     orderDirection,
   })

@@ -17,17 +17,61 @@ export function Pagination({
   onPageChange,
   totalCol,
 }: PaginationProps) {
-  const pages = Math.ceil(totalCount / perPage) || 1
+  const totalPages = Math.ceil(totalCount / perPage) || 1
   const firstOnPage = (pageIndex - 1) * perPage + 1
   const lastOnPage =
-    pageIndex === pages
-      ? firstOnPage - 1 + (totalCount % perPage)
+    pageIndex - 1 === totalPages - 1
+      ? firstOnPage - 1 + (totalCount % perPage || perPage)
       : firstOnPage - 1 + perPage
-
-  const page = pageIndex - 1
 
   const spanLeft = totalCol / 2
   const spanRight = totalCol / 2 + (totalCol % 2)
+
+  const getPages = () => {
+    const visiblePages = 10
+    const pages: (number | 'dots')[] = []
+
+    if (totalPages <= visiblePages) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1)
+    }
+
+    const currentPage = pageIndex + 1 // Convertendo para base 1
+    const firstPages = [1, 2]
+    const lastPages = [totalPages - 1, totalPages]
+
+    const middlePages = []
+
+    // Determina o range do meio
+    const start = Math.max(currentPage - 2, 3)
+    const end = Math.min(currentPage, totalPages - 2)
+
+    for (let i = start; i <= end; i++) {
+      middlePages.push(i)
+    }
+
+    const shouldShowLeftDots = start > 3
+    const shouldShowRightDots = end < totalPages - 2
+
+    if (shouldShowLeftDots) {
+      pages.push(...firstPages, 'dots')
+    } else {
+      pages.push(...Array.from({ length: start - 1 }, (_, i) => i + 1))
+    }
+
+    pages.push(...middlePages)
+
+    if (shouldShowRightDots) {
+      pages.push('dots', ...lastPages)
+    } else {
+      pages.push(
+        ...Array.from({ length: totalPages - end }, (_, i) => end + 1 + i),
+      )
+    }
+
+    return pages
+  }
+
+  const pageNumbers = getPages()
 
   return (
     <TableRow>
@@ -37,43 +81,51 @@ export function Pagination({
         </span>
       </TableCell>
       <TableCell colSpan={spanRight} className="rounded-br-xl">
-        <div className="flex h-10 items-center justify-between">
+        <div className="flex items-center justify-end gap-2 space-x-2">
           <Button
-            onClick={() => onPageChange(page - 1)}
+            onClick={() => onPageChange(pageIndex - 2)}
             variant="ghost"
             className="flex gap-1 disabled:opacity-50"
-            disabled={page === 0}
+            disabled={pageIndex === 1}
           >
             <ChevronLeft className="h-4 w-4 text-tertiary" />
             <span className="font-medium text-tertiary">Anterior</span>
           </Button>
-          {Array.from({ length: pages }).map((_, i) => {
-            return (
+
+          {pageNumbers.map((item, index) =>
+            item === 'dots' ? (
+              <span
+                key={`dots-${index}`}
+                className="text-muted-foreground px-2 text-sm"
+              >
+                ...
+              </span>
+            ) : (
               <Button
-                key={i}
-                onClick={() => onPageChange(i)}
+                key={item}
+                onClick={() => onPageChange(item - 1)}
                 variant="ghost"
                 className="flex gap-1"
-                disabled={page === i}
+                disabled={pageIndex === item}
               >
-                {page === i ? (
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-zinc-50">
-                    <span>{i + 1}</span>
-                  </div>
-                ) : (
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-200 text-tertiary hover:bg-violet-100">
-                    <span>{i + 1}</span>
-                  </div>
-                )}
+                <div
+                  className={`flex h-6 w-6 items-center justify-center rounded-full ${
+                    pageIndex === item
+                      ? 'bg-primary text-zinc-50'
+                      : 'bg-violet-200 text-tertiary hover:bg-violet-100'
+                  }`}
+                >
+                  <span>{item}</span>
+                </div>
               </Button>
-            )
-          })}
+            ),
+          )}
 
           <Button
-            onClick={() => onPageChange(page + 1)}
+            onClick={() => onPageChange(pageIndex)}
             variant="ghost"
             className="flex gap-1 disabled:opacity-50"
-            disabled={pages <= page + 1}
+            disabled={totalPages <= pageIndex + 1}
           >
             <span className="font-medium text-tertiary">Próximo</span>
             <ChevronRight className="h-4 w-4 text-tertiary" />

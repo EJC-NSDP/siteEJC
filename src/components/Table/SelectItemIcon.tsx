@@ -1,10 +1,13 @@
 import { cn } from '@/lib/utils'
-import type { Value_Status as valueStatus } from '@prisma/client'
+import type {
+  StatusEncontreiro,
+  Value_Status as valueStatus,
+} from '@prisma/client'
 import type { ElementType } from 'react'
 import { SelectItem } from '../ui/select'
 
 export interface SelectItemIconProps {
-  value: valueStatus
+  value: valueStatus | StatusEncontreiro
   label: string
   icon: ElementType
   color: string

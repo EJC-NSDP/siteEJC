@@ -5,11 +5,10 @@ import { type Prisma, type StatusEncontreiro } from '@prisma/client';
 
 // Campos válidos para ordenação
 export const validOrderFields = [
-  'createdAt',
+  'numeroEncontro',
   'nome',
-  'celular',
-  'dataNasc',
   'bairro',
+  'statusMontagem',
 ] as const
 
 // Mapeamento de campos para suas respectivas relações
@@ -17,8 +16,9 @@ const fieldMappings: Record<
   string,
   { relation?: string; nestedRelation?: string }
 > = {
-  bairro: { relation: 'encontreiro', nestedRelation: 'enderecoEncontro' },
-  dataNasc: { relation: 'encontreiro' },
+  bairro: { relation: 'endereco' },
+  numeroEncontro: { relation: 'encontreiro', nestedRelation: 'encontro' },
+  statusMontagem: { relation: 'encontreiro' },
 }
 
 type OrderByField = (typeof validOrderFields)[number]
@@ -49,6 +49,7 @@ export type EncontreiroSummary = {
 type GetEncontreirosSummaryProps = {
   page: number
   encontreiroName: string | null
+  encontreiroStatus: string | null
   orderByField: string | null
   orderDirection: string | null
 }
@@ -57,18 +58,21 @@ type getEncontreirosProps = {
   page: number
   perPage: number
   encontreiroName: string | null
+  encontreiroStatus: string | null
   orderByField: string | null
   orderDirection: string | null
 }
 
 type getTotalEncontreirosProps = {
   encontreiroName: string | null
+  encontreiroStatus: string | null
 }
 
 async function getEncontreiros({
   page,
   perPage,
   encontreiroName,
+  encontreiroStatus,
   orderByField,
   orderDirection,
 }: getEncontreirosProps) {
@@ -83,6 +87,12 @@ async function getEncontreiros({
           { sobrenome: { contains: part, mode: 'insensitive' } },
         ]),
       }
+    : {}
+
+  const statusFilter: Prisma.EncontreiroWhereInput = encontreiroStatus
+    ? encontreiroStatus === 'ATIVO'
+      ? { statusMontagem: 'ATIVO' }
+      : { statusMontagem: 'INATIVO' }
     : {}
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
@@ -153,29 +163,44 @@ async function getEncontreiros({
       },
     },
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }],
+      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
       ...nameFilter,
+      encontreiro: {
+        ...statusFilter,
+      },
     },
     orderBy,
   })
 }
 
-async function getTotal({ encontreiroName }: getTotalEncontreirosProps) {
-  if (encontreiroName) {
-    return await prisma.pessoa.count({
-      where: {
-        NOT: [{ role: 'ENCONTRISTA' }],
-        OR: [
-          { nome: { contains: encontreiroName } },
-          { sobrenome: { contains: encontreiroName } },
-        ],
-      },
-    })
-  }
+async function getTotal({
+  encontreiroName,
+  encontreiroStatus,
+}: getTotalEncontreirosProps) {
+  const nameParts = encontreiroName ? encontreiroName.split(' ') : []
+
+  const nameFilter: Prisma.PessoaWhereInput = encontreiroName
+    ? {
+        OR: nameParts.flatMap((part) => [
+          { nome: { contains: part, mode: 'insensitive' } },
+          { sobrenome: { contains: part, mode: 'insensitive' } },
+        ]),
+      }
+    : {}
+
+  const statusFilter: Prisma.EncontreiroWhereInput = encontreiroStatus
+    ? encontreiroStatus === 'ATIVO'
+      ? { statusMontagem: 'ATIVO' }
+      : { statusMontagem: 'INATIVO' }
+    : {}
 
   return await prisma.pessoa.count({
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }],
+      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      ...nameFilter,
+      encontreiro: {
+        ...statusFilter,
+      },
     },
   })
 }
@@ -227,6 +252,7 @@ function transformToEncontreiroSummaryData(
 export async function getEncontreirosSummary({
   page,
   encontreiroName,
+  encontreiroStatus,
   orderByField,
   orderDirection,
 }: GetEncontreirosSummaryProps) {
@@ -234,12 +260,14 @@ export async function getEncontreirosSummary({
 
   const totalEncontreiro = await getTotal({
     encontreiroName,
+    encontreiroStatus,
   })
 
   const encontreiros = await getEncontreiros({
     page,
     perPage,
     encontreiroName,
+    encontreiroStatus,
     orderByField,
     orderDirection,
   })

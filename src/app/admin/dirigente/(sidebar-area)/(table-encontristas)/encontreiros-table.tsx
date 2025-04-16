@@ -23,6 +23,7 @@ import { EncontreiroTableSkeleton } from './encontreiros-table-skeleton'
 interface SearchProps {
   pageIndex: number
   encontreiroName: string | null
+  encontreiroStatus: string | null
   orderByField: string | null
   orderByDirection: string | null
 }
@@ -30,16 +31,20 @@ interface SearchProps {
 async function getEncontreiros({
   pageIndex,
   encontreiroName,
+  encontreiroStatus,
   orderByField,
   orderByDirection,
 }: SearchProps) {
   const nameSearch = encontreiroName ? `name=${encontreiroName}&` : ''
+  const statusSearch = encontreiroStatus
+    ? `encontreiroStatus=${encontreiroStatus}&`
+    : ''
   const orderField = orderByField ? `orderByField=${orderByField}&` : ''
   const orderDirection = orderByDirection
     ? `orderDirection=${orderByDirection}&`
     : ''
 
-  const path = `encontreiro?${nameSearch}${orderField}${orderDirection}page=${pageIndex}`
+  const path = `encontreiro?${nameSearch}${statusSearch}${orderField}${orderDirection}page=${pageIndex}`
 
   const response: EncontreiroSummary = await api
     .get(path)
@@ -82,6 +87,7 @@ export function EncontreirosTable() {
         getEncontreiros({
           pageIndex,
           encontreiroName,
+          encontreiroStatus,
           orderByField,
           orderByDirection,
         }),
@@ -131,14 +137,14 @@ export function EncontreirosTable() {
     <>
       <div className="flex flex-col gap-4 py-1">
         <EncontreiroTableFilters />
-        <div className="bg-transparent">
-          <Table className="text-xs">
+        <div className="w-full overflow-x-auto bg-transparent">
+          <Table className="w-full table-fixed text-xs">
             <TableHeader>
               <TableRow className="px-2">
                 <SortableTableHead
                   label="EJC"
                   value="numeroEncontro"
-                  classname="text-nowrap rounded-tl-xl lg:w-[73px] w-7 pl-4"
+                  classname="text-nowrap rounded-tl-xl w-[60px] pl-4"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -146,6 +152,7 @@ export function EncontreirosTable() {
                 <SortableTableHead
                   label="Nome"
                   value="nome"
+                  classname="w-auto"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -153,21 +160,22 @@ export function EncontreirosTable() {
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"
+                  classname="w-[200px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead>Celular</TableHead>
-                <TableHead className="w-7 lg:w-[178px]">Círculo</TableHead>
+                <TableHead className="w-[200px]">Celular</TableHead>
+                <TableHead className="w-[250px]">Círculo</TableHead>
                 <SortableTableHead
                   label="Status"
-                  value="idStatus"
-                  classname="lg:w-[178px] w-7"
+                  value="statusMontagem"
+                  classname="w-[200px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-7 rounded-tr-xl lg:w-16">
+                <TableHead className="w-[80px] rounded-tr-xl pr-4">
                   Ações
                 </TableHead>
               </TableRow>
@@ -186,20 +194,20 @@ export function EncontreirosTable() {
                 })}
               {result && result.encontreiros.length === 0 && (
                 <EmptyTableRow
-                  colspan={8}
-                  content="Sem encontreiros cadastrados neste encontro"
+                  colspan={7}
+                  content="Sem encontreiros cadastrados"
                 />
               )}
             </TableBody>
             <TableFooter>
-              {isLoadingEncontreiro && <PaginationSkeleton totalCol={8} />}
+              {isLoadingEncontreiro && <PaginationSkeleton totalCol={7} />}
               {result && (
                 <Pagination
                   pageIndex={result.pageIndex}
                   totalCount={result.totalCount}
                   perPage={result.perPage}
                   onPageChange={handlePaginate}
-                  totalCol={8}
+                  totalCol={7}
                 />
               )}
             </TableFooter>

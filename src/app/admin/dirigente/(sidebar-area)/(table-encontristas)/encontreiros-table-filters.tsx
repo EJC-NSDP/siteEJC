@@ -97,12 +97,8 @@ export function EncontreiroTableFilters() {
                     value={field.value}
                   >
                     <SelectItem value="all" text="Todos status" />
-                    <SelectItem value="ativo" text="Ativo" />
-                    <SelectItem value="inativo" text="Inativo" />
-                    <SelectItem
-                      value="convidado_especial"
-                      text="Convidado Especial"
-                    />
+                    <SelectItem value="ATIVO" text="Ativo" />
+                    <SelectItem value="INATIVO" text="Inativo" />
                   </SelectGroupInput>
                 </div>
               )
