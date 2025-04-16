@@ -52,7 +52,7 @@ export default function Login() {
     if (result?.ok === false) {
       toast.error('Seu usuário ou senha estão incorretos.')
     } else {
-      router.replace('/admin/externa')
+      router.replace('/admin/profile')
     }
   }
 

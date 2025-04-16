@@ -12,7 +12,7 @@ export function ButtonLabel({ label, icon: Icon, link }: ButtonLabelProps) {
   return (
     <Link
       href={link}
-      className="flex w-16 flex-col items-center justify-start text-center text-tertiary"
+      className="flex w-full flex-row items-center justify-start gap-4 text-center text-tertiary lg:w-16 lg:flex-col"
     >
       <Button>
         <Icon className="h-6 w-6" />

@@ -14,7 +14,7 @@ export function DisabledInput({ label, value, children }: DisabledInputProps) {
       {label && <FormLabel className="font-medium">{label}</FormLabel>}
       <div
         className={cn(
-          'flex w-full cursor-not-allowed items-center gap-1 rounded-lg border border-zinc-300 px-3 py-2 text-sm opacity-80 shadow-sm placeholder:text-zinc-400',
+          'flex w-full cursor-not-allowed items-center gap-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm opacity-90 shadow-sm placeholder:text-zinc-400',
         )}
       >
         <input

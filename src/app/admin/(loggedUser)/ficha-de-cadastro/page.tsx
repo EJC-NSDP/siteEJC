@@ -42,7 +42,8 @@ export default function FichaCadastro() {
   }, [])
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center gap-4 py-4">
+      <span className="text-4xl font-bold text-white">Ficha de Cadastro</span>
       {encontreiroData === undefined ? (
         <CardLoading />
       ) : (

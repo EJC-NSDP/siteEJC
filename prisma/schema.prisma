@@ -21,6 +21,7 @@ model Pessoa {
   enderecoNumero     Int?         @map("endereco_numero")
   avatarUrl          String?      @map("avatar_url")
   password           String?
+  changePassword     Boolean      @default(false)
   apelido            String?
   role               Role         @default(ENCONTRISTA)
   slug               String       @unique
@@ -246,13 +247,14 @@ model ListaPreferencia {
 }
 
 model EquipeEncontro {
-  idPessoa    String
-  idEncontro  String
-  idEquipe    String
-  coordenou   Boolean       @default(false)
-  encontro    Encontro      @relation(fields: [idEncontro], references: [id])
-  equipe      DomainEquipes @relation(fields: [idEquipe], references: [equipeValue])
-  encontreiro Encontreiro   @relation(fields: [idPessoa], references: [idPessoa], onDelete: Cascade)
+  idPessoa        String
+  idEncontro      String
+  idEquipe        String
+  coordenou       Boolean       @default(false)
+  fichaPreenchida Boolean       @default(false) @map("ficha_preenchida")
+  encontro        Encontro      @relation(fields: [idEncontro], references: [id])
+  equipe          DomainEquipes @relation(fields: [idEquipe], references: [equipeValue])
+  encontreiro     Encontreiro   @relation(fields: [idPessoa], references: [idPessoa], onDelete: Cascade)
 
   @@id([idPessoa, idEncontro])
   @@map("equipes_encontro")
@@ -337,6 +339,7 @@ model DomainDisponibilidade {
 model DomainEquipes {
   equipeLabel      String             @unique @map("equipe_label")
   equipeValue      String             @id @map("equipe_value")
+  pastaUrl         String?            @map("pasta_url")
   EquipeEncontro   EquipeEncontro[]
   EquipeMontagem   EquipeMontagem[]
   ListaPreferencia ListaPreferencia[]

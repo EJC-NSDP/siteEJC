@@ -11,7 +11,7 @@ import {
 import { FooterNavigation } from './FooterNavigation'
 import { MainNavigation } from './MainNavigation'
 
-export function Sidebar() {
+export function DirigenteSidebar() {
   return (
     <Collapsible className="z-20 flex flex-col gap-12 bg-tertiary p-4 lg:h-full lg:min-h-screen lg:px-2 lg:py-12 ">
       <div className="flex items-center justify-between lg:justify-center">

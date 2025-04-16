@@ -1,6 +1,7 @@
 import { LogOut } from 'lucide-react'
 
 import { getSession, signOut } from 'next-auth/react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Button } from '../ui/button'
@@ -30,21 +31,25 @@ export function FooterNavigation() {
 
   return (
     <div className="group flex items-center justify-between rounded-xl px-4 py-3">
-      <div className="flex items-center gap-4">
-        {avatarFallback === '' ? (
-          <Skeleton className="h-8 w-8 rounded-full" />
-        ) : (
-          <Avatar>
-            <AvatarImage src={avatar} />
-            <AvatarFallback>{avatarFallback}</AvatarFallback>
-          </Avatar>
-        )}
-        {name === '' ? (
-          <Skeleton className="h-3 w-32" />
-        ) : (
-          <span className="text-sm font-light text-zinc-50">{name}</span>
-        )}
-      </div>
+      <Link href="/admin/profile">
+        <Button variant="ghost" className="p-0">
+          <div className="flex items-center gap-4">
+            {avatarFallback === '' ? (
+              <Skeleton className="h-8 w-8 rounded-full" />
+            ) : (
+              <Avatar>
+                <AvatarImage src={avatar} />
+                <AvatarFallback>{avatarFallback}</AvatarFallback>
+              </Avatar>
+            )}
+            {name === '' ? (
+              <Skeleton className="h-3 w-32" />
+            ) : (
+              <span className="text-sm font-light text-zinc-50">{name}</span>
+            )}
+          </div>
+        </Button>
+      </Link>
       <Button variant="ghost" onClick={logout}>
         <LogOut className="h-6 w-6 text-zinc-50 hover:opacity-80" />
       </Button>

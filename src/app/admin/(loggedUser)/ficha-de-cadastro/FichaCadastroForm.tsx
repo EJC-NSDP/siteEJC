@@ -3,6 +3,8 @@
 import type { EncontreiroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { api } from '@/lib/axios'
+import { getColor } from '@/utils/fetch-color'
 import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -11,7 +13,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AddressCard } from './pageComponents/AddressCard'
 import { EncontroCard } from './pageComponents/EncontroCard'
-import { EditNavigation } from './pageComponents/Nav/edit-nav'
+import { CadastroNavigation } from './pageComponents/Nav/cadastro-nav'
 import { PasswordCard } from './pageComponents/PasswordCard'
 import { PersonalCard } from './pageComponents/PersonalCard'
 import { ProxEncontroCard } from './pageComponents/ProxEncontroCard'
@@ -30,21 +32,6 @@ const disponibilidadeEnum = z.enum([
   'ALTA',
   'MUITO_ALTA',
 ])
-
-// const passwordSchema = z
-//   .string()
-//   .min(8, { message: minLengthErrorMessage })
-//   .max(20, { message: maxLengthErrorMessage })
-//   .refine((password) => /[A-Z]/.test(password), {
-//     message: uppercaseErrorMessage,
-//   })
-//   .refine((password) => /[a-z]/.test(password), {
-//     message: lowercaseErrorMessage,
-//   })
-//   .refine((password) => /[0-9]/.test(password), { message: numberErrorMessage })
-//   .refine((password) => /[!@#$%^&*]/.test(password), {
-//     message: specialCharacterErrorMessage,
-//   })
 
 const editCadastroFormScheme = z
   .object({
@@ -114,18 +101,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
 
   const router = useRouter()
 
-  const corCirculo =
-    data.circulo.corCirculo === 'Amarelo'
-      ? 'bg-yellow-500'
-      : data.circulo.corCirculo === 'Azul'
-        ? 'bg-blue-500'
-        : data.circulo.corCirculo === 'Laranja'
-          ? 'bg-orange-500'
-          : data.circulo.corCirculo === 'Verde'
-            ? 'bg-emerald-500'
-            : data.circulo.corCirculo === 'Vermelho'
-              ? 'bg-red-500'
-              : 'bg-zinc-200'
+  const corCirculo = getColor(data.circulo.corCirculo)
 
   const form = useForm<EditCadastroFormDataInput>({
     resolver: zodResolver(editCadastroFormScheme),
@@ -133,6 +109,8 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
       id: data.id,
       nome: data.pessoa.nome,
       sobrenome: data.pessoa.sobrenome,
+      password: data.changePassword ? '' : 'ignorar123',
+      password_confirmation: data.changePassword ? '' : 'ignorar123',
       email: data.pessoa.email,
       dataNascimento: dateToString(data.pessoa.dataNasc),
       apelido: data.pessoa.apelido !== null ? data.pessoa.apelido : '',
@@ -179,20 +157,19 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
 
   const {
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = form
 
   async function handleUpdateEncontreiro(
     formDataInput: EditCadastroFormDataInput,
   ) {
     setUpdating(true)
-    console.log(formDataInput)
-    // await api
-    //   .put('encontreiro/update', formDataInput)
-    //   .then(async () => {
-    //     router.push('/admin/profile')
-    //   })
-    //   .catch((err) => console.log(err, errors))
+    await api
+      .put('encontreiro/update', formDataInput)
+      .then(async () => {
+        router.push('/admin/profile')
+      })
+      .catch((err) => console.log(err, errors))
   }
 
   return (
@@ -201,17 +178,17 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
         id="editEncontristaForm"
         onSubmit={handleSubmit(handleUpdateEncontreiro)}
       >
-        <div className="grid grid-cols-12 gap-7">
+        <div className="grid grid-cols-12 gap-8">
           <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
             <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
-              <CardContent className="w-full py-0">
-                <EditNavigation />
+              <CardContent className="w-full p-0">
+                <CadastroNavigation changePassword={data.changePassword} />
               </CardContent>
             </Card>
           </div>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
-              <PasswordCard />
+              {data.changePassword && <PasswordCard />}
               <PersonalCard />
               <AddressCard />
               <EncontroCard />

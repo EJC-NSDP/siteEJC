@@ -2,14 +2,13 @@ import { authOptions } from '@/lib/auth/auth-options'
 import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { Header } from './(sectionComponents)/Header'
 
 export const metadata: Metadata = {
-  title: 'Montagem | EJC NSDP',
+  title: 'Dirigente | EJC NSDP',
   description: '',
 }
 
-export default async function RestrictedLayout({
+export default async function DirigenteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -24,12 +23,5 @@ export default async function RestrictedLayout({
     redirect('/admin/profile')
   }
 
-  return (
-    <div className="z-50 h-screen w-auto bg-primary">
-      <Header />
-      <main className="z-40 flex h-auto items-center justify-center bg-primary">
-        {children}
-      </main>
-    </div>
-  )
+  return <>{children}</>
 }

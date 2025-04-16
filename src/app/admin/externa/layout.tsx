@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components/Sidebar'
+import { ExternaSidebar } from '@/components/ExternaSidebar'
 import { authOptions } from '@/lib/auth/auth-options'
 import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
@@ -29,7 +29,7 @@ export default async function ExternaLayout({
   return (
     <div className="scroll-smooth bg-zinc-50 lg:grid lg:grid-cols-12">
       <div className="bg-blue-600 lg:col-span-2">
-        <Sidebar />
+        <ExternaSidebar />
       </div>
       <main className="bg-zinc-100 pb-8 pl-4 pr-8 pt-12 lg:col-span-full lg:col-start-3">
         {children}

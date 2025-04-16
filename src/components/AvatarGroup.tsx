@@ -1,16 +1,10 @@
+import type { encontreiroEmEquipe } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { generateFallBack } from '@/utils/generate-fallback'
-import type { Role } from '@prisma/client'
-
-export interface EncontreiroTropa {
-  name: string
-  avatarURl: string
-  role: Role
-}
 
 interface AvatarGroupProps {
-  encontreiros: EncontreiroTropa[]
+  encontreiros: encontreiroEmEquipe[]
   loose?: boolean
 }
 
@@ -39,10 +33,12 @@ export default function AvatarGroup({
       )}
 
       {tropa.map((encontreiro, index) => {
-        const avatarFallback = generateFallBack(encontreiro.name)
+        const avatarFallback = generateFallBack(encontreiro.nome)
         return (
-          <Avatar key={index} title={encontreiro.name}>
-            <AvatarImage src={encontreiro.avatarURl} />
+          <Avatar key={index} title={encontreiro.nome}>
+            <AvatarImage
+              src={encontreiro.avatarUrl ? encontreiro.avatarUrl : undefined}
+            />
             <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
         )

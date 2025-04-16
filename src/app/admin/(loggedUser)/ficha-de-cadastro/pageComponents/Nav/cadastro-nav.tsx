@@ -1,50 +1,58 @@
-import { Building2, Clipboard, ClipboardCheck, Save, User } from 'lucide-react'
+import { BookUser, Building2, KeyRound, Puzzle, Save, User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { EditNavItem } from './edit-nav-item'
+import { CadastroNavItem } from './cadastro-nav-item'
 
-export function EditNavigation() {
+interface CadastroNavigationProps {
+  changePassword: boolean
+}
+
+export function CadastroNavigation({
+  changePassword,
+}: CadastroNavigationProps) {
   const path = usePathname()
 
   return (
-    <nav className="flex flex-col">
-      <Link href="#password-section">
-        <EditNavItem
-          title="Sua senha"
-          icon={User}
-          active={path === '#password-section'}
-        />
-      </Link>
+    <nav className="flex flex-col gap-2 px-4">
+      {changePassword && (
+        <Link href="#password-section">
+          <CadastroNavItem
+            title="Sua senha"
+            icon={KeyRound}
+            active={path === '#password-section'}
+          />
+        </Link>
+      )}
       <Link href="#personal-section">
-        <EditNavItem
+        <CadastroNavItem
           title="Sobre você"
           icon={User}
           active={path === '#personal-section'}
         />
       </Link>
       <Link href="#address-section">
-        <EditNavItem
+        <CadastroNavItem
           title="Seu endereço"
           icon={Building2}
           active={path === '#address-section'}
         />
       </Link>
       <Link href="#ejc-section">
-        <EditNavItem
+        <CadastroNavItem
           title="Sobre o EJC"
-          icon={Clipboard}
+          icon={BookUser}
           active={path === '#ejc-section'}
         />
       </Link>
       <Link href="#prox-ejc-section">
-        <EditNavItem
+        <CadastroNavItem
           title="Sobre o próximo EJC"
-          icon={ClipboardCheck}
+          icon={Puzzle}
           active={path === '#prox-ejc-section'}
         />
       </Link>
       <Link href="#save-section">
-        <EditNavItem
+        <CadastroNavItem
           title="Salvar"
           icon={Save}
           active={path === '#save-section'}

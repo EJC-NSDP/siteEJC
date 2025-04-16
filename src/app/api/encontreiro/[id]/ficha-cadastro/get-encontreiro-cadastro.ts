@@ -11,6 +11,7 @@ export type ListaPreferencias = {
 export type EncontreiroData = {
   id: string
   slug: string
+  changePassword: boolean
   pessoa: {
     nome: string
     sobrenome: string
@@ -74,7 +75,7 @@ export async function getEncontreiroCadastro(id: string) {
       sobrenome: true,
       apelido: true,
       celular: true,
-      telefone: true,
+      changePassword: true,
       email: true,
       enderecoNumero: true,
       slug: true,
@@ -173,6 +174,7 @@ export async function getEncontreiroCadastro(id: string) {
   const encontreiroResponse: EncontreiroData = {
     id: encontreiro.id,
     slug: encontreiro.slug,
+    changePassword: encontreiro.changePassword,
     pessoa: {
       nome: encontreiro.nome,
       sobrenome: encontreiro.sobrenome,
@@ -201,12 +203,12 @@ export async function getEncontreiroCadastro(id: string) {
         : null,
       nomeCirculo: encontreiro.encontreiro!.circulo
         ? encontreiro.encontreiro!.circulo.nome
-        : null,
+        : '[Informe a um dirigente o nome do seu círculo]',
     },
     ultimoEncontro: {
       equipe: equipeEncontroPassado
         ? equipeEncontroPassado.equipe.equipeLabel
-        : 'Não irá participar',
+        : 'Não participou',
       coordenou: equipeEncontroPassado
         ? equipeEncontroPassado.coordenou
         : false,

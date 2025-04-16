@@ -2,6 +2,7 @@ import type { EditCadastroFormDataInput } from '@/app/admin/(loggedUser)/ficha-d
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
 import { hash } from 'bcryptjs'
+import { getCurrentEncontro } from '../../encontro/[numeroEncontro]/get-current-encontro/get-current-encontro'
 
 export async function updateCadastro(data: EditCadastroFormDataInput) {
   const foundUser = await prisma.pessoa.findUnique({
@@ -10,7 +11,9 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
     },
   })
 
-  if (!foundUser) {
+  const foundEncontro = await getCurrentEncontro()
+
+  if (!foundUser || !foundEncontro) {
     return null
   }
 
@@ -22,12 +25,21 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
 
   await updateEndereco(enderecoProps)
 
-  const hashedPassword = await hash(data.password, 8)
+  if (foundUser.changePassword) {
+    const hashedPassword = await hash(data.password, 8)
+
+    await prisma.pessoa.update({
+      where: { id: foundUser.id },
+      data: {
+        password: hashedPassword,
+        changePassword: false,
+      },
+    })
+  }
 
   const updatedPessoa = await prisma.pessoa.update({
     where: { id: foundUser.id },
     data: {
-      password: hashedPassword,
       apelido: data.apelido,
       celular: data.celular,
       enderecoCep: data.cep,
@@ -47,28 +59,40 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
 
   await prisma.listaPreferencia.deleteMany({
     where: {
-      idPessoa: data.id,
+      idPessoa: foundUser.id,
     },
   })
 
   await prisma.listaPreferencia.createMany({
     data: [
       {
-        idPessoa: data.id,
+        idPessoa: foundUser.id,
         posicao: 1,
         valueEquipe: data.preferencia1,
       },
       {
-        idPessoa: data.id,
+        idPessoa: foundUser.id,
         posicao: 2,
         valueEquipe: data.preferencia2,
       },
       {
-        idPessoa: data.id,
+        idPessoa: foundUser.id,
         posicao: 3,
         valueEquipe: data.preferencia3,
       },
     ],
+  })
+
+  await prisma.equipeEncontro.update({
+    where: {
+      idPessoa_idEncontro: {
+        idEncontro: foundEncontro.id,
+        idPessoa: foundUser.id,
+      },
+    },
+    data: {
+      fichaPreenchida: true,
+    },
   })
 
   return updatedPessoa

@@ -193,7 +193,7 @@ export function EditCarroForm({ data, disabled }: EditCarroProps) {
           </div>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
-              <fieldset disabled={disabled}>
+              <fieldset disabled={disabled} className="flex flex-col gap-6">
                 <CarroCard />
                 <MotoristaCard />
                 <CaronaCard />

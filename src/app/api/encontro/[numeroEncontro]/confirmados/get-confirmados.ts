@@ -22,6 +22,7 @@ export async function getConfirmados() {
               { idStatus: 'confirmado_sem_sexta' },
             ],
           },
+          role: 'ENCONTRISTA',
         },
         { role: 'TIOSECRETO' },
       ],

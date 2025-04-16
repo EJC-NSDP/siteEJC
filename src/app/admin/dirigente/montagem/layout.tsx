@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Header } from './profile/(sectionComponents)/Header'
+import { Header } from './(sectionComponents)/Header'
 
 export const metadata: Metadata = {
-  title: 'EJC NSDP',
+  title: 'Montagem | EJC NSDP',
   description: '',
 }
 
-export default function RestrictedLayout({
+export default async function RestrictedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode

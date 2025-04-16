@@ -60,10 +60,9 @@ export function ProxEncontroCard() {
               Lista de preferências para o próximo Encontrão:
             </FormLabel>
             <FormDescription className="mt-1 text-xs text-zinc-500">
-              Lembramos que essas preferências não serão necessariamente
-              seguidas à risca, mas, para facilitar que seu pedido seja
-              atendido, escolha equipes diferentes em cada uma das 3 opções que
-              vai nos dar.
+              Essas preferências podem não ser seguidas exatamente, mas para
+              facilitar o atendimento do seu pedido, escolha equipes diferentes
+              em cada uma das 3 opções.
             </FormDescription>
           </div>
           <FormField
