@@ -1,15 +1,9 @@
 'use client'
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { BarChart4, Download, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import Link from 'next/link'
-import { EncontreirosTable } from './(table-encontristas)/encontreiros-table'
+import { EncontreirosTable } from './(table-encontreiros)/encontreiros-table'
 
 export default function Dirigente() {
   return (
@@ -23,16 +17,16 @@ export default function Dirigente() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
-            <Link href="/api/export/encontrista">
+            {/* <Link href="/api/export/encontrista">
               <Button variant="secondary">
                 <div className="flex items-center justify-center gap-2 lg:w-40">
                   <Download className="h-4 w-4 text-tertiary" />
                   <span className="hidden lg:flex">Gerar XLSX</span>
                 </div>
               </Button>
-            </Link>
+            </Link> */}
 
-            <Link href="/participe">
+            <Link href="/admin/dirigente/encontreiro/novo">
               <Button>
                 <div className="flex items-center justify-center gap-2 lg:w-40">
                   <Plus className="h-4 w-4" />
@@ -42,7 +36,7 @@ export default function Dirigente() {
             </Link>
           </div>
         </div>
-        <Accordion type="single" collapsible>
+        {/* <Accordion type="single" collapsible>
           <AccordionItem
             value="graficos"
             className="rounded-xl border-none bg-white px-4"
@@ -57,7 +51,7 @@ export default function Dirigente() {
               Em breve teremos os Gráficos aqui
             </AccordionContent>
           </AccordionItem>
-        </Accordion>
+        </Accordion> */}
       </div>
       <EncontreirosTable />
     </div>

@@ -2,7 +2,7 @@ import type {
   CarroData,
   GetCarroProps,
 } from '@/app/api/carro/[carro]/[encontro]/get-carro'
-import type { EncontroData } from '@/app/api/encontro/[numeroEncontro]/get-encontro'
+import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 import { EditCarroForm } from './EditCarroForm'
 

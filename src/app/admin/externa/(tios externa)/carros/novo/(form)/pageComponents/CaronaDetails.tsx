@@ -1,5 +1,5 @@
 import { CardNewCarro } from '@/app/(geral)/participe/(form)/components/CardNewCarro'
-import type { PossiveisTiosExterna } from '@/app/api/encontro/[numeroEncontro]/possiveisExternas/get-possiveis-externas'
+import type { PossiveisTiosExterna } from '@/app/api/encontro/atual/[ignorar]/possiveisExternas/get-possiveis-externas'
 import type { TioDeExternaData } from '@/app/api/pessoa/tio-externa/[id]/get-tio-externa'
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
@@ -65,7 +65,7 @@ export type CaronaFormDataInput = z.infer<typeof caronaFormScheme>
 
 export async function getPossiveisTios() {
   const response: PossiveisTiosExterna[] = await api
-    .get('encontro/1/possiveisExternas')
+    .get('encontro/atual/1/possiveisExternas')
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

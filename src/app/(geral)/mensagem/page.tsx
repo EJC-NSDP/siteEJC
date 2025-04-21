@@ -1,6 +1,6 @@
 'use client'
 
-import type { EncontristaConfirmadosData } from '@/app/api/encontro/[numeroEncontro]/confirmados/get-confirmados'
+import type { EncontristaConfirmadosData } from '@/app/api/encontro/atual/[ignorar]/confirmados/get-confirmados'
 
 import { type SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
@@ -11,7 +11,7 @@ import { MensagemFechada } from './MensagemFechada'
 
 async function getConfirmados() {
   const response: EncontristaConfirmadosData[] = await api
-    .get(`encontro/1/confirmados`)
+    .get(`encontro/atual/1/confirmados`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -29,7 +29,7 @@ async function getConfirmados() {
 }
 
 async function getCartasStatus() {
-  const res = await api.get(`encontro/1/get-carta-status`)
+  const res = await api.get(`encontro/atual/1/get-carta-status`)
   return res.data as boolean
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import type { CarroPendencias } from '@/app/api/encontro/[numeroEncontro]/pendencias/get-pendencias'
+import type { CarroPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { CarroEmpty } from '@/components/Table/CarroEmpty'
 import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
@@ -9,7 +9,7 @@ import { TioExterna } from './TioExterna'
 
 async function getCarrosComPendencias() {
   const response: CarroPendencias[] = await api
-    .get(`encontro/1/pendencias`)
+    .get(`encontro/atual/1/pendencias`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

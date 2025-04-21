@@ -1,3 +1,4 @@
+import type { Cor } from '@/app/api/domains/coresEncontro/get-cores'
 import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disponibilidade'
 import type { Equipes } from '@/app/api/domains/equipes/get-equipes'
 import type { MoraCom } from '@/app/api/domains/mora_com/get-mora-com'
@@ -102,6 +103,25 @@ export async function getDisponibilidade() {
   return selectData
 }
 
+export async function getCorEncontro() {
+  const response: Cor[] = await api
+    .get('domains/coresEncontro')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: item.cor,
+      value: item.id.toString(),
+    }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
 export async function getEquipes() {
   const response: Equipes[] = await api
     .get('domains/equipes')
@@ -119,6 +139,27 @@ export async function getEquipes() {
       item.equipeValue !== 'dirigente' &&
       item.equipeValue !== 'tio_circulo'
     ) {
+      selectData.push(selectItem)
+    }
+  })
+
+  return selectData
+}
+
+export async function getValidEquipes() {
+  const response: Equipes[] = await api
+    .get('domains/equipes')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: item.equipeLabel,
+      value: item.equipeValue,
+    }
+
+    if (item.equipeValue !== '0' && item.equipeValue !== 'nao_participara') {
       selectData.push(selectItem)
     }
   })

@@ -1,7 +1,7 @@
 'use client'
 
-import type { CarroFromEncontro } from '@/app/api/encontro/[numeroEncontro]/carros/get-carros'
-import type { CardEncontristaResponse } from '@/app/api/encontro/[numeroEncontro]/confirmados-card/get-confirmados-card'
+import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/carros/get-carros'
 import { api } from '@/lib/axios'
 import { hasDraggableData } from '@/utils/draggable-data'
 import {
@@ -30,7 +30,7 @@ export type CarroId = string
 
 async function getCarros() {
   const response: CarroFromEncontro[] = await api
-    .get(`encontro/1/carros`)
+    .get(`encontro/atual/1/carros`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -39,7 +39,7 @@ async function getCarros() {
 
 async function getConfirmados() {
   const response: CardEncontristaResponse[] = await api
-    .get(`encontro/1/confirmados-card`)
+    .get(`encontro/atual/1/confirmados-card`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

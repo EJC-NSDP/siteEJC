@@ -1,0 +1,34 @@
+import type { EncontreiroFormData } from '@/@types/encontreiro'
+import { NextResponse, type NextRequest } from 'next/server'
+import { getEditEncontreiro } from './get-edit-encontreiro'
+import { updateEncontreiro } from './update-encontreiro'
+
+interface EncontreiroProps {
+  slug: string
+}
+
+export async function GET(
+  request: Request,
+  context: { params: EncontreiroProps },
+) {
+  const encontreiro = await getEditEncontreiro(context.params.slug)
+
+  return NextResponse.json(encontreiro)
+}
+
+export async function PUT(request: NextRequest) {
+  const formData: EncontreiroFormData = await request.json()
+
+  const updated = await updateEncontreiro(formData)
+
+  if (!updated) {
+    return NextResponse.json({ status: 400 })
+  }
+
+  const encontristaUpdated = {
+    id: updated.id,
+    email: updated.email,
+  }
+
+  return NextResponse.json(encontristaUpdated, { status: 201 })
+}

@@ -11,6 +11,9 @@ export async function getEquipes() {
       equipeValue: true,
       equipeLabel: true,
     },
+    orderBy: {
+      equipeLabel: 'asc',
+    },
   })
 
   return equipes

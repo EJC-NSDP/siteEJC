@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react'
 import { EncontristasCartasTable } from './(table-cartas)/encontristas-cartas-table'
 
 async function getCartasStatus() {
-  const res = await api.get(`encontro/1/get-carta-status`)
+  const res = await api.get(`encontro/atual/1/get-carta-status`)
   const data: boolean = res.data
 
   return data

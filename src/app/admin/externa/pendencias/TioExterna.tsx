@@ -1,4 +1,4 @@
-import type { CarroPendencias } from '@/app/api/encontro/[numeroEncontro]/pendencias/get-pendencias'
+import type { CarroPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
   Tooltip,

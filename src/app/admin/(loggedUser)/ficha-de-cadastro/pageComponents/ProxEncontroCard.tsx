@@ -35,7 +35,7 @@ export function ProxEncontroCard() {
           render={({ field }) => {
             return (
               <SelectGroupInput
-                label="Qual a sua disponibilidade para o próximo encontrão?"
+                label="Qual a sua disponibilidade para o próximo encontrão? *"
                 placeholder="Selecione uma opção"
                 onChange={field.onChange}
                 value={field.value}

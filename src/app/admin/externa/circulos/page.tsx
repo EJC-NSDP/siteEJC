@@ -3,8 +3,8 @@
 import type {
   CirculoEncontro,
   CirculosResponse,
-} from '@/app/api/encontro/[numeroEncontro]/circulos/get-circulos'
-import type { CardEncontristaResponse } from '@/app/api/encontro/[numeroEncontro]/confirmados-card/get-confirmados-card'
+} from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
+import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
@@ -56,7 +56,7 @@ function ordenarCirculos(baseOrder: string, circulos: CirculoEncontro[]) {
 
 async function getCirculos() {
   const response: CirculosResponse = await api
-    .get(`encontro/1/circulos`)
+    .get(`encontro/atual/1/circulos`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -75,7 +75,7 @@ async function getCirculos() {
 
 async function getConfirmados() {
   const response: CardEncontristaResponse[] = await api
-    .get(`encontro/1/confirmados-card`)
+    .get(`encontro/atual/1/confirmados-card`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

@@ -33,7 +33,7 @@ export function SelectItem({ text, badge, ...props }: SelectItemProps) {
         </div>
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-zinc-500 dark:text-zinc-300" />
+        <Check className="size-4 text-zinc-500 dark:text-zinc-300" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )

@@ -1,4 +1,4 @@
-import type { CirculoEncontro } from '@/app/api/encontro/[numeroEncontro]/circulos/get-circulos'
+import type { CirculoEncontro } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import type { SortableEncontrista } from './CardEncontristas'
 import { Circulo, type CirculoDroppable } from './Circulo'
 

@@ -18,6 +18,9 @@ export async function getDisponibilidade() {
         disponibilidade: true,
         descricao: true,
       },
+      orderBy: {
+        order: 'asc',
+      },
     })
 
   return disponibilidade

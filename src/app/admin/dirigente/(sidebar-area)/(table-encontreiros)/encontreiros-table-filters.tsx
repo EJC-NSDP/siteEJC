@@ -29,7 +29,7 @@ export function EncontreiroTableFilters() {
     resolver: zodResolver(encontreiroFiltersSchema),
     defaultValues: {
       encontreiroName: searchedEncontreiroName ?? '',
-      encontreiroStatus: searchedEncontreiroStatus ?? 'all',
+      encontreiroStatus: searchedEncontreiroStatus ?? 'ATIVO',
     },
   })
 
@@ -47,7 +47,7 @@ export function EncontreiroTableFilters() {
       newSearch.delete('encontreiroName')
     }
 
-    if (encontreiroStatus && encontreiroStatus !== 'all') {
+    if (encontreiroStatus && encontreiroStatus !== 'ATIVO') {
       newSearch.append('encontreiroStatus', encontreiroStatus)
     } else {
       newSearch.delete('encontreiroStatus')
@@ -88,7 +88,7 @@ export function EncontreiroTableFilters() {
           <FormField
             control={control}
             name="encontreiroStatus"
-            defaultValue="all"
+            defaultValue="ATIVO"
             render={({ field }) => {
               return (
                 <div className="lg:w-96">
@@ -96,7 +96,6 @@ export function EncontreiroTableFilters() {
                     onChange={field.onChange}
                     value={field.value}
                   >
-                    <SelectItem value="all" text="Todos status" />
                     <SelectItem value="ATIVO" text="Ativo" />
                     <SelectItem value="INATIVO" text="Inativo" />
                   </SelectGroupInput>

@@ -1,8 +1,8 @@
 import type { CarFormData, PersonFormData } from '@/context/NewCarroContext'
 import { prisma } from '@/lib/prisma'
 import { createSlugForTioExterna } from '@/utils/create-slug'
-import { getCurrentEncontro } from '../encontro/[numeroEncontro]/get-current-encontro/get-current-encontro'
-import { getNextCarroEncontro } from '../encontro/[numeroEncontro]/get-next-carro-encontro/get-next-carro-encontro'
+import { getCurrentEncontro } from '../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { getNextCarroEncontro } from '../encontro/atual/[ignorar]/get-next-carro-encontro/get-next-carro-encontro'
 import { createEndereco } from '../endereco/create-endereco'
 
 export interface CreateCarroProps {

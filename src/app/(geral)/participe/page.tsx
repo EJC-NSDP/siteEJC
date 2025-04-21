@@ -1,11 +1,11 @@
-import type { EncontroData } from '@/app/api/encontro/[numeroEncontro]/get-encontro'
+import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
 import { CreateEncontristaContextProvider } from '@/context/CreateEncontristaContext'
 import { ParticipeForm } from './(form)/ParticipeForm'
 
 async function fetchDataEncontro() {
   try {
     const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/encontro/1/get-current-encontro`,
+      `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-current-encontro`,
     )
     if (response.ok) {
       const data: EncontroData = await response.json()

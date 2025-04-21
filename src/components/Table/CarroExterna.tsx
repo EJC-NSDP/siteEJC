@@ -1,7 +1,7 @@
 'use client'
 
 import type { CarrosSummary } from '@/app/api/carro/get-carros-summary'
-import type { MembroExterna } from '@/app/api/encontro/[numeroEncontro]/externa/get-equipe-externa'
+import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
 import type { ExternaInfo } from '@/app/api/pessoa/externa/[idExterna]/get-previous-externa-info'
 import { api } from '@/lib/axios'
 import { getInitials } from '@/utils/get-initials'

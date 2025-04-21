@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 
 async function getCurrentEncontro() {
   const equipe = await api
-    .get(`encontro/1/get-current-encontro`)
+    .get(`encontro/atual/1/get-current-encontro`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

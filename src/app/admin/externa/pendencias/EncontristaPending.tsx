@@ -1,4 +1,4 @@
-import type { EncontristaPendencias } from '@/app/api/encontro/[numeroEncontro]/pendencias/get-pendencias'
+import type { EncontristaPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { Card } from '@/components/ui/card'
 import {
   Tooltip,

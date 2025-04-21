@@ -46,6 +46,8 @@ async function getEncontreiros({
 
   const path = `encontreiro?${nameSearch}${statusSearch}${orderField}${orderDirection}page=${pageIndex}`
 
+  console.log(path)
+
   const response: EncontreiroSummary = await api
     .get(path)
     .then((response) => response.data)
@@ -160,17 +162,17 @@ export function EncontreirosTable() {
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"
-                  classname="w-[200px]"
+                  classname="w-[120px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-[200px]">Celular</TableHead>
-                <TableHead className="w-[250px]">Círculo</TableHead>
+                <TableHead className="w-[200px]">E-mail</TableHead>
+                <TableHead className="w-[150px]">Círculo</TableHead>
                 <SortableTableHead
                   label="Status"
                   value="statusMontagem"
-                  classname="w-[200px]"
+                  classname="w-[150px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}

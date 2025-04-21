@@ -45,7 +45,7 @@ interface EncontristaTableRowProps {
 
 async function getEquipeExterna() {
   const equipe = await api
-    .get(`encontro/1/externa`)
+    .get(`encontro/atual/1/externa`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -54,7 +54,7 @@ async function getEquipeExterna() {
 
 async function getCurrentEncontro() {
   const equipe = await api
-    .get(`encontro/1/get-current-encontro`)
+    .get(`encontro/atual/1/get-current-encontro`)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 

@@ -30,6 +30,7 @@ export type EncontreiroSummaryData = {
   sobrenome: string
   bairro: string
   celular: string
+  email: string
   slug: string
   dataNasc: Date | null
   statusMontagem: StatusEncontreiro | null
@@ -89,11 +90,10 @@ async function getEncontreiros({
       }
     : {}
 
-  const statusFilter: Prisma.EncontreiroWhereInput = encontreiroStatus
-    ? encontreiroStatus === 'ATIVO'
-      ? { statusMontagem: 'ATIVO' }
-      : { statusMontagem: 'INATIVO' }
-    : {}
+  const statusFilter: Prisma.EncontreiroWhereInput =
+    encontreiroStatus === 'INATIVO'
+      ? { statusMontagem: 'INATIVO' }
+      : { statusMontagem: 'ATIVO' }
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
@@ -134,6 +134,7 @@ async function getEncontreiros({
       nome: true,
       sobrenome: true,
       celular: true,
+      email: true,
       slug: true,
       endereco: {
         select: {
@@ -211,6 +212,7 @@ function transformToEncontreiroSummaryData(
     nome: string
     sobrenome: string
     celular: string
+    email: string
     slug: string
     endereco: {
       bairro: string
@@ -237,6 +239,7 @@ function transformToEncontreiroSummaryData(
       nome: encontreiro.nome,
       sobrenome: encontreiro.sobrenome,
       celular: encontreiro.celular,
+      email: encontreiro.email,
       dataNasc: encontreiro.encontreiro?.dataNasc || null,
       bairro: encontreiro.endereco.bairro || 'N/A',
       statusMontagem: encontreiro.encontreiro?.statusMontagem || null,

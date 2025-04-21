@@ -33,7 +33,12 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         </TableCell>
         <TableCell className="text-nowrap">{nomeCompleto}</TableCell>
         <TableCell>{encontreiro.bairro}</TableCell>
-        <TableCell>{encontreiro.celular}</TableCell>
+        <TableCell
+          className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap"
+          title={encontreiro.email}
+        >
+          {encontreiro.email}
+        </TableCell>
         <TableCell>
           <div className="flex items-center gap-2">
             <div className={cn(corCirculo, 'size-3 rounded-full  shadow-sm')} />
@@ -46,15 +51,15 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
             encontreiroId={encontreiro.id}
           />
         </TableCell>
-        <TableCell className="flex gap-2 pr-4">
-          <Link href={`/admin/dirigente/${encontreiro.slug}/edit`}>
+        <TableCell className="flex gap-2 pr-4" title="Editar">
+          <Link href={`/admin/dirigente/encontreiro/${encontreiro.slug}/edit`}>
             <Button variant="ghost" className="p-0">
-              <Pencil className="h-4 w-4 text-zinc-400 hover:text-zinc-500" />
+              <Pencil className="size-4 text-zinc-400 hover:text-zinc-500" />
             </Button>
           </Link>
-          <AlertDialogTrigger asChild>
+          <AlertDialogTrigger asChild title="Deletar">
             <Button variant="ghost" className="p-0">
-              <Trash2 className="h-4 w-4 text-red-400 hover:text-red-500" />
+              <Trash2 className="size-4 text-red-400 hover:text-red-500" />
             </Button>
           </AlertDialogTrigger>
         </TableCell>

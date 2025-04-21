@@ -10,6 +10,8 @@ export async function PATCH(
 ) {
   const updated = await changeStatusMontagem(context.params)
 
+  if (!updated) return NextResponse.json({}, { status: 400 })
+
   const infoPatched = {
     id: updated.idPessoa,
     status: updated.statusMontagem,

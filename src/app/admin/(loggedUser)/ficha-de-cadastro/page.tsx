@@ -1,6 +1,6 @@
 'use client'
 
-import type { EncontreiroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
+import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { api } from '@/lib/axios'
 import { getSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
@@ -23,7 +23,7 @@ async function getEncontreiro(id: string) {
 
 export default function FichaCadastro() {
   const [encontreiroData, setEncontreiroData] = useState<
-    EncontreiroData | undefined
+    EncontreiroCadastroData | undefined
   >(undefined)
 
   useEffect(() => {
@@ -34,7 +34,9 @@ export default function FichaCadastro() {
         redirect('/login')
       }
 
-      const encontreiro: EncontreiroData = await getEncontreiro(session.user.id)
+      const encontreiro: EncontreiroCadastroData = await getEncontreiro(
+        session.user.id,
+      )
 
       setEncontreiroData(encontreiro)
     }

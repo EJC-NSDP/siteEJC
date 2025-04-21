@@ -1,4 +1,4 @@
-import { getCurrentEncontro } from '@/app/api/encontro/[numeroEncontro]/get-current-encontro/get-current-encontro'
+import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { prisma } from '@/lib/prisma'
 import type { Role } from '@prisma/client'
 

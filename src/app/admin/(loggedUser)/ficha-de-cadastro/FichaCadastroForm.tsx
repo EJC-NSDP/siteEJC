@@ -1,6 +1,6 @@
 'use client'
 
-import type { EncontreiroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
+import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
@@ -19,19 +19,16 @@ import { PersonalCard } from './pageComponents/PersonalCard'
 import { ProxEncontroCard } from './pageComponents/ProxEncontroCard'
 
 interface FichaCadastroProps {
-  data: EncontreiroData
+  data: EncontreiroCadastroData
 }
 
 const tamanhoCamisaEnum = z
   .enum(['p', 'm', 'g', 'gg', 'xgg', 'outro'])
   .optional()
-const disponibilidadeEnum = z.enum([
-  'MUITO_BAIXA',
-  'BAIXA',
-  'MEDIA',
-  'ALTA',
-  'MUITO_ALTA',
-])
+const disponibilidadeEnum = z.enum(
+  ['INDISPONIVEL', 'MUITO_BAIXA', 'BAIXA', 'MEDIA', 'ALTA', 'MUITO_ALTA'],
+  { required_error: 'Informe sua disponibilidade no próximo encontrão' },
+)
 
 const editCadastroFormScheme = z
   .object({
@@ -165,7 +162,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
   ) {
     setUpdating(true)
     await api
-      .put('encontreiro/update', formDataInput)
+      .put(`encontreiro/${formDataInput.id}/ficha-cadastro`, formDataInput)
       .then(async () => {
         router.push('/admin/profile')
       })

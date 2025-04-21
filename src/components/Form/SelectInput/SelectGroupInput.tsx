@@ -12,7 +12,9 @@ import {
   SelectValue,
 } from '../../ui/select'
 
-export interface SelectGroupInputProps {
+export type SelectGroupInputProps = React.ComponentPropsWithoutRef<
+  typeof FormItem
+> & {
   label?: string
   value: string | undefined
   description?: string
@@ -30,9 +32,10 @@ export function SelectGroupInput({
   children,
   disabled = false,
   onChange,
+  ...props
 }: SelectGroupInputProps) {
   return (
-    <FormItem>
+    <FormItem {...props}>
       <label className="flex flex-col gap-2">
         {label && <FormLabel>{label}</FormLabel>}
         <Select disabled={disabled} onValueChange={onChange} value={value}>

@@ -329,6 +329,7 @@ model DomainCorCirculo {
 
 model DomainDisponibilidade {
   id              Value_Disponibilidade @id @unique
+  order           Int                   @default(100)
   disponibilidade String                @unique
   descricao       String                @default("")
   encontreiro     Encontreiro[]
@@ -435,6 +436,7 @@ enum Role {
 }
 
 enum Value_Disponibilidade {
+  INDISPONIVEL
   MUITO_BAIXA
   BAIXA
   MEDIA

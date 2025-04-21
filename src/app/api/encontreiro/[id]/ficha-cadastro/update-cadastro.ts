@@ -1,8 +1,8 @@
 import type { EditCadastroFormDataInput } from '@/app/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
+import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
 import { hash } from 'bcryptjs'
-import { getCurrentEncontro } from '../../encontro/[numeroEncontro]/get-current-encontro/get-current-encontro'
 
 export async function updateCadastro(data: EditCadastroFormDataInput) {
   const foundUser = await prisma.pessoa.findUnique({
@@ -83,17 +83,28 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
     ],
   })
 
-  await prisma.equipeEncontro.update({
+  const equipeEncontro = await prisma.equipeEncontro.findUnique({
     where: {
       idPessoa_idEncontro: {
         idEncontro: foundEncontro.id,
         idPessoa: foundUser.id,
       },
     },
-    data: {
-      fichaPreenchida: true,
-    },
   })
+
+  if (equipeEncontro) {
+    await prisma.equipeEncontro.update({
+      where: {
+        idPessoa_idEncontro: {
+          idEncontro: foundEncontro.id,
+          idPessoa: foundUser.id,
+        },
+      },
+      data: {
+        fichaPreenchida: true,
+      },
+    })
+  }
 
   return updatedPessoa
 }

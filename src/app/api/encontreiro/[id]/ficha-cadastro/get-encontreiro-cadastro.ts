@@ -1,5 +1,5 @@
-import { getCurrentEncontro } from '@/app/api/encontro/[numeroEncontro]/get-current-encontro/get-current-encontro'
-import { getLastEncontro } from '@/app/api/encontro/[numeroEncontro]/get-last-encontro/get-last-encontro'
+import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { getLastEncontro } from '@/app/api/encontro/atual/[ignorar]/get-last-encontro/get-last-encontro'
 import { prisma } from '@/lib/prisma'
 import type { Value_Disponibilidade as valueDisponibilidade } from '@prisma/client'
 
@@ -8,7 +8,7 @@ export type ListaPreferencias = {
   valueEquipe: string
 }
 
-export type EncontreiroData = {
+export type EncontreiroCadastroData = {
   id: string
   slug: string
   changePassword: boolean
@@ -171,7 +171,7 @@ export async function getEncontreiroCadastro(id: string) {
   const listaPreferencias = gerarListaCompletaPreferencias(
     encontreiro.encontreiro!.listaPreferencias,
   )
-  const encontreiroResponse: EncontreiroData = {
+  const encontreiroResponse: EncontreiroCadastroData = {
     id: encontreiro.id,
     slug: encontreiro.slug,
     changePassword: encontreiro.changePassword,

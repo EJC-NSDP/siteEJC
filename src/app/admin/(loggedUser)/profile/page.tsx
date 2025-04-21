@@ -57,7 +57,11 @@ export default function Profile() {
     }
     fetchSession()
   }, [])
-  if (profileData && !profileData.fichaCadastro) {
+  if (
+    profileData &&
+    profileData.equipeEncontro !== 'Não alocado' &&
+    !profileData.fichaCadastro
+  ) {
     router.replace('/admin/ficha-de-cadastro')
   }
 
@@ -98,37 +102,43 @@ export default function Profile() {
                         {profileData.equipeEncontro}
                       </span>
                     </div>
-                    <div>
-                      <h4 className="text-sm text-zinc-400">Função</h4>
-                      <span className="text-xl font-semibold text-zinc-700">
-                        {profileData.equipeEncontroCoord
-                          ? 'Coordenador(a)'
-                          : 'Tropa'}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="text-sm text-zinc-400">
-                        Ficha de cadastro
-                      </h4>
-                      <span className="text-xl font-semibold text-zinc-700">
-                        {profileData.fichaCadastro
-                          ? 'Preenchida'
-                          : 'Não preenchida'}
-                      </span>
-                    </div>
+                    {profileData.equipeEncontro !== 'Não alocado' && (
+                      <>
+                        <div>
+                          <h4 className="text-sm text-zinc-400">Função</h4>
+                          <span className="text-xl font-semibold text-zinc-700">
+                            {profileData.equipeEncontroCoord
+                              ? 'Coordenador(a)'
+                              : 'Tropa'}
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="text-sm text-zinc-400">
+                            Ficha de cadastro
+                          </h4>
+                          <span className="text-xl font-semibold text-zinc-700">
+                            {profileData.fichaCadastro
+                              ? 'Preenchida'
+                              : 'Não preenchida'}
+                          </span>
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <h4 className="text-sm text-zinc-400">Membros</h4>
-                    <div className="flex flex-col gap-4">
-                      <AvatarGroup
-                        encontreiros={profileData.coordenadores}
-                        loose
-                      />
-                      {profileData.role !== 'DIRIGENTE' && (
-                        <AvatarGroup encontreiros={profileData.tropa} />
-                      )}
+                  {profileData.equipeEncontro !== 'Não alocado' && (
+                    <div className="flex flex-col gap-1">
+                      <h4 className="text-sm text-zinc-400">Membros</h4>
+                      <div className="flex flex-col gap-4">
+                        <AvatarGroup
+                          encontreiros={profileData.coordenadores}
+                          loose
+                        />
+                        {profileData.role !== 'DIRIGENTE' && (
+                          <AvatarGroup encontreiros={profileData.tropa} />
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </CardContent>
               <CardFooter className="p-0">
