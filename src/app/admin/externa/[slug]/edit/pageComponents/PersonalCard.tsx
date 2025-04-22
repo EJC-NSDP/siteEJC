@@ -1,3 +1,5 @@
+import { CardForm } from '@/components/Form/CardForm'
+import { CardFormSection } from '@/components/Form/CardFormSection'
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -12,8 +14,6 @@ import { getReligioes } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import { useHookFormMask } from 'use-mask-input'
-import { CardForm } from '../components/CardForm'
-import { CardFormSection } from '../components/CardFormSection'
 
 export function PersonalCard() {
   const form = useFormContext()

@@ -2,6 +2,7 @@
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import AvatarGroup from '@/components/AvatarGroup'
+import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { api } from '@/lib/axios'
@@ -11,7 +12,6 @@ import { CarFront, ClipboardList, FolderOpen } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CardLoading } from '../ficha-de-cadastro/components/CardLoading'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'
 

@@ -1,11 +1,11 @@
 'use client'
 
 import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
+import { CardLoading } from '@/components/CardLoading'
 import { api } from '@/lib/axios'
 import { getSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CardLoading } from './components/CardLoading'
 import { FichaCadastroForm } from './FichaCadastroForm'
 
 async function getEncontreiro(id: string) {

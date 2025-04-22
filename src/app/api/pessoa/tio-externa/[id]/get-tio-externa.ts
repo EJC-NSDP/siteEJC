@@ -1,25 +1,8 @@
+import type { CarPersonFormData } from '@/@types/carro'
 import { prisma } from '@/lib/prisma'
-import type { Role } from '@prisma/client'
-
-export type TioDeExternaData = {
-  id: string
-  role: Role
-  nome: string
-  sobrenome: string
-  apelido: string
-  celular: string
-  telefone: string
-  email: string
-  enderecoNumero: number
-  endereco: {
-    cep: string
-    bairro: string
-    rua: string
-  }
-}
 
 export async function getTioExterna(id: string) {
-  return await prisma.pessoa.findFirst({
+  const pessoaFound = await prisma.pessoa.findFirst({
     select: {
       id: true,
       role: true,
@@ -33,6 +16,8 @@ export async function getTioExterna(id: string) {
         select: {
           bairro: true,
           cep: true,
+          cidade: true,
+          estado: true,
           rua: true,
         },
       },
@@ -42,4 +27,25 @@ export async function getTioExterna(id: string) {
       id,
     },
   })
+
+  if (!pessoaFound) return null
+
+  const tioExterna: CarPersonFormData = {
+    id: pessoaFound.id,
+    nome: pessoaFound.nome,
+    role: pessoaFound.role,
+    sobrenome: pessoaFound.sobrenome,
+    celular: pessoaFound.celular,
+    telefone: pessoaFound.telefone || '',
+    email: pessoaFound.email,
+    enderecoCep: pessoaFound.endereco.cep,
+    bairro: pessoaFound.endereco.bairro,
+    cidade: pessoaFound.endereco.cidade,
+    estado: pessoaFound.endereco.estado,
+    rua: pessoaFound.endereco.rua,
+    enderecoNumero: pessoaFound.enderecoNumero?.toString() || '0',
+    apelido: pessoaFound.apelido || '',
+  }
+
+  return tioExterna
 }

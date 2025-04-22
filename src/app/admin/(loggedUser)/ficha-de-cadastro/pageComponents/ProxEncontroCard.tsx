@@ -1,3 +1,4 @@
+import { CardForm } from '@/components/Form/CardForm'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -9,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { getDisponibilidade, getEquipes } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
-import { CardForm } from '../components/CardForm'
 
 export function ProxEncontroCard() {
   const form = useFormContext()

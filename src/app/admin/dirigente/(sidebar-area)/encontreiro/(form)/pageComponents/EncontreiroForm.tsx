@@ -1,17 +1,19 @@
 'use client'
 
 import type { EncontreiroFormData } from '@/@types/encontreiro'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { BookUser, Building2, Save, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AddressDetails } from './AddressDetails'
 import { EncontroDetails } from './EncontroDetails'
-import { EditEncontreiroNavigation } from './Nav/edit-nav'
 import { PersonalDetails } from './PersonalDetails'
 
 interface EditEncontreiroProps {
@@ -122,7 +124,7 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
     setUpdating(true)
     if (formDataInput.slug === '') {
       await api
-        .post('encontreiro/update', formDataInput)
+        .post('encontreiro', formDataInput)
         .then(async () => {
           router.push('/admin/dirigente')
         })
@@ -144,13 +146,20 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
         onSubmit={handleSubmit(handleUpdateEncontreiro)}
       >
         <div className="grid w-full grid-cols-12 gap-7">
-          <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
-            <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
-              <CardContent className="w-full py-0">
-                <EditEncontreiroNavigation />
-              </CardContent>
-            </Card>
-          </div>
+          <Nav>
+            <NavItem
+              title="Dados Pessoais"
+              icon={User}
+              link="#personal-section"
+            />
+            <NavItem
+              title="Endereço"
+              icon={Building2}
+              link="#address-section"
+            />
+            <NavItem title="EJC" icon={BookUser} link="#ejc-section" />
+            <NavItem title="Salvar" icon={Save} link="#save-section" />
+          </Nav>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
               {/* <FormField control={control} name="id" render={() => <></>} /> */}

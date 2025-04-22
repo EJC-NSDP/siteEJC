@@ -1,4 +1,4 @@
-import type { CarroFromEncontro } from '@/app/api/encontro/atual/carros/get-carros'
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
 import { CarroEmpty } from '@/components/Table/CarroEmpty'
 import type { SortableEncontristaCarro } from './CardEncontristasCarro'
 import { Carro, type CarroDroppable } from './Carro'

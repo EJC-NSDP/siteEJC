@@ -1,11 +1,23 @@
 'use client'
 
 import type { EncontristaData } from '@/app/api/encontrista/[id]/get-encontrista'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Bed,
+  Building2,
+  Clipboard,
+  ClipboardCheck,
+  FileHeart,
+  Save,
+  User,
+  Users,
+} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -14,7 +26,6 @@ import { AddressCard } from './pageComponents/AddressCard'
 import { AddressEncontroCard } from './pageComponents/AddressEncontroCard'
 import { ExternaCard } from './pageComponents/ExternaCard'
 import { FamilyCard } from './pageComponents/FamilyCard'
-import { EditNavigation } from './pageComponents/Nav/edit-nav'
 import { NominationCard } from './pageComponents/NominationCard'
 import { OtherCard } from './pageComponents/OtherCard'
 import { PersonalCard } from './pageComponents/PersonalCard'
@@ -230,13 +241,37 @@ export function EditEncontristaForm({ data }: EditEncontristaProps) {
         onSubmit={handleSubmit(handleUpdateEncontreiro)}
       >
         <div className="grid w-full grid-cols-12 gap-7">
-          <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
-            <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
-              <CardContent className="w-full py-0">
-                <EditNavigation />
-              </CardContent>
-            </Card>
-          </div>
+          <Nav>
+            <NavItem
+              title="Dados Pessoais"
+              icon={User}
+              link="#personal-section"
+            />
+            <NavItem
+              title="Endereço"
+              icon={Building2}
+              link="#address-section"
+            />
+            <NavItem
+              title="Endereço Encontro"
+              icon={Bed}
+              link="#address-encontro-section"
+            />
+            <NavItem title="Família" icon={Users} link="#family-section" />
+            <NavItem
+              title="Indicação"
+              icon={FileHeart}
+              link="#nomination-section"
+            />
+            <NavItem title="Outros" icon={Clipboard} link="#other-section" />
+            <NavItem
+              title="Informações Extras"
+              icon={ClipboardCheck}
+              link="#externa-section"
+            />
+            <NavItem title="Salvar" icon={Save} link="#save-section" />
+          </Nav>
+
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
               <PersonalCard />

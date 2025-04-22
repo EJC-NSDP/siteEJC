@@ -1,3 +1,5 @@
+import { CardForm } from '@/components/Form/CardForm'
+import { CardFormSection } from '@/components/Form/CardFormSection'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -10,8 +12,6 @@ import { getMoraCom } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import { useHookFormMask } from 'use-mask-input'
-import { CardForm } from '../components/CardForm'
-import { CardFormSection } from '../components/CardFormSection'
 
 export function FamilyCard() {
   const form = useFormContext()
@@ -21,12 +21,7 @@ export function FamilyCard() {
     queryKey: ['moraCom'],
   })
 
-  const {
-    register,
-    // handleSubmit,
-    control,
-    // formState: { isSubmitting },
-  } = form
+  const { register, control } = form
 
   const registerWithMask = useHookFormMask(register)
 

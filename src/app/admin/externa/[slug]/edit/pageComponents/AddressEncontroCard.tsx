@@ -1,3 +1,5 @@
+import { CardForm } from '@/components/Form/CardForm'
+import { CardFormSection } from '@/components/Form/CardFormSection'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -6,8 +8,6 @@ import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { toast } from 'sonner'
 import { useHookFormMask } from 'use-mask-input'
-import { CardForm } from '../components/CardForm'
-import { CardFormSection } from '../components/CardFormSection'
 
 export function AddressEncontroCard() {
   const form = useFormContext()

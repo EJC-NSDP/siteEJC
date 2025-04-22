@@ -1,6 +1,6 @@
 'use client'
 
-import { CardForm } from '@/app/admin/(loggedUser)/ficha-de-cadastro/components/CardForm'
+import { CardForm } from '@/components/Form/CardForm'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'

@@ -1,21 +1,11 @@
-import type { CarFormData, PersonFormData } from '@/context/NewCarroContext'
+import type { CarFormData } from '@/@types/carro'
 import { prisma } from '@/lib/prisma'
 import { createSlugForTioExterna } from '@/utils/create-slug'
 import { getCurrentEncontro } from '../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { getNextCarroEncontro } from '../encontro/atual/[ignorar]/get-next-carro-encontro/get-next-carro-encontro'
 import { createEndereco } from '../endereco/create-endereco'
 
-export interface CreateCarroProps {
-  carro: CarFormData
-  motorista: PersonFormData
-  carona?: PersonFormData
-}
-
-export async function createCarro({
-  carro,
-  motorista,
-  carona,
-}: CreateCarroProps) {
+export async function createCarro({ carro, motorista, carona }: CarFormData) {
   const encontro = await getCurrentEncontro()
 
   if (!encontro) return null
@@ -62,7 +52,7 @@ export async function createCarro({
         celular: motorista.celular,
         telefone: motorista.telefone,
         email: motorista.email,
-        enderecoNumero: motorista.enderecoNumero,
+        enderecoNumero: parseInt(motorista.enderecoNumero, 10),
         slug: motoristaSlug,
         role: 'TIOEXTERNA',
       },
@@ -74,7 +64,7 @@ export async function createCarro({
   } else {
     await prisma.pessoa.update({
       data: {
-        enderecoNumero: motorista.enderecoNumero,
+        enderecoNumero: parseInt(motorista.enderecoNumero, 10),
       },
       where: {
         id: motorista.id,
@@ -86,7 +76,7 @@ export async function createCarro({
     data: {
       lugaresCarro: carro.lugaresCarro,
       modeloCarro: carro.modeloCarro,
-      observacaoMotorista: motorista.observacaoMotorista,
+      observacaoMotorista: motorista.observacaoMotorista || '',
       placaCarro: carro.placaCarro.toUpperCase(),
       idMotorista,
     },
@@ -126,7 +116,7 @@ export async function createCarro({
           enderecoCep: carona.enderecoCep,
           celular: carona.celular,
           telefone: carona.telefone,
-          enderecoNumero: carona.enderecoNumero,
+          enderecoNumero: parseInt(carona.enderecoNumero, 10),
           email: carona.email,
           slug: caronaSlug,
           role: 'TIOEXTERNA',
@@ -146,7 +136,7 @@ export async function createCarro({
     } else {
       await prisma.pessoa.update({
         data: {
-          enderecoNumero: carona.enderecoNumero,
+          enderecoNumero: parseInt(carona.enderecoNumero, 10),
         },
         where: {
           id: carona.id,

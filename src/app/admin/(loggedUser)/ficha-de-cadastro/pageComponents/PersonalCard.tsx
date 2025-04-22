@@ -1,3 +1,4 @@
+import { CardForm } from '@/components/Form/CardForm'
 import { DisabledInput } from '@/components/Form/DisabledInput'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
@@ -12,7 +13,6 @@ import { getTamanhoCamisa } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import { useHookFormMask } from 'use-mask-input'
-import { CardForm } from '../components/CardForm'
 
 export function PersonalCard() {
   const { data: tamanhoCamisa } = useQuery<SelectArray[]>({

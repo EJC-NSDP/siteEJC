@@ -1,10 +1,5 @@
-import { NewCarContextProvider } from '@/context/NewCarroContext'
-import { NewCarroForm } from './(form)/NewCarroForm'
+import { CarroForm } from '../(form)/pageComponents/CarroForm'
 
-export default async function CriarCarro() {
-  return (
-    <NewCarContextProvider>
-      <NewCarroForm />
-    </NewCarContextProvider>
-  )
+export default function CriarCarro() {
+  return <CarroForm />
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { CardForm } from '@/app/admin/(loggedUser)/ficha-de-cadastro/components/CardForm'
+import { CardForm } from '@/components/Form/CardForm'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,

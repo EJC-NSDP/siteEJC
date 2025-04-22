@@ -1,7 +1,7 @@
 'use client'
 
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
 import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
-import type { CarroFromEncontro } from '@/app/api/encontro/atual/carros/get-carros'
 import { api } from '@/lib/axios'
 import { hasDraggableData } from '@/utils/draggable-data'
 import {

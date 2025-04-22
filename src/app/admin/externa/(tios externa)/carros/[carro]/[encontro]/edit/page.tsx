@@ -1,14 +1,12 @@
-import type {
-  CarroData,
-  GetCarroProps,
-} from '@/app/api/carro/[carro]/[encontro]/get-carro'
+import type { CarFormData } from '@/@types/carro'
+import type { GetCarroProps } from '@/app/api/carro/[carro]/[encontro]/update/get-carro'
 import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
-import { EditCarroForm } from './EditCarroForm'
+import { CarroForm } from '../../../(form)/pageComponents/CarroForm'
 
 async function getCarro({ carro, encontro }: GetCarroProps) {
   const carroFound = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/carro/${carro}/${encontro}`,
+    `${process.env.NEXTAUTH_URL}/api/carro/${carro}/${encontro}/update`,
     { cache: 'no-store' },
   ).then(async (res) => await res.json())
 
@@ -18,11 +16,11 @@ async function getCarro({ carro, encontro }: GetCarroProps) {
 export default async function EditCarro({ params }: { params: GetCarroProps }) {
   const currentEncontro: EncontroData = await getCurrentEncontro()
 
-  const carro: CarroData = await getCarro(params)
+  const carro: CarFormData = await getCarro(params)
 
   const isFromThisEncontro = currentEncontro
     ? Number(params.encontro) === currentEncontro.numeroEncontro
     : false
 
-  return <EditCarroForm data={carro} disabled={!isFromThisEncontro} />
+  return <CarroForm data={carro} disabled={!isFromThisEncontro} />
 }

@@ -1,19 +1,21 @@
 'use client'
 
 import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { getColor } from '@/utils/fetch-color'
 import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { BookUser, Building2, KeyRound, Puzzle, Save, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AddressCard } from './pageComponents/AddressCard'
 import { EncontroCard } from './pageComponents/EncontroCard'
-import { CadastroNavigation } from './pageComponents/Nav/cadastro-nav'
 import { PasswordCard } from './pageComponents/PasswordCard'
 import { PersonalCard } from './pageComponents/PersonalCard'
 import { ProxEncontroCard } from './pageComponents/ProxEncontroCard'
@@ -176,13 +178,28 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
         onSubmit={handleSubmit(handleUpdateEncontreiro)}
       >
         <div className="grid grid-cols-12 gap-8">
-          <div className="hidden h-80 w-1/4 lg:col-span-3 lg:grid">
-            <Card className="fixed h-auto w-[19%] px-1 py-8 text-zinc-700">
-              <CardContent className="w-full p-0">
-                <CadastroNavigation changePassword={data.changePassword} />
-              </CardContent>
-            </Card>
-          </div>
+          <Nav>
+            {data.changePassword && (
+              <NavItem
+                title="Sua senha"
+                icon={KeyRound}
+                link="#password-section"
+              />
+            )}
+            <NavItem title="Sobre você" icon={User} link="#personal-section" />
+            <NavItem
+              title="Seu endereço"
+              icon={Building2}
+              link="#address-section"
+            />
+            <NavItem title="Sobre o EJC" icon={BookUser} link="#ejc-section" />
+            <NavItem
+              title="Sobre o próximo EJC"
+              icon={Puzzle}
+              link="#prox-ejc-section"
+            />
+            <NavItem title="Salvar" icon={Save} link="#save-section" />
+          </Nav>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
               {data.changePassword && <PasswordCard />}
