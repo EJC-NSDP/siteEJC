@@ -54,13 +54,12 @@ const encontreiroAddressFormScheme = z.object({
   enderecoNumero: z
     .string({ invalid_type_error: 'O número deve conter apenas dígitos.' })
     .regex(/^\d+$/, { message: 'O número deve conter apenas dígitos.' })
-    .min(1, { message: 'O número é obrigatório.' })
-    .transform((val) => parseInt(val, 10)),
+    .min(1, { message: 'O número é obrigatório.' }),
 })
 
 const encontreiroEncontroFormScheme = z.object({
-  idEncontro: z.string(),
-  idCirculo: z.string().optional(),
+  idEncontro: z.string({ required_error: 'Encontrão obrigatório' }),
+  idCirculo: z.string({ required_error: 'Escolha um círculo' }),
   equipes: z.array(equipeFormScheme),
 })
 
@@ -102,11 +101,11 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
         enderecoNumero:
           data && data.endereco.enderecoNumero
             ? data.endereco.enderecoNumero
-            : 0,
+            : '',
       },
       encontro: {
         idCirculo:
-          data && data.encontro.idCirculo ? data.encontro.idCirculo : '',
+          data && data.encontro.idCirculo ? data.encontro.idCirculo : 'nao_sei',
         idEncontro: data ? data.encontro.idEncontro : '',
         equipes: data ? data.encontro.equipes : [],
       },
@@ -115,6 +114,7 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
 
   const {
     handleSubmit,
+    // control,
     formState: { errors },
   } = form
 
@@ -122,7 +122,7 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
     setUpdating(true)
     if (formDataInput.slug === '') {
       await api
-        .post('encontreiro/update/', formDataInput)
+        .post('encontreiro/update', formDataInput)
         .then(async () => {
           router.push('/admin/dirigente')
         })
@@ -153,6 +153,7 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
           </div>
           <div className="col-span-full lg:col-start-4">
             <div className="flex flex-col gap-6">
+              {/* <FormField control={control} name="id" render={() => <></>} /> */}
               <PersonalDetails />
               <AddressDetails />
               <EncontroDetails />

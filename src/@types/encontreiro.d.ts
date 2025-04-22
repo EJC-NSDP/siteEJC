@@ -16,7 +16,7 @@ interface EncontreiroAddressFormData {
   cidade: string
   estado: string
   rua: string
-  enderecoNumero: number
+  enderecoNumero: string
 }
 
 interface EncontreiroEncontroFormData {

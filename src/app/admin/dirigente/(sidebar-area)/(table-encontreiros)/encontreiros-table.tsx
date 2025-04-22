@@ -46,8 +46,6 @@ async function getEncontreiros({
 
   const path = `encontreiro?${nameSearch}${statusSearch}${orderField}${orderDirection}page=${pageIndex}`
 
-  console.log(path)
-
   const response: EncontreiroSummary = await api
     .get(path)
     .then((response) => response.data)

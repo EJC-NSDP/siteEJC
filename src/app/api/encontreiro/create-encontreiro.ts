@@ -36,6 +36,11 @@ export async function createEncontreiro({
 
   const dataNascimento = stringToDate(pessoa.dataNascimento)
 
+  const circulo =
+    encontro.idCirculo && encontro.idCirculo === 'nao_sei'
+      ? undefined
+      : encontro.idCirculo
+
   const newEncontreiro = await prisma.pessoa.create({
     data: {
       nome: pessoa.nome,
@@ -45,7 +50,7 @@ export async function createEncontreiro({
       email: pessoa.email,
       apelido: pessoa.apelido,
       enderecoCep: endereco.enderecoCep,
-      enderecoNumero: endereco.enderecoNumero,
+      enderecoNumero: parseInt(endereco.enderecoNumero, 10),
       slug: encontreiroSlug,
       password: '$2a$08$9zaT7CNUBU/f2VDYRCoCku1m5xrutlNUn99j0prkNfsTuVapkSuSW',
       changePassword: true,
@@ -55,7 +60,7 @@ export async function createEncontreiro({
           dataNasc: dataNascimento,
           instagram: pessoa.instagram,
           idEncontro: foundEncontro.id,
-          idCirculo: encontro.idCirculo ? encontro.idCirculo : null,
+          idCirculo: circulo,
         },
       },
     },

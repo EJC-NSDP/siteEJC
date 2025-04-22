@@ -22,12 +22,7 @@ export function PersonalCard() {
     queryKey: ['religioes'],
   })
 
-  const {
-    register,
-    // handleSubmit,
-    control,
-    // formState: { isSubmitting },
-  } = form
+  const { register, control } = form
 
   const registerWithMask = useHookFormMask(register)
 

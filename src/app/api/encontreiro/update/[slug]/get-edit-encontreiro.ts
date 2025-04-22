@@ -118,7 +118,7 @@ export async function getEditEncontreiro(slug: string) {
       cidade: encontreiro.endereco.cidade,
       bairro: encontreiro.endereco.bairro,
       rua: encontreiro.endereco.rua,
-      enderecoNumero: encontreiro.enderecoNumero || 0,
+      enderecoNumero: encontreiro.enderecoNumero?.toString() || '',
     },
     encontro: {
       idEncontro: encontreiro.encontreiro!.encontro!.id,
