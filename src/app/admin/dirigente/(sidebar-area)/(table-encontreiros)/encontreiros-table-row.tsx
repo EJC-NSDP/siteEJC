@@ -1,11 +1,13 @@
-import { Pencil } from 'lucide-react'
+import { Pencil, RotateCcwKey } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import type { EncontreiroSummaryData } from '@/app/api/encontreiro/get-encontreiros-summary'
+import { AlertDialogGenericContent } from '@/components/Dialog/AlertDialogGenericContent'
 import { EncontreiroMontagemStatus } from '@/components/Table/EncontreiroMontagemStatus'
-import { AlertDialog } from '@/components/ui/alert-dialog'
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getColor } from '@/utils/fetch-color'
 import Link from 'next/link'
@@ -13,6 +15,12 @@ import { useState } from 'react'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroSummaryData
+}
+
+export async function resetPassword(encontreiroId: string) {
+  // await new Promise((resolve) => setTimeout(resolve, Math.random() * 10000))
+
+  return await api.patch(`encontreiro/${encontreiroId}/reset-password`)
 }
 
 export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
@@ -68,6 +76,12 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
               <RotateCcwKey className="size-4 text-zinc-400 hover:text-zinc-500" />
             </Button>
           </Link> */}
+
+          <AlertDialogTrigger asChild title="Resetar senha">
+            <Button variant="ghost" className="p-0">
+              <RotateCcwKey className="size-4 text-blue-400 hover:text-blue-500" />
+            </Button>
+          </AlertDialogTrigger>
           {/* <AlertDialogTrigger asChild title="Deletar">
             <Button variant="ghost" className="p-0">
               <Trash2 className="size-4 text-red-400 hover:text-red-500" />
@@ -76,11 +90,17 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         </TableCell>
       </TableRow>
 
-      {/* <DeleteDialog
+      <AlertDialogGenericContent
         idEncontreiro={encontreiro.id}
-        nomeEncontreiro={`${encontreiro.nome} ${encontreiro.sobrenome}`}
+        actionButton="Resetar"
         openFn={setOpen}
-      /> */}
+        actionFn={resetPassword}
+      >
+        <span>
+          Tem certeza que deseja resetar a senha de{' '}
+          <span className="font-bold">{encontreiro.nome}</span>?
+        </span>
+      </AlertDialogGenericContent>
     </AlertDialog>
   )
 }

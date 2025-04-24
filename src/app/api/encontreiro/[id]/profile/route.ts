@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server'
 import { getProfile } from './get-profile'
 
-interface EncontristaProps {
+interface ProfileProps {
   id: string
 }
 
-export async function GET(
-  request: Request,
-  context: { params: EncontristaProps },
-) {
+export async function GET(request: Request, context: { params: ProfileProps }) {
   const profile = await getProfile(context.params.id)
 
   return NextResponse.json(profile)
