@@ -35,10 +35,13 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
   const { register, watch, control, setValue, trigger } = form
 
   const cepValue = watch('motorista.enderecoCep')
+  const numeroEnderecoValue = watch('motorista.enderecoNumero')
   const idValue = watch('motorista.id')
   const roleValue: Role = watch('motorista.role')
 
   const cannotEdit = roleValue !== 'TIOEXTERNA' && idValue !== '0'
+  const cannotEditNumero =
+    roleValue !== 'TIOEXTERNA' && idValue !== '0' && numeroEnderecoValue !== '0'
 
   useEffect(() => {
     async function fetchAddress(cep: string) {
@@ -51,10 +54,10 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
           shouldValidate: false,
         })
         setValue('motorista.rua', addressData.street, { shouldValidate: false })
-        setValue('motorista.estado', addressData.street, {
+        setValue('motorista.estado', addressData.state, {
           shouldValidate: false,
         })
-        setValue('motorista.cidade', addressData.street, {
+        setValue('motorista.cidade', addressData.city, {
           shouldValidate: false,
         })
       }
@@ -97,9 +100,13 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
           shouldValidate: true,
         })
         if (pessoa.enderecoNumero) {
-          setValue('motorista.endNumero', pessoa.enderecoNumero.toString(), {
-            shouldValidate: true,
-          })
+          setValue(
+            'motorista.enderecoNumero',
+            pessoa.enderecoNumero.toString(),
+            {
+              shouldValidate: true,
+            },
+          )
         }
         setValue('motorista.bairro', pessoa.bairro, {
           shouldValidate: true,
@@ -134,7 +141,7 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
 
     function clearPessoa(id: string) {
       setValue('motorista.id', id)
-      setValue('motorista.role', undefined)
+      setValue('motorista.role', 'TIOEXTERNA')
       setValue('motorista.nome', '')
       setValue('motorista.sobrenome', '')
       setValue('motorista.apelido', '')
@@ -166,8 +173,8 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
 
   return (
     <CardForm title="Motorista" sectionId="driver-section">
-      <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 lg:gap-8">
+      <div className="flex flex-col gap-4 pt-4 lg:gap-8">
+        <div className="grid grid-cols-1 gap-4 lg:gap-8">
           <FormField
             control={control}
             name="motorista.id"
@@ -183,12 +190,6 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
                     key={'novo_tio'}
                     value={'0'}
                     text={'Novo Tio de externa'}
-                  />
-
-                  <SelectItem
-                    key={'sem_tio'}
-                    value={'1'}
-                    text={'Não terá carona'}
                   />
                   {possiveisExternas &&
                     possiveisExternas.map((item) => {
@@ -207,7 +208,7 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
           />
         </div>
 
-        <div className="col-span-2 grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
+        <div className="col-span-2 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
           <FormField
             control={control}
             name="motorista.nome"
@@ -314,7 +315,7 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
             name="motorista.enderecoNumero"
             render={({ field }) => (
               <TextInput label={'Número do endereço*'}>
-                <Input readOnly={cannotEdit} {...field} />
+                <Input readOnly={cannotEditNumero} {...field} />
               </TextInput>
             )}
           />

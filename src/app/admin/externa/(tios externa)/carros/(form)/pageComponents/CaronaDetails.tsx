@@ -52,10 +52,10 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
           shouldValidate: false,
         })
         setValue('carona.rua', addressData.street, { shouldValidate: false })
-        setValue('carona.estado', addressData.street, {
+        setValue('carona.estado', addressData.state, {
           shouldValidate: false,
         })
-        setValue('carona.cidade', addressData.street, {
+        setValue('carona.cidade', addressData.city, {
           shouldValidate: false,
         })
       }
@@ -134,7 +134,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
 
     function clearPessoa(id: string) {
       setValue('carona.id', id)
-      setValue('carona.role', undefined)
+      setValue('carona.role', 'TIOEXTERNA')
       setValue('carona.nome', '')
       setValue('carona.sobrenome', '')
       setValue('carona.apelido', '')
@@ -165,8 +165,8 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
 
   return (
     <CardForm title="Carona" sectionId="copilot-section">
-      <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 lg:gap-8">
+      <div className="flex flex-col gap-4 pt-4 lg:gap-8">
+        <div className="grid grid-cols-1 gap-4 lg:gap-8">
           <FormField
             control={control}
             name="carona.id"
@@ -207,7 +207,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
         </div>
 
         {noCarona && (
-          <div className="col-span-2 grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
+          <div className="col-span-2 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
             <FormField
               control={control}
               name="carona.nome"

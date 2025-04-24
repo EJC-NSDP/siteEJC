@@ -23,7 +23,7 @@ interface CarroFormProps {
   disabled?: boolean
 }
 
-const carroCarroFormScheme = z.object({
+const carroFormScheme = z.object({
   numeroCarro: z.preprocess(
     (val) => {
       return typeof val === 'string' ? parseInt(val, 10) : val
@@ -31,7 +31,6 @@ const carroCarroFormScheme = z.object({
     z.number().min(1, { message: 'O número é obrigatório.' }),
   ),
   placaCarro: z.string({ required_error: 'A placa é obrigatório.' }),
-  observacaoExterna: z.string().optional(),
   modeloCarro: z.string({ required_error: 'O modelo do carro é obrigatório.' }),
   lugaresCarro: z.preprocess(
     (val) => {
@@ -39,6 +38,7 @@ const carroCarroFormScheme = z.object({
     },
     z.number().min(1, { message: 'O número de vafas é obrigatório.' }),
   ),
+  observacaoExterna: z.string().optional(),
 })
 
 const carroPessoaFormScheme = z.object({
@@ -75,36 +75,50 @@ const carroPessoaFormScheme = z.object({
   observacaoMotorista: z.string().optional(),
 })
 
-const carroFormScheme = z.object({
-  idCarro: z.string(),
-  numeroEncontro: z.number(),
-  carro: carroCarroFormScheme,
-  motorista: carroPessoaFormScheme,
-  carona: carroPessoaFormScheme.nullable(),
+const caronaFormScheme = carroPessoaFormScheme.superRefine((data, ctx) => {
+  if (data.id === '1') {
+    return
+  }
+  const result = carroPessoaFormScheme.safeParse(data)
+  if (!result.success) {
+    for (const issue of result.error.issues) {
+      ctx.addIssue(issue)
+    }
+  }
 })
 
-export type CarroFormDataInput = z.infer<typeof carroFormScheme>
+const novoCarroFormScheme = z.object({
+  idCarro: z.string(),
+  numeroEncontro: z.number(),
+  carro: carroFormScheme,
+  motorista: carroPessoaFormScheme,
+  carona: caronaFormScheme.nullable(),
+})
+
+export type CarroFormDataInput = z.infer<typeof novoCarroFormScheme>
 
 export function CarroForm({ data, disabled }: CarroFormProps) {
-  const [isUpdating, setUpdating] = useState(false)
+  const isCreating = !data
+  const [isSending, setIsSending] = useState(false)
   const router = useRouter()
 
   const form = useForm<CarroFormDataInput>({
-    resolver: zodResolver(carroFormScheme),
+    resolver: zodResolver(novoCarroFormScheme),
     defaultValues: {
       idCarro: data?.idCarro || '',
       numeroEncontro: data?.numeroEncontro || 1,
       carro: {
-        modeloCarro: data?.carro.modeloCarro || '',
-        placaCarro: data?.carro.placaCarro || '',
+        modeloCarro: data?.carro.modeloCarro || undefined,
+        placaCarro: data?.carro.placaCarro || undefined,
         lugaresCarro: data?.carro.lugaresCarro || 4,
-        observacaoExterna: data?.carro.observacaoExterna || '',
-        numeroCarro: data?.carro.numeroCarro || 1,
+        observacaoExterna: data?.carro.observacaoExterna || undefined,
+        numeroCarro: data?.carro.numeroCarro || undefined,
       },
       motorista: {
         id: data?.motorista.id || '-1',
         nome: data?.motorista.nome || '',
         sobrenome: data?.motorista.sobrenome || '',
+        role: data?.motorista.role || 'TIOEXTERNA',
         celular: data?.motorista.celular || '',
         telefone: data?.motorista.telefone || undefined,
         email: data?.motorista.email || '',
@@ -122,6 +136,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
         id: data?.carona?.id || '-1',
         nome: data?.carona?.nome || '',
         sobrenome: data?.carona?.sobrenome || '',
+        role: data?.motorista.role || 'TIOEXTERNA',
         celular: data?.carona?.celular || '',
         telefone: data?.carona?.telefone || undefined,
         email: data?.carona?.email || '',
@@ -143,9 +158,8 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
   } = form
 
   async function handleUpdateCarro(formDataInput: CarFormData) {
-    setUpdating(true)
+    setIsSending(true)
     if (formDataInput.idCarro === '') {
-      console.log('create')
       await api
         .post('carro', formDataInput)
         .then(async () => {
@@ -202,7 +216,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
                           type="button"
                           variant="outline"
                           className="disabled:opacity-50' h-10 w-40 disabled:cursor-wait"
-                          disabled={isUpdating}
+                          disabled={isSending}
                         >
                           Voltar
                         </Button>
@@ -210,10 +224,10 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
                       <Button
                         type="submit"
                         className="flex h-10 w-40 aria-hidden:hidden"
-                        disabled={isUpdating}
+                        disabled={isSending}
                         aria-hidden={disabled}
                       >
-                        {data ? 'Atualizar' : 'Criar'}
+                        {isCreating ? 'Criar' : 'Atualizar'}
                       </Button>
                     </div>
                   </div>

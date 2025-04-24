@@ -16,8 +16,7 @@ export async function getNextCarroEncontro() {
     const response = await api.get('encontro/atual/1/get-next-carro-encontro')
     return response.data
   } catch (error) {
-    console.error('Erro ao buscar o próximo encontro do carro:', error)
-    throw error
+    return 1
   }
 }
 

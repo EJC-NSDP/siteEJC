@@ -2,7 +2,6 @@ import type { CarFormData } from '@/@types/carro'
 import { prisma } from '@/lib/prisma'
 import { createSlugForTioExterna } from '@/utils/create-slug'
 import { getCurrentEncontro } from '../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
-import { getNextCarroEncontro } from '../encontro/atual/[ignorar]/get-next-carro-encontro/get-next-carro-encontro'
 import { createEndereco } from '../endereco/create-endereco'
 
 export async function createCarro({ carro, motorista, carona }: CarFormData) {
@@ -156,11 +155,9 @@ export async function createCarro({ carro, motorista, carona }: CarFormData) {
 
   if (!carroCreated) return null
 
-  const numeroCarro = await getNextCarroEncontro()
-
   const carroEncontro = await prisma.carroEncontro.create({
     data: {
-      numeroCarro,
+      numeroCarro: carro.numeroCarro,
       idCarro: carroCreated.id,
       idEncontro: encontro.id,
       observacao: carro.observacaoExterna,
