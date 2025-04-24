@@ -138,7 +138,7 @@ export function EncontreirosTable() {
       <div className="flex flex-col gap-4 py-1">
         <EncontreiroTableFilters />
         <div className="w-full overflow-x-auto bg-transparent">
-          <Table className="w-full table-fixed text-xs">
+          <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>
               <TableRow className="px-2">
                 <SortableTableHead

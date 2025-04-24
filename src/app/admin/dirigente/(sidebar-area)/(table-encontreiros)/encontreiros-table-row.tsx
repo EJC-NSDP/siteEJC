@@ -1,11 +1,11 @@
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import type { EncontreiroSummaryData } from '@/app/api/encontreiro/get-encontreiros-summary'
 import { EncontreiroMontagemStatus } from '@/components/Table/EncontreiroMontagemStatus'
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { AlertDialog } from '@/components/ui/alert-dialog'
 import { cn } from '@/lib/utils'
 import { getColor } from '@/utils/fetch-color'
 import Link from 'next/link'
@@ -51,17 +51,28 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
             encontreiroId={encontreiro.id}
           />
         </TableCell>
-        <TableCell className="flex gap-2 pr-4" title="Editar">
-          <Link href={`/admin/dirigente/encontreiro/${encontreiro.slug}/edit`}>
+        <TableCell className="flex gap-2 pr-4">
+          <Link
+            href={`/admin/dirigente/encontreiro/${encontreiro.slug}/edit`}
+            title="Editar"
+          >
             <Button variant="ghost" className="p-0">
               <Pencil className="size-4 text-zinc-400 hover:text-zinc-500" />
             </Button>
           </Link>
-          <AlertDialogTrigger asChild title="Deletar">
+          {/* <Link
+            href={`/admin/dirigente/encontreiro/${encontreiro.slug}/edit`}
+            title="Resetar senha"
+          >
+            <Button variant="ghost" className="p-0">
+              <RotateCcwKey className="size-4 text-zinc-400 hover:text-zinc-500" />
+            </Button>
+          </Link> */}
+          {/* <AlertDialogTrigger asChild title="Deletar">
             <Button variant="ghost" className="p-0">
               <Trash2 className="size-4 text-red-400 hover:text-red-500" />
             </Button>
-          </AlertDialogTrigger>
+          </AlertDialogTrigger> */}
         </TableCell>
       </TableRow>
 

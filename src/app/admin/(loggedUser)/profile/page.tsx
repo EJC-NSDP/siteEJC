@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getInitials } from '@/utils/get-initials'
-import { CarFront, ClipboardList, FolderOpen } from 'lucide-react'
+import { Album, CarFront, ClipboardList, FolderOpen } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -154,6 +154,15 @@ export default function Profile() {
                         label="Painel da Externa"
                         icon={CarFront}
                         link="/admin/externa"
+                      />
+                    )}
+
+                    {(profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
+                      <ButtonLabel
+                        label="Painel da Dirigencia"
+                        icon={Album}
+                        link="/admin/dirigente"
                       />
                     )}
 

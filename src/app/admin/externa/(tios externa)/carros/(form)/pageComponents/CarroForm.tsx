@@ -167,7 +167,6 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
         })
         .catch((err) => console.log(err, errors))
     } else {
-      console.log('update')
       await api
         .put(
           `carro/${formDataInput.idCarro}/${formDataInput.numeroEncontro}/update`,
