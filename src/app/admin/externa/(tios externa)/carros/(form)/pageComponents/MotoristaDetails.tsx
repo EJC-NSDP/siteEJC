@@ -269,8 +269,8 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
                   <Input
                     readOnly={cannotEdit}
                     {...field}
-                    {...registerWithMask(field.name, '(99) [9]9999-9999')}
-                    placeholder="(__) _____-____"
+                    {...registerWithMask(field.name, '(99) 9999-9999')}
+                    placeholder="(__) ____-____"
                   />
                 </TextInput>
               )

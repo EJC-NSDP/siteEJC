@@ -271,8 +271,8 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
                     <Input
                       readOnly={cannotEdit}
                       {...field}
-                      {...registerWithMask(field.name, '(99) [9]9999-9999')}
-                      placeholder="(__) _____-____"
+                      {...registerWithMask(field.name, '(99) 9999-9999')}
+                      placeholder="(__) ____-____"
                     />
                   </TextInput>
                 )
