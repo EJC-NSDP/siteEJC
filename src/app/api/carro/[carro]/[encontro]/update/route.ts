@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server'
+import type { CarFormData } from '@/@types/carro'
+import { NextResponse, type NextRequest } from 'next/server'
 import { getCarro, type GetCarroProps } from './get-carro'
+import { updateCarro } from './update-carro'
 
 export async function GET(
   request: Request,
@@ -8,4 +10,21 @@ export async function GET(
   const carro = await getCarro(context.params)
 
   return NextResponse.json(carro)
+}
+
+export async function PUT(request: NextRequest) {
+  const formData: CarFormData = await request.json()
+
+  const updated = await updateCarro(formData)
+
+  if (!updated) {
+    return NextResponse.json({ status: 400 })
+  }
+
+  const carroUpdated = {
+    idCarro: updated.idCarro,
+    idEncontro: updated.idEncontro,
+  }
+
+  return NextResponse.json(carroUpdated, { status: 201 })
 }

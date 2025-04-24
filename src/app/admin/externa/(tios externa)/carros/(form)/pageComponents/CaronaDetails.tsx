@@ -314,7 +314,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
               name="carona.enderecoNumero"
               render={({ field }) => (
                 <TextInput label={'Número do endereço*'}>
-                  <Input readOnly={cannotEdit} {...field} />
+                  <Input readOnly={disabled} {...field} />
                 </TextInput>
               )}
             />

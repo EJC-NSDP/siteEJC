@@ -133,7 +133,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
       },
 
       carona: {
-        id: data?.carona?.id || '-1',
+        id: data?.carona?.id || '1',
         nome: data?.carona?.nome || '',
         sobrenome: data?.carona?.sobrenome || '',
         role: data?.motorista.role || 'TIOEXTERNA',

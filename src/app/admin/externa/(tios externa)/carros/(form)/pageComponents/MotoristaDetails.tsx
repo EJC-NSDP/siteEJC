@@ -35,13 +35,10 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
   const { register, watch, control, setValue, trigger } = form
 
   const cepValue = watch('motorista.enderecoCep')
-  const numeroEnderecoValue = watch('motorista.enderecoNumero')
   const idValue = watch('motorista.id')
   const roleValue: Role = watch('motorista.role')
 
   const cannotEdit = roleValue !== 'TIOEXTERNA' && idValue !== '0'
-  const cannotEditNumero =
-    roleValue !== 'TIOEXTERNA' && idValue !== '0' && numeroEnderecoValue !== '0'
 
   useEffect(() => {
     async function fetchAddress(cep: string) {
@@ -315,7 +312,7 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
             name="motorista.enderecoNumero"
             render={({ field }) => (
               <TextInput label={'Número do endereço*'}>
-                <Input readOnly={cannotEditNumero} {...field} />
+                <Input readOnly={disabled} {...field} />
               </TextInput>
             )}
           />
