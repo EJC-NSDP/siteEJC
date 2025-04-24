@@ -36,6 +36,7 @@ export async function getCarros() {
           observacaoMotorista: true,
           pessoaMotorista: {
             select: {
+              nome: true,
               apelido: true,
               endereco: {
                 select: {
@@ -46,6 +47,7 @@ export async function getCarros() {
           },
           pessoaCarona: {
             select: {
+              nome: true,
               apelido: true,
               endereco: {
                 select: {
@@ -60,6 +62,7 @@ export async function getCarros() {
         select: {
           pessoa: {
             select: {
+              nome: true,
               apelido: true,
             },
           },
@@ -94,7 +97,8 @@ export async function getCarros() {
   const response: CarroFromEncontro[] = carrosWithZona.map((carro) => {
     const carona: TioExterna | undefined = carro.carro.pessoaCarona
       ? {
-          nome: carro.carro.pessoaCarona.apelido!,
+          nome:
+            carro.carro.pessoaCarona.apelido || carro.carro.pessoaCarona.nome,
           tipo: 'Carona',
         }
       : undefined
@@ -107,11 +111,14 @@ export async function getCarros() {
       bairro: carro.carro.pessoaMotorista.endereco.bairro,
       zona: carro.zona,
       motorista: {
-        nome: carro.carro.pessoaMotorista.apelido!,
+        nome:
+          carro.carro.pessoaMotorista.apelido ||
+          carro.carro.pessoaMotorista.nome,
         tipo: 'Motorista',
       },
       carona,
-      responsavelExterna: carro.externa?.pessoa?.apelido || '',
+      responsavelExterna:
+        carro.externa?.pessoa?.apelido || carro.externa?.pessoa?.nome || '',
     }
   })
 
