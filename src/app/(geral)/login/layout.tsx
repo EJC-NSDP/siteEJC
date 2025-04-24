@@ -13,7 +13,7 @@ export default async function LoginLayout({ children }: LoginLayoutProps) {
   const session = await getServerSession(authOptions)
 
   if (session) {
-    redirect('/admin/externa')
+    redirect('/admin/profile')
   }
   return <>{children}</>
 }
