@@ -6,9 +6,9 @@ import {
 
 export async function PATCH(
   request: Request,
-  context: { params: changeStatusMontagemRouteProps },
+  context: { params: Promise<changeStatusMontagemRouteProps> },
 ) {
-  const updated = await changeStatusMontagem(context.params)
+  const updated = await changeStatusMontagem(await context.params)
 
   if (!updated) return NextResponse.json({}, { status: 400 })
 

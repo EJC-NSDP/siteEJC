@@ -15,11 +15,10 @@ async function getEncontrista(slug: string) {
   return encontrista
 }
 
-export default async function EditEncontrista({
-  params,
-}: {
-  params: { slug: string }
+export default async function EditEncontrista(props: {
+  params: Promise<{ slug: string }>
 }) {
+  const params = await props.params
   const encontrista: EncontristaData = await getEncontrista(params.slug)
 
   return <EditEncontristaForm data={encontrista} />

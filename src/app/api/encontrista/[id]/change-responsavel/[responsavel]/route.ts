@@ -6,9 +6,9 @@ import {
 
 export async function PATCH(
   request: Request,
-  context: { params: changeResponsavelRouteProps },
+  context: { params: Promise<changeResponsavelRouteProps> },
 ) {
-  const updated = await changeResponsavel(context.params)
+  const updated = await changeResponsavel(await context.params)
 
   if (!updated) {
     return NextResponse.json({ status: 400 })

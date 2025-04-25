@@ -5,8 +5,11 @@ interface BairroProps {
   bairro: string
 }
 
-export async function GET(request: Request, context: { params: BairroProps }) {
-  const bairroZona = await getZona(context.params.bairro)
+export async function GET(
+  request: Request,
+  context: { params: Promise<BairroProps> },
+) {
+  const bairroZona = await getZona((await context.params).bairro)
 
   return NextResponse.json(bairroZona)
 }

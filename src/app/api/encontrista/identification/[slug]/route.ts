@@ -7,9 +7,9 @@ interface EncontristaSumaryProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontristaSumaryProps },
+  context: { params: Promise<EncontristaSumaryProps> },
 ) {
-  const encontrista = await getIdentification(context.params.slug)
+  const encontrista = await getIdentification((await context.params).slug)
 
   return NextResponse.json(encontrista)
 }

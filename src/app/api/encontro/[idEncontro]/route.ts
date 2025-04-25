@@ -7,9 +7,11 @@ interface EncontroProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontroProps },
+  context: { params: Promise<EncontroProps> },
 ) {
-  const encontro = await getEncontro(Number(context.params.numeroEncontro))
+  const encontro = await getEncontro(
+    Number((await context.params).numeroEncontro),
+  )
 
   return NextResponse.json(encontro)
 }

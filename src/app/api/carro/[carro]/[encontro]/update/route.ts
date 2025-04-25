@@ -5,9 +5,9 @@ import { updateCarro } from './update-carro'
 
 export async function GET(
   request: Request,
-  context: { params: GetCarroProps },
+  context: { params: Promise<GetCarroProps> },
 ) {
-  const carro = await getCarro(context.params)
+  const carro = await getCarro(await context.params)
 
   return NextResponse.json(carro)
 }

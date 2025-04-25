@@ -7,9 +7,9 @@ interface CheckEmailProps {
 
 export async function GET(
   request: Request,
-  context: { params: CheckEmailProps },
+  context: { params: Promise<CheckEmailProps> },
 ) {
-  const email = context.params.email.toLowerCase()
+  const email = (await context.params).email.toLowerCase()
 
   const emailExists = await checkEmailExists(email)
 

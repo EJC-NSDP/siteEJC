@@ -9,9 +9,9 @@ interface EncontreiroProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontreiroProps },
+  context: { params: Promise<EncontreiroProps> },
 ) {
-  const encontreiro = await getEditEncontreiro(context.params.slug)
+  const encontreiro = await getEditEncontreiro((await context.params).slug)
 
   return NextResponse.json(encontreiro)
 }

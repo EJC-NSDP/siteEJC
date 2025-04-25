@@ -3,9 +3,9 @@ import { updateEndereco, type EnderecoUpdateProps } from './update-endereco'
 
 export async function PUT(
   request: Request,
-  context: { params: EnderecoUpdateProps },
+  context: { params: Promise<EnderecoUpdateProps> },
 ) {
-  const updated = await updateEndereco(context.params)
+  const updated = await updateEndereco(await context.params)
 
   if (!updated) {
     return NextResponse.json({ status: 400 })

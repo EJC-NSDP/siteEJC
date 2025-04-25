@@ -3,9 +3,9 @@ import { changeStatus, type changeStatusRouteProps } from './change-status'
 
 export async function PATCH(
   request: Request,
-  context: { params: changeStatusRouteProps },
+  context: { params: Promise<changeStatusRouteProps> },
 ) {
-  const updated = await changeStatus(context.params)
+  const updated = await changeStatus(await context.params)
 
   const infoPatched = {
     id: updated.idPessoa,

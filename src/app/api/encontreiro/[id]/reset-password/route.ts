@@ -7,9 +7,9 @@ export interface ResetPasswordProps {
 
 export async function PATCH(
   request: Request,
-  context: { params: ResetPasswordProps },
+  context: { params: Promise<ResetPasswordProps> },
 ) {
-  const updated = await resetPassword(context.params)
+  const updated = await resetPassword(await context.params)
 
   if (!updated) {
     return NextResponse.json({ status: 400 })

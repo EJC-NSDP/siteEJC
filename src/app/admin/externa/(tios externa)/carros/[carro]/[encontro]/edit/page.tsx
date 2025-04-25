@@ -13,7 +13,10 @@ async function getCarro({ carro, encontro }: GetCarroProps) {
   return carroFound
 }
 
-export default async function EditCarro({ params }: { params: GetCarroProps }) {
+export default async function EditCarro(props: {
+  params: Promise<GetCarroProps>
+}) {
+  const params = await props.params
   const currentEncontro: EncontroData = await getCurrentEncontro()
 
   const carro: CarFormData = await getCarro(params)

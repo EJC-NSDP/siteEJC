@@ -6,9 +6,9 @@ interface EncontroProps {
 }
 export async function GET(
   request: Request,
-  context: { params: EncontroProps },
+  context: { params: Promise<EncontroProps> },
 ) {
-  const circulos = await getCirculos(context.params.idEncontro)
+  const circulos = await getCirculos((await context.params).idEncontro)
 
   return NextResponse.json(circulos)
 }

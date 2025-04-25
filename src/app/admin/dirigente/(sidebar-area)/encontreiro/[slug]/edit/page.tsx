@@ -10,11 +10,10 @@ async function getEncontreiro(slug: string) {
   return encontreiro
 }
 
-export default async function EditEncontreiro({
-  params,
-}: {
-  params: { slug: string }
+export default async function EditEncontreiro(props: {
+  params: Promise<{ slug: string }>
 }) {
+  const params = await props.params
   const encontreiro: EncontreiroFormData = await getEncontreiro(params.slug)
 
   return <EncontreiroForm data={encontreiro} />

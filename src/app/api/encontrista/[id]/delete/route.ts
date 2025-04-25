@@ -8,18 +8,18 @@ interface EncontristaProps {
 
 export async function PATCH(
   request: Request,
-  context: { params: EncontristaProps },
+  context: { params: Promise<EncontristaProps> },
 ) {
-  const deleted = await softDeleteEncontrista(context.params.id)
+  const deleted = await softDeleteEncontrista((await context.params).id)
 
   return NextResponse.json(deleted)
 }
 
 export async function DELETE(
   request: Request,
-  context: { params: EncontristaProps },
+  context: { params: Promise<EncontristaProps> },
 ) {
-  const encontrista = await deleteEncontrista(context.params.id)
+  const encontrista = await deleteEncontrista((await context.params).id)
 
   return NextResponse.json(encontrista)
 }

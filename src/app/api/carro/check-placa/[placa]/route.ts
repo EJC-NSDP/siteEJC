@@ -7,9 +7,9 @@ interface CheckPlacaProps {
 
 export async function GET(
   request: Request,
-  context: { params: CheckPlacaProps },
+  context: { params: Promise<CheckPlacaProps> },
 ) {
-  const placa = context.params.placa.toUpperCase()
+  const placa = (await context.params).placa.toUpperCase()
 
   const placaExists = await checkPlacaExists(placa)
 

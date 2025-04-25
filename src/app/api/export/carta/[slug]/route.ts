@@ -7,9 +7,11 @@ interface EncontristaCartaProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontristaCartaProps },
+  context: { params: Promise<EncontristaCartaProps> },
 ) {
-  const encontristaCartas = await getEncontristaCartas(context.params.slug)
+  const encontristaCartas = await getEncontristaCartas(
+    (await context.params).slug,
+  )
 
   return NextResponse.json(encontristaCartas, { status: 200 })
 }

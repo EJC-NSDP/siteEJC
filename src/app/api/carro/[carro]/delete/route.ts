@@ -6,9 +6,9 @@ interface CarroProps {
 }
 export async function DELETE(
   request: Request,
-  context: { params: CarroProps },
+  context: { params: Promise<CarroProps> },
 ) {
-  const carro = await deleteCarro(context.params.carro)
+  const carro = await deleteCarro((await context.params).carro)
 
   return NextResponse.json(carro)
 }

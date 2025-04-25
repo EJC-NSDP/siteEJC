@@ -7,9 +7,9 @@ interface EncontristaProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontristaProps },
+  context: { params: Promise<EncontristaProps> },
 ) {
-  const pessoa = await getPreviousExternaInfo(context.params.idExterna)
+  const pessoa = await getPreviousExternaInfo((await context.params).idExterna)
 
   if (!pessoa) {
     return NextResponse.json('')

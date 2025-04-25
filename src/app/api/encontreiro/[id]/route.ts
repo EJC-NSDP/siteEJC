@@ -7,9 +7,9 @@ interface EncontristaProps {
 
 export async function GET(
   request: Request,
-  context: { params: EncontristaProps },
+  context: { params: Promise<EncontristaProps> },
 ) {
-  const encontreiro = await getEncontreiro(context.params.id)
+  const encontreiro = await getEncontreiro((await context.params).id)
 
   return NextResponse.json(encontreiro)
 }

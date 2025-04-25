@@ -7,9 +7,9 @@ interface TioExternaProps {
 
 export async function GET(
   request: Request,
-  context: { params: TioExternaProps },
+  context: { params: Promise<TioExternaProps> },
 ) {
-  const encontrista = await getTioExterna(context.params.id)
+  const encontrista = await getTioExterna((await context.params).id)
 
   return NextResponse.json(encontrista)
 }

@@ -3,9 +3,9 @@ import { changeCirculo, type changeCirculoRouteProps } from './change-circulo'
 
 export async function PATCH(
   request: Request,
-  context: { params: changeCirculoRouteProps },
+  context: { params: Promise<changeCirculoRouteProps> },
 ) {
-  const updated = await changeCirculo(context.params)
+  const updated = await changeCirculo(await context.params)
 
   if (!updated) {
     return NextResponse.json({ status: 400 })
