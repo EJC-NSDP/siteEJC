@@ -22,7 +22,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           'dark:focus-within:border-zinc-500 dark:focus-within:ring-amber-500/20',
         )}
       >
-        <Search className="h-6 w-6 text-zinc-500" />
+        <Search className="size-5 text-zinc-500" />
         {prefix && <span className="text-zinc-400">{prefix}</span>}
         <input
           className={cn(

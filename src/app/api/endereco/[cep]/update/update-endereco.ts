@@ -12,38 +12,28 @@ export async function updateEndereco({
   bairro,
   rua,
 }: EnderecoUpdateProps) {
-  const foundEndereco = await prisma.endereco.findUnique({
+  const response = await getCEPData(cep)
+  if (!response) return null
+
+  const fetchedCEP: CEPResponse = await response.json()
+
+  return await prisma.endereco.upsert({
     where: {
       cep,
     },
-  })
-  if (!foundEndereco) {
-    const response = await getCEPData(cep)
-
-    if (response === undefined) {
-      return null
-    }
-
-    const addressData: CEPResponse = await response.json()
-
-    return await prisma.endereco.create({
-      data: {
-        cep,
-        bairro,
-        rua,
-        cidade: addressData.city,
-        estado: addressData.state,
-      },
-    })
-  }
-
-  return await prisma.endereco.update({
-    data: {
+    create: {
+      cep,
       bairro,
       rua,
+      cidade: fetchedCEP.city,
+      estado: fetchedCEP.state,
     },
-    where: {
+    update: {
       cep,
+      bairro,
+      rua,
+      cidade: fetchedCEP.city,
+      estado: fetchedCEP.state,
     },
   })
 }

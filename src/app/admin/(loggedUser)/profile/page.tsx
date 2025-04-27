@@ -8,7 +8,13 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getInitials } from '@/utils/get-initials'
-import { Album, CarFront, ClipboardList, FolderOpen } from 'lucide-react'
+import {
+  Album,
+  BookUser,
+  CarFront,
+  ClipboardList,
+  FolderOpen,
+} from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -165,6 +171,18 @@ export default function Profile() {
                         link="/admin/dirigente"
                       />
                     )}
+
+                    {
+                      // profileData.role === 'SECRETARIA' ||
+                      // profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN' && (
+                        <ButtonLabel
+                          label="Quadrante"
+                          icon={BookUser}
+                          link="/admin/secretaria"
+                        />
+                      )
+                    }
 
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel

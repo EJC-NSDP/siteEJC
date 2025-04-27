@@ -20,7 +20,7 @@ export function EncontroCard() {
     <CardForm title="Sobre o EJC" sectionId="ejc-section">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DisabledInput
-          label="EJC que participou"
+          label="Encontro em que entrou"
           value={`${encontroValue}º EJC`}
         />
         <DisabledInput label="Círculo" value={circuloValue}>

@@ -84,14 +84,14 @@ export function EncontroDetails() {
 
   return (
     <CardForm title="No EJC" sectionId="ejc-section">
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
+      <div className="mt-4 flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-8">
         <FormField
           control={control}
           name="encontro.idEncontro"
           render={({ field }) => {
             return (
               <SelectGroupInput
-                label="EJC que fez *"
+                label="Encontro em que entrou *"
                 onChange={field.onChange}
                 value={field.value}
               >
@@ -116,7 +116,7 @@ export function EncontroDetails() {
           render={({ field }) => {
             return (
               <SelectGroupInput
-                label="Cor do círculo de origem"
+                label="Círculo de origem"
                 onChange={field.onChange}
                 value={field.value}
               >
@@ -136,14 +136,10 @@ export function EncontroDetails() {
           }}
         />
         <div className="col-span-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-sm font-medium">Equipes:</span>
-            <Button
-              className="size-8"
-              type="button"
-              onClick={() => addEquipe()}
-            >
-              +
+            <Button size="xs" type="button" onClick={() => addEquipe()}>
+              + Adicionar equipe
             </Button>
           </div>
           {fields.map((field, index) => {
@@ -154,9 +150,9 @@ export function EncontroDetails() {
             return (
               <Card
                 key={field.id}
-                className="mt-4 flex w-full items-center justify-between gap-12 bg-zinc-100 px-6 py-4"
+                className="mt-4 flex w-full flex-col items-center justify-between gap-8 bg-zinc-100 px-4 py-4 lg:flex-row lg:gap-12 lg:px-6"
               >
-                <div className="flex w-full items-start justify-between gap-8">
+                <div className="flex w-full flex-col items-start justify-between gap-4 lg:flex-row lg:gap-8">
                   <FormField
                     control={control}
                     name={`encontro.equipes.${index}.idEncontro`}
@@ -206,7 +202,7 @@ export function EncontroDetails() {
                         control={control}
                         name={`encontro.equipes.${index}.coordenou`}
                         render={({ field }) => (
-                          <div className="flex h-full flex-col items-center gap-4">
+                          <div className="flex h-full w-full flex-row items-center justify-between lg:w-auto lg:flex-col lg:gap-4">
                             <FormLabel>Coordenou?</FormLabel>
                             <Checkbox
                               checked={field.value}
@@ -219,11 +215,14 @@ export function EncontroDetails() {
                 </div>
                 <Button
                   type="button"
-                  variant="ghost"
-                  className="p-0"
+                  variant="destructive"
+                  className="w-full lg:w-auto"
                   onClick={() => remove(index)}
                 >
-                  <Trash2 className="size-5 text-red-400 hover:text-red-500" />
+                  <div className="flex items-center gap-2">
+                    <Trash2 className="size-4 text-red-500" />{' '}
+                    <span className="text-red-500 lg:sr-only">Deletar</span>
+                  </div>
                 </Button>
               </Card>
             )

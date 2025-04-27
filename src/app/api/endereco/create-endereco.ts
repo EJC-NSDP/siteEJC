@@ -15,7 +15,7 @@ export async function createEndereco({
   estado,
   rua,
 }: EnderecoProps) {
-  const foundEndereco = await prisma.endereco.findFirst({
+  const foundEndereco = await prisma.endereco.findUnique({
     where: {
       cep,
     },
