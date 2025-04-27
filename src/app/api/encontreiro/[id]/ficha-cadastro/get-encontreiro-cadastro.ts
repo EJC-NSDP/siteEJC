@@ -137,6 +137,7 @@ export async function getEncontreiroCadastro(id: string) {
           equipeLabel: true,
         },
       },
+      fichaPreenchida: true,
       coordenou: true,
     },
     where: {
@@ -187,7 +188,10 @@ export async function getEncontreiroCadastro(id: string) {
       idTamanhoCamisa: encontreiro.encontreiro!.idTamanhoCamisa,
       restricaoAlimentar: encontreiro.encontreiro!.restricaoAlimentar,
       obsBanda: encontreiro.encontreiro!.obsBanda,
-      observacoes: encontreiro.encontreiro!.observacoes,
+      observacoes:
+        equipeEncontroAtual && equipeEncontroAtual.fichaPreenchida
+          ? encontreiro.encontreiro!.observacoes
+          : '',
     },
     endereco: {
       cep: encontreiro.endereco.cep,
@@ -220,10 +224,16 @@ export async function getEncontreiroCadastro(id: string) {
       coordenou: equipeEncontroAtual ? equipeEncontroAtual.coordenou : false,
     },
     proxEncontro: {
-      disponibilidade: encontreiro.encontreiro!.disponibilidade
-        ? encontreiro.encontreiro!.disponibilidade.id
-        : 'NAO_PREENCHEU',
-      preferencias: listaPreferencias,
+      disponibilidade:
+        equipeEncontroAtual &&
+        equipeEncontroAtual.fichaPreenchida &&
+        encontreiro.encontreiro!.disponibilidade
+          ? encontreiro.encontreiro!.disponibilidade.id
+          : 'NAO_PREENCHEU',
+      preferencias:
+        equipeEncontroAtual && equipeEncontroAtual.fichaPreenchida
+          ? listaPreferencias
+          : [],
     },
   }
 
