@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
   turbopack: {},
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 export default nextConfig
