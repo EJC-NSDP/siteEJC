@@ -180,7 +180,7 @@ export default function Profile() {
                         <ButtonLabel
                           label="Quadrante"
                           icon={BookUser}
-                          link="/admin/secretaria"
+                          link="/admin/secretaria/encontreiros"
                         />
                       )
                     }
