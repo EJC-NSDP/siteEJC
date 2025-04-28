@@ -33,7 +33,7 @@ export default function MinhaEquipe() {
   const [corEquipe, setCorEquipe] = useState<string>('bg-zinc-200')
   const [equipeName, setEquipeName] = useState<string>('Carregando...')
 
-  const { data: result, isLoading } = useQuery<MinhaEquipe>({
+  const { data: result } = useQuery<MinhaEquipe>({
     queryKey: ['encontreiros', sessionId],
     queryFn: () => getEncontreirosEquipe(sessionId!),
     enabled: !!sessionId,
@@ -67,7 +67,7 @@ export default function MinhaEquipe() {
 
   return (
     <div className="w-full p-4 lg:px-24 lg:py-8">
-      {isLoading ? (
+      {!result ? (
         <CardLoading />
       ) : (
         <Card className="w-full overflow-hidden rounded-xl border-zinc-50">
@@ -76,7 +76,7 @@ export default function MinhaEquipe() {
             <span className="text-xl text-zinc-800  lg:text-3xl">
               {equipeName}
             </span>
-            {result && result.idEquipe !== 'dirigente' && (
+            {result.idEquipe !== 'dirigente' && (
               <Link href={result.pastaUrl}>
                 <Button
                   variant="default"
@@ -89,12 +89,10 @@ export default function MinhaEquipe() {
             )}
           </CardTitle>
           <CardContent className="flex flex-col gap-4 lg:flex-row lg:gap-8">
-            {result && (
-              <EncontreirosEquipeTable
-                equipe={result.encontreiros}
-                labelEquipe={result.equipeLabel}
-              />
-            )}
+            <EncontreirosEquipeTable
+              equipe={result.encontreiros}
+              labelEquipe={result.equipeLabel}
+            />
           </CardContent>
         </Card>
       )}
