@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.VERCEL === '1',
   },
 }
 
