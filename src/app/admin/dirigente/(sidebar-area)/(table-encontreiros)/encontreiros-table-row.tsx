@@ -39,7 +39,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         <TableCell className="text-nowrap pl-4 font-medium">
           {encontreiro.numeroEncontro}
         </TableCell>
-        <TableCell className="text-nowrap">{nomeCompleto}</TableCell>
+        <TableCell>{nomeCompleto}</TableCell>
         <TableCell>{encontreiro.bairro}</TableCell>
         <TableCell
           className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap"
@@ -49,7 +49,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-2">
-            <div className={cn(corCirculo, 'size-3 rounded-full  shadow-sm')} />
+            <div className={cn(corCirculo, 'size-3 rounded-full shadow-sm')} />
             <span className="text-xs">{encontreiro.circulo.nome}</span>
           </div>
         </TableCell>

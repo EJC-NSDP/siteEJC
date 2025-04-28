@@ -166,7 +166,7 @@ export function EncontreirosTable() {
                   handleFn={handleOrder}
                 />
                 <TableHead className="w-[200px]">E-mail</TableHead>
-                <TableHead className="w-[150px]">Círculo</TableHead>
+                <TableHead className="w-[170px]">Círculo</TableHead>
                 <SortableTableHead
                   label="Status"
                   value="statusMontagem"
