@@ -73,12 +73,10 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <TableRow className="bg-white">
-        <TableCell className="w-7 text-nowrap pl-4 font-medium lg:w-[73px]">
-          {dataInscricao}
-        </TableCell>
+        <TableCell className="text-nowrap pl-4">{dataInscricao}</TableCell>
         <TableCell>{nomeCompleto}</TableCell>
         <TableCell>{idade}</TableCell>
-        <TableCell className="w-7 lg:w-[178px]">
+        <TableCell>
           <EncontristaStatus
             status={encontrista.idStatus}
             encontristaId={encontrista.id}
@@ -86,9 +84,9 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
         </TableCell>
         <TableCell>{encontrista.bairroEncontro}</TableCell>
         <TableCell>{encontrista.celular}</TableCell>
-        <TableCell className="w-7 lg:w-[178px]">
+        <TableCell className="w-4">
           {isLoading ? (
-            <Skeleton className="h-4 w-14" />
+            <Skeleton className="h-4 w-4" />
           ) : (
             <EncontristaExterna
               idExterna={encontrista.idExterna}
@@ -97,11 +95,11 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
             />
           )}
         </TableCell>
-        <TableCell className="w-7 lg:w-16">
+        <TableCell className="w-4">
           <div className="flex gap-2">
             <Tooltip>
               <TooltipTrigger>
-                <MessageSquareMore className="h-4 w-4 text-zinc-400" />
+                <MessageSquareMore className="size-4 text-zinc-400" />
               </TooltipTrigger>
               <TooltipContent className="w-72 text-center">
                 {encontrista.observacoes ||
@@ -156,7 +154,7 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
             </Tooltip>
             <Link href={`/admin/externa/${encontrista.slug}/edit`}>
               <Button variant="ghost" className="p-0">
-                <Pencil className="h-4 w-4 text-zinc-400 hover:text-zinc-500" />
+                <Pencil className="size-4 text-zinc-400 hover:text-zinc-500" />
               </Button>
             </Link>
             <AlertDialogTrigger asChild>
@@ -166,7 +164,7 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
                 variant="ghost"
                 className="p-0"
               >
-                <Trash2 className="h-4 w-4 text-red-400 hover:text-red-500" />
+                <Trash2 className="size-4 text-red-400 hover:text-red-500" />
               </Button>
             </AlertDialogTrigger>
           </div>

@@ -9,7 +9,7 @@ import { EncontreiroMontagemStatus } from '@/components/Table/EncontreiroMontage
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
-import { getColor } from '@/utils/fetch-color'
+import { getCirculoColor } from '@/utils/fetch-color'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -31,7 +31,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
   const statusMontagem =
     encontreiro.statusMontagem === 'INATIVO' ? 'INATIVO' : 'ATIVO'
 
-  const corCirculo = getColor(encontreiro.circulo.cor)
+  const corCirculo = getCirculoColor(encontreiro.circulo.cor || '')
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

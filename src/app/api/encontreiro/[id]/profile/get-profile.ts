@@ -1,5 +1,6 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { prisma } from '@/lib/prisma'
+import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
 import type { Role } from '@prisma/client'
 
 export interface encontreiroEmEquipe {
@@ -29,21 +30,6 @@ export interface ProfileData {
   fichaCadastro: boolean
   coordenadores: encontreiroEmEquipe[]
   tropa: encontreiroEmEquipe[]
-}
-function pertenceARosa(equipe: string): boolean {
-  const categorias = ['vigilia', 'recepcao', 'compras', 'externa', 'meditacao']
-  return categorias.includes(equipe)
-}
-
-function pertenceASala(equipe: string): boolean {
-  const categorias = [
-    'apresentacao',
-    'boa_vontade',
-    'tio_aparente',
-    'tio_circulo',
-    'tio_secreto',
-  ]
-  return categorias.includes(equipe)
 }
 
 export async function getProfile(id: string) {
@@ -105,7 +91,7 @@ export async function getProfile(id: string) {
   let fetchTropa: EquipeEncontroData[] = []
 
   if (equipeEncontro) {
-    if (pertenceARosa(equipeEncontro.idEquipe)) {
+    if (idPertenceARosa(equipeEncontro.idEquipe)) {
       const rosa = await prisma.equipeEncontro.findMany({
         select: {
           idEquipe: true,
@@ -140,7 +126,7 @@ export async function getProfile(id: string) {
       fetchTropa = rosa.filter(
         (equipe) => equipe.idEquipe !== equipeEncontro.idEquipe,
       )
-    } else if (pertenceASala(equipeEncontro.idEquipe)) {
+    } else if (idPertenceASala(equipeEncontro.idEquipe)) {
       fetchCoordenadores = await prisma.equipeEncontro.findMany({
         select: {
           encontreiro: {
@@ -253,9 +239,9 @@ export async function getProfile(id: string) {
   })
 
   const equipeNome = equipeEncontro
-    ? pertenceARosa(equipeEncontro.idEquipe)
+    ? idPertenceARosa(equipeEncontro.idEquipe)
       ? `${equipeEncontro.equipe.equipeLabel} (Rosa)`
-      : pertenceASala(equipeEncontro.idEquipe)
+      : idPertenceASala(equipeEncontro.idEquipe)
         ? `${equipeEncontro.equipe.equipeLabel} (Sala)`
         : equipeEncontro.equipe.equipeLabel
     : 'Não alocado'

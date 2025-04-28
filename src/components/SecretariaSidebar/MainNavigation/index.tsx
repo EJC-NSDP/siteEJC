@@ -1,12 +1,4 @@
-import {
-  Baby,
-  BookUser,
-  Car,
-  HeartHandshake,
-  Speech,
-  SquareUser,
-  Users,
-} from 'lucide-react'
+import { SquareUser } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavItem } from './NavItem'
@@ -16,13 +8,13 @@ export function MainNavigation() {
 
   return (
     <nav className="flex flex-col gap-4 space-y-0.5">
-      <Link href="/admin/secretaria">
+      {/* <Link href="/admin/secretaria">
         <NavItem
           title="Encontristas"
           icon={Baby}
           active={path === '/admin/secretaria'}
         />
-      </Link>
+      </Link> */}
       <Link href="/admin/secretaria/encontreiros">
         <NavItem
           title="Encontreiros"
@@ -30,7 +22,7 @@ export function MainNavigation() {
           active={path === '/admin/secretaria/encontreiros'}
         />
       </Link>
-      <Link href="/admin/secretaria/tios-externa">
+      {/* <Link href="/admin/secretaria/tios-externa">
         <NavItem
           title="Tios de externa"
           icon={Car}
@@ -64,7 +56,7 @@ export function MainNavigation() {
           icon={BookUser}
           active={path === '/admin/secretaria/quadrante'}
         />
-      </Link>
+      </Link> */}
     </nav>
   )
 }

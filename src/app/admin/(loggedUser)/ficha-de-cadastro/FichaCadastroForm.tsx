@@ -6,7 +6,7 @@ import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
-import { getColor } from '@/utils/fetch-color'
+import { getCirculoColor } from '@/utils/fetch-color'
 import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BookUser, Building2, KeyRound, Puzzle, Save, User } from 'lucide-react'
@@ -100,7 +100,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
 
   const router = useRouter()
 
-  const corCirculo = getColor(data.circulo.corCirculo)
+  const corCirculo = getCirculoColor(data.circulo.corCirculo || '')
 
   const form = useForm<EditCadastroFormDataInput>({
     resolver: zodResolver(editCadastroFormScheme),

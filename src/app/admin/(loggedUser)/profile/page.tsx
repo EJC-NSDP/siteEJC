@@ -14,6 +14,7 @@ import {
   CarFront,
   ClipboardList,
   FolderOpen,
+  Users,
 } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -189,6 +190,14 @@ export default function Profile() {
                         label="Pasta Virtual"
                         icon={FolderOpen}
                         link={profileData.pastaURL}
+                      />
+                    )}
+
+                    {profileData.pastaURL !== '' && (
+                      <ButtonLabel
+                        label="Minha equipe"
+                        icon={Users}
+                        link="/admin/minha-equipe"
                       />
                     )}
 

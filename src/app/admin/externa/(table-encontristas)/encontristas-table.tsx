@@ -142,13 +142,13 @@ export function EncontristasTable() {
       <div className="flex flex-col gap-4 py-1">
         <EncontristaTableFilters />
         <div className="bg-transparent">
-          <Table className="text-xs">
+          <Table className="text-xs lg:table-fixed">
             <TableHeader>
               <TableRow className="px-2">
                 <SortableTableHead
                   label="Inscrito em"
                   value="createdAt"
-                  classname="text-nowrap rounded-tl-xl lg:w-[73px] w-7 pl-4"
+                  classname="text-nowrap rounded-tl-xl lg:w-[85px] pl-4"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -156,6 +156,7 @@ export function EncontristasTable() {
                 <SortableTableHead
                   label="Nome"
                   value="nome"
+                  classname="w-auto"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -163,6 +164,7 @@ export function EncontristasTable() {
                 <SortableTableHead
                   label="Idade"
                   value="dataNasc"
+                  classname="w-[60px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -170,7 +172,7 @@ export function EncontristasTable() {
                 <SortableTableHead
                   label="Status"
                   value="idStatus"
-                  classname="lg:w-[178px] w-7"
+                  classname="lg:w-[230px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -178,13 +180,14 @@ export function EncontristasTable() {
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"
+                  classname="w-[100px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead>Celular</TableHead>
-                <TableHead className="w-7 lg:w-[178px]">Responsável</TableHead>
-                <TableHead className="w-7 rounded-tr-xl lg:w-16">
+                <TableHead className="w-[130px] text-nowrap">Celular</TableHead>
+                <TableHead className="lg:w-[190px]">Responsável</TableHead>
+                <TableHead className="rounded-tr-xl pr-4 lg:w-[90px]">
                   Ações
                 </TableHead>
               </TableRow>
