@@ -70,7 +70,7 @@ export default function MinhaEquipe() {
       {isLoading ? (
         <CardLoading />
       ) : (
-        <Card className="w-full overflow-hidden rounded-xl border-tertiary">
+        <Card className="w-full overflow-hidden rounded-xl border-zinc-50">
           <div className={cn('h-8 w-full lg:h-8', corEquipe)} />
           <CardTitle className="flex justify-between px-4 py-4 lg:px-8 lg:py-8">
             <span className="text-xl text-zinc-800  lg:text-3xl">
