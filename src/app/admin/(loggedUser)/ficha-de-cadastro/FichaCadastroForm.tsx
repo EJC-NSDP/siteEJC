@@ -145,9 +145,9 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
       ).success
         ? (data.proxEncontro.disponibilidade as Disponibilidade)
         : undefined,
-      preferencia1: data.proxEncontro.preferencias[0].valueEquipe,
-      preferencia2: data.proxEncontro.preferencias[1].valueEquipe,
-      preferencia3: data.proxEncontro.preferencias[2].valueEquipe,
+      preferencia1: data.proxEncontro.preferencias[0]?.valueEquipe || '',
+      preferencia2: data.proxEncontro.preferencias[1]?.valueEquipe || '',
+      preferencia3: data.proxEncontro.preferencias[2]?.valueEquipe || '',
       obsBanda: data.pessoa.obsBanda !== null ? data.pessoa.obsBanda : '',
       observacoes:
         data.pessoa.observacoes !== null ? data.pessoa.observacoes : '',

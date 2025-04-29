@@ -1,5 +1,7 @@
 'use client'
 
+import { TiosExternaSecreTable } from './(table-tios-externa)/tios-externa-secre-table'
+
 export default function SecretariaTiosExterna() {
   return (
     <div className="w-ful h-full">
@@ -16,7 +18,7 @@ export default function SecretariaTiosExterna() {
             </span>
           </div>
         </div>
-        Tabela dos tios de externa
+        <TiosExternaSecreTable />
       </div>
     </div>
   )

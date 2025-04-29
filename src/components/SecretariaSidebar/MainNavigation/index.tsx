@@ -1,4 +1,11 @@
-import { SquareUser } from 'lucide-react'
+import {
+  BookUser,
+  Car,
+  HeartHandshake,
+  Speech,
+  SquareUser,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavItem } from './NavItem'
@@ -22,7 +29,7 @@ export function MainNavigation() {
           active={path === '/admin/secretaria/encontreiros'}
         />
       </Link>
-      {/* <Link href="/admin/secretaria/tios-externa">
+      <Link href="/admin/secretaria/tios-externa">
         <NavItem
           title="Tios de externa"
           icon={Car}
@@ -56,7 +63,7 @@ export function MainNavigation() {
           icon={BookUser}
           active={path === '/admin/secretaria/quadrante'}
         />
-      </Link> */}
+      </Link>
     </nav>
   )
 }
