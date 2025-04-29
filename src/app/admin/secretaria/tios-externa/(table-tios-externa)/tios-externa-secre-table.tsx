@@ -15,13 +15,23 @@ import { useQuery } from '@tanstack/react-query'
 import { TiosExternaSecreTableRow } from './encontreiros-secre-table-row'
 import { TiosExternaSecreTableSkeleton } from './encontreiros-secre-table-skeleton'
 
+export function ordenarCarrosPorNomeMotorista(
+  carros: CarroFromEncontro[],
+): CarroFromEncontro[] {
+  return [...carros].sort((a, b) =>
+    a.motorista.nome.localeCompare(b.motorista.nome, 'pt-BR', {
+      sensitivity: 'base',
+    }),
+  )
+}
+
 async function getTiosExterna() {
   const response: CarroFromEncontro[] = await api
     .get('encontro/atual/1/carros')
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
-  return response
+  return ordenarCarrosPorNomeMotorista(response)
 }
 
 export function TiosExternaSecreTable() {

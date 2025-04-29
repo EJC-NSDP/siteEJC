@@ -6,10 +6,10 @@ export function TiosExternaSecreTableSkeleton() {
     return (
       <TableRow key={i} className="bg-white">
         <TableCell>
-          <Skeleton className="h-4 w-6" />
+          <Skeleton className="h-4 w-56" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-4 w-56" />
+          <Skeleton className="h-4 w-48" />
         </TableCell>
       </TableRow>
     )

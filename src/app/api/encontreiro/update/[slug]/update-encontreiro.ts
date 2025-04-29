@@ -57,6 +57,11 @@ export async function updateEncontreiro({
   })
 
   if (encontro.equipes) {
+    await prisma.equipeEncontro.deleteMany({
+      where: {
+        idPessoa: foundUser.id,
+      },
+    })
     encontro.equipes?.forEach(async (equipe) => {
       await prisma.equipeEncontro.upsert({
         where: {
