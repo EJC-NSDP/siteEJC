@@ -13,6 +13,9 @@ export async function getTamanhoCamisa() {
         id: true,
         tamanhoCamisa: true,
       },
+      orderBy: {
+        order: 'asc',
+      },
     })
 
   return tamanhoCamisa

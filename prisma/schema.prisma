@@ -313,6 +313,7 @@ model DomainStatusPais {
 
 model DomainTamanhoCamisa {
   id            Value_TamanhoCamisa @id @unique
+  order         Int                 @default(100)
   tamanhoCamisa String              @unique @map("tamanho_camisa")
   encontreiro   Encontreiro[]
 
