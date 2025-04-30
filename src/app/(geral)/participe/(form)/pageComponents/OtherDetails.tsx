@@ -27,7 +27,9 @@ import { CardParticipe } from '../components/CardParticipe'
 import { CardSection } from '../components/CardSection'
 
 const otherFormScheme = z.object({
-  tamanhoCamisa: z.enum(['p', 'm', 'g', 'gg', 'xgg', 'outro']).optional(),
+  tamanhoCamisa: z
+    .enum(['pp', 'p', 'm', 'g', 'gg', 'xg', 'xgg', 'outro'])
+    .optional(),
   outroMovimento: z.enum(['sim', 'nao'], {
     required_error: 'Esse campo é obrigatório',
   }),

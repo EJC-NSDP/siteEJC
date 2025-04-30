@@ -119,7 +119,9 @@ const editFormScheme = z.object({
   indicadoApelido: z.string().optional(),
   indicadoTelefone: z.string().optional(),
   indicadoEmail: z.string().optional(),
-  tamanhoCamisa: z.enum(['p', 'm', 'g', 'gg', 'xgg', 'outro']).optional(),
+  tamanhoCamisa: z
+    .enum(['pp', 'p', 'm', 'g', 'gg', 'xg', 'xgg', 'outro'])
+    .optional(),
   nomeMovimento: z.string().optional(),
   restricoesAlimentares: z.string().optional(),
   observacoes: z.string().optional(),
