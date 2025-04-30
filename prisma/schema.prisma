@@ -341,6 +341,7 @@ model DomainEquipes {
   equipeLabel      String             @unique @map("equipe_label")
   equipeValue      String             @id @map("equipe_value")
   pastaUrl         String?            @map("pasta_url")
+  description      String?
   EquipeEncontro   EquipeEncontro[]
   EquipeMontagem   EquipeMontagem[]
   ListaPreferencia ListaPreferencia[]

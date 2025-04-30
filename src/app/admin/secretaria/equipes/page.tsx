@@ -1,6 +1,18 @@
-'use client'
+import type { EquipeSecre } from '@/app/api/secretaria/equipe/get-equipes-secre'
+import { EquipesForm } from './(form)/pageComponents/EquipeForm'
 
-export default function SecretariaEquipes() {
+async function getEquipes() {
+  const equipes = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/secretaria/equipe`,
+    { cache: 'no-store' },
+  ).then(async (res) => await res.json())
+
+  return equipes
+}
+
+export default async function SecretariaEquipes() {
+  const equipes: EquipeSecre[] = await getEquipes()
+
   return (
     <div className="w-ful h-full">
       <div className="pb-4">
@@ -12,7 +24,7 @@ export default function SecretariaEquipes() {
             </span>
           </div>
         </div>
-        Equipes e descrições
+        <EquipesForm equipes={equipes} />
       </div>
     </div>
   )

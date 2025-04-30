@@ -13,9 +13,9 @@ export function InitialCard({ loaded, updateNext }: InitialCard) {
       <CardContent className="flex w-full flex-col gap-4">
         <p className="text-xl font-bold">Bem-vindo(a)!</p>
         <p className="text-pretty text-lg">
-          Aqui você poderá atualizar suas informações para o próximo encontro em
+          Agora você pode atualizar suas informações para o próximo encontro em
           nosso sistema. Alguns campos estão bloqueados, pois são controlados
-          pelos dirigentes. Caso precise alterar algum desses, entre em contato
+          pelos dirigentes. Caso precise alterar alguma desses, entre em contato
           com o seu dirigente ou coordenador responsável.
         </p>
 

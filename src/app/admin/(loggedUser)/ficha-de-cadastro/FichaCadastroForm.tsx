@@ -79,9 +79,15 @@ const editCadastroFormScheme = z
     equipe: z.string(),
     equipeCoord: z.boolean(),
 
-    preferencia1: z.string(),
-    preferencia2: z.string(),
-    preferencia3: z.string(),
+    preferencia1: z
+      .string({ required_error: 'A primeira preferência é obrigatória.' })
+      .min(1, { message: 'A primeira preferência é obrigatória.' }),
+    preferencia2: z
+      .string({ required_error: 'A segunda preferência é obrigatória.' })
+      .min(1, { message: 'A segunda preferência é obrigatória.' }),
+    preferencia3: z
+      .string({ required_error: 'A terceira preferência é obrigatória.' })
+      .min(1, { message: 'A terceira preferência é obrigatória.' }),
     disponibilidade: disponibilidadeEnum,
     obsBanda: z.string().optional(),
     observacoes: z.string().optional(),
