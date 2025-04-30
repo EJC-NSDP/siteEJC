@@ -416,10 +416,12 @@ enum Value_StatusPais {
 }
 
 enum Value_TamanhoCamisa {
+  pp
   p
   m
   g
   gg
+  xg
   xgg
   outro
 }
