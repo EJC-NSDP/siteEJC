@@ -15,11 +15,11 @@ export function MainNavigation() {
           active={path === '/admin/dirigente'}
         />
       </Link>
-      <Link href="/admin/dirigente/circulos">
+      <Link href="/admin/dirigente/circulo">
         <NavItem
           title="Círculos"
           icon={Circle}
-          active={path === '/admin/dirigente/circulos'}
+          active={path === '/admin/dirigente/circulo'}
         />
       </Link>
       <Link href="/admin/dirigente/montagem">
