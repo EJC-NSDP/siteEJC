@@ -114,7 +114,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
       bairro: carroFound.carro.pessoaMotorista.endereco.bairro,
       cidade: carroFound.carro.pessoaMotorista.endereco.cidade,
       estado: carroFound.carro.pessoaMotorista.endereco.estado,
-      rua: carroFound.carro.pessoaMotorista.sobrenome,
+      rua: carroFound.carro.pessoaMotorista.endereco.rua,
       enderecoNumero:
         carroFound.carro.pessoaMotorista.enderecoNumero?.toString() || '',
       apelido: carroFound.carro.pessoaMotorista.apelido || '',
@@ -133,7 +133,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
           bairro: carroFound.carro.pessoaCarona.endereco.bairro,
           cidade: carroFound.carro.pessoaCarona.endereco.cidade,
           estado: carroFound.carro.pessoaCarona.endereco.estado,
-          rua: carroFound.carro.pessoaCarona.sobrenome,
+          rua: carroFound.carro.pessoaCarona.endereco.rua,
           enderecoNumero:
             carroFound.carro.pessoaCarona.enderecoNumero?.toString() || '0',
           apelido: carroFound.carro.pessoaCarona.apelido || '',

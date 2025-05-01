@@ -98,7 +98,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
           shouldValidate: true,
         })
         if (pessoa.enderecoNumero) {
-          setValue('carona.endNumero', pessoa.enderecoNumero.toString(), {
+          setValue('carona.enderecoNumero', pessoa.enderecoNumero, {
             shouldValidate: true,
           })
         }
@@ -142,7 +142,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
       setValue('carona.telefone', '')
       setValue('carona.email', '')
       setValue('carona.enderecoCep', '')
-      setValue('carona.enderecoNumero', 0)
+      setValue('carona.enderecoNumero', '')
       setValue('carona.bairro', '')
       setValue('carona.estado', '')
       setValue('carona.cidade', '')

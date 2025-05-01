@@ -73,6 +73,9 @@ export async function updateCarro({
 
   if (!foundMotorista) return null
 
+  console.log('carona:')
+  console.log(carona)
+
   if (carona) {
     const caronaEnderecoProps = {
       cep: carona.enderecoCep,
@@ -125,6 +128,11 @@ export async function updateCarro({
           })
       : null
 
+  console.log('foundCarona:')
+  console.log(foundCarona)
+
+  const idCarona = foundCarona ? foundCarona.id : null
+
   return await prisma.carroEncontro.update({
     where: {
       idCarro_idEncontro: {
@@ -142,7 +150,7 @@ export async function updateCarro({
           lugaresCarro: carro.lugaresCarro,
           observacaoMotorista: motorista.observacaoMotorista,
           idMotorista: foundMotorista.id,
-          idCarona: foundCarona?.id,
+          idCarona,
         },
       },
     },

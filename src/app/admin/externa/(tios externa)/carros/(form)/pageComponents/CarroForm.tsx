@@ -74,25 +74,81 @@ const carroPessoaFormScheme = z.object({
   rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
   observacaoMotorista: z.string().optional(),
 })
+const carroCaronaFormScheme = z
+  .object({
+    id: z.string(),
+    role: z.nativeEnum(Role),
+    nome: z.string().optional(),
+    sobrenome: z.string().optional(),
+    apelido: z.string().optional(),
+    celular: z.string().optional(),
+    telefone: z.string().optional(),
+    email: z.string().optional(),
+    enderecoCep: z.string().optional(),
+    enderecoNumero: z.string().optional(),
+    bairro: z.string().optional(),
+    estado: z.string().optional(),
+    cidade: z.string().optional(),
+    rua: z.string().optional(),
+    observacaoMotorista: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.id !== '1') {
+      type RequiredFields =
+        | 'nome'
+        | 'sobrenome'
+        | 'celular'
+        | 'email'
+        | 'enderecoCep'
+        | 'enderecoNumero'
+        | 'bairro'
+        | 'estado'
+        | 'cidade'
+        | 'rua'
 
-const caronaFormScheme = carroPessoaFormScheme.superRefine((data, ctx) => {
-  if (data.id === '1') {
-    return
-  }
-  const result = carroPessoaFormScheme.safeParse(data)
-  if (!result.success) {
-    for (const issue of result.error.issues) {
-      ctx.addIssue(issue)
+      const requiredFields: RequiredFields[] = [
+        'nome',
+        'sobrenome',
+        'celular',
+        'email',
+        'enderecoCep',
+        'enderecoNumero',
+        'bairro',
+        'estado',
+        'cidade',
+        'rua',
+      ]
+
+      requiredFields.forEach((field) => {
+        if (!data[field]) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Este campo é obrigatório para toda carona`,
+            path: [field],
+          })
+        }
+      })
     }
-  }
-})
+  })
+
+// const caronaFormScheme = carroPessoaFormScheme.superRefine((data, ctx) => {
+//   if (data.id === '1') {
+//     return
+//   }
+//   const result = carroPessoaFormScheme.safeParse(data)
+//   if (!result.success) {
+//     for (const issue of result.error.issues) {
+//       ctx.addIssue(issue)
+//     }
+//   }
+// })
 
 const novoCarroFormScheme = z.object({
   idCarro: z.string(),
   numeroEncontro: z.number(),
   carro: carroFormScheme,
   motorista: carroPessoaFormScheme,
-  carona: caronaFormScheme.nullable(),
+  carona: carroCaronaFormScheme,
 })
 
 export type CarroFormDataInput = z.infer<typeof novoCarroFormScheme>
@@ -157,11 +213,34 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
     formState: { errors },
   } = form
 
-  async function handleUpdateCarro(formDataInput: CarFormData) {
+  async function handleUpdateCarro(formDataInput: CarroFormDataInput) {
+    const adaptForm: CarFormData = {
+      ...formDataInput,
+      carona:
+        formDataInput.carona.id === '1'
+          ? null
+          : {
+              id: formDataInput.carona.id,
+              role: formDataInput.carona.role,
+              nome: formDataInput.carona.nome || '',
+              sobrenome: formDataInput.carona.sobrenome || '',
+              celular: formDataInput.carona.celular || '',
+              telefone: formDataInput.carona.telefone,
+              email: formDataInput.carona.email || '',
+              enderecoCep: formDataInput.carona.enderecoCep || '',
+              bairro: formDataInput.carona.bairro || '',
+              cidade: formDataInput.carona.cidade || '',
+              estado: formDataInput.carona.estado || '',
+              rua: formDataInput.carona.rua || '',
+              enderecoNumero: formDataInput.carona.enderecoNumero || '',
+              apelido: formDataInput.carona.apelido,
+              observacaoMotorista: formDataInput.carona.observacaoMotorista,
+            },
+    }
     setIsSending(true)
-    if (formDataInput.idCarro === '') {
+    if (adaptForm.idCarro === '') {
       await api
-        .post('carro', formDataInput)
+        .post('carro', adaptForm)
         .then(async () => {
           router.push('/admin/externa/carros')
         })
@@ -169,8 +248,8 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
     } else {
       await api
         .put(
-          `carro/${formDataInput.idCarro}/${formDataInput.numeroEncontro}/update`,
-          formDataInput,
+          `carro/${adaptForm.idCarro}/${adaptForm.numeroEncontro}/update`,
+          adaptForm,
         )
         .then(async () => {
           router.push('/admin/externa/carros')
