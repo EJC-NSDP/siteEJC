@@ -212,7 +212,10 @@ export async function getEncontreiroCadastro(id: string) {
     ultimoEncontro: {
       equipe: equipeEncontroPassado
         ? equipeEncontroPassado.equipe.equipeLabel
-        : 'Não participou',
+        : encontreiro.encontreiro?.encontro?.numeroEncontro ===
+            ultimoEncontro.numeroEncontro
+          ? 'Encontrista'
+          : 'Não participou',
       coordenou: equipeEncontroPassado
         ? equipeEncontroPassado.coordenou
         : false,
