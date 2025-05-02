@@ -2,6 +2,7 @@ import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
 import { stringToDate } from '@/utils/string-to-date'
+import type { EquipeEncontro } from '@prisma/client'
 
 export async function updateEncontreiro({
   id,
@@ -55,33 +56,60 @@ export async function updateEncontreiro({
       },
     },
   })
-
   if (encontro.equipes) {
-    await prisma.equipeEncontro.deleteMany({
+    const novasEquipes = encontro.equipes
+    const historicoEquipes = await prisma.equipeEncontro.findMany({
       where: {
         idPessoa: foundUser.id,
       },
     })
-    encontro.equipes?.forEach(async (equipe) => {
-      await prisma.equipeEncontro.upsert({
-        where: {
-          idPessoa_idEncontro: {
-            idPessoa: foundUser.id,
-            idEncontro: equipe.idEncontro,
+
+    const novasMap = new Map(novasEquipes.map((e) => [`${e.idEncontro}`, e]))
+
+    const promises: Promise<EquipeEncontro>[] = []
+
+    // Upsert para todas as novas equipes
+    for (const nova of novasEquipes) {
+      promises.push(
+        prisma.equipeEncontro.upsert({
+          where: {
+            idPessoa_idEncontro: {
+              idPessoa: foundUser.id,
+              idEncontro: nova.idEncontro,
+            },
           },
-        },
-        update: {
-          idEquipe: equipe.idEquipe,
-          coordenou: equipe.coordenou,
-        },
-        create: {
-          idEquipe: equipe.idEquipe,
-          coordenou: equipe.coordenou,
-          idPessoa: foundUser.id,
-          idEncontro: equipe.idEncontro,
-        },
-      })
-    })
+          update: {
+            idEquipe: nova.idEquipe,
+            coordenou: nova.coordenou,
+          },
+          create: {
+            idPessoa: foundUser.id,
+            idEncontro: nova.idEncontro,
+            idEquipe: nova.idEquipe,
+            coordenou: nova.coordenou,
+          },
+        }),
+      )
+    }
+
+    // Deletar entradas antigas que não estão mais na nova lista
+    for (const antigo of historicoEquipes) {
+      if (!novasMap.has(antigo.idEncontro)) {
+        promises.push(
+          prisma.equipeEncontro.delete({
+            where: {
+              idPessoa_idEncontro: {
+                idPessoa: foundUser.id,
+                idEncontro: antigo.idEncontro,
+              },
+            },
+          }),
+        )
+      }
+    }
+
+    await Promise.all(promises)
   }
+
   return updatePessoa
 }

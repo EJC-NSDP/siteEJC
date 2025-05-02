@@ -10,7 +10,7 @@ export function MainNavigation() {
     <nav className="flex flex-col gap-4 space-y-0.5">
       <Link href="/admin/dirigente">
         <NavItem
-          title="Encontreiro"
+          title="Encontreiros"
           icon={SquareUserRound}
           active={path === '/admin/dirigente'}
         />
