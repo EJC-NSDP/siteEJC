@@ -1,13 +1,16 @@
 'use client'
 
 import type { EquipeSecre } from '@/app/api/secretaria/equipe/get-equipes-secre'
+import type { UpdateEquipesSecreResponse } from '@/app/api/secretaria/equipe/route'
 import { TextInput } from '@/components/Form/TextInput'
 import { Button } from '@/components/ui/button'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 interface EditEquipesProps {
@@ -28,7 +31,6 @@ export type EquipeSecreFormDataInput = z.infer<typeof equipeSecreFormScheme>
 
 export function EquipesForm({ equipes }: EditEquipesProps) {
   const [isUpdating, setUpdating] = useState(false)
-  // const router = useRouter()
 
   const form = useForm<EquipeSecreFormDataInput>({
     resolver: zodResolver(equipeSecreFormScheme),
@@ -40,29 +42,26 @@ export function EquipesForm({ equipes }: EditEquipesProps) {
   const {
     handleSubmit,
     control,
-    // formState: { errors },
+    formState: { errors },
   } = form
 
   async function handleUpdateEquipes(formDataInput: {
     equipes: EquipeSecre[]
   }) {
     setUpdating(true)
-    console.log(formDataInput)
-    // if (formDataInput.slug === '') {
-    //   await api
-    //     .post('encontreiro', formDataInput)
-    //     .then(async () => {
-    //       router.push('/admin/dirigente')
-    //     })
-    //     .catch((err) => console.log(err, errors))
-    // } else {
-    //   await api
-    //     .put(`encontreiro/update/${formDataInput.slug}`, formDataInput)
-    //     .then(async () => {
-    //       router.push('/admin/dirigente')
-    //     })
-    //     .catch((err) => console.log(err, errors))
-    // }
+    await api
+      .patch('secretaria/equipe', formDataInput.equipes)
+      .then(async (result) => {
+        const response: UpdateEquipesSecreResponse = result.data
+        console.log(response.atualizados.length)
+        toast.success(`${response.atualizados.length} equipe(s) atualizada(s)!`)
+        setUpdating(false)
+      })
+      .catch((err) => {
+        toast.error('Erro ao atualizar as equipes.')
+        console.log(err, errors)
+        setUpdating(false)
+      })
   }
 
   return (
