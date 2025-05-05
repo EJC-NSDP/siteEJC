@@ -18,13 +18,13 @@ model Pessoa {
   createdAt          DateTime     @default(now()) @map("created_at")
   modifiedAt         DateTime     @updatedAt @map("modified_at")
   enderecoCep        String       @map("endereco_cep")
-  enderecoNumero     Int?         @map("endereco_numero")
   avatarUrl          String?      @map("avatar_url")
   password           String?
-  changePassword     Boolean      @default(false)
   apelido            String?
   role               Role         @default(ENCONTRISTA)
   slug               String       @unique
+  enderecoNumero     Int?         @map("endereco_numero")
+  changePassword     Boolean      @default(false)
   accounts           Account[]
   pessoaCarona       Carro[]      @relation("PessoaCarona")
   pessoaMotorista    Carro[]      @relation("PessoaMotorista")
@@ -40,71 +40,70 @@ model Pessoa {
 }
 
 model Encontrista {
-  idPessoa               String           @id @map("id_pessoa")
-  endComplemento         String           @map("end_complemento")
-  movimentoAnterior      String?          @map("movimento_anterior")
+  idPessoa               String              @id @map("id_pessoa")
+  endComplemento         String              @map("end_complemento")
+  movimentoAnterior      String?             @map("movimento_anterior")
   observacao             String?
-  nomeContato1           String           @map("nome_contato1")
-  telContato1            String           @map("tel_contato1")
-  parentescoContato1     String           @map("parentesco_contato1")
-  nomeContato2           String?          @map("nome_contato2")
-  telContato2            String?          @map("tel_contato2")
-  parentescoContato2     String?          @map("parentesco_contato2")
-  createdAt              DateTime         @default(now()) @map("created_at")
-  modifiedAt             DateTime         @updatedAt @map("modified_at")
-  indicadoPorApelido     String?          @map("indicado_por_apelido")
-  indicadoPorEmail       String?          @map("indicado_por_email")
-  indicadoPorNome        String?          @map("indicado_por_nome")
-  indicadoPorTel         String?          @map("indicado_por_tel")
-  isAutofill             Boolean          @map("is_autofill")
-  idStatus               Value_Status     @map("id_status")
-  idReligiao             Value_Religiao   @map("id_religiao")
-  idMoracom              Value_MoraCom    @map("id_moracom")
-  idStatusPais           Value_StatusPais @map("id_statusPais")
-  endNumero              Int              @map("end_numero")
-  cartasFisicas          Int              @default(0) @map("cartas_fisicas")
-  idCarroEncontro        String?          @map("id_carro_encontro")
-  cepEncontro            String?          @map("cep_encontro")
-  endComplementoEncontro String?          @map("end_complemento_encontro")
-  endNumEncontro         Int?             @map("end_num_encontro")
-  obsExternaConhecidos   String?          @map("obs_externa_conhecidos")
-  obsExternaLocalizacao  String?          @map("obs_externa_localizacao")
-  obsExternaOutros       String?          @map("obs_externa_outros")
-  obsExternaSaude        String?          @map("obs_externa_saude")
-  cartasOk               Boolean          @default(false) @map("cartas_ok")
-  generosaOk             Boolean          @default(false) @map("generosa_ok")
-  familiaOk              Boolean          @default(false) @map("familia_ok")
-
-  enderecoEncontro   Endereco?           @relation(fields: [cepEncontro], references: [cep])
-  carroEncontro      CarroEncontro?      @relation(fields: [idCarroEncontro], references: [id])
-  moraCom            DomainMoraCom       @relation(fields: [idMoracom], references: [id])
-  pessoa             Pessoa              @relation(fields: [idPessoa], references: [id], onDelete: Cascade)
-  religiao           DomainReligiao      @relation(fields: [idReligiao], references: [id])
-  statusPais         DomainStatusPais    @relation(fields: [idStatusPais], references: [id])
-  status             DomainStatus        @relation(fields: [idStatus], references: [id])
-  responsavelExterna ResponsavelExterna?
+  nomeContato1           String              @map("nome_contato1")
+  telContato1            String              @map("tel_contato1")
+  parentescoContato1     String              @map("parentesco_contato1")
+  nomeContato2           String?             @map("nome_contato2")
+  telContato2            String?             @map("tel_contato2")
+  parentescoContato2     String?             @map("parentesco_contato2")
+  createdAt              DateTime            @default(now()) @map("created_at")
+  modifiedAt             DateTime            @updatedAt @map("modified_at")
+  indicadoPorApelido     String?             @map("indicado_por_apelido")
+  indicadoPorEmail       String?             @map("indicado_por_email")
+  indicadoPorNome        String?             @map("indicado_por_nome")
+  indicadoPorTel         String?             @map("indicado_por_tel")
+  isAutofill             Boolean             @map("is_autofill")
+  idStatus               Value_Status        @map("id_status")
+  idReligiao             Value_Religiao      @map("id_religiao")
+  idMoracom              Value_MoraCom       @map("id_moracom")
+  idStatusPais           Value_StatusPais    @map("id_statusPais")
+  endNumero              Int                 @map("end_numero")
+  cartasFisicas          Int                 @default(0) @map("cartas_fisicas")
+  idCarroEncontro        String?             @map("id_carro_encontro")
+  cepEncontro            String?             @map("cep_encontro")
+  endComplementoEncontro String?             @map("end_complemento_encontro")
+  endNumEncontro         Int?                @map("end_num_encontro")
+  obsExternaConhecidos   String?             @map("obs_externa_conhecidos")
+  obsExternaLocalizacao  String?             @map("obs_externa_localizacao")
+  obsExternaOutros       String?             @map("obs_externa_outros")
+  obsExternaSaude        String?             @map("obs_externa_saude")
+  cartasOk               Boolean             @default(false) @map("cartas_ok")
+  familiaOk              Boolean             @default(false) @map("familia_ok")
+  generosaOk             Boolean             @default(false) @map("generosa_ok")
+  enderecoEncontro       Endereco?           @relation(fields: [cepEncontro], references: [cep])
+  carroEncontro          CarroEncontro?      @relation(fields: [idCarroEncontro], references: [id])
+  moraCom                DomainMoraCom       @relation(fields: [idMoracom], references: [id])
+  pessoa                 Pessoa              @relation(fields: [idPessoa], references: [id], onDelete: Cascade)
+  religiao               DomainReligiao      @relation(fields: [idReligiao], references: [id])
+  statusPais             DomainStatusPais    @relation(fields: [idStatusPais], references: [id])
+  status                 DomainStatus        @relation(fields: [idStatus], references: [id])
+  responsavelExterna     ResponsavelExterna?
 
   @@map("encontristas")
 }
 
 model Encontreiro {
   idPessoa                String                 @id @map("id_pessoa")
-  dataNasc                DateTime               @map("data_nasc")
   instagram               String?
   restricaoAlimentar      String?                @map("restricao_alimentar")
   idEncontro              String?                @map("id_encontro")
   idCirculo               String?                @map("id_circulo")
   idTamanhoCamisa         Value_TamanhoCamisa?   @map("id_tamanho_camisa")
-  idDisponibilidade       Value_Disponibilidade? @map("id_disponibilidade")
   obsBanda                String?                @map("obs_banda")
   observacoes             String?
   statusMontagem          StatusEncontreiro?
+  dataNasc                DateTime               @map("data_nasc")
+  idDisponibilidade       Value_Disponibilidade? @map("id_disponibilidade")
   responsavelCarroExterna CarroEncontro[]        @relation("PessoaResponsavelExterna")
   circulo                 Circulo?               @relation(fields: [idCirculo], references: [id])
+  disponibilidade         DomainDisponibilidade? @relation(fields: [idDisponibilidade], references: [id])
   encontro                Encontro?              @relation(fields: [idEncontro], references: [id])
   pessoa                  Pessoa                 @relation(fields: [idPessoa], references: [id], onDelete: Cascade)
   tamanhoCamisa           DomainTamanhoCamisa?   @relation(fields: [idTamanhoCamisa], references: [id])
-  disponibilidade         DomainDisponibilidade? @relation(fields: [idDisponibilidade], references: [id])
   equipeEncontro          EquipeEncontro[]
   equipeMontagem          EquipeMontagem?
   listaPreferencias       ListaPreferencia[]
@@ -131,6 +130,7 @@ model Encontro {
   encontreiro        Encontreiro[]
   local              Local                @relation(fields: [idLocal], references: [id])
   EquipeEncontro     EquipeEncontro[]
+  palestrantes       Palestrantes[]
   ResponsavelExterna ResponsavelExterna[]
 
   @@map("encontros")
@@ -261,13 +261,33 @@ model EquipeEncontro {
 }
 
 model EquipeMontagem {
-  valueEquipe   String
+  valueEquipe   String        @map("value_equipe")
   coordenando   Boolean
-  idEncontreiro String        @id
+  idEncontreiro String        @id @map("id_encontreiro")
   encontreiro   Encontreiro   @relation(fields: [idEncontreiro], references: [idPessoa])
   equipe        DomainEquipes @relation(fields: [valueEquipe], references: [equipeValue])
 
   @@map("equipes_montagem")
+}
+
+model Palestrantes {
+  id         String          @id @default(uuid())
+  order      Int             @default(100)
+  idEncontro String          @map("id_encontro")
+  idPalestra Int             @map("id_palestra")
+  nome       String?
+  encontro   Encontro        @relation(fields: [idEncontro], references: [id])
+  palestra   DomainPalestras @relation(fields: [idPalestra], references: [id])
+
+  @@map("palestrantes")
+}
+
+model DomainPalestras {
+  id           Int            @id @default(autoincrement())
+  nome         String
+  palestrantes Palestrantes[]
+
+  @@map("@palestras")
 }
 
 model DomainStatus {
@@ -313,8 +333,8 @@ model DomainStatusPais {
 
 model DomainTamanhoCamisa {
   id            Value_TamanhoCamisa @id @unique
-  order         Int                 @default(100)
   tamanhoCamisa String              @unique @map("tamanho_camisa")
+  order         Int                 @default(100)
   encontreiro   Encontreiro[]
 
   @@map("@tamanho_camisa")
@@ -330,9 +350,9 @@ model DomainCorCirculo {
 
 model DomainDisponibilidade {
   id              Value_Disponibilidade @id @unique
-  order           Int                   @default(100)
   disponibilidade String                @unique
   descricao       String                @default("")
+  order           Int                   @default(100)
   encontreiro     Encontreiro[]
 
   @@map("@disponibilidade")
@@ -417,14 +437,14 @@ enum Value_StatusPais {
 }
 
 enum Value_TamanhoCamisa {
-  pp
   p
   m
   g
   gg
-  xg
   xgg
   outro
+  pp
+  xg
 }
 
 enum Role {
@@ -440,13 +460,13 @@ enum Role {
 }
 
 enum Value_Disponibilidade {
-  INDISPONIVEL
   MUITO_BAIXA
   BAIXA
   MEDIA
   ALTA
   MUITO_ALTA
   NAO_PREENCHEU
+  INDISPONIVEL
 }
 
 enum StatusEncontreiro {
