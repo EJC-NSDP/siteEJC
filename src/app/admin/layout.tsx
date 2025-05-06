@@ -10,6 +10,8 @@ interface AdminLayoutProps {
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
+  redirect('/mainetence')
+
   const session = await getServerSession(authOptions)
 
   if (!session) {

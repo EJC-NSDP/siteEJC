@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Pessoa {
@@ -261,9 +260,9 @@ model EquipeEncontro {
 }
 
 model EquipeMontagem {
-  valueEquipe   String        @map("value_equipe")
   coordenando   Boolean
   idEncontreiro String        @id @map("id_encontreiro")
+  valueEquipe   String        @map("value_equipe")
   encontreiro   Encontreiro   @relation(fields: [idEncontreiro], references: [idPessoa])
   equipe        DomainEquipes @relation(fields: [valueEquipe], references: [equipeValue])
 
