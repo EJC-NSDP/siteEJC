@@ -1,4 +1,7 @@
+import { redirect } from 'next/navigation'
+
 export default function Mainetence() {
+  redirect('/')
   return (
     <div className="flex h-screen w-full items-center justify-center bg-primary">
       <h1 className="text-3xl text-white">
