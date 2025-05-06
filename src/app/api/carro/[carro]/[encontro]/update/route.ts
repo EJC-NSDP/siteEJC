@@ -7,7 +7,7 @@ export async function GET(
   request: Request,
   context: { params: Promise<GetCarroProps> },
 ) {
-  const carro = await getCarro(await context.params)
+  const carro: CarFormData | null = await getCarro(await context.params)
 
   return NextResponse.json(carro)
 }

@@ -1,35 +1,25 @@
-import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
+import { CardLoading } from '@/components/CardLoading'
 import { CreateEncontristaContextProvider } from '@/context/CreateEncontristaContext'
+import { getCurrentEncontroDate } from '@/utils/fetch-this-encontro'
+import { Suspense } from 'react'
 import { ParticipeForm } from './(form)/ParticipeForm'
 
-async function fetchDataEncontro() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-current-encontro`,
-    )
-    if (response.ok) {
-      const data: EncontroData = await response.json()
-      const date = new Date(data.dataInicio.split('T')[0])
-      const fixedDate = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate() + 1,
-      )
-      return fixedDate
-    }
-    return null
-  } catch (error) {
-    console.error('Failed to fetch dataEncontro:', error)
-    return null
-  }
-}
-
-export default async function Participe() {
-  const dataEncontro: Date | null = await fetchDataEncontro()
+export default async function ParticipePage() {
+  const dataEncontro = await getCurrentEncontroDate()
 
   return (
-    <CreateEncontristaContextProvider>
-      <ParticipeForm dataInicio={dataEncontro} />
-    </CreateEncontristaContextProvider>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center pb-32 pt-24 text-zinc-700 ">
+          <div className="flex w-card">
+            <CardLoading />
+          </div>
+        </div>
+      }
+    >
+      <CreateEncontristaContextProvider>
+        <ParticipeForm dataInicio={dataEncontro} />
+      </CreateEncontristaContextProvider>
+    </Suspense>
   )
 }

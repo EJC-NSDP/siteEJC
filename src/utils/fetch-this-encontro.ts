@@ -1,6 +1,9 @@
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import type { PossiveisTiosExterna } from '@/app/api/encontro/atual/[ignorar]/possiveisExternas/get-possiveis-externas'
+
 import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
+import { cache } from 'react'
 
 export async function getCurrentEncontro() {
   const encontroFound = await fetch(
@@ -10,6 +13,15 @@ export async function getCurrentEncontro() {
 
   return encontroFound
 }
+
+export const getCurrentEncontroDate = cache(async (): Promise<Date | null> => {
+  const data: CurrentEncontro = await getCurrentEncontro()
+
+  const date = new Date(data.dataInicio.toString().split('T')[0])
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+})
+
+export const encontroPromise = getCurrentEncontroDate()
 
 export async function getNextCarroEncontro() {
   try {
