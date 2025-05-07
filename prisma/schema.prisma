@@ -34,6 +34,7 @@ model Pessoa {
   encontrista        Encontrista?
   endereco           Endereco     @relation(fields: [enderecoCep], references: [cep])
   sessions           Session[]
+  lider              Lideranca[]
 
   @@map("pessoas")
 }
@@ -283,17 +284,18 @@ model Palestrantes {
 
 model Lideranca {
   idPessoa String @map("id_pessoa")
-  idFuncao Int    @map("id_funcao")
+  idFuncao String @map("id_funcao")
   ano      Int
 
   funcao DomainFuncoes @relation(fields: [idFuncao], references: [id])
+  pessoa Pessoa        @relation(fields: [idPessoa], references: [id])
 
   @@id([idPessoa, ano])
   @@map("lideranca")
 }
 
 model DomainFuncoes {
-  id        Int         @id @default(autoincrement())
+  id        String      @id @unique
   label     String
   logo      String?
   Lideranca Lideranca[]

@@ -1,4 +1,4 @@
-import type { EditFormDataInput } from '@/app/admin/externa/[slug]/edit/EditEncontristaForm'
+import type { EditFormDataInput } from '@/app/(app)/admin/externa/[slug]/edit/EditEncontristaForm'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
 import { stringToDate } from '@/utils/string-to-date'

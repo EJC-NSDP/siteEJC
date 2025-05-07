@@ -1,4 +1,4 @@
-import type { EditCadastroFormDataInput } from '@/app/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
+import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'

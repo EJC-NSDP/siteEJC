@@ -2,6 +2,7 @@ import {
   BookUser,
   Car,
   HeartHandshake,
+  Shirt,
   Speech,
   SquareUser,
   Users,
@@ -50,11 +51,18 @@ export function MainNavigation() {
           active={path === '/admin/secretaria/palestrantes'}
         />
       </Link>
-      <Link href="/admin/secretaria/pastorais-bps">
+      <Link href="/admin/secretaria/diris-bps">
         <NavItem
-          title="Pastorais e BPs"
+          title="Diris e BPs"
+          icon={Shirt}
+          active={path === '/admin/secretaria/diris-bps'}
+        />
+      </Link>
+      <Link href="/admin/secretaria/pastorais">
+        <NavItem
+          title="Pastorais"
           icon={HeartHandshake}
-          active={path === '/admin/secretaria/pastorais-bps'}
+          active={path === '/admin/secretaria/pastorais'}
         />
       </Link>
       <Link href="/admin/secretaria/quadrante">

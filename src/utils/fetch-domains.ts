@@ -1,10 +1,12 @@
 import type { Cor } from '@/app/api/domains/coresEncontro/get-cores'
 import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disponibilidade'
 import type { Equipes } from '@/app/api/domains/equipes/get-equipes'
+import type { Funcao } from '@/app/api/domains/funcoes/get-funcoes'
 import type { MoraCom } from '@/app/api/domains/mora_com/get-mora-com'
 import type { Religiao } from '@/app/api/domains/religiao/get-religiao'
 import type { StatusPais } from '@/app/api/domains/status_pais/get-status-pais'
 import type { TamanhoCamisa } from '@/app/api/domains/tamanho_camisa/get-tamanho-camisa'
+import type { ListEncontreiros } from '@/app/api/encontreiro/list-all/list-all-encontreiros'
 import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
 
@@ -17,6 +19,22 @@ export async function getReligioes() {
   const selectData: SelectArray[] = []
   response.forEach((item) => {
     const selectItem: SelectArray = { label: item.religiao, value: item.id }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+export async function getFuncoes() {
+  const response: Funcao[] = await api
+    .get('domains/funcoes')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = { label: item.label, value: item.id }
 
     selectData.push(selectItem)
   })
@@ -162,6 +180,25 @@ export async function getValidEquipes() {
     if (item.equipeValue !== '0' && item.equipeValue !== 'nao_participara') {
       selectData.push(selectItem)
     }
+  })
+
+  return selectData
+}
+
+export async function getEncontreiros() {
+  const response: ListEncontreiros[] = await api
+    .get('encontreiro/list-all')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: `${item.nome} - ${item.encontro}º EJC`,
+      value: item.id,
+    }
+
+    selectData.push(selectItem)
   })
 
   return selectData

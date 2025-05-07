@@ -1,4 +1,4 @@
-import type { EditCadastroFormDataInput } from '@/app/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
+import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getEncontreiroCadastro } from './get-encontreiro-cadastro'
 import { updateCadastro } from './update-cadastro'

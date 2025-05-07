@@ -3,16 +3,16 @@
 import espiritualidade from '@/assets/AtividadeEspiritual.png'
 import caridade from '@/assets/Caridade.png'
 import festas from '@/assets/Festas.png'
-import { Church, Heart, PartyPopper } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 import {
   CardCarouselContent,
   type CardCarouselContentProps,
-} from '../../../components/Carousel/CardCarouselContent'
+} from '@/components/Carousel/CardCarouselContent'
 import {
   CardCarouselTrigger,
   type CardInfo,
-} from '../../../components/Carousel/CardCarouselTrigger'
+} from '@/components/Carousel/CardCarouselTrigger'
+import { Church, Heart, PartyPopper } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const cardsTrigger: CardInfo[] = [
   {

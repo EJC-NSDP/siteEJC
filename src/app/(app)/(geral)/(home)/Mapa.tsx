@@ -3,16 +3,16 @@
 import carro from '@/assets/Carro.png'
 import onibus from '@/assets/Onibus.png'
 import ape from '@/assets/Pe.png'
-import { BusFront, CarFront, Footprints } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 import {
   CardCarouselContent,
   type CardCarouselContentProps,
-} from '../../../components/Carousel/CardCarouselContent'
+} from '@/components/Carousel/CardCarouselContent'
 import {
   CardCarouselTrigger,
   type CardInfo,
-} from '../../../components/Carousel/CardCarouselTrigger'
+} from '@/components/Carousel/CardCarouselTrigger'
+import { BusFront, CarFront, Footprints } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const cardsTrigger: CardInfo[] = [
   {
