@@ -31,8 +31,7 @@ const addressFormScheme = z.object({
   numero: z
     .string()
     .regex(/^\d+$/, { message: 'O número deve conter apenas dígitos.' })
-    .min(1, { message: 'O número é obrigatório.' })
-    .transform((val) => parseInt(val, 10)),
+    .min(1, { message: 'O número é obrigatório.' }),
 
   complemento: z.string(),
   dormiraEmCasa: z.enum(['sim', 'nao']),
@@ -47,8 +46,7 @@ const addressFormScheme = z.object({
   numeroEncontro: z
     .string()
     .regex(/^\d+$/, { message: 'O número deve conter apenas dígitos.' })
-    .min(1, { message: 'O número é obrigatório.' })
-    .transform((val) => parseInt(val, 10)),
+    .min(1, { message: 'O número é obrigatório.' }),
   complementoEncontro: z.string(),
 })
 
@@ -89,7 +87,7 @@ export function AddressDetails() {
       setValue('cidadeEncontro', '')
       setValue('bairroEncontro', '')
       setValue('ruaEncontro', '')
-      setValue('numeroEncontro', 0)
+      setValue('numeroEncontro', '')
       setValue('complementoEncontro', '')
     } else {
       setValue('cepEncontro', cepValue)

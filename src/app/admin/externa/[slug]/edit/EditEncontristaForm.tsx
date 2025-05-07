@@ -71,13 +71,7 @@ const editFormScheme = z.object({
   cidade: z.string().optional(),
   bairro: z.string().optional(),
   rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
-  numero: z.preprocess(
-    (val) => {
-      // Se o valor é string, tenta converter para número, se já for número, mantém
-      return typeof val === 'string' ? parseInt(val, 10) : val
-    },
-    z.number().min(1, { message: 'O número é obrigatório.' }),
-  ),
+  numero: z.coerce.number().min(1, { message: 'O número é obrigatório.' }),
   complemento: z.string(),
 
   cepEncontro: z
@@ -86,13 +80,9 @@ const editFormScheme = z.object({
   cidadeEncontro: z.string().min(1, { message: 'A cidade é obrigatória.' }),
   bairroEncontro: z.string().min(1, { message: 'O bairro é obrigatório.' }),
   ruaEncontro: z.string().min(1, { message: 'A rua é obrigatória.' }),
-  numeroEncontro: z.preprocess(
-    (val) => {
-      // Se o valor é string, tenta converter para número, se já for número, mantém
-      return typeof val === 'string' ? parseInt(val, 10) : val
-    },
-    z.number().min(1, { message: 'O número é obrigatório.' }),
-  ),
+  numeroEncontro: z.coerce
+    .number()
+    .min(1, { message: 'O Encontro é obrigatório.' }),
   complementoEncontro: z.string(),
 
   moraCom: z.enum(['sozinho', 'conjuge', 'familiar', 'amigos'], {
@@ -285,7 +275,7 @@ export function EditEncontristaForm({ data }: EditEncontristaProps) {
               <ExternaCard />
               <Card
                 id="save-section"
-                className="w-full px-3 pt-8 text-zinc-700 "
+                className="w-full px-3 pt-8 text-zinc-700"
               >
                 <CardContent className="w-full">
                   <div className="flex items-center justify-between gap-3">

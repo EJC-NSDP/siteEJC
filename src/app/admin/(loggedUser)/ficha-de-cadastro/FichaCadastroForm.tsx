@@ -64,12 +64,10 @@ const editCadastroFormScheme = z
     cidade: z.string().optional(),
     bairro: z.string().optional(),
     rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
-    numero: z.preprocess(
-      (val) => {
-        return typeof val === 'string' ? parseInt(val, 10) : val
-      },
-      z.number().min(1, { message: 'O número é obrigatório.' }),
-    ),
+    numero: z
+      .string()
+      .regex(/^\d+$/, { message: 'O número deve conter apenas dígitos.' })
+      .min(1, { message: 'O número é obrigatório.' }),
 
     encontroQueFez: z.number().optional(),
     corCirculo: z.string(),
@@ -135,7 +133,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
       cidade: data.endereco.cidade,
       bairro: data.endereco.bairro,
       rua: data.endereco.rua,
-      numero: data.endereco.numero !== null ? data.endereco.numero : 0,
+      numero: data.endereco.numero?.toString() || '',
 
       encontroQueFez: data.pessoa.encontro,
       corCirculo,
@@ -215,7 +213,7 @@ export function FichaCadastroForm({ data }: FichaCadastroProps) {
               <ProxEncontroCard />
               <Card
                 id="save-section"
-                className="w-full px-3 pt-8 text-zinc-700 "
+                className="w-full px-3 pt-8 text-zinc-700"
               >
                 <CardContent className="flex w-full flex-col gap-3">
                   <span className="text-2xl font-bold lg:text-nowrap">

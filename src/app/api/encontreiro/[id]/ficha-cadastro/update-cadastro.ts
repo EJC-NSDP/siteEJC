@@ -43,7 +43,7 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
       apelido: data.apelido,
       celular: data.celular,
       enderecoCep: data.cep,
-      enderecoNumero: data.numero,
+      enderecoNumero: parseInt(data.numero, 10),
       encontreiro: {
         update: {
           instagram: data.instagram,

@@ -107,7 +107,7 @@ export function Carro({ carro, encontristas }: CarroProps) {
       >
         <CardTitle className={cn('rounded-t-lg', cor[0].bg)}>
           <div className="flex items-center justify-between px-4 py-2 text-xl">
-            <div className="flex flex-col gap-2 ">
+            <div className="flex flex-col gap-2">
               <h2>
                 {carro.carroInfo.motorista.nome}{' '}
                 {carro.carroInfo.carona && (

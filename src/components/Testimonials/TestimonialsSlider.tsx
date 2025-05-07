@@ -44,7 +44,7 @@ export function TestimonialsSlider({
 
   return (
     <section>
-      <div className="relative flex w-80 max-w-carousel overflow-hidden pt-8 text-center lg:w-full lg:pt-16 ">
+      <div className="relative flex w-80 max-w-carousel overflow-hidden pt-8 text-center lg:w-full lg:pt-16">
         {content.map((testimonial, indexTestimonial) => {
           //   Outbound Slide
           let positionCSS = 'opacity-50 order-last scale-75 hidden lg:flex'

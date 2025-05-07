@@ -281,6 +281,26 @@ model Palestrantes {
   @@map("palestrantes")
 }
 
+model Lideranca {
+  idPessoa String @map("id_pessoa")
+  idFuncao Int    @map("id_funcao")
+  ano      Int
+
+  funcao DomainFuncoes @relation(fields: [idFuncao], references: [id])
+
+  @@id([idPessoa, ano])
+  @@map("lideranca")
+}
+
+model DomainFuncoes {
+  id        Int         @id @default(autoincrement())
+  label     String
+  logo      String?
+  Lideranca Lideranca[]
+
+  @@map("@funcoes")
+}
+
 model DomainPalestras {
   id           Int            @id @default(autoincrement())
   nome         String

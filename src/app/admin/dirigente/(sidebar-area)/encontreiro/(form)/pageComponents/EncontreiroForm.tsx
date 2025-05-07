@@ -168,7 +168,7 @@ export function EncontreiroForm({ data }: EditEncontreiroProps) {
               <EncontroDetails />
               <Card
                 id="save-section"
-                className="w-full px-3 pt-8 text-zinc-700 "
+                className="w-full px-3 pt-8 text-zinc-700"
               >
                 <CardContent className="w-full">
                   <div className="flex items-center justify-between gap-3">

@@ -50,7 +50,7 @@ export function CirculoDetails() {
             <div
               className={cn(
                 corCirculo,
-                'flex h-5 w-5 items-center justify-center rounded-full  shadow-sm',
+                'flex h-5 w-5 items-center justify-center rounded-full shadow-sm',
               )}
             />
           )}

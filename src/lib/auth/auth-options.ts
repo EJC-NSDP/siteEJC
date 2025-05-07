@@ -43,6 +43,7 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
     async jwt({ token, user }) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       user && (token.user = user)
       return token
     },

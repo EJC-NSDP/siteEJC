@@ -18,7 +18,7 @@ export function OrderForm() {
   const [items, setItems] = useState(getMockItems)
 
   return (
-    <Card className="w-full px-3 pt-8 text-zinc-700 ">
+    <Card className="w-full px-3 pt-8 text-zinc-700">
       <div className="px-4 pb-8">
         <h3 className="text-2xl font-bold text-tertiary">Ordem dos círculos</h3>
         <span className="text-base font-normal text-zinc-500">

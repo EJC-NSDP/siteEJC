@@ -27,7 +27,7 @@ export async function getNextCarroEncontro() {
   try {
     const response = await api.get('encontro/atual/1/get-next-carro-encontro')
     return response.data
-  } catch (error) {
+  } catch {
     return 1
   }
 }

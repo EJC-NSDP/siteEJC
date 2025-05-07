@@ -17,7 +17,7 @@ export function Header() {
 
   return (
     // <Collapsible className="z-50 flex flex-col gap-12 bg-violet-700 p-4 lg:h-full lg:min-h-screen lg:px-2 lg:py-12 ">
-    <Collapsible className="z-50 flex flex-col gap-12 bg-violet-700 p-4 lg:flex-row lg:justify-between lg:px-4 lg:py-6 ">
+    <Collapsible className="z-50 flex flex-col gap-12 bg-violet-700 p-4 lg:flex-row lg:justify-between lg:px-4 lg:py-6">
       <div className="flex items-center justify-between lg:justify-center">
         <Link href="/">
           <LogoEJCColorido />

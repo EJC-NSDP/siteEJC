@@ -9,7 +9,7 @@ interface CardFormProps {
 
 export function CardForm({ title, sectionId, children }: CardFormProps) {
   return (
-    <Card id={sectionId} className="w-full px-0 pt-8 text-zinc-700 ">
+    <Card id={sectionId} className="w-full px-0 pt-8 text-zinc-700">
       <CardContent className="w-full">
         <div className="flex items-center justify-between gap-3">
           <span className="text-2xl font-bold lg:text-nowrap">{title}</span>

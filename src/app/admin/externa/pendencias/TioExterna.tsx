@@ -25,7 +25,7 @@ export function TioExterna({ carro }: TioExternaProps) {
       <Card className="flex flex-col gap-4 text-zinc-700 shadow-lg">
         <CardTitle className={cn('rounded-t-lg bg-primary/20')}>
           <div className="flex items-center justify-between p-4">
-            <div className="flex flex-col gap-2 ">
+            <div className="flex flex-col gap-2">
               <h2>
                 {carro.motorista.nome}{' '}
                 {carro.carona && <span>e {carro.carona.nome} </span>}

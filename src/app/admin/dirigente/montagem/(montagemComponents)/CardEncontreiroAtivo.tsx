@@ -96,7 +96,7 @@ export function CardEncontreiroAtivo({
             <div
               className={cn(
                 equipeEncontro,
-                'flex h-5 w-5 items-center justify-center rounded-full  shadow-sm',
+                'flex h-5 w-5 items-center justify-center rounded-full shadow-sm',
               )}
             >
               {equipeColor.length > 0 &&

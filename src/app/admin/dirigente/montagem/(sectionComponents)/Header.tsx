@@ -22,7 +22,9 @@ export function Header() {
       const session = await getSession()
       if (session) {
         const fallback = session.user.name[0] + session.user.surname[0]
-        session.user.avatar_url && setAvatar(session.user.avatar_url)
+        if (session.user.avatar_url) {
+          setAvatar(session.user.avatar_url)
+        }
         setAvatarFallback(fallback.toUpperCase())
       }
     }
@@ -34,7 +36,7 @@ export function Header() {
   }
 
   return (
-    <Collapsible className="z-50 flex flex-col gap-12 bg-violet-700 p-4 lg:flex-row lg:justify-between lg:px-4 lg:py-6 ">
+    <Collapsible className="z-50 flex flex-col gap-12 bg-violet-700 p-4 lg:flex-row lg:justify-between lg:px-4 lg:py-6">
       <div className="flex items-center justify-between lg:justify-center">
         <Link href="/">
           <LogoEJCColorido />

@@ -85,7 +85,7 @@ export default function Profile() {
               <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col font-bold">
-              <h2 className="text-xl text-zinc-800  lg:text-3xl">
+              <h2 className="text-xl text-zinc-800 lg:text-3xl">
                 {profileData.nome}
               </h2>
               <span className="text-base text-zinc-500 lg:text-xl">

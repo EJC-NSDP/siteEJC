@@ -18,7 +18,9 @@ export function FooterNavigation() {
       if (session) {
         const fallback = session.user.name[0] + session.user.surname[0]
         setName(`${session.user.name}`)
-        session.user.avatar_url && setAvatar(session.user.avatar_url)
+        if (session.user.avatar_url) {
+          setAvatar(session.user.avatar_url)
+        }
         setAvatarFallback(fallback.toUpperCase())
       }
     }

@@ -163,7 +163,7 @@ export function TiosExternaTableFilters() {
               )
             }}
           />
-          <div className="flex justify-between gap-2 py-2 lg:w-96 ">
+          <div className="flex justify-between gap-2 py-2 lg:w-96">
             <Button type="submit" variant="secondary">
               <Search className="mr-2 h-4 w-4" />
               Buscar

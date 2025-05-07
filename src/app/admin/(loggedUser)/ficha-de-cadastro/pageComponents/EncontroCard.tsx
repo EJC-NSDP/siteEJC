@@ -28,7 +28,7 @@ export function EncontroCard() {
             <div
               className={cn(
                 corCirculoValue,
-                'flex h-5 w-5 items-center justify-center rounded-full  shadow-sm',
+                'flex h-5 w-5 items-center justify-center rounded-full shadow-sm',
               )}
             />
           )}

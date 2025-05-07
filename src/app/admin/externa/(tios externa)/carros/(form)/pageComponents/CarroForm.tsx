@@ -24,20 +24,12 @@ interface CarroFormProps {
 }
 
 const carroFormScheme = z.object({
-  numeroCarro: z.preprocess(
-    (val) => {
-      return typeof val === 'string' ? parseInt(val, 10) : val
-    },
-    z.number().min(1, { message: 'O número é obrigatório.' }),
-  ),
+  numeroCarro: z.coerce.number().min(1, { message: 'O número é obrigatório.' }),
   placaCarro: z.string({ required_error: 'A placa é obrigatório.' }),
   modeloCarro: z.string({ required_error: 'O modelo do carro é obrigatório.' }),
-  lugaresCarro: z.preprocess(
-    (val) => {
-      return typeof val === 'string' ? parseInt(val, 10) : val
-    },
-    z.number().min(1, { message: 'O número de vafas é obrigatório.' }),
-  ),
+  lugaresCarro: z.coerce
+    .number()
+    .min(1, { message: 'O número de vagas é obrigatório.' }),
   observacaoExterna: z.string().optional(),
 })
 
@@ -70,7 +62,7 @@ const carroPessoaFormScheme = z.object({
     .min(1, { message: 'O número é obrigatório.' }),
   bairro: z.string().min(1, { message: 'O bairro é obrigatório.' }),
   estado: z.string().min(1, { message: 'O estado é obrigatório.' }),
-  cidade: z.string().min(1, { message: 'A cidade é obrigatório.' }),
+  cidade: z.string().min(1, { message: 'A cidade é obrigatória.' }),
   rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
   observacaoMotorista: z.string().optional(),
 })
@@ -131,18 +123,6 @@ const carroCaronaFormScheme = z
     }
   })
 
-// const caronaFormScheme = carroPessoaFormScheme.superRefine((data, ctx) => {
-//   if (data.id === '1') {
-//     return
-//   }
-//   const result = carroPessoaFormScheme.safeParse(data)
-//   if (!result.success) {
-//     for (const issue of result.error.issues) {
-//       ctx.addIssue(issue)
-//     }
-//   }
-// })
-
 const novoCarroFormScheme = z.object({
   idCarro: z.string(),
   numeroEncontro: z.number(),
@@ -192,7 +172,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
         id: data?.carona?.id || '1',
         nome: data?.carona?.nome || '',
         sobrenome: data?.carona?.sobrenome || '',
-        role: data?.motorista.role || 'TIOEXTERNA',
+        role: data?.carona?.role || 'TIOEXTERNA',
         celular: data?.carona?.celular || '',
         telefone: data?.carona?.telefone || undefined,
         email: data?.carona?.email || '',
@@ -275,7 +255,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
               <CaronaDetails disabled={disabled} />
               <Card
                 id="save-section"
-                className="w-full px-3 pt-8 text-zinc-700 "
+                className="w-full px-3 pt-8 text-zinc-700"
               >
                 <CardContent className="w-full">
                   <div className="flex items-center justify-between gap-3">

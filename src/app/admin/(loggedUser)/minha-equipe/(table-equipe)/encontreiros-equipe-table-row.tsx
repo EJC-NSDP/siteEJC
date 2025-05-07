@@ -82,7 +82,7 @@ export function EncontreiroEquipeTableRow({
             <div
               className={cn(
                 colorFichaPreenchida,
-                'size-3 rounded-full  shadow-sm',
+                'size-3 rounded-full shadow-sm',
               )}
             />
             <span className="text-xs">{fichaPreenchida}</span>

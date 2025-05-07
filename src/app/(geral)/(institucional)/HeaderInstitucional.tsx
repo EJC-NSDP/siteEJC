@@ -15,10 +15,7 @@ export function HeaderInstitucional({
 }: HeaderInstitucionalProps) {
   return (
     <div className="-mt-56 flex justify-center lg:-mt-institucional">
-      <div
-        className="flex w-full flex-col gap-8 text-center lg:w-1/2 lg:gap-16
-      "
-      >
+      <div className="flex w-full flex-col gap-8 text-center lg:w-1/2 lg:gap-16">
         <h1 className="text-3xl font-extrabold text-violet-50 lg:text-5xl">
           {title}
         </h1>

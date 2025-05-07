@@ -123,11 +123,9 @@ export function EncontreirosTable() {
 
     newSearch.append('orderByField', orderField)
 
-    orderByField === orderField
-      ? orderByDirection === 'asc'
-        ? newSearch.append('orderDirection', 'desc')
-        : newSearch.append('orderDirection', 'asc')
-      : newSearch.append('orderDirection', 'asc')
+    const direction =
+      orderByField === orderField && orderByDirection === 'asc' ? 'desc' : 'asc'
+    newSearch.append('orderDirection', direction)
 
     newSearch.append('page', (pageIndex + 1).toString())
     router.push(`${pathname}?${newSearch}`)

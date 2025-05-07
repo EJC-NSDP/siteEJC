@@ -10,7 +10,7 @@ export default async function ParticipePage() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center pb-32 pt-24 text-zinc-700 ">
+        <div className="flex items-center justify-center pb-32 pt-24 text-zinc-700">
           <div className="flex w-card">
             <CardLoading />
           </div>
