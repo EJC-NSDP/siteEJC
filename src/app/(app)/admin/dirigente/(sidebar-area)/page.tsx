@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Download, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { EncontreirosTable } from './(table-encontreiros)/encontreiros-table'
 
@@ -17,14 +17,16 @@ export default function Dirigente() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
-            {/* <Link href="/api/export/encontrista">
+            <Link href="/api/export/cozinha">
               <Button variant="secondary">
-                <div className="flex items-center justify-center gap-2 lg:w-40">
+                <div className="flex items-center justify-center gap-2 lg:w-auto">
                   <Download className="h-4 w-4 text-tertiary" />
-                  <span className="hidden lg:flex">Gerar XLSX</span>
+                  <span className="hidden lg:flex">
+                    Baixar Restrições Alimentares
+                  </span>
                 </div>
               </Button>
-            </Link> */}
+            </Link>
 
             <Link href="/admin/dirigente/encontreiro/novo">
               <Button>

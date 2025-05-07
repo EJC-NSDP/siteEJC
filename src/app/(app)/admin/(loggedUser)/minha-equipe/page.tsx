@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { getEquipeColor } from '@/utils/fetch-color'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
 import { useQuery } from '@tanstack/react-query'
-import { FolderOpen } from 'lucide-react'
+import { Download, FolderOpen } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -76,17 +76,32 @@ export default function MinhaEquipe() {
             <span className="text-xl text-zinc-800 lg:text-3xl">
               {equipeName}
             </span>
-            {result.idEquipe !== 'dirigente' && (
-              <Link href={result.pastaUrl}>
-                <Button
-                  variant="default"
-                  className="flex items-center gap-4 text-tertiary"
-                >
-                  <FolderOpen className="h-6 w-6" />
-                  <span className="text-sm font-medium">Pasta Virtual</span>
-                </Button>
-              </Link>
-            )}
+            <div className="flex gap-4">
+              {result.idEquipe === 'cozinha' && (
+                <Link href="/api/export/cozinha">
+                  <Button
+                    variant="secondary"
+                    className="flex items-center gap-2 text-tertiary"
+                  >
+                    <Download className="size-4 text-tertiary" />
+                    <span className="text-sm font-medium">
+                      Baixar Restrições Alimentares
+                    </span>
+                  </Button>
+                </Link>
+              )}
+              {result.idEquipe !== 'dirigente' && (
+                <Link href={result.pastaUrl}>
+                  <Button
+                    variant="default"
+                    className="flex items-center gap-2 text-tertiary"
+                  >
+                    <FolderOpen className="size-4" />
+                    <span className="text-sm font-medium">Pasta Virtual</span>
+                  </Button>
+                </Link>
+              )}
+            </div>
           </CardTitle>
           <CardContent className="flex flex-col gap-4 lg:flex-row lg:gap-8">
             <EncontreirosEquipeTable
