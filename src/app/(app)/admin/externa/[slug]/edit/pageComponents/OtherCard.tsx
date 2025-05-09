@@ -1,3 +1,4 @@
+import tamanhoCamisaReference from '@/assets/TamanhoCamisaReference.jpeg'
 import { CardForm } from '@/components/Form/CardForm'
 import { CardFormSection } from '@/components/Form/CardFormSection'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -11,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { getTamanhoCamisa } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useFormContext } from 'react-hook-form'
 
 export function OtherCard() {
@@ -37,6 +39,12 @@ export function OtherCard() {
                   placeholder="Selecione uma opção"
                   onChange={field.onChange}
                   value={field.value}
+                  tip={
+                    <Image
+                      src={tamanhoCamisaReference}
+                      alt="Tamanhos de camisa"
+                    />
+                  }
                 >
                   {tamanhoCamisa &&
                     tamanhoCamisa.map((item) => {

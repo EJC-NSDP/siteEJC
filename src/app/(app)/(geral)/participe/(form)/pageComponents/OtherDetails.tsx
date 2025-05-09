@@ -1,5 +1,6 @@
 'use client'
 
+import tamanhoCamisaReference from '@/assets/TamanhoCamisaReference.jpeg'
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -19,6 +20,7 @@ import {
 import { getTamanhoCamisa } from '@/utils/fetch-domains'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useWizard } from 'react-use-wizard'
@@ -93,6 +95,12 @@ export function OtherDetails() {
                     placeholder="Selecione uma opção"
                     onChange={field.onChange}
                     value={field.value}
+                    tip={
+                      <Image
+                        src={tamanhoCamisaReference}
+                        alt="Tamanhos de camisa"
+                      />
+                    }
                   >
                     {tamanhoCamisa &&
                       tamanhoCamisa.map((item) => {
