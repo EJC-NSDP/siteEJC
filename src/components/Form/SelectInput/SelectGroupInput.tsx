@@ -4,6 +4,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { CircleHelp } from 'lucide-react'
+import { useState } from 'react'
 import {
   FormControl,
   FormDescription,
@@ -42,18 +43,26 @@ export function SelectGroupInput({
   onChange,
   ...props
 }: SelectGroupInputProps) {
+  const [open, setOpen] = useState(false)
+
   return (
     <FormItem {...props}>
       <label className="flex flex-col gap-2">
-        <Tooltip>
+        <Tooltip defaultOpen={open}>
           <div className="flex items-center gap-2">
             {label && <FormLabel>{label}</FormLabel>}{' '}
             {tip && (
               <>
-                <TooltipTrigger type="button">
+                <TooltipTrigger
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpen(true)
+                  }}
+                >
                   <CircleHelp className="size-4 cursor-auto" />
                 </TooltipTrigger>
-                <TooltipContent className="w-100">{tip}</TooltipContent>
+                <TooltipContent className="w-80 lg:w-100">{tip}</TooltipContent>
               </>
             )}
           </div>
