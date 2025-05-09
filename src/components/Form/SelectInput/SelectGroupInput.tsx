@@ -50,7 +50,7 @@ export function SelectGroupInput({
             {label && <FormLabel>{label}</FormLabel>}{' '}
             {tip && (
               <>
-                <TooltipTrigger>
+                <TooltipTrigger type="button">
                   <CircleHelp className="size-4 cursor-auto" />
                 </TooltipTrigger>
                 <TooltipContent className="w-100">{tip}</TooltipContent>
