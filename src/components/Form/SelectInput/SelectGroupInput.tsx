@@ -4,7 +4,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { CircleHelp } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   FormControl,
   FormDescription,
@@ -44,10 +44,15 @@ export function SelectGroupInput({
   ...props
 }: SelectGroupInputProps) {
   const [open, setOpen] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
 
-  const handleMouseEnter = () => setOpen(true)
-  const handleMouseLeave = () => setOpen(false)
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches)
+  }, [])
+
   const handleClick = () => setOpen((prev) => !prev)
+  const handleMouseEnter = () => !isTouch && setOpen(true)
+  const handleMouseLeave = () => !isTouch && setOpen(false)
 
   return (
     <FormItem {...props}>
