@@ -45,22 +45,25 @@ export function SelectGroupInput({
 }: SelectGroupInputProps) {
   const [open, setOpen] = useState(false)
 
+  const handleMouseEnter = () => setOpen(true)
+  const handleMouseLeave = () => setOpen(false)
+  const handleClick = () => setOpen((prev) => !prev)
+
   return (
     <FormItem {...props}>
       <label className="flex flex-col gap-2">
-        <Tooltip defaultOpen={open}>
+        <Tooltip open={open} onOpenChange={setOpen} delayDuration={0}>
           <div className="flex items-center gap-2">
             {label && <FormLabel>{label}</FormLabel>}{' '}
             {tip && (
               <>
                 <TooltipTrigger
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setOpen(true)
-                  }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={handleClick}
                 >
-                  <CircleHelp className="size-4 cursor-auto" />
+                  <CircleHelp className="size-4 cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent className="w-80 lg:w-100">{tip}</TooltipContent>
               </>
