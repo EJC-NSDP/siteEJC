@@ -9,7 +9,17 @@ export async function GET(
   request: Request,
   context: { params: Promise<LiderancaProps> },
 ) {
-  const dirisBps = await getPastorais(Number((await context.params).ano))
+  const requestUrl = new URL(request.url)
+
+  const encontreiroName = requestUrl.searchParams.get('name')
+  const pastoral = requestUrl.searchParams.get('pastoral')
+  const ano = Number((await context.params).ano)
+
+  const dirisBps = await getPastorais({
+    ano,
+    encontreiroName,
+    pastoral,
+  })
 
   return NextResponse.json(dirisBps)
 }

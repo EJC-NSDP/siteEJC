@@ -1,5 +1,6 @@
 import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import type { PossiveisTiosExterna } from '@/app/api/encontro/atual/[ignorar]/possiveisExternas/get-possiveis-externas'
+import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pastorais'
 
 import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
@@ -43,6 +44,25 @@ export async function getPossiveisTios() {
     const selectItem: SelectArray = {
       label: item.nome,
       badge: item.encontro ? item.encontro : item.role,
+      value: item.id,
+    }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+export async function getCurrentPastorais(ano: number) {
+  const response: PessoaPastoral[] = await api
+    .get(`lideranca/${ano}/pastorais`)
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: item.pastoral,
       value: item.id,
     }
 

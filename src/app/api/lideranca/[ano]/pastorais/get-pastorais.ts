@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import type { Prisma } from '@prisma/client'
 
 export interface PessoaPastoral {
   id: string
@@ -7,7 +8,31 @@ export interface PessoaPastoral {
   ano: number
 }
 
-export async function getPastorais(ano: number): Promise<PessoaPastoral[]> {
+interface GetPastoraisProps {
+  ano: number
+  encontreiroName: string | null
+  pastoral: string | null
+}
+
+export async function getPastorais({
+  ano,
+  encontreiroName,
+  pastoral,
+}: GetPastoraisProps): Promise<PessoaPastoral[]> {
+  const nameParts = encontreiroName ? encontreiroName.split(' ') : []
+
+  const nameFilter: Prisma.PessoaWhereInput = encontreiroName
+    ? {
+        OR: nameParts.flatMap((part) => [
+          { nome: { contains: part, mode: 'insensitive' } },
+          { sobrenome: { contains: part, mode: 'insensitive' } },
+        ]),
+      }
+    : {}
+
+  const pastoralFilter: Prisma.LiderancaWhereInput =
+    pastoral && pastoral !== 'all' ? { idFuncao: pastoral } : {}
+
   const dirisBps = await prisma.lideranca.findMany({
     select: {
       idPessoa: true,
@@ -27,6 +52,10 @@ export async function getPastorais(ano: number): Promise<PessoaPastoral[]> {
     where: {
       ano,
       NOT: [{ idFuncao: 'dirigente' }, { idFuncao: 'bp' }],
+      pessoa: {
+        ...nameFilter,
+      },
+      ...pastoralFilter,
     },
     orderBy: [
       {

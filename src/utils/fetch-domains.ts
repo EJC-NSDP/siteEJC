@@ -3,6 +3,7 @@ import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disp
 import type { Equipes } from '@/app/api/domains/equipes/get-equipes'
 import type { Funcao } from '@/app/api/domains/funcoes/get-funcoes'
 import type { MoraCom } from '@/app/api/domains/mora_com/get-mora-com'
+import type { Pastoral } from '@/app/api/domains/pastorais/get-pastorais'
 import type { Religiao } from '@/app/api/domains/religiao/get-religiao'
 import type { StatusPais } from '@/app/api/domains/status_pais/get-status-pais'
 import type { TamanhoCamisa } from '@/app/api/domains/tamanho_camisa/get-tamanho-camisa'
@@ -132,6 +133,25 @@ export async function getCorEncontro() {
     const selectItem: SelectArray = {
       label: item.cor,
       value: item.id.toString(),
+    }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+export async function getAllPastorais() {
+  const response: Pastoral[] = await api
+    .get('domains/pastorais')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = {
+      label: item.label,
+      value: item.id,
     }
 
     selectData.push(selectItem)

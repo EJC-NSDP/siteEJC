@@ -12,12 +12,25 @@ import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pas
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'next/navigation'
+import { PastoraisSecreTableFilters } from './pastorais-secre-table-filters'
 import { PastoraisSecreTableRow } from './pastorais-secre-table-row'
 import { PastoraisSecreTableSkeleton } from './pastorais-secre-table-skeleton'
 
-async function getPastorais(ano: number) {
+interface SearchProps {
+  ano: number
+  encontreiroName: string | null
+  pastorais: string | null
+}
+
+async function getPastorais({ ano, encontreiroName, pastorais }: SearchProps) {
+  const nameSearch = encontreiroName ? `name=${encontreiroName}&` : ''
+  const pastoralSearch = pastorais ? `pastoral=${pastorais}&` : ''
+
+  const path = `lideranca/${ano}/pastorais?${nameSearch}${pastoralSearch}`
+
   const response: PessoaPastoral[] = await api
-    .get(`lideranca/${ano}/pastorais`)
+    .get(path)
     .then((response) => response.data)
     .catch((err) => console.error(err))
 
@@ -26,16 +39,22 @@ async function getPastorais(ano: number) {
 
 export function PastoraisSecreTable() {
   const totalCol = 3
-  const thisYear = new Date().getFullYear()
+  const ano = new Date().getFullYear()
+
+  const searchParams = useSearchParams()
+
+  const encontreiroName = searchParams.get('encontreiroName')
+  const pastorais = searchParams.get('pastorais')
 
   const { data: result, isLoading } = useQuery<PessoaPastoral[]>({
-    queryKey: ['pastorais', thisYear],
-    queryFn: () => getPastorais(thisYear),
+    queryFn: () => getPastorais({ ano, encontreiroName, pastorais }),
+    queryKey: ['pastorais', { ano, encontreiroName, pastorais }],
   })
 
   return (
     <>
       <div className="flex flex-col gap-4 py-1">
+        <PastoraisSecreTableFilters />
         <div className="w-full overflow-x-auto bg-transparent">
           <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>

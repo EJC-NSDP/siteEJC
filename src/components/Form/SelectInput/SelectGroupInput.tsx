@@ -3,6 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { CircleHelp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import {
@@ -55,37 +56,35 @@ export function SelectGroupInput({
   const handleMouseLeave = () => !isTouch && setOpen(false)
 
   return (
-    <FormItem {...props}>
-      <label className="flex flex-col gap-2">
-        <Tooltip open={open} onOpenChange={setOpen} delayDuration={0}>
-          <div className="flex items-center gap-2">
-            {label && <FormLabel>{label}</FormLabel>}{' '}
+    <Tooltip open={open} onOpenChange={setOpen} delayDuration={0}>
+      <FormItem {...props}>
+        <label className="flex flex-col gap-2">
+          <div className={cn(label ? 'flex items-center gap-2' : 'hidden')}>
+            {label && <FormLabel>{label}</FormLabel>}
             {tip && (
-              <>
-                <TooltipTrigger
-                  type="button"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={handleClick}
-                >
-                  <CircleHelp className="size-4 cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent className="w-80 lg:w-100">{tip}</TooltipContent>
-              </>
+              <TooltipTrigger
+                type="button"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+              >
+                <CircleHelp className="size-4 cursor-pointer" />
+              </TooltipTrigger>
             )}
           </div>
-        </Tooltip>
-        <Select disabled={disabled} onValueChange={onChange} value={value}>
-          <FormControl>
-            <SelectTrigger className="houtline-none">
-              <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
-          </FormControl>
-          <SelectContent>{children}</SelectContent>
-        </Select>
-        {description && <FormDescription>{description}</FormDescription>}
-      </label>
-      <FormMessage />
-    </FormItem>
+          <Select disabled={disabled} onValueChange={onChange} value={value}>
+            <FormControl>
+              <SelectTrigger className="houtline-none border border-zinc-300 bg-white">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>{children}</SelectContent>
+          </Select>
+          {description && <FormDescription>{description}</FormDescription>}
+        </label>
+        <FormMessage />
+      </FormItem>
+      <TooltipContent className="w-80 lg:w-100">{tip}</TooltipContent>
+    </Tooltip>
   )
 }

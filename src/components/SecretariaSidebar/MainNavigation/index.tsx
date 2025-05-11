@@ -1,4 +1,5 @@
 import {
+  Baby,
   BookUser,
   Car,
   HeartHandshake,
@@ -16,13 +17,13 @@ export function MainNavigation() {
 
   return (
     <nav className="flex flex-col gap-4 space-y-0.5">
-      {/* <Link href="/admin/secretaria">
+      <Link href="/admin/secretaria">
         <NavItem
           title="Encontristas"
           icon={Baby}
           active={path === '/admin/secretaria'}
         />
-      </Link> */}
+      </Link>
       <Link href="/admin/secretaria/encontreiros">
         <NavItem
           title="Encontreiros"
