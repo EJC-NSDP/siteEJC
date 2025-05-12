@@ -61,7 +61,6 @@ model Encontrista {
   idReligiao             Value_Religiao      @map("id_religiao")
   idMoracom              Value_MoraCom       @map("id_moracom")
   idStatusPais           Value_StatusPais    @map("id_statusPais")
-  endNumero              Int                 @map("end_numero")
   cartasFisicas          Int                 @default(0) @map("cartas_fisicas")
   idCarroEncontro        String?             @map("id_carro_encontro")
   cepEncontro            String?             @map("cep_encontro")

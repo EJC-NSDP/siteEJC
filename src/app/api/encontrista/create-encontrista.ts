@@ -86,12 +86,12 @@ export async function createEncontrista({
       telefone: personal.telefone,
       email: personal.email,
       slug: encontristaSlug,
+      enderecoNumero: parseInt(address.numero, 10),
       encontrista: {
         create: {
           idStatus: 'ligar',
           idReligiao: personal.religiao,
           isAutofill: personal.paraVoce === 'sim',
-          endNumero: parseInt(address.numero, 10),
           endComplemento: address.complemento,
           cepEncontro: enderecoEncontro.cep,
           endNumEncontro: parseInt(address.numeroEncontro, 10),

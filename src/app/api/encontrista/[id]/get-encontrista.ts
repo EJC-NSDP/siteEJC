@@ -79,6 +79,7 @@ export async function getEncontrista(id: string) {
       celular: true,
       telefone: true,
       email: true,
+      enderecoNumero: true,
       endereco: {
         select: {
           cep: true,
@@ -101,7 +102,6 @@ export async function getEncontrista(id: string) {
               rua: true,
             },
           },
-          endNumero: true,
           endComplemento: true,
           endNumEncontro: true,
           endComplementoEncontro: true,
@@ -171,7 +171,7 @@ export async function getEncontrista(id: string) {
       cidade: encontrista.endereco.cidade,
       bairro: encontrista.endereco.bairro,
       rua: encontrista.endereco.rua,
-      numero: encontrista.encontrista!.endNumero,
+      numero: encontrista.enderecoNumero || 0,
       complemento: encontrista.encontrista!.endComplemento,
     },
     enderecoEncontro: {

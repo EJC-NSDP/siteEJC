@@ -1,5 +1,7 @@
 'use client'
 
+import { EncontristasSecreTable } from './(table-encontreiros)/encontristas-secre-table'
+
 export default function SecretariaEncontristas() {
   return (
     <div className="w-ful h-full">
@@ -13,7 +15,7 @@ export default function SecretariaEncontristas() {
             </span>
           </div>
         </div>
-        Tabela dos encontristas
+        <EncontristasSecreTable />
       </div>
     </div>
   )

@@ -84,9 +84,9 @@ export function EncontristaTableRow({ encontrista }: EncontristaTableRowProps) {
         </TableCell>
         <TableCell>{encontrista.bairroEncontro}</TableCell>
         <TableCell>{encontrista.celular}</TableCell>
-        <TableCell className="w-4">
+        <TableCell className="w-40">
           {isLoading ? (
-            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-40" />
           ) : (
             <EncontristaExterna
               idExterna={encontrista.idExterna}

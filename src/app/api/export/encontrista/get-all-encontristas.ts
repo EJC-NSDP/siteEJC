@@ -10,6 +10,7 @@ export async function getAllEncontristas() {
       celular: true,
       telefone: true,
       email: true,
+      enderecoNumero: true,
       endereco: {
         select: {
           cep: true,
@@ -32,7 +33,6 @@ export async function getAllEncontristas() {
           idStatus: true,
           idReligiao: true,
           isAutofill: true,
-          endNumero: true,
           endComplemento: true,
           idMoracom: true,
           idStatusPais: true,
@@ -98,7 +98,7 @@ export async function getAllEncontristas() {
       idStatus: encontrista.encontrista?.idStatus,
       idReligiao: encontrista.encontrista?.idReligiao,
       isAutofill: encontrista.encontrista?.isAutofill,
-      endNumero: encontrista.encontrista?.endNumero,
+      endNumero: encontrista.enderecoNumero,
       endComplemento: encontrista.encontrista?.endComplemento,
       idMoracom: encontrista.encontrista?.idMoracom,
       idStatusPais: encontrista.encontrista?.idStatusPais,

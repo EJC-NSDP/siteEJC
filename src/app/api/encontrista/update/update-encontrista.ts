@@ -41,11 +41,11 @@ export async function updateEncontrista(data: EditFormDataInput) {
       celular: data.celular,
       telefone: data.telefone,
       email: data.email,
+      enderecoNumero: data.numero,
       encontrista: {
         update: {
           idReligiao: data.religiao,
           isAutofill: data.paraVoce === 'sim',
-          endNumero: data.numero,
           endComplemento: data.complemento,
           cepEncontro: data.cepEncontro,
           endNumEncontro: data.numeroEncontro,

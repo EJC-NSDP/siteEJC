@@ -125,7 +125,7 @@ export function Pagination({
             onClick={() => onPageChange(pageIndex)}
             variant="ghost"
             className="flex gap-1 disabled:opacity-50"
-            disabled={totalPages <= pageIndex + 1}
+            disabled={totalPages < pageIndex + 1}
           >
             <span className="font-medium text-tertiary">Próximo</span>
             <ChevronRight className="h-4 w-4 text-tertiary" />

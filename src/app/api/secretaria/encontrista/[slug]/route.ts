@@ -1,4 +1,4 @@
-import type { EditFormDataInput } from '@/app/(app)/admin/externa/[slug]/edit/EditEncontristaForm'
+import type { EditSecreFormDataInput } from '@/app/(app)/admin/secretaria/(encontristas)/[slug]/edit/EditSecreEncontristaForm'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getEncontristaSecre } from './get-encontrista-secre'
 import { updateEncontristaSecre } from './update-encontrista-secre'
@@ -17,7 +17,7 @@ export async function GET(
 }
 
 export async function PUT(request: NextRequest) {
-  const formData: EditFormDataInput = await request.json()
+  const formData: EditSecreFormDataInput = await request.json()
 
   const updated = await updateEncontristaSecre(formData)
 
@@ -26,8 +26,7 @@ export async function PUT(request: NextRequest) {
   }
 
   const encontristaUpdated = {
-    id: updated.id,
-    email: updated.email,
+    slug: updated.slug,
   }
 
   return NextResponse.json(encontristaUpdated, { status: 201 })

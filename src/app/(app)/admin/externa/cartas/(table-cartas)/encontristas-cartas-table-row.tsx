@@ -2,7 +2,6 @@
 
 import { TableCell, TableRow } from '@/components/ui/table'
 
-import type { CoresMapProps } from '@/@types/cores-circulos'
 import type {
   CartaSummary,
   CartaSummaryData,
@@ -17,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
+import { getCirculoColor } from '@/utils/fetch-color'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   MailCheck,
@@ -72,14 +72,6 @@ const statusCarta: StatusCartaProps[] = [
     icon: MailCheck,
     label: 'Cartas Ok',
   },
-]
-
-const coresMap: CoresMapProps[] = [
-  { index: 1, color: 'bg-yellow-400 text-yellow-400', label: 'Amarelo' },
-  { index: 2, color: 'bg-blue-400 text-blue-400', label: 'Azul' },
-  { index: 3, color: 'bg-orange-400 text-orange-400', label: 'Laranja' },
-  { index: 4, color: 'bg-emerald-400 text-emerald-400', label: 'Verde' },
-  { index: 5, color: 'bg-red-400 text-red-400', label: 'Vermelho' },
 ]
 
 export function EncontristaCartasTableRow({
@@ -146,9 +138,7 @@ export function EncontristaCartasTableRow({
       cartasFisicas,
     })
   }
-  const cor = encontristaCartas.idCor
-    ? coresMap.filter((cor) => encontristaCartas.idCor === cor.index)[0].color
-    : 'Cinza'
+  const cor = getCirculoColor(encontristaCartas.corLabel)
 
   return (
     <TableRow className="bg-white">
