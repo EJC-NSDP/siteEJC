@@ -23,6 +23,7 @@ const fieldMappings: Record<
 type OrderByField = (typeof validOrderFields)[number]
 
 export type EncontreiroSecreSummaryData = {
+  id: string
   nome: string
   sobrenome: string
   apelido: string | null
@@ -69,6 +70,8 @@ type GetTotalEncontreirosSecreProps = {
   encontreiroEquipe: string | null
   encontreiroFicha: string | null
 }
+
+type EncontreiroType = Awaited<ReturnType<typeof getEncontreirosSecre>>[number]
 
 async function getEncontreirosSecre({
   encontroId,
@@ -168,6 +171,7 @@ async function getEncontreirosSecre({
           },
           pessoa: {
             select: {
+              id: true,
               nome: true,
               sobrenome: true,
               apelido: true,
@@ -245,32 +249,11 @@ async function getTotalEncontreirosSecre({
 }
 
 function transformToEncontreiroSummaryData(
-  encontreiros: {
-    equipe: {
-      equipeLabel: string
-    }
-    fichaPreenchida: boolean
-    coordenou: boolean
-    encontreiro: {
-      instagram: string | null
-      pessoa: {
-        nome: string
-        sobrenome: string
-        apelido: string | null
-        celular: string
-        slug: string
-        endereco: {
-          bairro: string
-        }
-      }
-      encontro: {
-        numeroEncontro: number
-      } | null
-    }
-  }[],
+  encontreiros: EncontreiroType[],
 ): EncontreiroSecreSummaryData[] {
   return encontreiros.map((encontreiro) => {
     return {
+      id: encontreiro.encontreiro.pessoa.id,
       nome: encontreiro.encontreiro.pessoa.nome,
       sobrenome: encontreiro.encontreiro.pessoa.sobrenome,
       apelido: encontreiro.encontreiro.pessoa.apelido,

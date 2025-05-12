@@ -1,3 +1,17 @@
+export function idPertenceATropa(equipe: string): boolean {
+  const categorias = [
+    'banda',
+    'cozinha',
+    'garcom',
+    'liturgia',
+    'mini',
+    'ordem',
+    'secretaria',
+    'teatro',
+  ]
+  return categorias.includes(equipe)
+}
+
 export function idPertenceARosa(equipe: string): boolean {
   const categorias = ['vigilia', 'recepcao', 'compras', 'externa', 'meditacao']
   return categorias.includes(equipe)

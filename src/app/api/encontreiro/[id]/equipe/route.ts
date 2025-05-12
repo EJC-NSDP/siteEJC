@@ -9,7 +9,7 @@ export async function GET(
   request: Request,
   context: { params: Promise<ProfileProps> },
 ) {
-  const profile = await getEquipe((await context.params).id)
+  const encontreiro = await getEquipe((await context.params).id)
 
-  return NextResponse.json(profile)
+  return NextResponse.json(encontreiro)
 }
