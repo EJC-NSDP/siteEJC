@@ -16,7 +16,8 @@ const buttonVariants = cva(
         secondary: 'border border-tertiary bg-transparent hover:bg-tertiary/10',
         tertiary:
           'border border-secondary bg-transparent hover:bg-secondary/10 text-secondary',
-        ghost: 'hover:text-zinc-50/80 text-zinc-50',
+        ghost:
+          'hover:text-zinc-50/80 text-zinc-50 disabled:cursor-default disabled:opacity-50',
         link: 'text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50',
       },
       size: {

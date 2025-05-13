@@ -5,7 +5,7 @@ export type EncontristaSecreData = {
   slug: string
   nome: string
   sobrenome: string
-  apelido: string
+  apelido: string | null
   dataNasc: string
   celular: string
   instagram: string
@@ -60,8 +60,8 @@ export async function getEncontristaSecre(
 
   return {
     nome: pessoa.nome,
-    sobrenome: pessoa.nome,
-    apelido: pessoa.nome,
+    sobrenome: pessoa.sobrenome,
+    apelido: pessoa.apelido,
     slug: pessoa.slug,
     celular: pessoa.celular,
     dataNasc: pessoa.encontreiro?.dataNasc

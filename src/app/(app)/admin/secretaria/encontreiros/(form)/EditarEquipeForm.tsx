@@ -50,10 +50,7 @@ export function EditarEquipeForm({ data, openFnAction }: EditEquipeFormProps) {
     },
   })
 
-  const { handleSubmit, control, watch } = form
-
-  console.log(watch('idPessoa'))
-  console.log(watch('equipeLabel'))
+  const { handleSubmit, control } = form
 
   const { data: equipes } = useQuery<SelectArray[]>({
     queryFn: async () => await getEquipes(),
