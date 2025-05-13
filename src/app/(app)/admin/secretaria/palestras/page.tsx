@@ -1,6 +1,5 @@
 'use client'
 
-
 export default function SecretariaPalestrantes() {
   return (
     <div className="h-full w-full">
