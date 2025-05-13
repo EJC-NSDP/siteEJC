@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma'
 export async function getPalestrantes() {
   return await prisma.palestrantes.findMany({
     select: {
-      id: true,
       nome: true,
       order: true,
       encontro: {

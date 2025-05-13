@@ -270,14 +270,15 @@ model EquipeMontagem {
 }
 
 model Palestrantes {
-  id         String          @id @default(uuid())
-  order      Int             @default(100)
-  idEncontro String          @map("id_encontro")
-  idPalestra Int             @map("id_palestra")
+  order      Int     @default(100)
+  idEncontro String  @map("id_encontro")
+  idPalestra Int     @map("id_palestra")
   nome       String?
-  encontro   Encontro        @relation(fields: [idEncontro], references: [id])
-  palestra   DomainPalestras @relation(fields: [idPalestra], references: [id])
 
+  encontro Encontro        @relation(fields: [idEncontro], references: [id])
+  palestra DomainPalestras @relation(fields: [idPalestra], references: [id])
+
+  @@id([idEncontro, idPalestra])
   @@map("palestrantes")
 }
 

@@ -12,6 +12,7 @@ import { getPalestras } from '@/utils/fetch-domains'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
+
 interface CardPalestraProps {
   index: number
   total: number
@@ -39,7 +40,7 @@ export function CardPalestra({
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center">
         <Button
           variant="ghost"
           className="p-0"
@@ -50,11 +51,7 @@ export function CardPalestra({
           <ChevronUp className="size-5 text-zinc-700 hover:text-zinc-500" />
         </Button>
 
-        <FormField
-          control={control}
-          name={`palestras.${index}.order`}
-          render={({ field }) => <span>{field.value}</span>}
-        />
+        <span>{index + 1}</span>
 
         <Button
           variant="ghost"

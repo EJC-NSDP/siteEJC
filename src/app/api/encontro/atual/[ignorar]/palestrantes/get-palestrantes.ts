@@ -1,24 +1,22 @@
 import { prisma } from '@/lib/prisma'
 import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
 
-export async function getPalestrantesAtual() {
+export interface PalestraEncontro {
+  idPalestra: string
+  nomePalestrante: string | null
+}
+
+export async function getPalestrantesAtual(): Promise<PalestraEncontro[]> {
   const currentEncontro = await getCurrentEncontro()
 
-  if (!currentEncontro) return null
+  if (!currentEncontro) return []
 
-  return await prisma.palestrantes.findMany({
+  const palestrantes = await prisma.palestrantes.findMany({
     select: {
-      id: true,
       nome: true,
-      order: true,
-      encontro: {
-        select: {
-          numeroEncontro: true,
-        },
-      },
       palestra: {
         select: {
-          nome: true,
+          id: true,
         },
       },
     },
@@ -28,5 +26,12 @@ export async function getPalestrantesAtual() {
     orderBy: {
       order: 'asc',
     },
+  })
+
+  return palestrantes.map((palestrante) => {
+    return {
+      idPalestra: palestrante.palestra.id.toString(),
+      nomePalestrante: palestrante.nome,
+    }
   })
 }
