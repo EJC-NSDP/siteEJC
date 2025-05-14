@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.VERCEL === '1',
   },
+  images: {
+    remotePatterns: [new URL('https://res.cloudinary.com/**')],
+  },
 }
 
 export default nextConfig

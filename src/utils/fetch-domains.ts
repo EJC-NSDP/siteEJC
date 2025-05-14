@@ -176,6 +176,10 @@ export async function getEquipes() {
 
     if (
       item.equipeValue !== 'dirigente' &&
+      item.equipeValue !== 'tio_externa' &&
+      item.equipeValue !== 'palestrante' &&
+      item.equipeValue !== 'bom_pastor' &&
+      item.equipeValue !== 'pastoral' &&
       item.equipeValue !== 'tio_circulo'
     ) {
       selectData.push(selectItem)

@@ -14,6 +14,20 @@ export function getCirculoColor(label: string) {
             : 'bg-zinc-200'
 }
 
+export function getCirculoTitleColor(label: string) {
+  return label === 'Amarelo'
+    ? 'text-yellow-500'
+    : label === 'Azul'
+      ? 'text-blue-500'
+      : label === 'Laranja'
+        ? 'text-orange-500'
+        : label === 'Verde'
+          ? 'text-emerald-500'
+          : label === 'Vermelho'
+            ? 'text-red-500'
+            : 'text-black'
+}
+
 export function getEquipeColor(id: string) {
   return idPertenceASala(id)
     ? 'bg-amber-900/80'

@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import tailwindcssAnimate from 'tailwindcss-animate'
 
 const config = {
   darkMode: 'class',
@@ -20,6 +21,7 @@ const config = {
         a5: '560px',
         '9/10': '90%',
         title: '34rem',
+        sheet: '800px',
       },
       height: {
         a4: '1119px',
@@ -28,6 +30,7 @@ const config = {
         98: '26rem',
         100: '28rem',
         institucional: '32.5rem',
+        sheet: '1112px',
       },
       translate: {
         institucional: '32.5rem',
@@ -61,7 +64,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 } satisfies Config
 
 export default config

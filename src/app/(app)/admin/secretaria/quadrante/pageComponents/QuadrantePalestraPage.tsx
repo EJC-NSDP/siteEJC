@@ -1,0 +1,54 @@
+import type { PalestranteQuadrante } from '@/@types/quadrante'
+import { Anton } from 'next/font/google'
+import { QuadranteOnePage } from './QuadranteOnePage'
+
+const anton = Anton({
+  weight: '400',
+  subsets: ['latin'],
+})
+
+interface QuadrantePalestraPageProps {
+  title: string
+  description: string
+  integrantes: PalestranteQuadrante[]
+}
+
+export function QuadrantePalestraPage({
+  title,
+  description,
+  integrantes,
+}: QuadrantePalestraPageProps) {
+  return (
+    <QuadranteOnePage>
+      <div className="flex w-full flex-col items-center gap-4 text-center">
+        <h1 className="text-7xl font-bold tracking-wider">
+          <div className={anton.className}>{title}</div>
+        </h1>
+        <h2 className="w-4/5 text-pretty text-lg italic text-zinc-800">
+          {description}
+        </h2>
+      </div>
+
+      <div className="mt-0 flex flex-col gap-8">
+        {/* Grid de integrantes */}
+        <div className="grid flex-1 grid-cols-2 gap-8">
+          {integrantes.map((member, index) => {
+            return (
+              <div
+                key={index}
+                className="my-0 flex items-center justify-start px-8 py-0 text-base"
+              >
+                <div className="flex w-full flex-col">
+                  <span className="flex w-full flex-col font-bold">
+                    {member.nome}
+                  </span>
+                  <span>Tema: {member.tema}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </QuadranteOnePage>
+  )
+}
