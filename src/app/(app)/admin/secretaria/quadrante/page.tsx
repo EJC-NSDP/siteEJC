@@ -1,75 +1,7 @@
-import type {
-  CirculoQuadrante,
-  EquipeBPsQuadrante,
-  EquipePalestrantesQuadrante,
-  EquipePastoraisQuadrante,
-  EquipeQuadrante,
-  EquipeTiosExternaQuadrante,
-} from '@/@types/quadrante'
-import { QuadranteGenerator } from './QuadranteGenerator'
-
-async function getCirculos() {
-  const circulos = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/encontrista`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return circulos
-}
-
-async function getEquipes() {
-  const equipes = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/encontreiro`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return equipes
-}
-
-async function getTioExterna() {
-  const tiosExterna = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/tio-externa`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return tiosExterna
-}
-
-async function getPalestrantes() {
-  const palestrantes = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/palestrante`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return palestrantes
-}
-
-async function getBPs() {
-  const bonsPastores = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/bom-pastor`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return bonsPastores
-}
-
-async function getPastorais() {
-  const pastorais = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/secretaria/quadrante/pastoral`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
-
-  return pastorais
-}
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default async function Quadrante() {
-  const circulos: CirculoQuadrante[] = await getCirculos()
-  const equipes: EquipeQuadrante[] = await getEquipes()
-  const tiosExterna: EquipeTiosExternaQuadrante = await getTioExterna()
-  const palestrantes: EquipePalestrantesQuadrante = await getPalestrantes()
-  const bonsPastores: EquipeBPsQuadrante = await getBPs()
-  const pastorais: EquipePastoraisQuadrante = await getPastorais()
-
   return (
     <div className="w-ful h-full">
       <div className="pb-4">
@@ -118,14 +50,15 @@ export default async function Quadrante() {
         </Accordion> */}
       </div>
       {/* <QuadranteForm /> */}
-      <QuadranteGenerator
-        circulos={circulos}
-        equipes={equipes}
-        tiosExterna={tiosExterna}
-        palestrantes={palestrantes}
-        bonsPastores={bonsPastores}
-        pastorais={pastorais}
-      />
+      <div className="flex w-full flex-col gap-4 p-4 lg:flex-row lg:gap-8">
+        <Link href="/quadrante/imprimir">
+          <Button className="w-full">Quadrante para imprimir</Button>
+        </Link>
+
+        <Link href="/quadrante/completo">
+          <Button className="w-full">Quadrante completo</Button>
+        </Link>
+      </div>
     </div>
   )
 }

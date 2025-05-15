@@ -20,9 +20,15 @@ export async function getPastoraisQuadrante(): Promise<EquipePastoraisQuadrante 
 
   if (!equipe) return null
 
-  const funcoes = await prisma.domainFuncoes.findMany({
+  const liderancas = await prisma.domainFuncoes.findMany({
+    select: {
+      id: true,
+      label: true,
+      logo: true,
+    },
     where: {
       NOT: [{ id: 'bp' }, { id: 'dirigente' }],
+      lideranca: { some: { ano: currentYear } },
     },
   })
 
@@ -48,17 +54,17 @@ export async function getPastoraisQuadrante(): Promise<EquipePastoraisQuadrante 
     },
   })
 
-  const pastorais: PastoralQuadrante[] = funcoes.map((funcao) => {
+  const pastorais: PastoralQuadrante[] = liderancas.map((lideranca) => {
     const integrantesFormatados = encontreiros
-      .filter((encontreiro) => encontreiro.funcao.label === funcao.label)
+      .filter((encontreiro) => encontreiro.funcao.label === lideranca.label)
       .map(
         (encontreiro) =>
           `${encontreiro.pessoa.nome} ${encontreiro.pessoa.sobrenome}`,
       )
 
     return {
-      nome: funcao.label,
-      logo: funcao.logo || '',
+      nome: lideranca.label,
+      logo: lideranca.logo || '',
       integrantes: integrantesFormatados,
     }
   })

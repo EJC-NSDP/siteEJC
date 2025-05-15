@@ -111,7 +111,6 @@ export async function getEncontristasQuadrante(): Promise<CirculoQuadrante[]> {
 
     return {
       cor: circulo.corCirculo.cor,
-      cartazUrl: '',
       integrantes: [
         {
           nome: circulo.tioAparente

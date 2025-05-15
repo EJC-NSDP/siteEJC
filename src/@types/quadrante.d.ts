@@ -21,7 +21,6 @@ export interface EncontristaQuadrante {
 
 export interface CirculoQuadrante {
   cor: string
-  cartazUrl: string
   integrantes: EncontristaQuadrante[]
 }
 
@@ -70,4 +69,40 @@ export interface PastoralQuadrante {
   nome: string
   logo: string
   integrantes: string[]
+}
+
+export interface CartazQuadrante {
+  cor: string
+  imagem: string
+}
+
+export interface ConfigQuadrante {
+  capas: {
+    principal: {
+      pb: string
+      colorida: string
+    }
+    circulos: {
+      pb: string
+      colorida: string
+    }
+    equipes: string
+  }
+  cartas: {
+    papa: string
+    padre: string
+    diris: string
+  }
+  cartazes: CartazQuadrante[]
+}
+
+
+export interface QuadranteData {
+  config: ConfigQuadrante
+  circulos: CirculoQuadrante[]
+  equipes?: EquipeQuadrante[]
+  tiosExterna?: EquipeTiosExternaQuadrante
+  palestrantes?: EquipePalestrantesQuadrante
+  bonsPastores?: EquipeBPsQuadrante
+  pastorais?: EquipePastoraisQuadrante
 }

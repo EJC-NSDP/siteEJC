@@ -27,7 +27,7 @@ export function QuadranteCirculoPage({
   isPb = false,
 }: QuadranteCirculoPageProps) {
   const titleColor = isPb
-    ? 'text-white font-outline-2'
+    ? 'text-transparent font-outline-2'
     : getCirculoTitleColor(circleColor)
 
   return (
@@ -39,7 +39,7 @@ export function QuadranteCirculoPage({
             'w-full text-center text-7xl font-bold tracking-wider',
           )}
         >
-          {title}
+          {title.toUpperCase()}
         </h1>
       </div>
 

@@ -21,9 +21,11 @@ export function QuadranteEquipePage({
 }: QuadranteEquipePageProps) {
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex w-full flex-col items-center gap-4 text-center">
-        <h1 className="text-7xl font-bold tracking-wider">
-          <div className={anton.className}>{title}</div>
+      <div className="flex w-full flex-col items-center gap-4 pb-4 text-center">
+        <h1
+          className={cn('text-7xl font-bold tracking-wider', anton.className)}
+        >
+          {title.toUpperCase()}
         </h1>
         <h2 className="w-4/5 text-pretty text-lg italic text-zinc-800">
           {description}

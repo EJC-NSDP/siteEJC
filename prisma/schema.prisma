@@ -294,11 +294,19 @@ model Lideranca {
   @@map("lideranca")
 }
 
+model Quadrante {
+  value    Value_Quadrante @id @unique
+  label    String
+  imageUrl String          @map("image_url")
+
+  @@map("quadrante")
+}
+
 model DomainFuncoes {
   id        String      @id @unique
   label     String
   logo      String?
-  Lideranca Lideranca[]
+  lideranca Lideranca[]
 
   @@map("@funcoes")
 }
@@ -420,6 +428,22 @@ model Session {
   user         Pessoa   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+enum Value_Quadrante {
+  amarelo
+  azul
+  laranja
+  verde
+  vermelho
+  capa_pb
+  capa_colorida
+  circulos_pb
+  circulos_colorida
+  equipe
+  carta_padre
+  carta_papa
+  carta_diris
 }
 
 enum Value_Status {

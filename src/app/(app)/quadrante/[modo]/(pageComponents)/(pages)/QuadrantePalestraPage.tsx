@@ -1,4 +1,5 @@
-import type { TioExternaQuadrante } from '@/@types/quadrante'
+import type { PalestranteQuadrante } from '@/@types/quadrante'
+import { cn } from '@/lib/utils'
 import { Anton } from 'next/font/google'
 import { QuadranteOnePage } from './QuadranteOnePage'
 
@@ -7,22 +8,24 @@ const anton = Anton({
   subsets: ['latin'],
 })
 
-interface QuadranteTiosExternaPageProps {
+interface QuadrantePalestraPageProps {
   title: string
   description: string
-  integrantes: TioExternaQuadrante[]
+  integrantes: PalestranteQuadrante[]
 }
 
-export function QuadranteTiosExternaPage({
+export function QuadrantePalestraPage({
   title,
   description,
   integrantes,
-}: QuadranteTiosExternaPageProps) {
+}: QuadrantePalestraPageProps) {
   return (
     <QuadranteOnePage>
-      <div className="flex w-full flex-col items-center gap-4 text-center">
-        <h1 className="text-7xl font-bold tracking-wider">
-          <div className={anton.className}>{title}</div>
+      <div className="flex w-full flex-col items-center gap-2 pb-8 text-center">
+        <h1
+          className={cn('text-7xl font-bold tracking-wider', anton.className)}
+        >
+          {title.toUpperCase()}
         </h1>
         <h2 className="w-4/5 text-pretty text-lg italic text-zinc-800">
           {description}
@@ -31,7 +34,7 @@ export function QuadranteTiosExternaPage({
 
       <div className="mt-0 flex flex-col gap-8">
         {/* Grid de integrantes */}
-        <div className="grid flex-1 grid-cols-2 gap-4">
+        <div className="grid flex-1 grid-cols-2 gap-8">
           {integrantes.map((member, index) => {
             return (
               <div
@@ -42,7 +45,7 @@ export function QuadranteTiosExternaPage({
                   <span className="flex w-full flex-col font-bold">
                     {member.nome}
                   </span>
-                  <span>Bairro: {member.bairro}</span>
+                  <span>Tema: {member.tema}</span>
                 </div>
               </div>
             )
