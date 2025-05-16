@@ -14,18 +14,18 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { AddressCard } from './pageComponents/AddressCard'
-import { EncontroCard } from './pageComponents/EncontroCard'
-import { PasswordCard } from './pageComponents/PasswordCard'
-import { PersonalCard } from './pageComponents/PersonalCard'
-import { ProxEncontroCard } from './pageComponents/ProxEncontroCard'
+import { AddressCard } from './(pageComponents)/AddressCard'
+import { EncontroCard } from './(pageComponents)/EncontroCard'
+import { PasswordCard } from './(pageComponents)/PasswordCard'
+import { PersonalCard } from './(pageComponents)/PersonalCard'
+import { ProxEncontroCard } from './(pageComponents)/ProxEncontroCard'
 
 interface FichaCadastroProps {
   data: EncontreiroCadastroData
 }
 
 const tamanhoCamisaEnum = z
-  .enum(['p', 'm', 'g', 'gg', 'xgg', 'outro'])
+  .enum(['pp', 'p', 'm', 'g', 'gg', 'xg', 'xgg', 'outro'])
   .optional()
 const disponibilidadeEnum = z.enum(
   ['INDISPONIVEL', 'MUITO_BAIXA', 'BAIXA', 'MEDIA', 'ALTA', 'MUITO_ALTA'],

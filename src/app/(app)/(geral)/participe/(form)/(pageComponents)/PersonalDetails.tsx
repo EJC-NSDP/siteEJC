@@ -24,8 +24,8 @@ import { useWizard } from 'react-use-wizard'
 import { toast } from 'sonner'
 import { useHookFormMask } from 'use-mask-input'
 import { z } from 'zod'
-import { CardParticipe } from '../components/CardParticipe'
-import { CardSection } from '../components/CardSection'
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const personalFormScheme = z.object({
   nome: z

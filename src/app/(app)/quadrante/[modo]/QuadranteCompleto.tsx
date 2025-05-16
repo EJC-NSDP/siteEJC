@@ -14,7 +14,7 @@ interface QuadranteCompletoProps {
 
 export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
   return (
-    <div className="">
+    <>
       {/* Capa */}
       <QuadranteCoverPage
         key="cover"
@@ -90,6 +90,6 @@ export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
       {data.pastorais && (
         <QuadrantePastoraisSection pastorais={data.pastorais} maxPorPag={5} />
       )}
-    </div>
+    </>
   )
 }

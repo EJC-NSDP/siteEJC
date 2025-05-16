@@ -25,8 +25,8 @@ import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useWizard } from 'react-use-wizard'
 import { z } from 'zod'
-import { CardParticipe } from '../components/CardParticipe'
-import { CardSection } from '../components/CardSection'
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const otherFormScheme = z.object({
   tamanhoCamisa: z

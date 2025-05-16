@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { useState } from 'react'
-import { SortableCirculo } from './SortCirculos/SortableCirculo'
-import { SortableCirculos } from './SortCirculos/SortableCirculos'
+import { SortableCirculo } from './(SortCirculos)/SortableCirculo'
+import { SortableCirculos } from './(SortCirculos)/SortableCirculos'
 
 function createRange<T>(
   length: number,

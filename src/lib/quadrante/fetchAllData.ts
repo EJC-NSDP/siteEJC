@@ -20,9 +20,9 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 export async function fetchQuadranteData(
-  modo: 'imprimir' | 'completo',
+  modoImprimir: boolean,
 ): Promise<QuadranteData> {
-  if (modo === 'imprimir') {
+  if (modoImprimir) {
     const [circulos, config] = await Promise.all([
       fetchJson<CirculoQuadrante[]>('/api/secretaria/quadrante/encontrista'),
       fetchJson<ConfigQuadrante>('/api/secretaria/quadrante/settings'),
@@ -66,4 +66,12 @@ export async function fetchQuadranteData(
     pastorais,
     config,
   }
+}
+
+export async function fetchConfigData(): Promise<ConfigQuadrante> {
+  const [config] = await Promise.all([
+    fetchJson<ConfigQuadrante>('/api/secretaria/quadrante/settings'),
+  ])
+
+  return config
 }

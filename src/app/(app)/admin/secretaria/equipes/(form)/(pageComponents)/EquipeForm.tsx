@@ -53,7 +53,6 @@ export function EquipesForm({ equipes }: EditEquipesProps) {
       .patch('secretaria/equipe', formDataInput.equipes)
       .then(async (result) => {
         const response: UpdateEquipesSecreResponse = result.data
-        console.log(response.atualizados.length)
         toast.success(`${response.atualizados.length} equipe(s) atualizada(s)!`)
         setUpdating(false)
       })

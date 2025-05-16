@@ -14,8 +14,6 @@ export function EquipeRow({ equipe, index }: EquipeRowProps) {
 
   const { control } = form
 
-  console.log(equipe)
-
   return (
     <div className="flex w-full gap-10">
       <FormField

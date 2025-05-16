@@ -2,7 +2,7 @@ import type { CarFormData } from '@/@types/carro'
 import type { GetCarroProps } from '@/app/api/carro/[carro]/[encontro]/update/get-carro'
 import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
-import { CarroForm } from '../../../(form)/pageComponents/CarroForm'
+import { CarroForm } from '../../../(form)/(pageComponents)/CarroForm'
 
 async function getCarro({ carro, encontro }: GetCarroProps) {
   const carroFound = await fetch(

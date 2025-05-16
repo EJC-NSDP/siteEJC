@@ -1,5 +1,5 @@
 import type { EquipeSecre } from '@/app/api/secretaria/equipe/get-equipes-secre'
-import { EquipesForm } from './(form)/pageComponents/EquipeForm'
+import { EquipesForm } from './(form)/(pageComponents)/EquipeForm'
 
 async function getEquipes() {
   const equipes = await fetch(

@@ -5,8 +5,8 @@ import { api } from '@/lib/axios'
 import { getSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { InitialCard } from './(pageComponents)/InitialCard'
 import { FichaCadastroForm } from './FichaCadastroForm'
-import { InitialCard } from './pageComponents/InitialCard'
 
 async function getEncontreiro(id: string) {
   const res = await api.get(`encontreiro/${id}/ficha-cadastro`)

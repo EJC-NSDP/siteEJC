@@ -1,5 +1,5 @@
 import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
-import PalestraForm from './pageComponents/PalestraForm'
+import PalestraForm from './(pageComponents)/PalestraForm'
 
 async function getCurrentPalestras() {
   const palestras = await fetch(

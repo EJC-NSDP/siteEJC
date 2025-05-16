@@ -8,7 +8,7 @@ interface QuadranteCompactoProps {
 
 export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
   return (
-    <div className="">
+    <>
       {/* Capa */}
       <QuadranteCoverPage
         key="cover"
@@ -41,6 +41,6 @@ export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
         qtdPorPag={10}
         pb
       />
-    </div>
+    </>
   )
 }

@@ -13,8 +13,8 @@ import { useForm } from 'react-hook-form'
 import { useWizard } from 'react-use-wizard'
 import { useHookFormMask } from 'use-mask-input'
 import { z } from 'zod'
-import { CardParticipe } from '../components/CardParticipe'
-import { CardSection } from '../components/CardSection'
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const nominationFormScheme = z.object({
   indicadoPorNome: z.string().optional(),

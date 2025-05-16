@@ -1,5 +1,5 @@
 import type { EncontreiroFormData } from '@/@types/encontreiro'
-import { EncontreiroForm } from '../../(form)/pageComponents/EncontreiroForm'
+import { EncontreiroForm } from '../../(form)/(pageComponents)/EncontreiroForm'
 
 async function getEncontreiro(slug: string) {
   const encontreiro = await fetch(

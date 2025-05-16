@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { AddressCard } from './pageComponents/AddressCard'
-import { PersonalCard } from './pageComponents/PersonalCard'
+import { AddressCard } from './(pageComponents)/AddressCard'
+import { PersonalCard } from './(pageComponents)/PersonalCard'
 
 interface EditEncontristaSecreProps {
   data: EncontristaSecreData

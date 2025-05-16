@@ -22,13 +22,13 @@ export async function getConfigQuadrante(): Promise<ConfigQuadrante | null> {
 
   const cartazes: CartazQuadrante[] = []
 
-  const cartazAmarelo = configs.find((config) => config.value === 'amarelo')
-  if (cartazAmarelo) {
-    cartazes.push({
-      cor: cartazAmarelo.label,
-      imagem: cartazAmarelo.imageUrl,
-    })
-  }
+  // const cartazAmarelo = configs.find((config) => config.value === 'amarelo')
+  // if (cartazAmarelo) {
+  //   cartazes.push({
+  //     cor: cartazAmarelo.label,
+  //     imagem: cartazAmarelo.imageUrl,
+  //   })
+  // }
   const cartazAzul = configs.find((config) => config.value === 'azul')
   if (cartazAzul) {
     cartazes.push({

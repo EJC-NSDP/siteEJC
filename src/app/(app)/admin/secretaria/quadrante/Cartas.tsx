@@ -3,7 +3,7 @@ import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useFormContext } from 'react-hook-form'
 
-export function Capas() {
+export function Cartas() {
   const form = useFormContext()
 
   const { control } = form
@@ -12,45 +12,27 @@ export function Capas() {
     <div className="space-y-4">
       <FormField
         control={control}
-        name="capaPb"
+        name="cartaPapa"
         render={({ field }) => (
-          <TextInput label={'Capa Preto e Branco'}>
+          <TextInput label={'Carta do Papa'}>
             <Input autoFocus {...field} />
           </TextInput>
         )}
       />
       <FormField
         control={control}
-        name="capaColorida"
+        name="cartaPadre"
         render={({ field }) => (
-          <TextInput label={'Capa Colorida'}>
+          <TextInput label={'Carta do Padre'}>
             <Input autoFocus {...field} />
           </TextInput>
         )}
       />
       <FormField
         control={control}
-        name="circulosPb"
+        name="cartaDiris"
         render={({ field }) => (
-          <TextInput label={'Capa dos Círculos Preto e Branco'}>
-            <Input autoFocus {...field} />
-          </TextInput>
-        )}
-      />
-      <FormField
-        control={control}
-        name="circulosColorida"
-        render={({ field }) => (
-          <TextInput label={'Capa dos Círculos Colorida'}>
-            <Input autoFocus {...field} />
-          </TextInput>
-        )}
-      />
-      <FormField
-        control={control}
-        name="equipes"
-        render={({ field }) => (
-          <TextInput label={'Capa das equipes'}>
+          <TextInput label={'Carta dos Diris'}>
             <Input autoFocus {...field} />
           </TextInput>
         )}
