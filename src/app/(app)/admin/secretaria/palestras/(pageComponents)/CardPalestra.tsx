@@ -39,7 +39,7 @@ export function CardPalestra({
   const isLast = index === total - 1
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2 lg:gap-4">
       <div className="flex flex-col items-center">
         <Button
           variant="ghost"
@@ -64,7 +64,7 @@ export function CardPalestra({
         </Button>
       </div>
 
-      <Card className="flex w-full items-center gap-4 p-4">
+      <Card className="flex w-full flex-col items-center gap-4 p-4 lg:flex-row">
         <div className="w-full">
           <FormField
             control={control}
@@ -99,11 +99,12 @@ export function CardPalestra({
         </div>
         <Button
           variant="destructive"
-          className="p-4"
+          className="flex w-full items-center gap-2 p-4 lg:w-auto"
           onClick={remove}
           type="button"
         >
           <Trash2 className="size-4 text-red-400 hover:text-red-500" />
+          <span className="text-lg lg:sr-only">Remover</span>
         </Button>
       </Card>
     </div>

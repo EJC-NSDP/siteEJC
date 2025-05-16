@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -79,7 +80,7 @@ export default function PalestraForm({ palestras }: PalestraFormProps) {
     <FormProvider {...form}>
       <form
         onSubmit={handleSubmit(handleUpdatePalestras)}
-        className="space-y-2"
+        className="space-y-4 lg:space-y-2"
       >
         {fields.length === 0 && (
           <Card className="flex w-full items-center justify-center gap-4 p-4 text-center text-zinc-500">
@@ -98,7 +99,13 @@ export default function PalestraForm({ palestras }: PalestraFormProps) {
         ))}
 
         <div className="flex items-center justify-between pt-4">
-          <Button type="button" onClick={addPalestra} variant="outline">
+          <Button
+            type="button"
+            onClick={addPalestra}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Plus className="size-4 text-tertiary" />
             Adicionar Palestra
           </Button>
           <Button type="submit" disabled={isUpdating}>
