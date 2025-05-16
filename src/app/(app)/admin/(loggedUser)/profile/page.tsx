@@ -173,17 +173,15 @@ export default function Profile() {
                       />
                     )}
 
-                    {
-                      // profileData.role === 'SECRETARIA' ||
-                      // profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN' && (
+                    {profileData.role === 'SECRETARIA' ||
+                      profileData.role === 'DIRIGENTE' ||
+                      (profileData.role === 'ADMIN' && (
                         <ButtonLabel
                           label="Quadrante"
                           icon={BookUser}
-                          link="/admin/secretaria/encontreiros"
+                          link="/admin/secretaria"
                         />
-                      )
-                    }
+                      ))}
 
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel
