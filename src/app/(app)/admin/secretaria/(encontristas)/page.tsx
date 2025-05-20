@@ -10,8 +10,9 @@ export default function SecretariaEncontristas() {
           <div className="">
             <h1 className="text-2xl font-bold text-tertiary">Encontristas</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todos os encontristas desse Encontrão. Essa informação é
-              confidencial e de uso da externa, por favor não compartilhe.
+              Lista de todos os encontristas desse Encontrão. Essa informação é{' '}
+              <strong>confidencial</strong> e de uso da externa, por favor não
+              compartilhe.
             </span>
           </div>
         </div>

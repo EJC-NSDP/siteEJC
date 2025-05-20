@@ -1,4 +1,4 @@
-import type { PalestrasData } from '@/app/(app)/admin/secretaria/palestras/(pageComponents)/PalestraForm'
+import type { PalestrasData } from '@/app/(app)/admin/secretaria/palestrantes/(pageComponents)/PalestraForm'
 import { prisma } from '@/lib/prisma'
 import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
 

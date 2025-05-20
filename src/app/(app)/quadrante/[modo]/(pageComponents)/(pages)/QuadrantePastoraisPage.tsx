@@ -1,13 +1,8 @@
 import type { PastoralQuadrante } from '@/@types/quadrante'
 import { cn } from '@/lib/utils'
-import { Anton } from 'next/font/google'
 import Image from 'next/image'
 import { QuadranteOnePage } from './QuadranteOnePage'
-
-const anton = Anton({
-  weight: '400',
-  subsets: ['latin'],
-})
+import { QuadranteTitlePage } from './QuadranteTitlePage'
 
 interface QuadrantePastoraisPageProps {
   title: string
@@ -22,18 +17,11 @@ export function QuadrantePastoraisPage({
 }: QuadrantePastoraisPageProps) {
   return (
     <QuadranteOnePage>
-      <div className="flex w-full flex-col items-center gap-2 pb-8 text-center">
-        <h1
-          className={cn('text-7xl font-bold tracking-wider', anton.className)}
-        >
-          {title.toUpperCase()}
-        </h1>
-        <h2 className="w-4/5 text-pretty text-lg italic text-zinc-800">
-          {description}
-        </h2>
-      </div>
-
-      <div className="mt-0 flex flex-col items-center gap-16">
+      <QuadranteTitlePage
+        title={title}
+        description={description}
+        className="items-center space-y-20"
+      >
         {pastorais.map((pastoral, index) => {
           return (
             <div
@@ -45,11 +33,11 @@ export function QuadrantePastoraisPage({
             >
               <Image
                 src={pastoral.logo}
-                height={200}
-                width={200}
+                height={400}
+                width={400}
                 alt={pastoral.nome}
               />
-              <div className="flex w-full flex-col">
+              <div className="flex w-full flex-col text-3xl">
                 {pastoral.integrantes.map((integrante) => {
                   return (
                     <span
@@ -67,7 +55,7 @@ export function QuadrantePastoraisPage({
             </div>
           )
         })}
-      </div>
+      </QuadranteTitlePage>
     </QuadranteOnePage>
   )
 }

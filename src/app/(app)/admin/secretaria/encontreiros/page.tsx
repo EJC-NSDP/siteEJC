@@ -10,9 +10,9 @@ export default function SecretariaEncontreiros() {
           <div className="">
             <h1 className="text-2xl font-bold text-tertiary">Encontreiros</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todos os encontreiros participando desse Encontrão. Para
-              alterar os dados de um encontreiro peça para ele editar em seu
-              perfil ou para um dirigente.
+              Lista de todos os encontreiros que estão participando deste
+              Encontrão. Para alterar os dados de um encontreiro, peça para ele
+              editar em seu perfil ou peça para um dirigente alterar.
             </span>
           </div>
         </div>

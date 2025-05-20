@@ -3,13 +3,8 @@ import { cn } from '@/lib/utils'
 import { getCirculoTitleColor } from '@/utils/fetch-color'
 import Image from 'next/image'
 
-import { Anton } from 'next/font/google'
 import { QuadranteOnePage } from './QuadranteOnePage'
-
-const anton = Anton({
-  weight: '400',
-  subsets: ['latin'],
-})
+import { QuadranteTitlePage } from './QuadranteTitlePage'
 
 interface QuadranteCirculoPageProps {
   title: string
@@ -32,18 +27,7 @@ export function QuadranteCirculoPage({
 
   return (
     <QuadranteOnePage>
-      <div className={anton.className}>
-        <h1
-          className={cn(
-            titleColor || 'text-white',
-            'w-full text-center text-7xl font-bold tracking-wider',
-          )}
-        >
-          {title.toUpperCase()}
-        </h1>
-      </div>
-
-      <div className="mt-0 flex flex-col gap-8">
+      <QuadranteTitlePage title={title} titleColor={titleColor}>
         {/* Grid de integrantes */}
         <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-8">
           {integrantes.map((member, index) => (
@@ -53,7 +37,7 @@ export function QuadranteCirculoPage({
             >
               <div
                 className={cn(
-                  'flex w-full flex-col',
+                  'flex w-full flex-col text-3xl',
                   member.coord && 'font-bold',
                 )}
               >
@@ -73,14 +57,14 @@ export function QuadranteCirculoPage({
           <div className="col-span-2 row-span-2 flex items-center justify-center p-4">
             <Image
               src={cartazUrl}
-              width={800}
-              height={800}
+              width={1200}
+              height={1200}
               alt={`Cartaz ${title}`}
-              className="max-h-96 object-contain"
+              className="max-h-[30rem] object-contain"
             />
           </div>
         )}
-      </div>
+      </QuadranteTitlePage>
     </QuadranteOnePage>
   )
 }

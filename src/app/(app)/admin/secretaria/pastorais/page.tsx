@@ -13,7 +13,7 @@ export default function SecretariaPastorais() {
           <div className="">
             <h1 className="text-2xl font-bold text-tertiary">Pastorais</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todos as pastorais deste ano.
+              Lista de todas as Pastorais deste ano.
             </span>
           </div>
           <Link href="/admin/secretaria/pastorais/adicionar-pastoral">

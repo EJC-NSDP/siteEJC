@@ -45,11 +45,11 @@ export function MainNavigation() {
           active={path === '/admin/secretaria/equipes'}
         />
       </Link>
-      <Link href="/admin/secretaria/palestras">
+      <Link href="/admin/secretaria/palestrantes">
         <NavItem
-          title="Palestras"
+          title="Palestrantes"
           icon={Speech}
-          active={path === '/admin/secretaria/palestras'}
+          active={path === '/admin/secretaria/palestrantes'}
         />
       </Link>
       <Link href="/admin/secretaria/diris-bps">

@@ -10,7 +10,7 @@ export default function SecretariaDirisBps() {
           <div className="">
             <h1 className="text-2xl font-bold text-tertiary">Diris e BPs</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista dos diris e bps deste ano.
+              Lista dos Dirigentes e Bons Pastores deste ano.
             </span>
           </div>
         </div>

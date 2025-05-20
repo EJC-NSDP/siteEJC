@@ -1,4 +1,5 @@
 import type { QuadranteData } from '@/@types/quadrante'
+import { PageProvider } from '@/context/PageContext'
 import { QuadranteCoverPage } from './(pageComponents)/(pages)/QuadranteCoverPage'
 import { QuadranteEquipePage } from './(pageComponents)/(pages)/QuadranteEquipePage'
 import { QuadranteOnePage } from './(pageComponents)/(pages)/QuadranteOnePage'
@@ -14,7 +15,7 @@ interface QuadranteCompletoProps {
 
 export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
   return (
-    <>
+    <PageProvider>
       {/* Capa */}
       <QuadranteCoverPage
         key="cover"
@@ -50,7 +51,7 @@ export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
       {/* Equipes */}
       {data.equipes && (
         <QuadranteEquipesSection
-          capa={data.config.capas.circulos.colorida}
+          capa={data.config.capas.equipes}
           equipes={data.equipes}
           qtdPorPag={10}
         />
@@ -90,6 +91,6 @@ export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
       {data.pastorais && (
         <QuadrantePastoraisSection pastorais={data.pastorais} maxPorPag={5} />
       )}
-    </>
+    </PageProvider>
   )
 }

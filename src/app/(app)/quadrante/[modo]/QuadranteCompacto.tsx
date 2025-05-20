@@ -1,4 +1,5 @@
 import type { QuadranteData } from '@/@types/quadrante'
+import { PageProvider } from '@/context/PageContext'
 import { QuadranteCoverPage } from './(pageComponents)/(pages)/QuadranteCoverPage'
 import { QuadranteCirculosSection } from './(pageComponents)/(sections)/QuadranteCirculosSection'
 
@@ -8,7 +9,7 @@ interface QuadranteCompactoProps {
 
 export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
   return (
-    <>
+    <PageProvider>
       {/* Capa */}
       <QuadranteCoverPage
         key="cover"
@@ -22,11 +23,13 @@ export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
         imageUrl={data.config.cartas.papa}
         alt="Carta Papa"
       />
+
       <QuadranteCoverPage
         key="padre"
         imageUrl={data.config.cartas.padre}
         alt="Carta Padre"
       />
+
       <QuadranteCoverPage
         key="dirigentes"
         imageUrl={data.config.cartas.diris}
@@ -41,6 +44,6 @@ export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
         qtdPorPag={10}
         pb
       />
-    </>
+    </PageProvider>
   )
 }

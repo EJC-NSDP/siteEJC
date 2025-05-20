@@ -8,14 +8,14 @@ export default async function Quadrante() {
   return (
     <div className="w-ful h-full">
       <div className="pb-4">
-        <div className="flex items-center justify-between pb-8">
-          <div className="">
+        <div className="flex items-center justify-between gap-12 pb-8">
+          <div>
             <h1 className="text-2xl font-bold text-tertiary">Quadrante</h1>
             <span className="text-balance text-base font-normal text-zinc-500">
-              Personalize seu quadrante aqui para o tema desse encontro.
+              Adicione as capas, cartas e cartazes deste Encontrão.
             </span>
           </div>
-          <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
+          <div className="flex flex-col gap-4 lg:flex-row">
             <Link href="/quadrante/imprimir">
               <Button className="w-full">
                 <span className="flex lg:hidden">Impressão</span>

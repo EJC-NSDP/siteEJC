@@ -87,7 +87,7 @@ export function EditarEquipeForm({ data, openFnAction }: EditEquipeFormProps) {
                 label="Encontreiro"
                 value={`${data.nome} ${data.sobrenome}`}
               />
-              <DisabledInput label="Equipe atual" value={data.equipe} />
+              <DisabledInput label="Equipe antiga" value={data.equipe} />
               <FormField
                 control={control}
                 name="equipeLabel"
@@ -95,7 +95,7 @@ export function EditarEquipeForm({ data, openFnAction }: EditEquipeFormProps) {
                 render={({ field }) => {
                   return (
                     <SelectGroupInput
-                      label="Equipe atualizada"
+                      label="Nova equipe"
                       onChange={field.onChange}
                       value={field.value}
                     >

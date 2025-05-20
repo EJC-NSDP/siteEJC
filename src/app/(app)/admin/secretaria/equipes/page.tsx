@@ -20,7 +20,11 @@ export default async function SecretariaEquipes() {
           <div className="">
             <h1 className="text-2xl font-bold text-tertiary">Equipes</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todos as equipes do encontrão e suas descrições.
+              Lista de todas equipes do Encontro e suas descrições.{' '}
+              <strong>
+                {' '}
+                Caso modifique, lembre-se de salvar ao final da página.
+              </strong>
             </span>
           </div>
         </div>

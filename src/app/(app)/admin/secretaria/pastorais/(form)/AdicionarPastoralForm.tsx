@@ -122,7 +122,7 @@ export function AdicionarPastoralForm({
                 return (
                   <SelectGroupInput
                     label="Pastoral"
-                    placeholder="Selecione uma pastoral"
+                    placeholder="Selecione uma Pastoral"
                     onChange={field.onChange}
                     value={field.value}
                   >
@@ -143,7 +143,7 @@ export function AdicionarPastoralForm({
           </CardContent>
           <CardFooter className="flex w-full justify-end gap-8 p-0">
             <Button type="submit" className="h-10 w-40" disabled={isUpdating}>
-              Cadastrar
+              Adicionar
             </Button>
           </CardFooter>
         </Card>

@@ -89,7 +89,7 @@ export function EncontristasSecreTableFilters() {
             render={({ field }) => (
               <SearchInput
                 className="h-5 w-fit"
-                placeholder="Nome do encontreiro..."
+                placeholder="Nome do encontrista..."
                 {...field}
               />
             )}

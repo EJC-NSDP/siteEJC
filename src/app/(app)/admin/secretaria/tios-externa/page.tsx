@@ -12,9 +12,9 @@ export default function SecretariaTiosExterna() {
               Tios de Externa
             </h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todos os tios de externa participando desse Encontrão,
-              caso tenha alguma informação incorreta altere com a equipe de
-              externa.
+              Lista de todos os tios de externa que estão participando deste
+              Encontrão. Caso tenha alguma informação incorreta, peça para a
+              equipe de externa alterar.
             </span>
           </div>
         </div>
