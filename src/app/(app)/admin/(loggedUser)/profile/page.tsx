@@ -178,15 +178,15 @@ export default function Profile() {
                       />
                     )}
 
-                    {profileData.role === 'SECRETARIA' ||
+                    {(profileData.role === 'SECRETARIA' ||
                       profileData.role === 'DIRIGENTE' ||
-                      (profileData.role === 'ADMIN' && (
-                        <ButtonLabel
-                          label="Quadrante"
-                          icon={BookUser}
-                          link="/admin/secretaria"
-                        />
-                      ))}
+                      profileData.role === 'ADMIN') && (
+                      <ButtonLabel
+                        label="Secretaria"
+                        icon={BookUser}
+                        link="/admin/secretaria"
+                      />
+                    )}
 
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel
@@ -196,7 +196,9 @@ export default function Profile() {
                       />
                     )}
 
-                    {profileData.pastaURL !== '' && (
+                    {(profileData.pastaURL !== '' ||
+                      profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
                       <ButtonLabel
                         label="Minha equipe"
                         icon={Users}
