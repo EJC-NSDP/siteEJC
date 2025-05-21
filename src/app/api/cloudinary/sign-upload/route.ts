@@ -20,5 +20,6 @@ export async function POST(request: Request) {
     overwrite: true,
     use_filename: true,
     unique_filename: false,
+    transformation: 'c_crop,custom',
   })
 }

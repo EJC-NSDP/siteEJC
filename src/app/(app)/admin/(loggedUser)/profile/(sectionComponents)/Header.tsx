@@ -9,27 +9,34 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { LogOut, Menu } from 'lucide-react'
-import { getSession, signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export function Header() {
-  const [avatar, setAvatar] = useState<string>('')
-  const [avatarFallback, setAvatarFallback] = useState<string>('?')
+  const { data: session } = useSession()
 
-  useEffect(() => {
-    async function fetchSession() {
-      const session = await getSession()
-      if (session) {
-        const fallback = session.user.name[0] + session.user.surname[0]
-        if (session.user.avatar_url) {
-          setAvatar(session.user.avatar_url)
-        }
-        setAvatarFallback(fallback.toUpperCase())
-      }
-    }
-    fetchSession()
-  }, [])
+  const avatar = session?.user?.avatar_url ?? ''
+  const avatarFallback = session
+    ? session?.user?.name?.[0]?.toUpperCase() +
+      session?.user?.surname?.[0]?.toUpperCase()
+    : '?'
+
+  // const [avatar, setAvatar] = useState<string>('')
+  // const [avatarFallback, setAvatarFallback] = useState<string>('?')
+
+  // useEffect(() => {
+  //   async function fetchSession() {
+  //     const session = await getSession()
+  //     if (session) {
+  //       const fallback = session.user.name[0] + session.user.surname[0]
+  //       if (session.user.avatar_url) {
+  //         setAvatar(session.user.avatar_url)
+  //       }
+  //       setAvatarFallback(fallback.toUpperCase())
+  //     }
+  //   }
+  //   fetchSession()
+  // }, [])
 
   async function logout() {
     await signOut()

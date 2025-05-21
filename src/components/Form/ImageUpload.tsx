@@ -4,7 +4,7 @@ import { updateCapas, updateProfile } from '@/actions/updateCloudinary'
 import type { Value_Quadrante as valueQuadrante } from '@prisma/client'
 import type { Session } from 'next-auth'
 import { getSession, useSession } from 'next-auth/react'
-import { type CloudinaryUploadWidgetResults } from 'next-cloudinary'
+import type { CloudinaryUploadWidgetResults } from 'next-cloudinary'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -29,11 +29,10 @@ export function ImageUpload({
 }: ImageUploadProps) {
   const [imageUrl, setImageUrl] = useState(imageValue)
   const { update } = useSession()
-
   const aspectRatio = type === 'capa' ? 1 / 1.414 : 1 / 1 // alterar capa
 
   async function handleUpload(results: CloudinaryUploadWidgetResults) {
-    const info = results?.info
+    const info = results.info
 
     if (
       results.event !== 'success' ||
@@ -62,7 +61,7 @@ export function ImageUpload({
             user: { avatar_url: newImageUrl, ...data.user },
           }
           console.log('Sessão atualizada: ', updatedSession)
-          update(updatedSession)
+          await update(updatedSession)
         }
       } else {
         await updateCapas({
@@ -107,52 +106,6 @@ export function ImageUpload({
         type={type}
         handleUpload={handleUpload}
       />
-      {/* <CldUploadWidget
-        signatureEndpoint="/api/cloudinary/sign-upload"
-        uploadPreset="signed_upload"
-        options={{
-          publicId,
-          folder,
-          cropping: true,
-          croppingAspectRatio: aspectRatio,
-          croppingShowDimensions: true,
-          clientAllowedFormats: ['jpg', 'jpeg', 'png'],
-          multiple: false,
-        }}
-        // onUpload={(result) => {
-        //   handleUpload(result)
-        // }}
-      >
-        {({ open, widget }) => {
-          useEffect(() => {
-            if (!widget) return
-
-            widget.on('success', (result) => {
-              handleUpload(result)
-            })
-
-            widget.on('error', (error) => {
-              console.error('Upload failed:', error)
-            })
-
-            // Cleanup para evitar múltiplas inscrições
-            return () => {
-              widget.off('success')
-              widget.off('error')
-            }
-          }, [widget])
-
-          return (
-            <Button
-              type="button"
-              variant={type === 'profile' ? 'default' : 'secondary'}
-              onClick={() => open()}
-            >
-              Selecionar imagem
-            </Button>
-          )
-        }}
-      </CldUploadWidget> */}
     </div>
   )
 }

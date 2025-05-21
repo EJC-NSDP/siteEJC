@@ -30,6 +30,8 @@ export function UploadWidgetWrapper({
         cropping: true,
         croppingAspectRatio: aspectRatio,
         croppingShowDimensions: true,
+        showSkipCropButton: false,
+        croppingCoordinatesMode: 'custom',
         clientAllowedFormats: ['jpg', 'jpeg', 'png'],
         multiple: false,
       }}
