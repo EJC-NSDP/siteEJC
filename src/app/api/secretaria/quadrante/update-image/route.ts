@@ -10,8 +10,6 @@ export interface UpdateQuadranteData {
 export async function PATCH(request: NextRequest) {
   const formData: UpdateQuadranteData = await request.json()
 
-  console.log(formData)
-
   const resultados = await updateImage(formData)
 
   if (!resultados)

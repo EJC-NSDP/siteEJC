@@ -1,60 +1,45 @@
-import { ImageUploadField } from '@/components/Form/ImageUploadField'
+import { ImageUpload } from '@/components/Form/ImageUpload'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
-import { FormField } from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
 
-export function Cartas() {
-  const form = useFormContext()
+interface CartasProps {
+  papa: string
+  padre: string
+  diris: string
+}
 
-  const { control } = form
-
+export function Cartas({ papa, padre, diris }: CartasProps) {
   return (
     <Card className="space-y-4 p-4 text-tertiary">
       <CardTitle>Cartas</CardTitle>
       <CardContent className="grid grid-cols-3 gap-4 p-0">
         <div className="col-span-3 w-full lg:col-span-1">
-          <FormField
-            control={control}
-            name="cartaPapa"
-            render={({ field }) => (
-              <ImageUploadField
-                name={field.name}
-                publicId="cartaPapa"
-                label="Papa"
-                folder="/assets/quadrante/cartas"
-                valueToBeUpdated="carta_papa"
-              />
-            )}
+          <ImageUpload
+            label="Papa"
+            publicId="cartaPapa"
+            folder="/assets/quadrante/cartas"
+            valueToBeUpdated="carta_papa"
+            imageValue={papa}
+            type="capa"
           />
         </div>
         <div className="col-span-3 w-full lg:col-span-1">
-          <FormField
-            control={control}
-            name="cartaPadre"
-            render={({ field }) => (
-              <ImageUploadField
-                name={field.name}
-                publicId="cartaPadre"
-                label="Padre"
-                folder="/assets/quadrante/cartas"
-                valueToBeUpdated="carta_padre"
-              />
-            )}
+          <ImageUpload
+            label="Padre"
+            publicId="cartaPadre"
+            folder="/assets/quadrante/cartas"
+            valueToBeUpdated="carta_padre"
+            imageValue={padre}
+            type="capa"
           />
         </div>
         <div className="col-span-3 w-full lg:col-span-1">
-          <FormField
-            control={control}
-            name="cartaDiris"
-            render={({ field }) => (
-              <ImageUploadField
-                name={field.name}
-                publicId="cartaDirigentes"
-                label="Dirigentes"
-                folder="/assets/quadrante/cartas"
-                valueToBeUpdated="carta_diris"
-              />
-            )}
+          <ImageUpload
+            label="Dirigentes"
+            publicId="cartaDirigentes"
+            folder="/assets/quadrante/cartas"
+            valueToBeUpdated="carta_diris"
+            imageValue={diris}
+            type="capa"
           />
         </div>
       </CardContent>

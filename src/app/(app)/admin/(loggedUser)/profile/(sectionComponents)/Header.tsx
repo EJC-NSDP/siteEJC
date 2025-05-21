@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 
 export function Header() {
   const [avatar, setAvatar] = useState<string>('')
-  const [avatarFallback, setAvatarFallback] = useState<string>('JP')
+  const [avatarFallback, setAvatarFallback] = useState<string>('?')
 
   useEffect(() => {
     async function fetchSession() {

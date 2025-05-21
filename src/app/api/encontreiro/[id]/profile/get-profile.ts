@@ -19,6 +19,8 @@ interface EquipeEncontroData {
 }
 
 export interface ProfileData {
+  id: string
+  slug: string
   nome: string
   avatarUrl: string | undefined
   role: Role
@@ -38,6 +40,7 @@ export async function getProfile(id: string) {
   const encontreiro = await prisma.pessoa.findUnique({
     select: {
       id: true,
+      slug: true,
       nome: true,
       sobrenome: true,
       avatarUrl: true,
@@ -247,6 +250,8 @@ export async function getProfile(id: string) {
     : 'Não alocado'
 
   const profile: ProfileData = {
+    id: encontreiro.id,
+    slug: encontreiro.slug,
     nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
     avatarUrl: encontreiro.avatarUrl || undefined,
     role: encontreiro.role,
