@@ -15,6 +15,7 @@ export async function getConfigQuadrante(): Promise<ConfigQuadrante | null> {
     (config) => config.value === 'circulos_colorida',
   )
   const capaEquipes = configs.find((config) => config.value === 'equipe')
+  const qrCode = configs.find((config) => config.value === 'qrcode')
 
   const cartaPapa = configs.find((config) => config.value === 'carta_papa')
   const cartaPadre = configs.find((config) => config.value === 'carta_padre')
@@ -69,6 +70,7 @@ export async function getConfigQuadrante(): Promise<ConfigQuadrante | null> {
         colorida: capaCirculosColorida?.imageUrl || '',
       },
       equipes: capaEquipes?.imageUrl || '',
+      qrcode: qrCode?.imageUrl || '',
     },
     cartas: {
       papa: cartaPapa?.imageUrl || '',

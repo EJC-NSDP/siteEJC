@@ -1,13 +1,12 @@
+import type { CartasQuadrante } from '@/@types/quadrante'
 import { ImageUpload } from '@/components/Form/ImageUpload'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 
 interface CartasProps {
-  papa: string
-  padre: string
-  diris: string
+  cartas: CartasQuadrante
 }
 
-export function Cartas({ papa, padre, diris }: CartasProps) {
+export function Cartas({ cartas }: CartasProps) {
   return (
     <Card className="space-y-4 p-4 text-tertiary">
       <CardTitle>Cartas</CardTitle>
@@ -18,7 +17,7 @@ export function Cartas({ papa, padre, diris }: CartasProps) {
             publicId="cartaPapa"
             folder="/assets/quadrante/cartas"
             valueToBeUpdated="carta_papa"
-            imageValue={papa}
+            imageValue={cartas.papa}
             type="capa"
           />
         </div>
@@ -28,7 +27,7 @@ export function Cartas({ papa, padre, diris }: CartasProps) {
             publicId="cartaPadre"
             folder="/assets/quadrante/cartas"
             valueToBeUpdated="carta_padre"
-            imageValue={padre}
+            imageValue={cartas.padre}
             type="capa"
           />
         </div>
@@ -38,7 +37,7 @@ export function Cartas({ papa, padre, diris }: CartasProps) {
             publicId="cartaDirigentes"
             folder="/assets/quadrante/cartas"
             valueToBeUpdated="carta_diris"
-            imageValue={diris}
+            imageValue={cartas.diris}
             type="capa"
           />
         </div>

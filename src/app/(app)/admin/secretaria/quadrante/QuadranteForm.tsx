@@ -12,18 +12,8 @@ interface QuadranteFormProps {
 export function QuadranteForm({ config }: QuadranteFormProps) {
   return (
     <div className="space-y-4">
-      <Capas
-        capaPb={config.capas.principal.pb}
-        capaColorida={config.capas.principal.colorida}
-        circulosPb={config.capas.circulos.pb}
-        circulosColorida={config.capas.circulos.colorida}
-        equipes={config.capas.equipes}
-      />
-      <Cartas
-        papa={config.cartas.papa}
-        padre={config.cartas.padre}
-        diris={config.cartas.diris}
-      />
+      <Capas capas={config.capas} />
+      <Cartas cartas={config.cartas} />
       <Cartazes cartazes={config.cartazes} />
     </div>
   )

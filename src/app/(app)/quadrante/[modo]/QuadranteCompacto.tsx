@@ -44,6 +44,12 @@ export function QuadranteCompacto({ data }: QuadranteCompactoProps) {
         qtdPorPag={10}
         pb
       />
+
+      <QuadranteCoverPage
+        key="qrcode"
+        imageUrl={data.config.capas.qrcode}
+        alt="Capa QR Code"
+      />
     </PageProvider>
   )
 }

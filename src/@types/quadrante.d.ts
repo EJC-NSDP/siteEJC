@@ -71,28 +71,34 @@ export interface PastoralQuadrante {
   integrantes: string[]
 }
 
+export interface CapasQuadrante {
+  principal: {
+    pb: string
+    colorida: string
+  }
+  circulos: {
+    pb: string
+    colorida: string
+  }
+  equipes: string
+  qrcode: string
+}
+
+
+export interface CartasQuadrante {
+  papa: string
+    padre: string
+    diris: string
+}
+
 export interface CartazQuadrante {
   cor: string
   imagem: string
 }
 
 export interface ConfigQuadrante {
-  capas: {
-    principal: {
-      pb: string
-      colorida: string
-    }
-    circulos: {
-      pb: string
-      colorida: string
-    }
-    equipes: string
-  }
-  cartas: {
-    papa: string
-    padre: string
-    diris: string
-  }
+  capas: CapasQuadrante
+  cartas: CartasQuadrante
   cartazes: CartazQuadrante[]
 }
 

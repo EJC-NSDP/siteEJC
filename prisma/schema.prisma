@@ -445,6 +445,7 @@ enum Value_Quadrante {
   carta_padre
   carta_papa
   carta_diris
+  qrcode
 }
 
 enum Value_Status {
