@@ -69,7 +69,7 @@ export default function EditAvatar() {
                 </TooltipTrigger>
               </div>
               <TooltipContent className="w-auto">
-                Fotos 1:1 (quadradas) ficaram melhores
+                Opte por fotos 1:1 (quadradas)
               </TooltipContent>
             </Tooltip>
           </CardTitle>
