@@ -1,7 +1,6 @@
-// eslint-disable-next-line prettier/prettier
-import { prisma } from '@/lib/prisma';
-// eslint-disable-next-line prettier/prettier
-import { type Value_Status as enumStatus, type Prisma } from '@prisma/client';
+import type { valueStatus } from '@/@types/enums'
+import { prisma } from '@/lib/prisma'
+import { type Prisma } from '@prisma/client'
 
 // Campos válidos para ordenação
 export const validOrderFields = [
@@ -31,7 +30,7 @@ export type EncontristaSummaryData = {
   nome: string
   sobrenome: string
   dataNasc: Date | null
-  idStatus: enumStatus
+  idStatus: valueStatus
   bairroEncontro: string
   celular: string
   idExterna: string | null
@@ -54,7 +53,7 @@ type GetEncontristasSummaryProps = {
   page: number
   responsavelExterna: string | null
   encontristaName: string | null
-  encontristaStatus: enumStatus | null
+  encontristaStatus: valueStatus | null
 
   orderByField: string | null
   orderDirection: string | null
@@ -65,7 +64,7 @@ type getEncontristasProps = {
   perPage: number
   responsavelExterna: string | null
   encontristaName: string | null
-  encontristaStatus: enumStatus | null
+  encontristaStatus: valueStatus | null
 
   orderByField: string | null
   orderDirection: string | null
@@ -74,7 +73,7 @@ type getEncontristasProps = {
 type getTotalEncontristasProps = {
   responsavelExterna: string | null
   encontristaName: string | null
-  encontristaStatus: enumStatus | null
+  encontristaStatus: valueStatus | null
 }
 
 async function getEncontristas({
@@ -394,7 +393,7 @@ function transformToEncontristaSummaryData(
       dataNasc: Date | null
     } | null
     encontrista: {
-      idStatus: enumStatus
+      idStatus: valueStatus
       observacao: string | null
       obsExternaLocalizacao: string | null
       obsExternaSaude: string | null

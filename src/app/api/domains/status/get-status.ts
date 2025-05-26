@@ -1,5 +1,5 @@
+import type { valueStatus } from '@/@types/enums'
 import { prisma } from '@/lib/prisma'
-import type { Value_Status as valueStatus } from '@prisma/client'
 
 export type Status = {
   id: valueStatus

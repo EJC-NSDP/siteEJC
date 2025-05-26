@@ -1,11 +1,11 @@
-import { prisma } from '@/lib/prisma'
 import type {
-  Value_MoraCom as enumMoraCom,
-  Value_Religiao as enumReligiao,
-  Value_Status as enumStatus,
-  Value_StatusPais as enumStatusPais,
-  Value_TamanhoCamisa as enumTamanhoCamisa,
-} from '@prisma/client'
+  valueMoraCom,
+  valueReligiao,
+  valueStatus,
+  valueStatusPais,
+  valueTamanhoCamisa,
+} from '@/@types/enums'
+import { prisma } from '@/lib/prisma'
 
 export type EncontristaData = {
   id: string
@@ -17,15 +17,15 @@ export type EncontristaData = {
     celular: string
     telefone: string
     email: string
-    idStatus: enumStatus
-    idReligiao: enumReligiao
+    idStatus: valueStatus
+    idReligiao: valueReligiao
     isAutofill: boolean
     movimentoAnterior: string
     observacao: string
     dataNasc: Date
     instagram: string
     restricaoAlimentar: string
-    idTamanhoCamisa: enumTamanhoCamisa
+    idTamanhoCamisa: valueTamanhoCamisa
   }
   endereco: {
     cep: string
@@ -45,8 +45,8 @@ export type EncontristaData = {
     complemento: string
   }
   familia: {
-    idMoracom: enumMoraCom
-    idStatusPais: enumStatusPais
+    idMoracom: valueMoraCom
+    idStatusPais: valueStatusPais
     nomeContato1: string
     telContato1: string
     parentescoContato1: string
@@ -163,7 +163,7 @@ export async function getEncontrista(id: string) {
       instagram: String(encontrista.encontreiro!.instagram),
       restricaoAlimentar: String(encontrista.encontreiro!.restricaoAlimentar),
       idTamanhoCamisa: encontrista.encontreiro!
-        .idTamanhoCamisa as enumTamanhoCamisa,
+        .idTamanhoCamisa as valueTamanhoCamisa,
     },
     endereco: {
       cep: encontrista.endereco.cep,

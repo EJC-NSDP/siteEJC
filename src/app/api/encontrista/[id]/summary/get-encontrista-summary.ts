@@ -1,5 +1,5 @@
+import type { valueStatus } from '@/@types/enums'
 import { prisma } from '@/lib/prisma'
-import type { Value_Status as enumStatus } from '@prisma/client'
 
 export type EncontristaSummaryData = {
   id: string
@@ -7,7 +7,7 @@ export type EncontristaSummaryData = {
   nome: string
   sobrenome: string
   dataNasc: Date
-  idStatus: enumStatus
+  idStatus: valueStatus
   celular: string
   idExterna: string | null
 }

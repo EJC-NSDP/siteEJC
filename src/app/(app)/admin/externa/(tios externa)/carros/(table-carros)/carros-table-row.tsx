@@ -3,6 +3,7 @@ import { MessageSquareMore, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 
+import type { valueStatus } from '@/@types/enums'
 import type { CarroSummaryData } from '@/app/api/carro/get-carros-summary'
 import { CarroExterna } from '@/components/Table/CarroExterna'
 import { DeleteCarroDialog } from '@/components/Table/DeleteCarroDialog'
@@ -16,7 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { api } from '@/lib/axios'
-import type { Encontro, Value_Status as valueStatus } from '@prisma/client'
+import type { Encontro } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'

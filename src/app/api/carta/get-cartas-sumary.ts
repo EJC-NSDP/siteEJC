@@ -56,11 +56,13 @@ async function getCartas({ page, perPage, encontristaName }: getCartaProps) {
                   select: {
                     pessoaMotorista: {
                       select: {
+                        nome: true,
                         apelido: true,
                       },
                     },
                     pessoaCarona: {
                       select: {
+                        nome: true,
                         apelido: true,
                       },
                     },
@@ -121,11 +123,13 @@ async function getCartas({ page, perPage, encontristaName }: getCartaProps) {
                 select: {
                   pessoaMotorista: {
                     select: {
+                      nome: true,
                       apelido: true,
                     },
                   },
                   pessoaCarona: {
                     select: {
+                      nome: true,
                       apelido: true,
                     },
                   },
@@ -218,8 +222,10 @@ export async function getMensagensSummary({
       )
       const tioExterna = encontrista.encontrista?.carroEncontro
         ? encontrista.encontrista.carroEncontro.carro.pessoaCarona
-          ? `${encontrista.encontrista.carroEncontro.carro.pessoaMotorista.apelido!} e ${encontrista.encontrista.carroEncontro.carro.pessoaCarona.apelido!}`
-          : encontrista.encontrista.carroEncontro.carro.pessoaMotorista.apelido!
+          ? `${encontrista.encontrista.carroEncontro.carro.pessoaMotorista.apelido || encontrista.encontrista.carroEncontro.carro.pessoaMotorista.nome} e ${encontrista.encontrista.carroEncontro.carro.pessoaCarona.apelido || encontrista.encontrista.carroEncontro.carro.pessoaCarona.nome}`
+          : encontrista.encontrista.carroEncontro.carro.pessoaMotorista
+              .apelido ||
+            encontrista.encontrista.carroEncontro.carro.pessoaMotorista.nome
         : 'Ainda sem carro'
       const cartaResponse: CartaSummaryData = {
         id: encontrista.id,

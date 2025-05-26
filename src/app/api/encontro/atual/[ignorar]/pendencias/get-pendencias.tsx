@@ -37,11 +37,13 @@ export async function getPendencias() {
           observacaoMotorista: true,
           pessoaMotorista: {
             select: {
+              nome: true,
               apelido: true,
             },
           },
           pessoaCarona: {
             select: {
+              nome: true,
               apelido: true,
             },
           },
@@ -105,7 +107,8 @@ export async function getPendencias() {
   const response: CarroPendencias[] = carros.map((carro) => {
     const carona: TioExterna | undefined = carro.carro.pessoaCarona
       ? {
-          nome: carro.carro.pessoaCarona.apelido!,
+          nome:
+            carro.carro.pessoaCarona.apelido || carro.carro.pessoaCarona.nome,
           tipo: 'Carona',
         }
       : undefined
@@ -126,7 +129,9 @@ export async function getPendencias() {
     return {
       id: carro.id,
       motorista: {
-        nome: carro.carro.pessoaMotorista.apelido!,
+        nome:
+          carro.carro.pessoaMotorista.apelido ||
+          carro.carro.pessoaMotorista.nome,
         tipo: 'Motorista',
       },
       carona,

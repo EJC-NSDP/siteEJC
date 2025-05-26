@@ -1,17 +1,11 @@
 'use client'
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
-import { BarChart4, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { EncontristasCartasTable } from './(table-cartas)/encontristas-cartas-table'
@@ -70,12 +64,6 @@ export default function Cartas() {
                 <Skeleton className="h-8 w-12" />
               )}
             </div>
-            {/* <Button>
-              <div className="flex items-center justify-center gap-2 lg:w-40">
-                <Plus className="h-4 w-4" />
-                <span className="hidden lg:flex">Nova Carta</span>
-              </div>
-            </Button> */}
             <Link href="/mensagem" target="_blank">
               <Button>
                 <div className="flex items-center justify-center gap-2 lg:w-40">
@@ -86,7 +74,7 @@ export default function Cartas() {
             </Link>
           </div>
         </div>
-        <Accordion type="single" collapsible>
+        {/* <Accordion type="single" collapsible>
           <AccordionItem
             value="graficos"
             className="rounded-xl border-none bg-white px-4"
@@ -101,7 +89,7 @@ export default function Cartas() {
               Em breve teremos os Gráficos aqui
             </AccordionContent>
           </AccordionItem>
-        </Accordion>
+        </Accordion> */}
       </div>
       <EncontristasCartasTable />
     </div>

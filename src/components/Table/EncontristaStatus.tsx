@@ -1,7 +1,7 @@
+import type { valueStatus } from '@/@types/enums'
 import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
 import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { Value_Status as valueStatus } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ArrowRightFromLine,

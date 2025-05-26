@@ -1,5 +1,5 @@
+import type { valueStatus } from '@/@types/enums'
 import { prisma } from '@/lib/prisma'
-import type { Value_Status as valueStatus } from '@prisma/client'
 
 export interface changeStatusRouteProps {
   id: string
@@ -10,6 +10,14 @@ export async function changeStatus({ id, status }: changeStatusRouteProps) {
     await prisma.encontreiro.update({
       data: {
         idCirculo: null,
+      },
+      where: {
+        idPessoa: id,
+      },
+    })
+    await prisma.encontrista.update({
+      data: {
+        idCarroEncontro: null,
       },
       where: {
         idPessoa: id,

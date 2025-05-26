@@ -1,6 +1,6 @@
-import { type Value_Status as enumStatus } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
+import type { valueStatus } from '@/@types/enums'
 import {
   createEncontrista,
   type CreateEncontristaProps,
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   const page = pageParams ? Number(pageParams) : 1
 
   const encontristaStatus = encontristaStatusParams
-    ? (encontristaStatusParams as enumStatus)
+    ? (encontristaStatusParams as valueStatus)
     : null
 
   const encontristas = await getEncontristasSummary({

@@ -163,7 +163,7 @@ export default function Profile() {
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
                       <ButtonLabel
-                        label="Painel da Externa"
+                        label="Externa"
                         icon={CarFront}
                         link="/admin/externa"
                       />
@@ -172,7 +172,7 @@ export default function Profile() {
                     {(profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
                       <ButtonLabel
-                        label="Painel da Dirigencia"
+                        label="Dirigencia"
                         icon={Album}
                         link="/admin/dirigente"
                       />
