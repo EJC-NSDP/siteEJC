@@ -18,6 +18,15 @@ export async function getRestricoes(): Promise<PessoaRestricao[]> {
       encontreiro: {
         select: {
           restricaoAlimentar: true,
+          circulo: {
+            select: {
+              corCirculo: {
+                select: {
+                  cor: true,
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -26,6 +35,9 @@ export async function getRestricoes(): Promise<PessoaRestricao[]> {
       encontrista: {
         OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
       },
+    },
+    orderBy: {
+      nome: 'asc',
     },
   })
 
@@ -54,15 +66,24 @@ export async function getRestricoes(): Promise<PessoaRestricao[]> {
         where: {
           idEncontro: currentEncontro.id,
         },
+        orderBy: {
+          encontreiro: {
+            pessoa: {
+              nome: 'asc',
+            },
+          },
+        },
       })
     : []
 
   const parsedEncontristas: PessoaRestricao[] = encontristas.map(
     (encontrista) => {
+      const corCirculo =
+        encontrista.encontreiro?.circulo?.corCirculo.cor || 'Não alocado'
       return {
         nome: `${encontrista.nome} ${encontrista.sobrenome}`,
         apelido: encontrista.apelido,
-        equipe: 'Encontrista',
+        equipe: `Encontrista - ${corCirculo}`,
         restricaoAlimentar: encontrista.encontreiro?.restricaoAlimentar || '',
       }
     },
