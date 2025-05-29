@@ -112,6 +112,19 @@ export default function MinhaEquipe() {
                   </Button>
                 </Link>
               )}
+              {result.idEquipe === 'dirigente' && (
+                <Link href="/api/export/dirigente/encontreiros">
+                  <Button
+                    variant="secondary"
+                    className="flex items-center gap-2 text-tertiary"
+                  >
+                    <Download className="size-4 text-tertiary" />
+                    <span className="text-sm font-medium">
+                      Baixar Lista de Encontreiros
+                    </span>
+                  </Button>
+                </Link>
+              )}
               {result.idEquipe !== 'dirigente' && (
                 <Link href={result.pastaUrl}>
                   <Button
