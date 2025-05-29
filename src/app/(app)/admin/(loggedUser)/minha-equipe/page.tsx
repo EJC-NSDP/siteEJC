@@ -25,10 +25,6 @@ async function getEncontreirosEquipe(id: string) {
 }
 
 export default function MinhaEquipe() {
-  // const tempIdDiri = '6b53a4f9-e4e7-4708-b623-c7a2e00b5269' // Clara
-  // const tempIdSala = '3a8634a5-b729-411c-9ae1-e113c40c8638' // Lou
-  // const tempIdEquipeComTropa = 'cddc8bdf-5cff-45f5-9e94-6c82f763effd' // Esther (Mini)
-
   const [sessionId, setSessionId] = useState<string | undefined>(undefined)
   const [corEquipe, setCorEquipe] = useState<string>('bg-zinc-200')
   const [equipeName, setEquipeName] = useState<string>('Carregando...')
@@ -86,6 +82,32 @@ export default function MinhaEquipe() {
                     <Download className="size-4 text-tertiary" />
                     <span className="text-sm font-medium">
                       Baixar Restrições Alimentares
+                    </span>
+                  </Button>
+                </Link>
+              )}
+              {result.idEquipe === 'vigilia' && (
+                <Link href="/api/export/vigilia/encontreiros">
+                  <Button
+                    variant="secondary"
+                    className="flex items-center gap-2 text-tertiary"
+                  >
+                    <Download className="size-4 text-tertiary" />
+                    <span className="text-sm font-medium">
+                      Baixar Lista de Encontreiros
+                    </span>
+                  </Button>
+                </Link>
+              )}
+              {result.idEquipe === 'vigilia' && (
+                <Link href="/api/export/vigilia/encontristas">
+                  <Button
+                    variant="secondary"
+                    className="flex items-center gap-2 text-tertiary"
+                  >
+                    <Download className="size-4 text-tertiary" />
+                    <span className="text-sm font-medium">
+                      Baixar Lista de Encontristas
                     </span>
                   </Button>
                 </Link>
