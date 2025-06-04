@@ -1,6 +1,7 @@
 import type { EditSecreFormDataInput } from '@/app/(app)/admin/secretaria/(encontristas)/[slug]/edit/EditSecreEncontristaForm'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
+import { clearInstagram } from '@/utils/clear-instagram'
 import { stringToDate } from '@/utils/string-to-date'
 
 export async function updateEncontristaSecre(data: EditSecreFormDataInput) {
@@ -23,6 +24,7 @@ export async function updateEncontristaSecre(data: EditSecreFormDataInput) {
   await updateEndereco(enderecoProps)
 
   const dataNascimento = stringToDate(data.dataNascimento)
+  const instagram = data.instagram ? clearInstagram(data.instagram) : null
 
   return await prisma.pessoa.update({
     where: { slug: foundEncontrista.slug },
@@ -36,7 +38,7 @@ export async function updateEncontristaSecre(data: EditSecreFormDataInput) {
       encontreiro: {
         update: {
           dataNasc: dataNascimento,
-          instagram: data.instagram,
+          instagram,
         },
       },
     },

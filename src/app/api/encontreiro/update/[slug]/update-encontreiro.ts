@@ -1,6 +1,7 @@
 import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
+import { clearInstagram } from '@/utils/clear-instagram'
 import { stringToDate } from '@/utils/string-to-date'
 import type { EquipeEncontro } from '@prisma/client'
 
@@ -35,6 +36,8 @@ export async function updateEncontreiro({
       ? undefined
       : encontro.idCirculo
 
+  const instagram = pessoa.instagram ? clearInstagram(pessoa.instagram) : null
+
   const updatePessoa = await prisma.pessoa.update({
     where: { id: foundUser.id },
     data: {
@@ -49,7 +52,7 @@ export async function updateEncontreiro({
       encontreiro: {
         update: {
           dataNasc: dataNascimento,
-          instagram: pessoa.instagram,
+          instagram,
           idCirculo: circulo,
           idEncontro: encontro.idEncontro,
         },

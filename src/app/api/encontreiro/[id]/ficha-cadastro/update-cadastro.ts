@@ -2,6 +2,7 @@ import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/f
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
+import { clearInstagram } from '@/utils/clear-instagram'
 import { hash } from 'bcryptjs'
 
 export async function updateCadastro(data: EditCadastroFormDataInput) {
@@ -37,6 +38,8 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
     })
   }
 
+  const instagram = data.instagram ? clearInstagram(data.instagram) : null
+
   const updatedPessoa = await prisma.pessoa.update({
     where: { id: foundUser.id },
     data: {
@@ -46,7 +49,7 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
       enderecoNumero: parseInt(data.numero, 10),
       encontreiro: {
         update: {
-          instagram: data.instagram,
+          instagram,
           idTamanhoCamisa: data.tamanhoCamisa,
           restricaoAlimentar: data.restricaoAlimentar,
           idDisponibilidade: data.disponibilidade,

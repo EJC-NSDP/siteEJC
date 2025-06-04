@@ -1,5 +1,6 @@
 import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { prisma } from '@/lib/prisma'
+import { clearInstagram } from '@/utils/clear-instagram'
 import { createSlugForEncontrista } from '@/utils/create-slug'
 import { stringToDate } from '@/utils/string-to-date'
 import { createEndereco } from '../endereco/create-endereco'
@@ -41,6 +42,8 @@ export async function createEncontreiro({
       ? undefined
       : encontro.idCirculo
 
+  const instagram = pessoa.instagram ? clearInstagram(pessoa.instagram) : null
+
   const newEncontreiro = await prisma.pessoa.create({
     data: {
       nome: pessoa.nome,
@@ -58,7 +61,7 @@ export async function createEncontreiro({
       encontreiro: {
         create: {
           dataNasc: dataNascimento,
-          instagram: pessoa.instagram,
+          instagram,
           idEncontro: foundEncontro.id,
           idCirculo: circulo,
         },

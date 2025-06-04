@@ -6,6 +6,7 @@ import {
   PersonalFormData,
 } from '@/context/CreateEncontristaContext'
 import { prisma } from '@/lib/prisma'
+import { clearInstagram } from '@/utils/clear-instagram'
 import { createSlugForEncontrista } from '@/utils/create-slug'
 import { stringToDate } from '@/utils/string-to-date'
 import { createEndereco } from '../endereco/create-endereco'
@@ -76,6 +77,10 @@ export async function createEncontrista({
 
   const dataNascimento = stringToDate(personal.dataNascimento)
 
+  const instagram = personal.instagram
+    ? clearInstagram(personal.instagram)
+    : null
+
   const pessoa = await prisma.pessoa.create({
     data: {
       nome: personal.nome,
@@ -115,7 +120,7 @@ export async function createEncontrista({
       encontreiro: {
         create: {
           dataNasc: dataNascimento,
-          instagram: personal.instagram,
+          instagram,
           restricaoAlimentar: other.restricoesAlimentares,
           idTamanhoCamisa: other.tamanhoCamisa,
           idEncontro: encontro ? encontro.id : null,

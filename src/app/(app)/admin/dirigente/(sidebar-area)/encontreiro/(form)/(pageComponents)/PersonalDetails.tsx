@@ -113,7 +113,7 @@ export function PersonalDetails() {
           render={({ field }) => {
             return (
               <TextInput label={'Instagram'}>
-                <Input {...field} prefix="instagram.com/" />
+                <Input {...field} prefix="@" />
               </TextInput>
             )
           }}

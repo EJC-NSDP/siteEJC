@@ -75,7 +75,7 @@ export function PersonalCard() {
                 label={'Instagram'}
                 description="Aproveita pra seguir a @pdcejc! Já ativou o sininho pra receber as noticias e fofocas do EJC em primeira mão?"
               >
-                <Input {...field} prefix="instagram.com/" />
+                <Input {...field} prefix="@" />
               </TextInput>
             )
           }}
