@@ -1,6 +1,6 @@
 import type { Cor } from '@/app/api/domains/coresEncontro/get-cores'
 import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disponibilidade'
-import type { Equipes } from '@/app/api/domains/equipes/get-equipes'
+import type { EquipesEncontro } from '@/app/api/domains/equipes/get-equipes'
 import type { Funcao } from '@/app/api/domains/funcoes/get-funcoes'
 import type { MoraCom } from '@/app/api/domains/mora_com/get-mora-com'
 import type { Palestra } from '@/app/api/domains/palestras/get-palestra'
@@ -162,7 +162,7 @@ export async function getAllPastorais() {
 }
 
 export async function getEquipes() {
-  const response: Equipes[] = await api
+  const response: EquipesEncontro[] = await api
     .get('domains/equipes')
     .then((response) => response.data)
     .catch((err) => console.error(err))
@@ -209,7 +209,7 @@ export async function getPalestras() {
 }
 
 export async function getValidEquipes() {
-  const response: Equipes[] = await api
+  const response: EquipesEncontro[] = await api
     .get('domains/equipes')
     .then((response) => response.data)
     .catch((err) => console.error(err))

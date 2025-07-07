@@ -13,7 +13,14 @@ export function idPertenceATropa(equipe: string): boolean {
 }
 
 export function idPertenceARosa(equipe: string): boolean {
-  const categorias = ['vigilia', 'recepcao', 'compras', 'externa', 'meditacao']
+  const categorias = [
+    'vigilia',
+    'recepcao',
+    'compras',
+    'externa',
+    'meditacao',
+    'rosa',
+  ]
   return categorias.includes(equipe)
 }
 
@@ -24,6 +31,7 @@ export function idPertenceASala(equipe: string): boolean {
     'tio_aparente',
     'tio_circulo',
     'tio_secreto',
+    'sala',
   ]
   return categorias.includes(equipe)
 }
@@ -35,6 +43,7 @@ export function labelPertenceARosa(equipe: string): boolean {
     'Compras',
     'Externa',
     'Meditação',
+    'Rosa',
   ]
   return categorias.includes(equipe)
 }
@@ -46,6 +55,7 @@ export function labelPertenceASala(equipe: string): boolean {
     'Tio Aparente',
     'Tio de Círculo',
     'Tio Secreto',
+    'Sala',
   ]
   return categorias.includes(equipe)
 }

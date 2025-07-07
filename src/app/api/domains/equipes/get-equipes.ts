@@ -1,12 +1,12 @@
 import { prisma } from '@/lib/prisma'
 
-export type Equipes = {
+export interface EquipesEncontro {
   equipeValue: string
   equipeLabel: string
 }
 
 export async function getEquipes() {
-  const equipes: Equipes[] = await prisma.domainEquipes.findMany({
+  const equipes: EquipesEncontro[] = await prisma.domainEquipes.findMany({
     select: {
       equipeValue: true,
       equipeLabel: true,

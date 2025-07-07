@@ -1,39 +1,32 @@
 import { prisma } from '@/lib/prisma'
+import { idPertenceARosa } from '@/utils/pertence'
 
 export interface changeEquipeProps {
   idEncontreiro: string
   valueEquipe: string
-  coordenando: boolean
 }
 
 export async function alocateEquipeMontagem({
   idEncontreiro,
   valueEquipe,
-  coordenando,
 }: changeEquipeProps) {
-  const encontreiroExists = await prisma.equipeMontagem.findFirst({
+  const coordenando =
+    valueEquipe === 'apresentacao' || idPertenceARosa(valueEquipe)
+
+  const equipeInfo = await prisma.equipeMontagem.upsert({
     where: {
       idEncontreiro,
     },
+    update: {
+      valueEquipe,
+      coordenando,
+    },
+    create: {
+      idEncontreiro,
+      valueEquipe,
+      coordenando,
+    },
   })
-
-  const equipeInfo = encontreiroExists
-    ? await prisma.equipeMontagem.update({
-        data: {
-          valueEquipe,
-          coordenando,
-        },
-        where: {
-          idEncontreiro,
-        },
-      })
-    : await prisma.equipeMontagem.create({
-        data: {
-          idEncontreiro,
-          valueEquipe,
-          coordenando,
-        },
-      })
 
   return equipeInfo
 }

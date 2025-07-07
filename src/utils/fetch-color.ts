@@ -53,3 +53,55 @@ export function getEquipeColor(id: string) {
                         ? 'bg-primary/90'
                         : 'bg-zinc-200'
 }
+
+export function getEquipeBorderColor(id: string) {
+  return idPertenceASala(id)
+    ? 'border-amber-900'
+    : idPertenceARosa(id)
+      ? 'border-pink-700'
+      : id === 'banda'
+        ? 'border-yellow-700'
+        : id === 'cozinha'
+          ? 'border-blue-700'
+          : id === 'garcom'
+            ? 'border-green-700'
+            : id === 'liturgia'
+              ? 'border-red-700'
+              : id === 'mini'
+                ? 'border-black'
+                : id === 'ordem'
+                  ? 'border-zinc-700'
+                  : id === 'secretaria'
+                    ? 'border-orange-700'
+                    : id === 'teatro'
+                      ? 'border-black'
+                      : id === 'dirigente'
+                        ? 'border-primary'
+                        : 'border-zinc-400'
+}
+
+export function getTextEquipeColor(id: string) {
+  return idPertenceASala(id)
+    ? 'text-amber-900'
+    : idPertenceARosa(id)
+      ? 'text-pink-700'
+      : id === 'banda'
+        ? 'text-yellow-700'
+        : id === 'cozinha'
+          ? 'text-blue-700'
+          : id === 'garcom'
+            ? 'text-green-700'
+            : id === 'liturgia'
+              ? 'text-red-700'
+              : id === 'mini'
+                ? 'text-black'
+                : id === 'ordem'
+                  ? 'text-zinc-700'
+                  : id === 'secretaria'
+                    ? 'text-orange-700'
+                    : id === 'teatro'
+                      ? 'text-black'
+                      : id === 'dirigente'
+                        ? 'text-primary'
+                        : 'text-zinc-400'
+}

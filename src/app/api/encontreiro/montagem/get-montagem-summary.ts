@@ -1,0 +1,318 @@
+// eslint-disable-next-line prettier/prettier
+import { prisma } from '@/lib/prisma';
+// eslint-disable-next-line prettier/prettier
+import type { Prisma } from '@prisma/client';
+
+// Campos válidos para ordenação
+export const validOrderFields = [
+  'numeroEncontro',
+  'nome',
+  'bairro',
+  'valueEquipe',
+] as const
+
+// Mapeamento de campos para suas respectivas relações
+const fieldMappings: Record<
+  string,
+  { relation?: string; nestedRelation?: string }
+> = {
+  bairro: { relation: 'endereco' },
+  numeroEncontro: { relation: 'encontreiro', nestedRelation: 'encontro' },
+  valueEquipe: { relation: 'encontreiro', nestedRelation: 'equipeMontagem' },
+}
+
+type OrderByField = (typeof validOrderFields)[number]
+
+export interface EncontreiroMontagemSummaryData {
+  id: string
+  avatarUrl: string | null
+  nome: string
+  encontro: string
+  bairro: string
+  disponibilidade: string
+  preferencias: string[]
+  equipe: {
+    value: string
+    coordenando: boolean
+  } | null
+}
+
+export type EncontreiroMontagemSummary = {
+  pageIndex: number
+  totalCount: number
+  perPage: number
+  encontreiros: EncontreiroMontagemSummaryData[]
+}
+
+type GetEncontreirosMontagemSummaryProps = {
+  page: number
+  encontreiroName: string | null
+  equipeValue: string | null
+  orderByField: string | null
+  orderDirection: string | null
+}
+
+type GetEncontreirosMontagemProps = {
+  page: number
+  perPage: number
+  encontreiroName: string | null
+  equipeValue: string | null
+  orderByField: string | null
+  orderDirection: string | null
+}
+
+type GetTotalEncontreirosMontagemProps = {
+  encontreiroName: string | null
+  equipeValue: string | null
+}
+
+const pessoaSelect = {
+  id: true,
+  avatarUrl: true,
+  nome: true,
+  sobrenome: true,
+  slug: true,
+  endereco: {
+    select: {
+      bairro: true,
+    },
+  },
+  encontreiro: {
+    select: {
+      disponibilidade: {
+        select: {
+          disponibilidade: true,
+        },
+      },
+      listaPreferencias: {
+        select: {
+          posicao: true,
+          equipe: {
+            select: {
+              equipeLabel: true,
+            },
+          },
+        },
+      },
+      equipeMontagem: {
+        select: {
+          valueEquipe: true,
+          coordenando: true,
+        },
+      },
+      encontro: {
+        select: {
+          numeroEncontro: true,
+        },
+      },
+      circulo: {
+        select: {
+          nome: true,
+          corCirculo: {
+            select: {
+              cor: true,
+            },
+          },
+        },
+      },
+    },
+  },
+} satisfies Prisma.PessoaSelect
+
+type PessoaComRelacionamentos = Prisma.PessoaGetPayload<{
+  select: typeof pessoaSelect
+}>
+
+async function getEncontreirosMontagem({
+  page,
+  perPage,
+  encontreiroName,
+  equipeValue,
+  orderByField,
+  orderDirection,
+}: GetEncontreirosMontagemProps): Promise<PessoaComRelacionamentos[]> {
+  const skipData = page * perPage
+
+  const nameParts = encontreiroName ? encontreiroName.split(' ') : []
+
+  const nameFilter: Prisma.PessoaWhereInput = encontreiroName
+    ? {
+        OR: nameParts.flatMap((part) => [
+          { nome: { contains: part, mode: 'insensitive' } },
+          { sobrenome: { contains: part, mode: 'insensitive' } },
+        ]),
+      }
+    : {}
+
+  const equipeFilter: Prisma.EquipeMontagemWhereInput =
+    equipeValue && equipeValue !== 'all' ? { valueEquipe: equipeValue } : {}
+
+  const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
+  const direction =
+    orderDirection === 'asc' || orderDirection === 'desc'
+      ? orderDirection
+      : 'asc'
+
+  if (orderByField && validOrderFields.includes(orderByField as OrderByField)) {
+    const mapping = fieldMappings[orderByField] || {}
+
+    if (orderByField === 'nome') {
+      orderBy.push({ nome: direction }, { sobrenome: direction })
+    } else if (mapping.relation) {
+      const orderObject = mapping.nestedRelation
+        ? {
+            [mapping.relation]: {
+              [mapping.nestedRelation]: { [orderByField]: direction },
+            },
+          }
+        : { [mapping.relation]: { [orderByField]: direction } }
+      orderBy.push(orderObject)
+    } else {
+      orderBy.push({ [orderByField]: direction })
+    }
+  } else {
+    orderBy.push({ nome: 'asc' })
+  }
+
+  return await prisma.pessoa.findMany({
+    skip: skipData,
+    take: perPage,
+    select: pessoaSelect,
+    where: {
+      NOT: [
+        { role: 'ENCONTRISTA' },
+        { role: 'TIOEXTERNA' },
+        { role: 'DIRIGENTE' },
+      ],
+      ...nameFilter,
+      encontreiro: {
+        equipeMontagem: {
+          ...equipeFilter,
+        },
+      },
+    },
+    orderBy,
+  })
+}
+
+async function getTotalMontagem({
+  encontreiroName,
+  equipeValue,
+}: GetTotalEncontreirosMontagemProps) {
+  const nameParts = encontreiroName ? encontreiroName.split(' ') : []
+
+  const nameFilter: Prisma.PessoaWhereInput = encontreiroName
+    ? {
+        OR: nameParts.flatMap((part) => [
+          { nome: { contains: part, mode: 'insensitive' } },
+          { sobrenome: { contains: part, mode: 'insensitive' } },
+        ]),
+      }
+    : {}
+
+  const equipeFilter: Prisma.EquipeMontagemWhereInput =
+    equipeValue && equipeValue !== 'all' ? { valueEquipe: equipeValue } : {}
+
+  return await prisma.pessoa.count({
+    where: {
+      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      ...nameFilter,
+      encontreiro: {
+        equipeMontagem: {
+          ...equipeFilter,
+        },
+      },
+    },
+  })
+}
+
+function comparePosicao(
+  a: {
+    posicao: number
+    equipe: {
+      equipeLabel: string
+    }
+  },
+  b: {
+    posicao: number
+    equipe: {
+      equipeLabel: string
+    }
+  },
+) {
+  if (a.posicao < b.posicao) {
+    return -1
+  }
+  if (a.posicao > b.posicao) {
+    return 1
+  }
+  return 0
+}
+
+function transformToEncontreiroSummaryData(
+  encontreiros: PessoaComRelacionamentos[],
+): EncontreiroMontagemSummaryData[] {
+  return encontreiros.map((encontreiro) => {
+    const listaPreferencias = encontreiro.encontreiro
+      ? encontreiro.encontreiro.listaPreferencias.sort(comparePosicao)
+      : []
+    return {
+      id: encontreiro.id,
+      avatarUrl: encontreiro.avatarUrl,
+      nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
+      encontro:
+        encontreiro.encontreiro?.encontro?.numeroEncontro?.toString() ?? '',
+      bairro: encontreiro.endereco?.bairro ?? 'N/A',
+      disponibilidade:
+        encontreiro.encontreiro?.disponibilidade?.disponibilidade ?? '',
+      preferencias: listaPreferencias.map(
+        (p) => `${p.posicao}ª - ${p.equipe.equipeLabel}`,
+      ),
+      equipe: encontreiro.encontreiro?.equipeMontagem
+        ? {
+            value: encontreiro.encontreiro.equipeMontagem.valueEquipe,
+            coordenando: encontreiro.encontreiro.equipeMontagem.coordenando,
+          }
+        : null,
+    }
+  })
+}
+
+export async function getEncontreirosSummary({
+  page,
+  encontreiroName,
+  equipeValue,
+  orderByField,
+  orderDirection,
+}: GetEncontreirosMontagemSummaryProps) {
+  const perPage = 25
+
+  const totalEncontreiro = await getTotalMontagem({
+    encontreiroName,
+    equipeValue,
+  })
+
+  const encontreiros = await getEncontreirosMontagem({
+    page,
+    perPage,
+    encontreiroName,
+    equipeValue,
+    orderByField,
+    orderDirection,
+  })
+
+  if (!encontreiros) {
+    return null
+  }
+
+  const encontreirosResponse = transformToEncontreiroSummaryData(encontreiros)
+
+  const response: EncontreiroMontagemSummary = {
+    totalCount: totalEncontreiro,
+    pageIndex: page + 1,
+    perPage,
+    encontreiros: encontreirosResponse,
+  }
+
+  return response
+}

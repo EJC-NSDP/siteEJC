@@ -20,7 +20,6 @@ import { getInitials } from '@/utils/get-initials'
 import { useQuery } from '@tanstack/react-query'
 import { Baby, Instagram } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { AlocacaoCard } from './AlocacaoCard'
 
 async function getEncontreiroData(slug: string) {
   const encontreiroData = await api.get(`montagem/${slug}`)
@@ -151,11 +150,6 @@ export function CardEncontreiro({ slug }: CardEncontreiroProps) {
                 )}
               </div>
             </div>
-            {isLoadingEncontreiro ? (
-              <Skeleton className="h-4/5 w-full" />
-            ) : (
-              <AlocacaoCard idPessoa={currentData.id} slug={currentData.slug} />
-            )}
           </div>
         </CardTitle>
         <CardContent className="flex gap-8 pt-8">
