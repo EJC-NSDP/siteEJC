@@ -68,11 +68,13 @@ export async function getEquipe(
       contentLines.push(`Tios de Círculo: ${totalTios}`)
     }
 
+    const coordDone = value === 'rosa' ? totalCoords >= 14 : totalCoords >= 2
+
     return {
       value,
       label,
       total,
-      coordDone: totalCoords >= 2,
+      coordDone,
       content: contentLines,
     }
   }

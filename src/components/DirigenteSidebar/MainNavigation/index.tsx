@@ -1,4 +1,4 @@
-import { Circle, Puzzle, SquareUserRound, UserSearch } from 'lucide-react'
+import { Circle, Puzzle, SquareUserRound } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavItem } from './NavItem'
@@ -29,13 +29,13 @@ export function MainNavigation() {
           active={path === '/admin/dirigente/montagem'}
         />
       </Link>
-      <Link href="/admin/dirigente/info-encontreiro">
+      {/* <Link href="/admin/dirigente/info-encontreiro">
         <NavItem
           title="Informações Encontreiro"
           icon={UserSearch}
           active={path === '/admin/dirigente/info-encontreiro'}
         />
-      </Link>
+      </Link> */}
     </nav>
   )
 }

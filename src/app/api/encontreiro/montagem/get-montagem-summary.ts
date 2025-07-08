@@ -8,23 +8,28 @@ export const validOrderFields = [
   'numeroEncontro',
   'nome',
   'bairro',
-  'valueEquipe',
+  'equipeLabel',
 ] as const
 
 // Mapeamento de campos para suas respectivas relações
 const fieldMappings: Record<
   string,
-  { relation?: string; nestedRelation?: string }
+  { relation?: string; nestedRelation?: string; targetField?: string }
 > = {
   bairro: { relation: 'endereco' },
   numeroEncontro: { relation: 'encontreiro', nestedRelation: 'encontro' },
-  valueEquipe: { relation: 'encontreiro', nestedRelation: 'equipeMontagem' },
+  equipeLabel: {
+    relation: 'encontreiro',
+    nestedRelation: 'equipeMontagem',
+    targetField: 'equipe',
+  },
 }
 
 type OrderByField = (typeof validOrderFields)[number]
 
 export interface EncontreiroMontagemSummaryData {
   id: string
+  slug: string
   avatarUrl: string | null
   nome: string
   encontro: string
@@ -144,8 +149,12 @@ async function getEncontreirosMontagem({
       }
     : {}
 
-  const equipeFilter: Prisma.EquipeMontagemWhereInput =
-    equipeValue && equipeValue !== 'all' ? { valueEquipe: equipeValue } : {}
+  const equipeFilter: Prisma.EncontreiroWhereInput =
+    equipeValue && equipeValue === 'sem_equipe'
+      ? { equipeMontagem: null }
+      : equipeValue && equipeValue !== 'all_equipes'
+        ? { equipeMontagem: { valueEquipe: equipeValue } }
+        : {}
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
@@ -186,9 +195,7 @@ async function getEncontreirosMontagem({
       ],
       ...nameFilter,
       encontreiro: {
-        equipeMontagem: {
-          ...equipeFilter,
-        },
+        ...equipeFilter,
       },
     },
     orderBy,
@@ -210,17 +217,23 @@ async function getTotalMontagem({
       }
     : {}
 
-  const equipeFilter: Prisma.EquipeMontagemWhereInput =
-    equipeValue && equipeValue !== 'all' ? { valueEquipe: equipeValue } : {}
+  const equipeFilter: Prisma.EncontreiroWhereInput =
+    equipeValue && equipeValue === 'sem_equipe'
+      ? { equipeMontagem: null }
+      : equipeValue && equipeValue !== 'all_equipes'
+        ? { equipeMontagem: { valueEquipe: equipeValue } }
+        : {}
 
   return await prisma.pessoa.count({
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      NOT: [
+        { role: 'ENCONTRISTA' },
+        { role: 'TIOEXTERNA' },
+        { role: 'DIRIGENTE' },
+      ],
       ...nameFilter,
       encontreiro: {
-        equipeMontagem: {
-          ...equipeFilter,
-        },
+        ...equipeFilter,
       },
     },
   })
@@ -258,6 +271,7 @@ function transformToEncontreiroSummaryData(
       : []
     return {
       id: encontreiro.id,
+      slug: encontreiro.slug,
       avatarUrl: encontreiro.avatarUrl,
       nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
       encontro:

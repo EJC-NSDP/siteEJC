@@ -61,7 +61,6 @@ export function EncontreirosTable() {
 
   const encontreiroName = searchParams.get('encontreiroName')
   const encontreiroStatus = searchParams.get('encontreiroStatus')
-  const responsavelExterna = searchParams.get('responsavelExterna')
   const orderByField = searchParams.get('orderByField')
   const orderByDirection = searchParams.get('orderDirection')
 
@@ -78,7 +77,6 @@ export function EncontreirosTable() {
           pageIndex,
           encontreiroName,
           encontreiroStatus,
-          responsavelExterna,
           orderByField,
           orderByDirection,
         },
@@ -117,9 +115,6 @@ export function EncontreirosTable() {
 
     if (encontreiroStatus)
       newSearch.append('encontreiroStatus', encontreiroStatus.toString())
-
-    if (responsavelExterna)
-      newSearch.append('responsavelExterna', responsavelExterna.toString())
 
     newSearch.append('orderByField', orderField)
 

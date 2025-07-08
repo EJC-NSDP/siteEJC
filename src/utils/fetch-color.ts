@@ -1,17 +1,18 @@
 import { idPertenceARosa, idPertenceASala } from './pertence'
 
-export function getCirculoColor(label: string) {
+export function getCirculoColor(label: string, place?: string) {
+  const format = place || 'bg'
   return label === 'Amarelo'
-    ? 'bg-yellow-500'
+    ? `${format}-yellow-500`
     : label === 'Azul'
-      ? 'bg-blue-500'
+      ? `${format}-blue-500`
       : label === 'Laranja'
-        ? 'bg-orange-500'
+        ? `${format}-orange-500`
         : label === 'Verde'
-          ? 'bg-emerald-500'
+          ? `${format}-emerald-500`
           : label === 'Vermelho'
-            ? 'bg-red-500'
-            : 'bg-zinc-200'
+            ? `${format}-red-500`
+            : `${format}-zinc-200`
 }
 
 export function getCirculoTitleColor(label: string) {

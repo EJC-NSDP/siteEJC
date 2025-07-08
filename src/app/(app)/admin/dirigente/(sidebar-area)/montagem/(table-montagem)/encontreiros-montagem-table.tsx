@@ -16,14 +16,14 @@ import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
+import { EncontreiroMontagemTableFilters } from './encontreiros-montagem-table-filters'
 import { EncontreiroTableRow } from './encontreiros-montagem-table-row'
 import { EncontreiroMontagemTableSkeleton } from './encontreiros-montagem-table-skeleton'
-import { EncontreiroTableFilters } from './encontreiros-table-filters'
 
 interface SearchProps {
   pageIndex: number
   encontreiroName: string | null
-  equipeValue: string | null
+  equipeLabel: string | null
   orderByField: string | null
   orderByDirection: string | null
 }
@@ -31,12 +31,12 @@ interface SearchProps {
 async function getEncontreiros({
   pageIndex,
   encontreiroName,
-  equipeValue,
+  equipeLabel,
   orderByField,
   orderByDirection,
 }: SearchProps) {
   const nameSearch = encontreiroName ? `name=${encontreiroName}&` : ''
-  const equipeSearch = equipeValue ? `equipe=${equipeValue}&` : ''
+  const equipeSearch = equipeLabel ? `equipeLabel=${equipeLabel}&` : ''
   const orderField = orderByField ? `orderByField=${orderByField}&` : ''
   const orderDirection = orderByDirection
     ? `orderDirection=${orderByDirection}&`
@@ -58,8 +58,7 @@ export function EncontreirosMontagemTable() {
   const router = useRouter()
 
   const encontreiroName = searchParams.get('encontreiroName')
-  const equipeValue = searchParams.get('equipeValue')
-  const responsavelExterna = searchParams.get('responsavelExterna')
+  const equipeLabel = searchParams.get('equipeLabel')
   const orderByField = searchParams.get('orderByField')
   const orderByDirection = searchParams.get('orderDirection')
 
@@ -75,8 +74,7 @@ export function EncontreirosMontagemTable() {
         {
           pageIndex,
           encontreiroName,
-          equipeValue,
-          responsavelExterna,
+          equipeLabel,
           orderByField,
           orderByDirection,
         },
@@ -85,7 +83,7 @@ export function EncontreirosMontagemTable() {
         getEncontreiros({
           pageIndex,
           encontreiroName,
-          equipeValue,
+          equipeLabel,
           orderByField,
           orderByDirection,
         }),
@@ -96,7 +94,7 @@ export function EncontreirosMontagemTable() {
     if (encontreiroName)
       newSearch.append('encontreiroName', encontreiroName.toString())
 
-    if (equipeValue) newSearch.append('equipeValue', equipeValue.toString())
+    if (equipeLabel) newSearch.append('equipeLabel', equipeLabel.toString())
 
     if (orderByField) newSearch.append('orderByField', orderByField.toString())
 
@@ -112,10 +110,7 @@ export function EncontreirosMontagemTable() {
     if (encontreiroName)
       newSearch.append('encontreiroName', encontreiroName.toString())
 
-    if (equipeValue) newSearch.append('equipeValue', equipeValue.toString())
-
-    if (responsavelExterna)
-      newSearch.append('responsavelExterna', responsavelExterna.toString())
+    if (equipeLabel) newSearch.append('equipeLabel', equipeLabel.toString())
 
     newSearch.append('orderByField', orderField)
 
@@ -130,7 +125,7 @@ export function EncontreirosMontagemTable() {
   return (
     <>
       <div className="flex flex-col gap-4 py-1">
-        <EncontreiroTableFilters />
+        <EncontreiroMontagemTableFilters />
         <div className="w-full overflow-x-auto bg-transparent">
           <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>
@@ -155,7 +150,7 @@ export function EncontreirosMontagemTable() {
                 <TableHead className="w-[150px]">Preferências</TableHead>
                 <SortableTableHead
                   label="Equipe"
-                  value="equipe"
+                  value="equipeLabel"
                   classname="w-[200px]"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}

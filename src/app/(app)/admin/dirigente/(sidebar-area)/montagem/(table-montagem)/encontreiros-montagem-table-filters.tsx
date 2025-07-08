@@ -2,22 +2,27 @@ import { Search, SearchX } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
-import { SelectItem } from '@/components/Form/SelectInput/SelectItem'
+import {
+  SelectItem,
+  type SelectArray,
+} from '@/components/Form/SelectInput/SelectItem'
 import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 import { SearchInput } from '@/components/ui/search-input'
+import { getEquipes } from '@/utils/fetch-domains'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
 const encontreiroFiltersSchema = z.object({
   encontreiroName: z.string().optional(),
-  encontreiroStatus: z.string().optional(),
+  encontreiroEquipe: z.string().optional(),
 })
 
 type encontreiroFiltersFormInput = z.infer<typeof encontreiroFiltersSchema>
 
-export function EncontreiroTableFilters() {
+export function EncontreiroMontagemTableFilters() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -29,7 +34,7 @@ export function EncontreiroTableFilters() {
     resolver: zodResolver(encontreiroFiltersSchema),
     defaultValues: {
       encontreiroName: searchedEncontreiroName ?? '',
-      encontreiroStatus: searchedEncontreiroStatus ?? 'ATIVO',
+      encontreiroEquipe: searchedEncontreiroStatus ?? 'all_equipes',
     },
   })
 
@@ -37,7 +42,7 @@ export function EncontreiroTableFilters() {
 
   async function handleFilter({
     encontreiroName,
-    encontreiroStatus,
+    encontreiroEquipe,
   }: encontreiroFiltersFormInput) {
     const newSearch = new URLSearchParams()
 
@@ -47,10 +52,10 @@ export function EncontreiroTableFilters() {
       newSearch.delete('encontreiroName')
     }
 
-    if (encontreiroStatus && encontreiroStatus !== 'ATIVO') {
-      newSearch.append('encontreiroStatus', encontreiroStatus)
+    if (encontreiroEquipe && encontreiroEquipe !== 'all_equipes') {
+      newSearch.append('equipeLabel', encontreiroEquipe)
     } else {
-      newSearch.delete('encontreiroStatus')
+      newSearch.delete('equipeLabel')
     }
 
     newSearch.append('page', '1')
@@ -66,6 +71,11 @@ export function EncontreiroTableFilters() {
     reset()
     router.push(`${pathname}`)
   }
+
+  const { data: equipes } = useQuery<SelectArray[]>({
+    queryKey: ['equipesSelect'],
+    queryFn: () => getEquipes(),
+  })
 
   return (
     <Form {...form}>
@@ -87,8 +97,8 @@ export function EncontreiroTableFilters() {
           />
           <FormField
             control={control}
-            name="encontreiroStatus"
-            defaultValue="ATIVO"
+            name="encontreiroEquipe"
+            defaultValue="all_equipes"
             render={({ field }) => {
               return (
                 <div className="lg:w-96">
@@ -96,8 +106,28 @@ export function EncontreiroTableFilters() {
                     onChange={field.onChange}
                     value={field.value}
                   >
-                    <SelectItem value="ATIVO" text="Ativo" />
-                    <SelectItem value="INATIVO" text="Inativo" />
+                    <SelectItem
+                      key="all_equipes"
+                      value="all_equipes"
+                      text="Todas equipes"
+                    />
+                    <SelectItem
+                      key="sem_equipe"
+                      value="sem_equipe"
+                      text="Sem equipe"
+                    />
+                    {equipes &&
+                      equipes
+                        .filter((equipe) => equipe.value !== '0')
+                        .map((equipe) => {
+                          return (
+                            <SelectItem
+                              key={equipe.value}
+                              value={equipe.value}
+                              text={equipe.label}
+                            />
+                          )
+                        })}
                   </SelectGroupInput>
                 </div>
               )
