@@ -64,6 +64,8 @@ export function EncontreiroMontagemEquipe({
     mutationFn: changeEncontreiroEquipe,
 
     onMutate: async ({ idEncontreiro, valueEquipe }) => {
+      changeCoordStatus('loading')
+
       await queryClient.cancelQueries({ queryKey: ['encontreiros'] })
 
       const previousData =

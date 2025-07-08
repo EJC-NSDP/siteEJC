@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
 
   const pageParams = requestUrl.searchParams.get('page')
-  const encontreiroName = requestUrl.searchParams.get('name')
+  const encontreiroName = requestUrl.searchParams.get('nome')
   const equipeValue = requestUrl.searchParams.get('equipe')
   const orderByField = requestUrl.searchParams.get('orderByField')
   const orderDirection = requestUrl.searchParams.get('orderDirection')

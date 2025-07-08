@@ -8,7 +8,7 @@ export const validOrderFields = [
   'numeroEncontro',
   'nome',
   'bairro',
-  'equipeLabel',
+  'equipe',
 ] as const
 
 // Mapeamento de campos para suas respectivas relações
@@ -18,7 +18,7 @@ const fieldMappings: Record<
 > = {
   bairro: { relation: 'endereco' },
   numeroEncontro: { relation: 'encontreiro', nestedRelation: 'encontro' },
-  equipeLabel: {
+  equipe: {
     relation: 'encontreiro',
     nestedRelation: 'equipeMontagem',
     targetField: 'equipe',
@@ -167,20 +167,34 @@ async function getEncontreirosMontagem({
 
     if (orderByField === 'nome') {
       orderBy.push({ nome: direction }, { sobrenome: direction })
-    } else if (mapping.relation) {
-      const orderObject = mapping.nestedRelation
-        ? {
-            [mapping.relation]: {
-              [mapping.nestedRelation]: { [orderByField]: direction },
+    } else if (
+      mapping.relation &&
+      mapping.nestedRelation &&
+      mapping.targetField
+    ) {
+      orderBy.push({
+        [mapping.relation]: {
+          [mapping.nestedRelation]: {
+            [mapping.targetField]: {
+              equipeLabel: direction,
             },
-          }
-        : { [mapping.relation]: { [orderByField]: direction } }
-      orderBy.push(orderObject)
+          },
+        },
+      })
+    } else if (mapping.relation && mapping.nestedRelation) {
+      orderBy.push({
+        [mapping.relation]: {
+          [mapping.nestedRelation]: { [orderByField]: direction },
+        },
+      })
+    } else if (mapping.relation) {
+      orderBy.push({ [mapping.relation]: { [orderByField]: direction } })
     } else {
       orderBy.push({ [orderByField]: direction })
     }
   } else {
-    orderBy.push({ nome: 'asc' })
+    // Ordem padrão: por nome e sobrenome
+    orderBy.push({ nome: 'asc' }, { sobrenome: 'asc' })
   }
 
   return await prisma.pessoa.findMany({

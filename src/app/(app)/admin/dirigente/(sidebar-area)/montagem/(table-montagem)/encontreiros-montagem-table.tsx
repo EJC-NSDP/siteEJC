@@ -23,7 +23,7 @@ import { EncontreiroMontagemTableSkeleton } from './encontreiros-montagem-table-
 interface SearchProps {
   pageIndex: number
   encontreiroName: string | null
-  equipeLabel: string | null
+  equipeValue: string | null
   orderByField: string | null
   orderByDirection: string | null
 }
@@ -31,12 +31,12 @@ interface SearchProps {
 async function getEncontreiros({
   pageIndex,
   encontreiroName,
-  equipeLabel,
+  equipeValue,
   orderByField,
   orderByDirection,
 }: SearchProps) {
-  const nameSearch = encontreiroName ? `name=${encontreiroName}&` : ''
-  const equipeSearch = equipeLabel ? `equipeLabel=${equipeLabel}&` : ''
+  const nameSearch = encontreiroName ? `nome=${encontreiroName}&` : ''
+  const equipeSearch = equipeValue ? `equipe=${equipeValue}&` : ''
   const orderField = orderByField ? `orderByField=${orderByField}&` : ''
   const orderDirection = orderByDirection
     ? `orderDirection=${orderByDirection}&`
@@ -57,8 +57,8 @@ export function EncontreirosMontagemTable() {
   const pathname = usePathname()
   const router = useRouter()
 
-  const encontreiroName = searchParams.get('encontreiroName')
-  const equipeLabel = searchParams.get('equipeLabel')
+  const encontreiroName = searchParams.get('nome')
+  const equipeValue = searchParams.get('equipe')
   const orderByField = searchParams.get('orderByField')
   const orderByDirection = searchParams.get('orderDirection')
 
@@ -74,7 +74,7 @@ export function EncontreirosMontagemTable() {
         {
           pageIndex,
           encontreiroName,
-          equipeLabel,
+          equipeValue,
           orderByField,
           orderByDirection,
         },
@@ -83,7 +83,7 @@ export function EncontreirosMontagemTable() {
         getEncontreiros({
           pageIndex,
           encontreiroName,
-          equipeLabel,
+          equipeValue,
           orderByField,
           orderByDirection,
         }),
@@ -91,10 +91,9 @@ export function EncontreirosMontagemTable() {
 
   function handlePaginate(pageIndex: number) {
     const newSearch = new URLSearchParams()
-    if (encontreiroName)
-      newSearch.append('encontreiroName', encontreiroName.toString())
+    if (encontreiroName) newSearch.append('nome', encontreiroName.toString())
 
-    if (equipeLabel) newSearch.append('equipeLabel', equipeLabel.toString())
+    if (equipeValue) newSearch.append('equipe', equipeValue.toString())
 
     if (orderByField) newSearch.append('orderByField', orderByField.toString())
 
@@ -107,10 +106,9 @@ export function EncontreirosMontagemTable() {
 
   function handleOrder(orderField: string) {
     const newSearch = new URLSearchParams()
-    if (encontreiroName)
-      newSearch.append('encontreiroName', encontreiroName.toString())
+    if (encontreiroName) newSearch.append('nome', encontreiroName.toString())
 
-    if (equipeLabel) newSearch.append('equipeLabel', equipeLabel.toString())
+    if (equipeValue) newSearch.append('equipe', equipeValue.toString())
 
     newSearch.append('orderByField', orderField)
 

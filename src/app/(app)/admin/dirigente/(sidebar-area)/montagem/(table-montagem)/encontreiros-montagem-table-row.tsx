@@ -1,4 +1,4 @@
-import { Check, CircleOff, ScanSearch } from 'lucide-react'
+import { Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
@@ -17,6 +17,7 @@ interface EncontreiroTableRowProps {
 }
 
 function canBeCoord(equipeValue: string) {
+  if (equipeValue === 'loading') return 'loading'
   if (equipeValue === 'nao_participara' || equipeValue === 'select_equipe')
     return 'disabled'
   if (idPertenceARosa(equipeValue) || equipeValue === 'apresentacao')
@@ -83,8 +84,10 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
           />
         ) : coordEnable === 'disabled' ? (
           <CircleOff className="size-4 text-zinc-300" />
-        ) : (
+        ) : coordEnable === 'mandatory' ? (
           <Check className="size-4 text-primary/80" />
+        ) : (
+          <Loader className="size-4 animate-spin text-zinc-500" />
         )}
       </TableCell>
       <TableCell>

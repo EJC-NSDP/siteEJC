@@ -27,14 +27,14 @@ export function EncontreiroMontagemTableFilters() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const searchedEncontreiroName = searchParams.get('encontreiroName')
-  const searchedEncontreiroStatus = searchParams.get('encontreiroStatus')
+  const searchedEncontreiroName = searchParams.get('nome')
+  const searchedEncontreiroEquipe = searchParams.get('equipe')
 
   const form = useForm<encontreiroFiltersFormInput>({
     resolver: zodResolver(encontreiroFiltersSchema),
     defaultValues: {
       encontreiroName: searchedEncontreiroName ?? '',
-      encontreiroEquipe: searchedEncontreiroStatus ?? 'all_equipes',
+      encontreiroEquipe: searchedEncontreiroEquipe ?? 'all_equipes',
     },
   })
 
@@ -47,15 +47,15 @@ export function EncontreiroMontagemTableFilters() {
     const newSearch = new URLSearchParams()
 
     if (encontreiroName) {
-      newSearch.append('encontreiroName', encontreiroName)
+      newSearch.append('nome', encontreiroName)
     } else {
       newSearch.delete('encontreiroName')
     }
 
     if (encontreiroEquipe && encontreiroEquipe !== 'all_equipes') {
-      newSearch.append('equipeLabel', encontreiroEquipe)
+      newSearch.append('equipe', encontreiroEquipe)
     } else {
-      newSearch.delete('equipeLabel')
+      newSearch.delete('equipe')
     }
 
     newSearch.append('page', '1')
@@ -65,8 +65,8 @@ export function EncontreiroMontagemTableFilters() {
 
   function handleClearFilters() {
     const newSearch = new URLSearchParams()
-    newSearch.delete('encontreiroName')
-    newSearch.delete('encontreiroStatus')
+    newSearch.delete('nome')
+    newSearch.delete('equipe')
     newSearch.append('page', '1')
     reset()
     router.push(`${pathname}`)
