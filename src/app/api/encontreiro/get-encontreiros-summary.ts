@@ -93,7 +93,11 @@ async function getEncontreiros({
   const statusFilter: Prisma.EncontreiroWhereInput =
     encontreiroStatus === 'INATIVO'
       ? { statusMontagem: 'INATIVO' }
-      : { statusMontagem: 'ATIVO' }
+      : {
+          statusMontagem: {
+            in: ['ATIVO', 'CONVIDADO_ESPECIAL'],
+          },
+        }
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
@@ -191,7 +195,11 @@ async function getTotal({
 
   const statusFilter: Prisma.EncontreiroWhereInput = encontreiroStatus
     ? encontreiroStatus === 'ATIVO'
-      ? { statusMontagem: 'ATIVO' }
+      ? {
+          statusMontagem: {
+            in: ['ATIVO', 'CONVIDADO_ESPECIAL'],
+          },
+        }
       : { statusMontagem: 'INATIVO' }
     : {}
 

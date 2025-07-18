@@ -11,7 +11,9 @@ export async function changeEncontristas() {
   const confirmados = await prisma.pessoa.findMany({
     where: {
       encontrista: {
-        OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
+        idStatus: {
+          in: ['confirmado', 'confirmado_sem_sexta'],
+        },
       },
     },
   })
@@ -58,20 +60,21 @@ export async function changeEncontristas() {
     })
   })
 
-  const deletados = await prisma.encontrista.deleteMany({
+  const deletados = await prisma.pessoa.deleteMany({
     where: {
-      OR: [{ idStatus: 'delete' }, { idStatus: 'desistiu' }],
+      encontrista: {
+        idStatus: {
+          in: ['delete', 'desistiu'],
+        },
+      },
     },
   })
 
   const atualizados = await prisma.encontrista.findMany({
     where: {
-      NOT: [
-        { idStatus: 'confirmado' },
-        { idStatus: 'confirmado_sem_sexta' },
-        { idStatus: 'delete' },
-        { idStatus: 'desistiu' },
-      ],
+      idStatus: {
+        notIn: ['confirmado', 'confirmado_sem_sexta', 'delete', 'desistiu'],
+      },
     },
   })
 
