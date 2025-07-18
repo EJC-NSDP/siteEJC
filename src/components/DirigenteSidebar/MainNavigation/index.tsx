@@ -1,4 +1,4 @@
-import { Circle, Puzzle, SquareUserRound } from 'lucide-react'
+import { Circle, MapPinPlus, Puzzle, SquareUserRound } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavItem } from './NavItem'
@@ -27,6 +27,13 @@ export function MainNavigation() {
           title="Montagem"
           icon={Puzzle}
           active={path === '/admin/dirigente/montagem'}
+        />
+      </Link>
+      <Link href="/admin/dirigente/criar-encontrao">
+        <NavItem
+          title="Criar Encontrão"
+          icon={MapPinPlus}
+          active={path === '/admin/dirigente/criar-encontrao'}
         />
       </Link>
       {/* <Link href="/admin/dirigente/info-encontreiro">

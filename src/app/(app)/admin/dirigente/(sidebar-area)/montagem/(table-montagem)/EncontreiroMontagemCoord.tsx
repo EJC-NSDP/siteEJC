@@ -38,7 +38,7 @@ export function EncontreiroMontagemCoord({
       await queryClient.cancelQueries({ queryKey: ['encontreiros'] })
 
       // Atualiza UI imediatamente
-      setCheck(coordenando)
+      setCheck(false)
 
       const previousData =
         queryClient.getQueriesData<EncontreiroMontagemSummary>({
