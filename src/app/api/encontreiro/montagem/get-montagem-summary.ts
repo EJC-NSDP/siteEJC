@@ -209,6 +209,7 @@ async function getEncontreirosMontagem({
       ],
       ...nameFilter,
       encontreiro: {
+        NOT: { statusMontagem: 'INATIVO' },
         ...equipeFilter,
       },
     },
