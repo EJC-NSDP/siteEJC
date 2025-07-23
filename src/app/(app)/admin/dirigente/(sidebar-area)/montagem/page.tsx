@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Download, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { EncontreirosMontagemTable } from './(table-montagem)/encontreiros-montagem-table'
 import { CardsEquipesMontagem } from './CardsEquipesMontagem'
@@ -18,6 +18,14 @@ export default function Montagem() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
+            <Link href="/api/export/montagem/encontreiros">
+              <Button variant="secondary">
+                <div className="flex items-center justify-center gap-2 lg:w-auto">
+                  <Download className="h-4 w-4 text-tertiary" />
+                  <span className="hidden lg:flex">Baixar Encontreiros</span>
+                </div>
+              </Button>
+            </Link>
             <Link href="/admin/dirigente/encontreiro/novo">
               <Button>
                 <div className="flex items-center justify-center gap-2 lg:w-40">

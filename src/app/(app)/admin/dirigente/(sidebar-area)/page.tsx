@@ -17,12 +17,12 @@ export default function Dirigente() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
-            <Link href="/api/export/cozinha">
+            <Link href="/api/export/convidados-especiais">
               <Button variant="secondary">
                 <div className="flex items-center justify-center gap-2 lg:w-auto">
                   <Download className="h-4 w-4 text-tertiary" />
                   <span className="hidden lg:flex">
-                    Baixar Restrições Alimentares
+                    Baixar Convidados Especiais
                   </span>
                 </div>
               </Button>
