@@ -24,6 +24,7 @@ interface SearchProps {
   pageIndex: number
   encontreiroName: string | null
   equipeValue: string | null
+  preferenciaValue: string | null
   orderByField: string | null
   orderByDirection: string | null
 }
@@ -32,17 +33,21 @@ async function getEncontreiros({
   pageIndex,
   encontreiroName,
   equipeValue,
+  preferenciaValue,
   orderByField,
   orderByDirection,
 }: SearchProps) {
   const nameSearch = encontreiroName ? `nome=${encontreiroName}&` : ''
   const equipeSearch = equipeValue ? `equipe=${equipeValue}&` : ''
+  const preferenciaSearch = preferenciaValue
+    ? `preferencia=${preferenciaValue}&`
+    : ''
   const orderField = orderByField ? `orderByField=${orderByField}&` : ''
   const orderDirection = orderByDirection
     ? `orderDirection=${orderByDirection}&`
     : ''
 
-  const path = `encontreiro/montagem?${nameSearch}${equipeSearch}${orderField}${orderDirection}page=${pageIndex}`
+  const path = `encontreiro/montagem?${nameSearch}${equipeSearch}${orderField}${preferenciaSearch}${orderDirection}page=${pageIndex}`
 
   const response: EncontreiroMontagemSummary = await api
     .get(path)
@@ -59,6 +64,7 @@ export function EncontreirosMontagemTable() {
 
   const encontreiroName = searchParams.get('nome')
   const equipeValue = searchParams.get('equipe')
+  const preferenciaValue = searchParams.get('preferencia')
   const orderByField = searchParams.get('orderByField')
   const orderByDirection = searchParams.get('orderDirection')
 
@@ -75,6 +81,7 @@ export function EncontreirosMontagemTable() {
           pageIndex,
           encontreiroName,
           equipeValue,
+          preferenciaValue,
           orderByField,
           orderByDirection,
         },
@@ -84,6 +91,7 @@ export function EncontreirosMontagemTable() {
           pageIndex,
           encontreiroName,
           equipeValue,
+          preferenciaValue,
           orderByField,
           orderByDirection,
         }),
@@ -144,7 +152,14 @@ export function EncontreirosMontagemTable() {
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-[110px]">Disponibilidade</TableHead>
+                <SortableTableHead
+                  label="Disponibilidade"
+                  value="disponibilidade"
+                  classname="w-[120px]"
+                  orderByField={orderByField}
+                  orderByDirection={orderByDirection}
+                  handleFn={handleOrder}
+                />
                 <TableHead className="w-[150px]">Preferências</TableHead>
                 <SortableTableHead
                   label="Equipe"

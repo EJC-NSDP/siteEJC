@@ -18,6 +18,7 @@ import { z } from 'zod'
 const encontreiroFiltersSchema = z.object({
   encontreiroName: z.string().optional(),
   encontreiroEquipe: z.string().optional(),
+  preferenciaEquipe: z.string().optional(),
 })
 
 type encontreiroFiltersFormInput = z.infer<typeof encontreiroFiltersSchema>
@@ -29,12 +30,14 @@ export function EncontreiroMontagemTableFilters() {
 
   const searchedEncontreiroName = searchParams.get('nome')
   const searchedEncontreiroEquipe = searchParams.get('equipe')
+  const searchedPreferenciaEquipe = searchParams.get('preferencia')
 
   const form = useForm<encontreiroFiltersFormInput>({
     resolver: zodResolver(encontreiroFiltersSchema),
     defaultValues: {
       encontreiroName: searchedEncontreiroName ?? '',
       encontreiroEquipe: searchedEncontreiroEquipe ?? 'all_equipes',
+      preferenciaEquipe: searchedPreferenciaEquipe ?? 'all_equipes',
     },
   })
 
@@ -43,6 +46,7 @@ export function EncontreiroMontagemTableFilters() {
   async function handleFilter({
     encontreiroName,
     encontreiroEquipe,
+    preferenciaEquipe,
   }: encontreiroFiltersFormInput) {
     const newSearch = new URLSearchParams()
 
@@ -58,6 +62,12 @@ export function EncontreiroMontagemTableFilters() {
       newSearch.delete('equipe')
     }
 
+    if (preferenciaEquipe && preferenciaEquipe !== 'all_equipes') {
+      newSearch.append('preferencia', preferenciaEquipe)
+    } else {
+      newSearch.delete('preferencia')
+    }
+
     newSearch.append('page', '1')
 
     router.push(`${pathname}?${newSearch.toString()}`)
@@ -67,6 +77,7 @@ export function EncontreiroMontagemTableFilters() {
     const newSearch = new URLSearchParams()
     newSearch.delete('nome')
     newSearch.delete('equipe')
+    newSearch.delete('preferencia')
     newSearch.append('page', '1')
     reset()
     router.push(`${pathname}`)
@@ -94,6 +105,44 @@ export function EncontreiroMontagemTableFilters() {
                 {...field}
               />
             )}
+          />
+          <FormField
+            control={control}
+            name="preferenciaEquipe"
+            defaultValue="all_equipes"
+            render={({ field }) => {
+              return (
+                <div className="lg:w-100">
+                  <SelectGroupInput
+                    onChange={field.onChange}
+                    value={field.value}
+                  >
+                    <SelectItem
+                      key="all_equipes"
+                      value="all_equipes"
+                      text="Preferências"
+                    />
+                    <SelectItem
+                      key="qualquer_equipe"
+                      value="0"
+                      text="Qualquer Equipe"
+                    />
+                    {equipes &&
+                      equipes
+                        .filter((equipe) => equipe.value !== '0')
+                        .map((equipe) => {
+                          return (
+                            <SelectItem
+                              key={equipe.value}
+                              value={equipe.value}
+                              text={equipe.label}
+                            />
+                          )
+                        })}
+                  </SelectGroupInput>
+                </div>
+              )
+            }}
           />
           <FormField
             control={control}
@@ -133,6 +182,7 @@ export function EncontreiroMontagemTableFilters() {
               )
             }}
           />
+
           <div className="flex justify-between gap-2 py-2 lg:w-96">
             <Button type="submit" variant="secondary">
               <Search className="mr-2 h-4 w-4" />

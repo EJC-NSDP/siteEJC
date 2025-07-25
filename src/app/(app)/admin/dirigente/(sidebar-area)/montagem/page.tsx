@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Download, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { EncontreirosMontagemTable } from './(table-montagem)/encontreiros-montagem-table'
-import { CardsEquipesMontagem } from './CardsEquipesMontagem'
 
 export default function Montagem() {
   return (
@@ -42,7 +41,7 @@ export default function Montagem() {
           <EncontreirosMontagemTable />
         </div>
         <div className="col-span-9 lg:col-span-2">
-          <CardsEquipesMontagem />
+          {/* <CardsEquipesMontagem /> */}
         </div>
       </div>
     </div>

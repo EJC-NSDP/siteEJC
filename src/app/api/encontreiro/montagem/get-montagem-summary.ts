@@ -9,6 +9,7 @@ export const validOrderFields = [
   'nome',
   'bairro',
   'equipe',
+  'disponibilidade',
 ] as const
 
 // Mapeamento de campos para suas respectivas relações
@@ -17,6 +18,10 @@ const fieldMappings: Record<
   { relation?: string; nestedRelation?: string; targetField?: string }
 > = {
   bairro: { relation: 'endereco' },
+  disponibilidade: {
+    relation: 'encontreiro',
+    nestedRelation: 'disponibilidade',
+  },
   numeroEncontro: { relation: 'encontreiro', nestedRelation: 'encontro' },
   equipe: {
     relation: 'encontreiro',
@@ -53,6 +58,7 @@ type GetEncontreirosMontagemSummaryProps = {
   page: number
   encontreiroName: string | null
   equipeValue: string | null
+  preferenciaValue: string | null
   orderByField: string | null
   orderDirection: string | null
 }
@@ -62,6 +68,7 @@ type GetEncontreirosMontagemProps = {
   perPage: number
   encontreiroName: string | null
   equipeValue: string | null
+  preferenciaValue: string | null
   orderByField: string | null
   orderDirection: string | null
 }
@@ -69,6 +76,7 @@ type GetEncontreirosMontagemProps = {
 type GetTotalEncontreirosMontagemProps = {
   encontreiroName: string | null
   equipeValue: string | null
+  preferenciaValue: string | null
 }
 
 const pessoaSelect = {
@@ -133,6 +141,7 @@ async function getEncontreirosMontagem({
   perPage,
   encontreiroName,
   equipeValue,
+  preferenciaValue,
   orderByField,
   orderDirection,
 }: GetEncontreirosMontagemProps): Promise<PessoaComRelacionamentos[]> {
@@ -155,6 +164,17 @@ async function getEncontreirosMontagem({
       : equipeValue && equipeValue !== 'all_equipes'
         ? { equipeMontagem: { valueEquipe: equipeValue } }
         : {}
+
+  const preferenciaFilter: Prisma.EncontreiroWhereInput =
+    preferenciaValue && preferenciaValue !== 'all_equipes'
+      ? {
+          listaPreferencias: {
+            some: {
+              valueEquipe: preferenciaValue,
+            },
+          },
+        }
+      : {}
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
@@ -209,6 +229,7 @@ async function getEncontreirosMontagem({
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
         ...equipeFilter,
+        ...preferenciaFilter,
       },
     },
     orderBy,
@@ -218,6 +239,7 @@ async function getEncontreirosMontagem({
 async function getTotalMontagem({
   encontreiroName,
   equipeValue,
+  preferenciaValue,
 }: GetTotalEncontreirosMontagemProps) {
   const nameParts = encontreiroName ? encontreiroName.split(' ') : []
 
@@ -237,6 +259,17 @@ async function getTotalMontagem({
         ? { equipeMontagem: { valueEquipe: equipeValue } }
         : {}
 
+  const preferenciaFilter: Prisma.EncontreiroWhereInput =
+    preferenciaValue && preferenciaValue !== 'all_equipes'
+      ? {
+          listaPreferencias: {
+            some: {
+              valueEquipe: preferenciaValue,
+            },
+          },
+        }
+      : {}
+
   return await prisma.pessoa.count({
     where: {
       role: {
@@ -245,6 +278,7 @@ async function getTotalMontagem({
       ...nameFilter,
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
+        ...preferenciaFilter,
         ...equipeFilter,
       },
     },
@@ -310,12 +344,14 @@ export async function getEncontreirosSummary({
   equipeValue,
   orderByField,
   orderDirection,
+  preferenciaValue,
 }: GetEncontreirosMontagemSummaryProps) {
   const perPage = 25
 
   const totalEncontreiro = await getTotalMontagem({
     encontreiroName,
     equipeValue,
+    preferenciaValue,
   })
 
   const encontreiros = await getEncontreirosMontagem({
@@ -325,6 +361,7 @@ export async function getEncontreirosSummary({
     equipeValue,
     orderByField,
     orderDirection,
+    preferenciaValue,
   })
 
   if (!encontreiros) {
