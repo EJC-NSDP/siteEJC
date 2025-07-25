@@ -64,6 +64,7 @@ export async function createEncontreiro({
           instagram,
           idEncontro: foundEncontro.id,
           idCirculo: circulo,
+          statusMontagem: 'ATIVO',
         },
       },
     },

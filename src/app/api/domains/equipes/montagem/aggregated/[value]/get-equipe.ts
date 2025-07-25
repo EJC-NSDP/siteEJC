@@ -90,11 +90,16 @@ export async function getEquipe(
 
   // Sem equipe
   if (value === 'sem_equipe') {
-    const totalEncontreirosSemEquipe = await prisma.encontreiro.count({
+    const totalEncontreirosSemEquipe = await prisma.pessoa.count({
       where: {
-        equipeMontagem: null,
-        NOT: {
-          statusMontagem: 'INATIVO',
+        role: {
+          notIn: ['TIOEXTERNA', 'ENCONTRISTA', 'DIRIGENTE'],
+        },
+        encontreiro: {
+          equipeMontagem: null,
+          NOT: {
+            statusMontagem: 'INATIVO',
+          },
         },
       },
     })

@@ -17,17 +17,15 @@ function formatarEquipeEncontro(
     .join(', ')
 }
 
-function formatarListaPreferencias(
+function fetchPreferencia(
   listaPreferencias: {
     equipe: { equipeLabel: string }
     posicao: number
   }[],
+  posicaoAlvo: number,
 ): string {
-  return listaPreferencias
-    .map((item) => {
-      return `${item.posicao} - ${item.equipe.equipeLabel}`
-    })
-    .join(', ')
+  const item = listaPreferencias.find((item) => item.posicao === posicaoAlvo)
+  return item ? item.equipe.equipeLabel : ''
 }
 
 export async function getAllEncontreiros() {
@@ -78,6 +76,11 @@ export async function getAllEncontreiros() {
               posicao: 'asc',
             },
           },
+          disponibilidade: {
+            select: {
+              disponibilidade: true,
+            },
+          },
           observacoes: true,
           obsBanda: true,
         },
@@ -97,8 +100,15 @@ export async function getAllEncontreiros() {
     const ultimasEquipes = encontreiro.encontreiro
       ? formatarEquipeEncontro(encontreiro.encontreiro.equipeEncontro)
       : ''
-    const listaPreferencias = encontreiro.encontreiro
-      ? formatarListaPreferencias(encontreiro.encontreiro.listaPreferencias)
+
+    const preferencia1 = encontreiro.encontreiro
+      ? fetchPreferencia(encontreiro.encontreiro.listaPreferencias, 1)
+      : ''
+    const preferencia2 = encontreiro.encontreiro
+      ? fetchPreferencia(encontreiro.encontreiro.listaPreferencias, 2)
+      : ''
+    const preferencia3 = encontreiro.encontreiro
+      ? fetchPreferencia(encontreiro.encontreiro.listaPreferencias, 3)
       : ''
 
     return {
@@ -108,7 +118,12 @@ export async function getAllEncontreiros() {
       instagram: encontreiro.encontreiro?.instagram || '',
       bairro: encontreiro.endereco.bairro,
       equipes: ultimasEquipes,
-      preferencias: listaPreferencias,
+      preferencia1,
+      preferencia2,
+      preferencia3,
+      disponibilidae:
+        encontreiro.encontreiro?.disponibilidade?.disponibilidade ||
+        'Não Preencheu',
       observações: encontreiro.encontreiro?.observacoes || '',
       banda: encontreiro.encontreiro?.obsBanda || '',
     }

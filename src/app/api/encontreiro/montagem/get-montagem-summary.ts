@@ -202,11 +202,9 @@ async function getEncontreirosMontagem({
     take: perPage,
     select: pessoaSelect,
     where: {
-      NOT: [
-        { role: 'ENCONTRISTA' },
-        { role: 'TIOEXTERNA' },
-        { role: 'DIRIGENTE' },
-      ],
+      role: {
+        notIn: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'],
+      },
       ...nameFilter,
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
@@ -241,13 +239,12 @@ async function getTotalMontagem({
 
   return await prisma.pessoa.count({
     where: {
-      NOT: [
-        { role: 'ENCONTRISTA' },
-        { role: 'TIOEXTERNA' },
-        { role: 'DIRIGENTE' },
-      ],
+      role: {
+        notIn: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'],
+      },
       ...nameFilter,
       encontreiro: {
+        NOT: { statusMontagem: 'INATIVO' },
         ...equipeFilter,
       },
     },
