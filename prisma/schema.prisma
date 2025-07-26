@@ -96,7 +96,7 @@ model Encontreiro {
   observacoes             String?
   statusMontagem          StatusEncontreiro?
   dataNasc                DateTime               @map("data_nasc")
-  idDisponibilidade       Value_Disponibilidade? @map("id_disponibilidade")
+  idDisponibilidade       Value_Disponibilidade  @default(NAO_PREENCHEU) @map("id_disponibilidade")
   responsavelCarroExterna CarroEncontro[]        @relation("PessoaResponsavelExterna")
   circulo                 Circulo?               @relation(fields: [idCirculo], references: [id])
   disponibilidade         DomainDisponibilidade? @relation(fields: [idDisponibilidade], references: [id])

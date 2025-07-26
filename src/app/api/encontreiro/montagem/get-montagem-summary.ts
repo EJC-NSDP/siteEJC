@@ -95,6 +95,7 @@ const pessoaSelect = {
       disponibilidade: {
         select: {
           disponibilidade: true,
+          order: true,
         },
       },
       listaPreferencias: {
@@ -190,14 +191,17 @@ async function getEncontreirosMontagem({
     } else if (
       mapping.relation &&
       mapping.nestedRelation &&
-      mapping.targetField
+      (mapping.targetField || orderByField === 'disponibilidade')
     ) {
+      const finalTargetField =
+        orderByField === 'disponibilidade'
+          ? 'order'
+          : (mapping.targetField ?? orderByField)
+
       orderBy.push({
         [mapping.relation]: {
           [mapping.nestedRelation]: {
-            [mapping.targetField]: {
-              equipeLabel: direction,
-            },
+            [finalTargetField]: direction,
           },
         },
       })
@@ -207,8 +211,6 @@ async function getEncontreirosMontagem({
           [mapping.nestedRelation]: { [orderByField]: direction },
         },
       })
-    } else if (mapping.relation) {
-      orderBy.push({ [mapping.relation]: { [orderByField]: direction } })
     } else {
       orderBy.push({ [orderByField]: direction })
     }
@@ -324,7 +326,8 @@ function transformToEncontreiroSummaryData(
         encontreiro.encontreiro?.encontro?.numeroEncontro?.toString() ?? '',
       bairro: encontreiro.endereco?.bairro ?? 'N/A',
       disponibilidade:
-        encontreiro.encontreiro?.disponibilidade?.disponibilidade ?? '',
+        encontreiro.encontreiro?.disponibilidade?.disponibilidade ??
+        'Não prencheu',
       preferencias: listaPreferencias.map(
         (p) => `${p.posicao}ª - ${p.equipe.equipeLabel}`,
       ),
