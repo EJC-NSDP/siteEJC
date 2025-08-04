@@ -29,7 +29,7 @@ async function aplicarEquipeMontagem() {
 
   equipeMontagem.forEach(async (encontreiro) => {
     if (encontreiro.valueEquipe === 'nao_participara') {
-      const encontreiroRemoved = await prisma.equipeEncontro.delete({
+      const encontreiroFound = await prisma.equipeEncontro.findUnique({
         where: {
           idPessoa_idEncontro: {
             idEncontro: currentEncontro.id,
@@ -37,7 +37,17 @@ async function aplicarEquipeMontagem() {
           },
         },
       })
-      if (encontreiroRemoved) removed = removed + 1
+      if (encontreiroFound) {
+        await prisma.equipeEncontro.delete({
+          where: {
+            idPessoa_idEncontro: {
+              idEncontro: currentEncontro.id,
+              idPessoa: encontreiro.idEncontreiro,
+            },
+          },
+        })
+      }
+      if (encontreiroFound) removed = removed + 1
     } else {
       try {
         await prisma.equipeEncontro.upsert({
