@@ -77,7 +77,16 @@ async function ajustarRoles() {
     },
   })
   equipeEncontro.forEach(async (encontreiro) => {
-    if (encontreiro.idEquipe === 'secretaria') {
+    if (encontreiro.idPessoa === 'a1f70688-c397-43ff-bfe5-4e7d3af73be0') {
+      await prisma.pessoa.update({
+        where: {
+          id: encontreiro.idPessoa,
+        },
+        data: {
+          role: 'ADMIN',
+        },
+      })
+    } else if (encontreiro.idEquipe === 'secretaria' && encontreiro.coordenou) {
       await prisma.pessoa.update({
         where: {
           id: encontreiro.idPessoa,
@@ -111,6 +120,15 @@ async function ajustarRoles() {
         },
         data: {
           role: 'COORDENADOR',
+        },
+      })
+    } else {
+      await prisma.pessoa.update({
+        where: {
+          id: encontreiro.idPessoa,
+        },
+        data: {
+          role: 'ENCONTREIRO',
         },
       })
     }
