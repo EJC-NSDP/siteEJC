@@ -17,10 +17,15 @@ export interface DivulgarMontagem {
 async function aplicarEquipeMontagem() {
   const currentEncontro = await getCurrentEncontro()
   const equipeMontagem = await prisma.equipeMontagem.findMany()
+  const dirigentes = await prisma.pessoa.findMany({
+    where: {
+      role: 'DIRIGENTE',
+    },
+  })
   let upserted = 0
   let removed = 0
 
-  if (!currentEncontro || !equipeMontagem) return null
+  if (!currentEncontro || !equipeMontagem || !dirigentes) return null
 
   equipeMontagem.forEach(async (encontreiro) => {
     if (encontreiro.valueEquipe === 'nao_participara') {
@@ -60,6 +65,27 @@ async function aplicarEquipeMontagem() {
         )
       }
     }
+  })
+
+  dirigentes.forEach(async (dirigente) => {
+    await prisma.equipeEncontro.upsert({
+      where: {
+        idPessoa_idEncontro: {
+          idPessoa: dirigente.id,
+          idEncontro: currentEncontro.id,
+        },
+      },
+      create: {
+        idPessoa: dirigente.id,
+        idEncontro: currentEncontro.id,
+        idEquipe: 'dirigente',
+        coordenou: true,
+      },
+      update: {
+        idEquipe: 'dirigente',
+        coordenou: true,
+      },
+    })
   })
 
   return {
