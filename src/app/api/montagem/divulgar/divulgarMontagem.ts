@@ -140,6 +140,15 @@ async function ajustarRoles() {
           role: 'EXTERNA',
         },
       })
+    } else if (encontreiro.idEquipe === 'dirigente') {
+      await prisma.pessoa.update({
+        where: {
+          id: encontreiro.idPessoa,
+        },
+        data: {
+          role: 'DIRIGENTE',
+        },
+      })
     } else if (encontreiro.idEquipe === 'tio_secreto') {
       await prisma.pessoa.update({
         where: {
