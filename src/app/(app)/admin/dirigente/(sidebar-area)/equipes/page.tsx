@@ -39,7 +39,7 @@ export default async function EquipesEncontroAtual() {
               className="flex items-center gap-4 hover:underline"
             >
               <div className={`size-3 rounded-full ${equipeColor}`} />
-              <span>{equipe.equipeLabel}</span>
+              <span className="text-lg">{equipe.equipeLabel}</span>
             </Link>
           )
         })}
