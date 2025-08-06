@@ -2,13 +2,11 @@ import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile
 import AvatarGroup from '@/components/AvatarGroup'
 import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { getProfileSlug } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
-import { Edit } from 'lucide-react'
 import { EncontroCard } from '../(sectionComponents)/EncontroCard'
 
 export default async function ProfileSlug(props: {
@@ -32,21 +30,14 @@ export default async function ProfileSlug(props: {
         <Card className="w-full rounded-xl border-none">
           <div className={cn('h-8 w-full rounded-t-xl lg:h-36', corCirculo)} />
           <CardTitle className="flex -translate-y-2 items-center gap-8 px-4 lg:-translate-y-8 lg:px-8">
-            <Button
-              type="button"
-              variant="ghost"
-              className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44"
-            >
-              <Avatar className="size-32 lg:size-44">
-                <AvatarImage
-                  src={profileData.avatarUrl}
-                  className="transition-opacity duration-300 group-hover:opacity-50"
-                />
-                <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
-              </Avatar>
+            <Avatar className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44">
+              <AvatarImage
+                src={profileData.avatarUrl}
+                className="transition-opacity duration-300 group-hover:opacity-50"
+              />
+              <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
+            </Avatar>
 
-              <Edit className="absolute inset-0 m-auto size-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </Button>
             <div className="flex flex-col font-bold">
               <h2 className="text-xl text-zinc-800 lg:text-3xl">
                 {profileData.nome}
