@@ -31,10 +31,7 @@ export default async function ProfileSlug(props: {
           <div className={cn('h-8 w-full rounded-t-xl lg:h-36', corCirculo)} />
           <CardTitle className="flex -translate-y-2 items-center gap-8 px-4 lg:-translate-y-8 lg:px-8">
             <Avatar className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44">
-              <AvatarImage
-                src={profileData.avatarUrl}
-                className="transition-opacity duration-300 group-hover:opacity-50"
-              />
+              <AvatarImage src={profileData.avatarUrl} />
               <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
             </Avatar>
 
