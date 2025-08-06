@@ -5,6 +5,7 @@ import type { Role } from '@prisma/client'
 
 export interface encontreiroEmEquipe {
   nome: string
+  slug: string
   avatarUrl: string | null
 }
 
@@ -14,6 +15,7 @@ interface EquipeEncontroData {
       nome: string
       avatarUrl: string | null
       apelido: string | null
+      slug: string
     }
   }
 }
@@ -105,6 +107,7 @@ export async function getProfile(id: string) {
                   nome: true,
                   apelido: true,
                   avatarUrl: true,
+                  slug: true,
                 },
               },
             },
@@ -139,6 +142,7 @@ export async function getProfile(id: string) {
                   nome: true,
                   apelido: true,
                   avatarUrl: true,
+                  slug: true,
                 },
               },
             },
@@ -160,6 +164,7 @@ export async function getProfile(id: string) {
                   nome: true,
                   apelido: true,
                   avatarUrl: true,
+                  slug: true,
                 },
               },
             },
@@ -186,6 +191,7 @@ export async function getProfile(id: string) {
                   nome: true,
                   apelido: true,
                   avatarUrl: true,
+                  slug: true,
                 },
               },
             },
@@ -208,6 +214,7 @@ export async function getProfile(id: string) {
                   nome: true,
                   apelido: true,
                   avatarUrl: true,
+                  slug: true,
                 },
               },
             },
@@ -228,6 +235,7 @@ export async function getProfile(id: string) {
         nome: coordenador.encontreiro.pessoa.apelido
           ? coordenador.encontreiro.pessoa.apelido
           : coordenador.encontreiro.pessoa.nome,
+        slug: coordenador.encontreiro.pessoa.slug,
         avatarUrl: coordenador.encontreiro.pessoa.avatarUrl,
       }
     },
@@ -237,6 +245,7 @@ export async function getProfile(id: string) {
       nome: tropa.encontreiro.pessoa.apelido
         ? tropa.encontreiro.pessoa.apelido
         : tropa.encontreiro.pessoa.nome,
+      slug: tropa.encontreiro.pessoa.slug,
       avatarUrl: tropa.encontreiro.pessoa.avatarUrl,
     }
   })

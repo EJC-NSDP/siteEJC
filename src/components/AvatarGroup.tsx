@@ -2,6 +2,7 @@ import type { encontreiroEmEquipe } from '@/app/api/encontreiro/[id]/profile/get
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { generateFallBack } from '@/utils/generate-fallback'
+import Link from 'next/link'
 
 interface AvatarGroupProps {
   encontreiros: encontreiroEmEquipe[]
@@ -35,12 +36,18 @@ export default function AvatarGroup({
       {tropa.map((encontreiro, index) => {
         const avatarFallback = generateFallBack(encontreiro.nome)
         return (
-          <Avatar key={index} title={encontreiro.nome}>
-            <AvatarImage
-              src={encontreiro.avatarUrl ? encontreiro.avatarUrl : undefined}
-            />
-            <AvatarFallback>{avatarFallback}</AvatarFallback>
-          </Avatar>
+          <Link
+            href={`/admin/profile/${encontreiro.slug}`}
+            key={index}
+            className="rounded-full"
+          >
+            <Avatar title={encontreiro.nome}>
+              <AvatarImage
+                src={encontreiro.avatarUrl ? encontreiro.avatarUrl : undefined}
+              />
+              <AvatarFallback>{avatarFallback}</AvatarFallback>
+            </Avatar>
+          </Link>
         )
       })}
     </div>
