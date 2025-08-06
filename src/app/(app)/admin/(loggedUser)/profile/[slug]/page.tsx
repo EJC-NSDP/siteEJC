@@ -9,7 +9,6 @@ import { getCirculoColor } from '@/utils/fetch-color'
 import { getProfileSlug } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 import { Edit } from 'lucide-react'
-import Link from 'next/link'
 import { EncontroCard } from '../(sectionComponents)/EncontroCard'
 
 export default async function ProfileSlug(props: {
@@ -38,19 +37,15 @@ export default async function ProfileSlug(props: {
               variant="ghost"
               className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44"
             >
-              <Link href="/admin/profile/avatar">
-                <Avatar className="size-32 lg:size-44">
-                  <AvatarImage
-                    src={profileData.avatarUrl}
-                    className="transition-opacity duration-300 group-hover:opacity-50"
-                  />
-                  <AvatarFallback>
-                    {getInitials(profileData.nome)}
-                  </AvatarFallback>
-                </Avatar>
+              <Avatar className="size-32 lg:size-44">
+                <AvatarImage
+                  src={profileData.avatarUrl}
+                  className="transition-opacity duration-300 group-hover:opacity-50"
+                />
+                <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
+              </Avatar>
 
-                <Edit className="absolute inset-0 m-auto size-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </Link>
+              <Edit className="absolute inset-0 m-auto size-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </Button>
             <div className="flex flex-col font-bold">
               <h2 className="text-xl text-zinc-800 lg:text-3xl">
