@@ -3,12 +3,14 @@ import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
 
 export interface EquipesMontagemAggregated {
   equipeValue: string
+  equipeLabel: string
 }
 
 export async function getEquipes(): Promise<EquipesMontagemAggregated[]> {
   const equipes = await prisma.domainEquipes.findMany({
     select: {
       equipeValue: true,
+      equipeLabel: true,
     },
     orderBy: {
       equipeLabel: 'asc',
@@ -27,9 +29,9 @@ export async function getEquipes(): Promise<EquipesMontagemAggregated[]> {
   })
 
   const fixedEquipes = [
-    { equipeValue: 'sem_equipe' },
-    { equipeValue: 'sala' },
-    { equipeValue: 'rosa' },
+    { equipeValue: 'sem_equipe', equipeLabel: 'Sem equipe' },
+    { equipeValue: 'sala', equipeLabel: 'Sala' },
+    { equipeValue: 'rosa', equipeLabel: 'Rosa' },
   ]
 
   const filteredTropa = equipes.filter(

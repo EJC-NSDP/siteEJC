@@ -39,7 +39,7 @@ export function idPertenceASala(equipe: string): boolean {
 export function labelPertenceARosa(equipe: string): boolean {
   const categorias = [
     'Vigília',
-    'Recepção de Pais e Palestrantes',
+    'Recepção',
     'Compras',
     'Externa',
     'Meditação',
