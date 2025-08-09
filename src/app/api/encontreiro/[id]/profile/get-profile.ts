@@ -26,6 +26,7 @@ export interface ProfileData {
   nome: string
   avatarUrl: string | undefined
   role: Role
+  dataNascimento: Date | undefined
   numeroEncontro: number | undefined
   corCirculo: string | undefined
   equipeEncontro: string
@@ -49,6 +50,7 @@ export async function getProfile(id: string) {
       role: true,
       encontreiro: {
         select: {
+          dataNasc: true,
           circulo: {
             select: {
               corCirculo: {
@@ -264,6 +266,7 @@ export async function getProfile(id: string) {
     nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
     avatarUrl: encontreiro.avatarUrl || undefined,
     role: encontreiro.role,
+    dataNascimento: encontreiro.encontreiro?.dataNasc || undefined,
     numeroEncontro: encontreiro.encontreiro?.encontro?.numeroEncontro,
     corCirculo: encontreiro.encontreiro?.circulo?.corCirculo.cor,
     equipeEncontro: equipeNome,

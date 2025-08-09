@@ -1,4 +1,5 @@
 import {
+  Cake,
   Circle,
   MapPinPlus,
   Puzzle,
@@ -47,6 +48,13 @@ export function MainNavigation() {
           title="Equipes"
           icon={Users}
           active={path === '/admin/dirigente/equipes'}
+        />
+      </Link>
+      <Link href="/admin/dirigente/aniversariantes">
+        <NavItem
+          title="Aniversariantes"
+          icon={Cake}
+          active={path === '/admin/dirigente/aniversariantes'}
         />
       </Link>
     </nav>

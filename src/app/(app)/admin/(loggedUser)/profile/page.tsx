@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 import {
@@ -22,6 +23,7 @@ import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'
 
@@ -30,6 +32,7 @@ export default function Profile() {
     undefined,
   )
   const [corCirculo, setCorCirculo] = useState<string>('bg-zinc-200')
+  const [isBirthday, setIsBirthday] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -50,10 +53,16 @@ export default function Profile() {
         } else if (data.corCirculo === 'Vermelho') {
           setCorCirculo('bg-red-500')
         }
+        if (data.dataNascimento) {
+          setIsBirthday(isBirthdayInCurrentWeek(data.dataNascimento))
+        } else {
+          setIsBirthday(false)
+        }
       }
     }
     fetchSession()
   }, [])
+
   if (
     profileData &&
     profileData.equipeEncontro !== 'Não alocado' &&
@@ -69,33 +78,38 @@ export default function Profile() {
       ) : (
         <Card className="w-full rounded-xl border-none">
           <div className={cn('h-8 w-full rounded-t-xl lg:h-36', corCirculo)} />
-          <CardTitle className="flex -translate-y-2 items-center gap-8 px-4 lg:-translate-y-8 lg:px-8">
-            <Button
-              type="button"
-              variant="ghost"
-              className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44"
-            >
-              <Link href="/admin/profile/avatar">
-                <Avatar className="size-32 lg:size-44">
-                  <AvatarImage
-                    src={profileData.avatarUrl}
-                    className="transition-opacity duration-300 group-hover:opacity-50"
-                  />
-                  <AvatarFallback>
-                    {getInitials(profileData.nome)}
-                  </AvatarFallback>
-                </Avatar>
+          <CardTitle className="flex -translate-y-2 px-4 lg:-translate-y-8">
+            <div className="flex w-full flex-col items-end justify-between gap-4 lg:flex-row lg:gap-8">
+              <div className="flex items-center gap-8 lg:px-8">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44"
+                >
+                  <Link href="/admin/profile/avatar">
+                    <Avatar className="size-32 lg:size-44">
+                      <AvatarImage
+                        src={profileData.avatarUrl}
+                        className="transition-opacity duration-300 group-hover:opacity-50"
+                      />
+                      <AvatarFallback>
+                        {getInitials(profileData.nome)}
+                      </AvatarFallback>
+                    </Avatar>
 
-                <Edit className="absolute inset-0 m-auto size-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </Link>
-            </Button>
-            <div className="flex flex-col font-bold">
-              <h2 className="text-xl text-zinc-800 lg:text-3xl">
-                {profileData.nome}
-              </h2>
-              <span className="text-base text-zinc-500 lg:text-xl">
-                {profileData.numeroEncontro}º EJC
-              </span>
+                    <Edit className="absolute inset-0 m-auto size-8 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  </Link>
+                </Button>
+                <div className="flex flex-col font-bold">
+                  <h2 className="text-xl text-zinc-800 lg:text-3xl">
+                    {profileData.nome}
+                  </h2>
+                  <span className="text-base text-zinc-500 lg:text-xl">
+                    {profileData.numeroEncontro}º EJC
+                  </span>
+                </div>
+              </div>
+              {isBirthday && <BirthdayCard />}
             </div>
           </CardTitle>
           <CardContent className="flex flex-col gap-4 lg:flex-row lg:gap-8">

@@ -16,7 +16,6 @@ export default async function EquipesEncontroAtual() {
     await getEquipes()
   ).filter((equipe) => equipe.equipeValue !== 'sem_equipe')
 
-  console.log(equipes)
   return (
     <div className="w-ful h-full">
       <div className="pb-4">

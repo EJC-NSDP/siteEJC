@@ -4,9 +4,11 @@ import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { getProfileSlug } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
+import { BirthdayCard } from '../(sectionComponents)/BirthdayCard'
 import { EncontroCard } from '../(sectionComponents)/EncontroCard'
 
 export default async function ProfileSlug(props: {
@@ -22,6 +24,10 @@ export default async function ProfileSlug(props: {
 
   const corCirculo = getCirculoColor(profileColor)
 
+  const isBirthday = profileData.dataNascimento
+    ? isBirthdayInCurrentWeek(profileData.dataNascimento)
+    : false
+
   return (
     <div className="w-full p-4 lg:px-40 lg:py-16">
       {!profileData ? (
@@ -29,19 +35,26 @@ export default async function ProfileSlug(props: {
       ) : (
         <Card className="w-full rounded-xl border-none">
           <div className={cn('h-8 w-full rounded-t-xl lg:h-36', corCirculo)} />
-          <CardTitle className="flex -translate-y-2 items-center gap-8 px-4 lg:-translate-y-8 lg:px-8">
-            <Avatar className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44">
-              <AvatarImage src={profileData.avatarUrl} />
-              <AvatarFallback>{getInitials(profileData.nome)}</AvatarFallback>
-            </Avatar>
+          <CardTitle className="flex -translate-y-2 px-4 lg:-translate-y-8">
+            <div className="flex w-full flex-col items-end justify-between gap-4 lg:flex-row lg:gap-8">
+              <div className="flex items-center gap-8 lg:px-8">
+                <Avatar className="group relative size-32 overflow-hidden border border-white bg-black p-0 ring-4 ring-white lg:size-44">
+                  <AvatarImage src={profileData.avatarUrl} />
+                  <AvatarFallback>
+                    {getInitials(profileData.nome)}
+                  </AvatarFallback>
+                </Avatar>
 
-            <div className="flex flex-col font-bold">
-              <h2 className="text-xl text-zinc-800 lg:text-3xl">
-                {profileData.nome}
-              </h2>
-              <span className="text-base text-zinc-500 lg:text-xl">
-                {profileData.numeroEncontro}º EJC
-              </span>
+                <div className="flex flex-col font-bold">
+                  <h2 className="text-xl text-zinc-800 lg:text-3xl">
+                    {profileData.nome}
+                  </h2>
+                  <span className="text-base text-zinc-500 lg:text-xl">
+                    {profileData.numeroEncontro}º EJC
+                  </span>
+                </div>
+              </div>
+              {isBirthday && <BirthdayCard />}
             </div>
           </CardTitle>
           <CardContent className="flex flex-col gap-4 lg:flex-row lg:gap-8">

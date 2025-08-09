@@ -1,0 +1,60 @@
+import { prisma } from '@/lib/prisma'
+import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
+import weekday from 'dayjs/plugin/weekday'
+
+dayjs.extend(isBetween)
+dayjs.extend(weekday)
+
+export interface Aniversariantes {
+  nome: string
+  dataNasc: string
+}
+
+export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
+  const today = dayjs()
+
+  // início (segunda) e fim (domingo) da semana
+  const startOfWeek = today.weekday(1).startOf('day')
+  const endOfWeek = today.weekday(7).endOf('day')
+
+  // Busca todos os usuários
+  const users = await prisma.pessoa.findMany({
+    select: {
+      nome: true,
+      sobrenome: true,
+      apelido: true,
+      encontreiro: {
+        select: {
+          dataNasc: true,
+        },
+      },
+    },
+    where: {
+      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      encontreiro: {
+        NOT: { statusMontagem: 'INATIVO' },
+      },
+    },
+  })
+
+  // Filtra aniversariantes da semana
+  const birthdaysThisWeek = users
+    .filter((pessoa) => {
+      const birthdayThisYear = dayjs(pessoa.encontreiro!.dataNasc).year(
+        today.year(),
+      )
+      return birthdayThisYear.isBetween(startOfWeek, endOfWeek, null, '[]')
+    })
+    .sort((a, b) => {
+      const dayA = dayjs(a.encontreiro!.dataNasc).year(today.year()).day()
+      const dayB = dayjs(b.encontreiro!.dataNasc).year(today.year()).day()
+      return dayA - dayB
+    })
+
+  // Retorna no formato desejado
+  return birthdaysThisWeek.map((pessoa) => ({
+    nome: `${pessoa.nome} ${pessoa.sobrenome} (${pessoa.apelido})`,
+    dataNasc: dayjs(pessoa.encontreiro!.dataNasc).format('DD/MM'),
+  }))
+}
