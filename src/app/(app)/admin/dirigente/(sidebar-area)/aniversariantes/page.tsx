@@ -26,7 +26,7 @@ export default async function Aniversariantes() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 px-4">
+      <div className="flex flex-col gap-4 lg:px-4">
         {aniversariantes.map((encontreiro, index) => {
           return (
             <div key={index}>
