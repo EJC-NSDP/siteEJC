@@ -47,9 +47,9 @@ export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
       return birthdayThisYear.isBetween(startOfWeek, endOfWeek, null, '[]')
     })
     .sort((a, b) => {
-      const dayA = dayjs(a.encontreiro!.dataNasc).year(today.year()).day()
-      const dayB = dayjs(b.encontreiro!.dataNasc).year(today.year()).day()
-      return dayA - dayB
+      const dateA = dayjs(a.encontreiro!.dataNasc).year(today.year()).valueOf()
+      const dateB = dayjs(b.encontreiro!.dataNasc).year(today.year()).valueOf()
+      return dateA - dateB
     })
 
   // Retorna no formato desejado

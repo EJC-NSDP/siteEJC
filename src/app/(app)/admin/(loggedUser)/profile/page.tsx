@@ -109,7 +109,7 @@ export default function Profile() {
                   </span>
                 </div>
               </div>
-              {isBirthday && <BirthdayCard />}
+              {isBirthday && <BirthdayCard isSelf />}
             </div>
           </CardTitle>
           <CardContent className="flex flex-col gap-4 lg:flex-row lg:gap-8">
