@@ -12,7 +12,12 @@ export interface Aniversariantes {
 }
 
 export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
-  const today = dayjs()
+  let today = dayjs()
+
+  // Se for domingo (weekday = 0 no dayjs), volta um dia pra cair no sábado
+  if (today.weekday() === 0) {
+    today = today.subtract(1, 'day')
+  }
 
   // início (segunda) e fim (domingo) da semana
   const startOfWeek = today.weekday(1).startOf('day')
