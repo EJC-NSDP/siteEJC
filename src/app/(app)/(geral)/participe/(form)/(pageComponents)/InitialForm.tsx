@@ -10,15 +10,34 @@ import dayjs from 'dayjs'
 import { useContext } from 'react'
 import { useWizard } from 'react-use-wizard'
 
+import 'dayjs/locale/pt-br'
+dayjs.locale('pt-br')
+
 interface CardWithEncontroProps {
   date: Date
 }
 
 function CardWithEncontro({ date }: CardWithEncontroProps) {
-  const friday = dayjs(date).format('DD/MM')
-  const saturday = dayjs(date).add(1, 'day').format('DD/MM')
-  const sunday = dayjs(date).add(2, 'day').format('DD/MM')
-  const year = dayjs(date).format('YYYY')
+  const friday = dayjs(date)
+  const saturday = dayjs(date).add(1, 'day')
+  const sunday = dayjs(date).add(2, 'day')
+  const year = friday.format('YYYY')
+
+  const sameMonth =
+    friday.month() === saturday.month() &&
+    saturday.month() === sunday.month()
+
+  let formattedDates: string
+
+  if (sameMonth) {
+    // Ex: "10, 11 e 12 de Outubro de 2025"
+    const monthName = friday.format('MMMM').charAt(0).toUpperCase() + friday.format('MMMM').slice(1)
+
+    formattedDates = `${friday.format('D')}, ${saturday.format('D')} e ${sunday.format('D')} de ${monthName} de ${year}`
+  } else {
+    // Ex: "10/10, 11/10 e 12/11 de 2025"
+    formattedDates = `${friday.format('DD/MM')}, ${saturday.format('DD/MM')} e ${sunday.format('DD/MM')} de ${year}`
+  }
 
   return (
     <>
@@ -28,7 +47,7 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
         Nosso próximo encontrão acontecerá nos dias:
       </p>
       <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
-        {`${friday}, ${saturday} e ${sunday} de ${year}`}
+        {formattedDates}
       </p>
       <p>
         Para realizar sua inscrição, vamos fazer algumas perguntas para te
@@ -37,6 +56,7 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
     </>
   )
 }
+
 
 function CardWithoutEncontro() {
   return (

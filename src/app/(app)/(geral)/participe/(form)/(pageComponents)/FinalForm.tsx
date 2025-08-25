@@ -12,14 +12,33 @@ import { Check, X } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { useWizard } from 'react-use-wizard'
 
+import 'dayjs/locale/pt-br'
+dayjs.locale('pt-br')
+
 interface FinalFormProps {
   dataEncontro: Date | null
 }
 function SuccessCreation({ dataEncontro }: FinalFormProps) {
-  const friday = dayjs(dataEncontro).format('DD/MM')
-  const saturday = dayjs(dataEncontro).add(1, 'day').format('DD/MM')
-  const sunday = dayjs(dataEncontro).add(2, 'day').format('DD/MM')
-  const year = dayjs(dataEncontro).format('YYYY')
+  const friday = dayjs(dataEncontro)
+  const saturday = dayjs(dataEncontro).add(1, 'day')
+  const sunday = dayjs(dataEncontro).add(2, 'day')
+  const year = friday.format('YYYY')
+
+  const sameMonth =
+    friday.month() === saturday.month() &&
+    saturday.month() === sunday.month()
+
+  let formattedDates: string
+
+  if (sameMonth) {
+    // Ex: "10, 11 e 12 de Outubro de 2025"
+    const monthName = friday.format('MMMM').charAt(0).toUpperCase() + friday.format('MMMM').slice(1)
+
+    formattedDates = `${friday.format('D')}, ${saturday.format('D')} e ${sunday.format('D')} de ${monthName} de ${year}`
+  } else {
+    // Ex: "10/10, 11/10 e 12/11 de 2025"
+    formattedDates = `${friday.format('DD/MM')}, ${saturday.format('DD/MM')} e ${sunday.format('DD/MM')} de ${year}`
+  }
 
   return (
     <>
