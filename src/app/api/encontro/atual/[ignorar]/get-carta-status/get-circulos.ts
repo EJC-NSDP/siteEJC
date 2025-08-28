@@ -9,6 +9,7 @@ export async function getCartaStatus() {
       numeroEncontro: 'desc',
     },
   })
+  
   if (!encontro) {
     return false
   }

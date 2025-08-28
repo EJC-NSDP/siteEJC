@@ -273,7 +273,7 @@ export async function getProfile(id: string) {
     equipeEncontroCoord: equipeEncontro ? equipeEncontro.coordenou : false,
     pastaURL:
       equipeEncontro &&
-      equipeEncontro.coordenou &&
+      (equipeEncontro.coordenou || idPertenceASala(equipeEncontro.idEquipe)) &&
       equipeEncontro.equipe.pastaUrl
         ? equipeEncontro.equipe.pastaUrl
         : '',
