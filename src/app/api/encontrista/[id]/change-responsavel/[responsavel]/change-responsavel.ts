@@ -16,7 +16,7 @@ export async function changeResponsavel({
 
   if (responsavel === 'none') {
     return await prisma.responsavelExterna.delete({
-      where: { idEncontrista: id }
+      where: { idEncontrista: id },
     })
   }
 

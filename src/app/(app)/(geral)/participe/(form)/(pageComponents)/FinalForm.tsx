@@ -25,14 +25,15 @@ function SuccessCreation({ dataEncontro }: FinalFormProps) {
   const year = friday.format('YYYY')
 
   const sameMonth =
-    friday.month() === saturday.month() &&
-    saturday.month() === sunday.month()
+    friday.month() === saturday.month() && saturday.month() === sunday.month()
 
   let formattedDates: string
 
   if (sameMonth) {
     // Ex: "10, 11 e 12 de Outubro de 2025"
-    const monthName = friday.format('MMMM').charAt(0).toUpperCase() + friday.format('MMMM').slice(1)
+    const monthName =
+      friday.format('MMMM').charAt(0).toUpperCase() +
+      friday.format('MMMM').slice(1)
 
     formattedDates = `${friday.format('D')}, ${saturday.format('D')} e ${sunday.format('D')} de ${monthName} de ${year}`
   } else {
@@ -58,7 +59,7 @@ function SuccessCreation({ dataEncontro }: FinalFormProps) {
               participação nos dias:
             </p>
             <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
-              {`${friday}, ${saturday} e ${sunday} de ${year}`}
+              {formattedDates}
             </p>
             <p>Nos vemos lá!</p>
           </>

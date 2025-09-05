@@ -87,7 +87,6 @@ export function EncontristaExterna({
     })
   }
 
-
   return (
     <Form {...form}>
       <form
@@ -110,11 +109,11 @@ export function EncontristaExterna({
                     </FormControl>
                     <SelectContent>
                       <SelectItemAvatar
-                        key='select'
-                        name='Selecione'
-                        id='none'
-                        avatarFallback='?'
-                        avatarUrl=''
+                        key="select"
+                        name="Selecione"
+                        id="none"
+                        avatarFallback="?"
+                        avatarUrl=""
                       />
                       {equipe &&
                         equipe.map((membroExterna) => {

@@ -91,28 +91,30 @@ async function getEncontristas({
 
   const nameFilter: Prisma.PessoaWhereInput = encontristaName
     ? {
-      OR: nameParts.flatMap((part) => [
-        { nome: { contains: part, mode: 'insensitive' } },
-        { sobrenome: { contains: part, mode: 'insensitive' } },
-      ]),
-    }
+        OR: nameParts.flatMap((part) => [
+          { nome: { contains: part, mode: 'insensitive' } },
+          { sobrenome: { contains: part, mode: 'insensitive' } },
+        ]),
+      }
     : {}
 
   const statusFilter: Prisma.EncontristaWhereInput = encontristaStatus
     ? {
-      idStatus:
-        encontristaStatus === 'confirmado' ||
+        idStatus:
+          encontristaStatus === 'confirmado' ||
           encontristaStatus === 'confirmado_sem_sexta'
-          ? { in: ['confirmado', 'confirmado_sem_sexta'] }
-          : { equals: encontristaStatus },
-    }
+            ? { in: ['confirmado', 'confirmado_sem_sexta'] }
+            : { equals: encontristaStatus },
+      }
     : { NOT: { idStatus: 'delete' } }
 
   const responsavelExternaFilter: Prisma.EncontristaWhereInput =
     responsavelExterna
-      ? responsavelExterna === 'none' ? { responsavelExterna: null } : { responsavelExterna: { idExterna: responsavelExterna } }
+      ? responsavelExterna === 'none'
+        ? { responsavelExterna: null }
+        : { responsavelExterna: { idExterna: responsavelExterna } }
       : {}
-      
+
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
     orderDirection === 'asc' || orderDirection === 'desc'
@@ -129,10 +131,10 @@ async function getEncontristas({
       // Ordenação para campos mapeados
       const orderObject = mapping.nestedRelation
         ? {
-          [mapping.relation]: {
-            [mapping.nestedRelation]: { [orderByField]: direction },
-          },
-        }
+            [mapping.relation]: {
+              [mapping.nestedRelation]: { [orderByField]: direction },
+            },
+          }
         : { [mapping.relation]: { [orderByField]: direction } }
       orderBy.push(orderObject)
     } else {
@@ -206,28 +208,26 @@ async function getTotal({
       : {}
 
   // filtro de status
-  const statusFilter: Prisma.EncontristaWhereInput =
-    encontristaStatus
-      ? encontristaStatus === 'confirmado'
-        ? {
-            OR: [
-              { idStatus: 'confirmado' },
-              { idStatus: 'confirmado_sem_sexta' },
-            ],
-          }
-        : { idStatus: encontristaStatus }
-      : { NOT: { idStatus: 'delete' } }
-
-  // filtro de nome/sobrenome
-  const nameFilter: Prisma.PessoaWhereInput =
-    encontristaName
+  const statusFilter: Prisma.EncontristaWhereInput = encontristaStatus
+    ? encontristaStatus === 'confirmado'
       ? {
           OR: [
-            { nome: { contains: encontristaName } },
-            { sobrenome: { contains: encontristaName } },
+            { idStatus: 'confirmado' },
+            { idStatus: 'confirmado_sem_sexta' },
           ],
         }
-      : {}
+      : { idStatus: encontristaStatus }
+    : { NOT: { idStatus: 'delete' } }
+
+  // filtro de nome/sobrenome
+  const nameFilter: Prisma.PessoaWhereInput = encontristaName
+    ? {
+        OR: [
+          { nome: { contains: encontristaName } },
+          { sobrenome: { contains: encontristaName } },
+        ],
+      }
+    : {}
 
   return await prisma.pessoa.count({
     where: {
@@ -240,7 +240,6 @@ async function getTotal({
     },
   })
 }
-
 
 function transformToEncontristaSummaryData(
   encontristas: {

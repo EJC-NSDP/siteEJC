@@ -24,14 +24,15 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
   const year = friday.format('YYYY')
 
   const sameMonth =
-    friday.month() === saturday.month() &&
-    saturday.month() === sunday.month()
+    friday.month() === saturday.month() && saturday.month() === sunday.month()
 
   let formattedDates: string
 
   if (sameMonth) {
     // Ex: "10, 11 e 12 de Outubro de 2025"
-    const monthName = friday.format('MMMM').charAt(0).toUpperCase() + friday.format('MMMM').slice(1)
+    const monthName =
+      friday.format('MMMM').charAt(0).toUpperCase() +
+      friday.format('MMMM').slice(1)
 
     formattedDates = `${friday.format('D')}, ${saturday.format('D')} e ${sunday.format('D')} de ${monthName} de ${year}`
   } else {
@@ -56,7 +57,6 @@ function CardWithEncontro({ date }: CardWithEncontroProps) {
     </>
   )
 }
-
 
 function CardWithoutEncontro() {
   return (
