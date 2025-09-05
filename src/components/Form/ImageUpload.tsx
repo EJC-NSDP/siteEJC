@@ -60,7 +60,6 @@ export function ImageUpload({
             expires: data.expires,
             user: { avatar_url: newImageUrl, ...data.user },
           }
-          console.log('Sessão atualizada: ', updatedSession)
           await update(updatedSession)
         }
       } else {

@@ -14,6 +14,12 @@ export async function changeResponsavel({
     },
   })
 
+  if (responsavel === 'none') {
+    return await prisma.responsavelExterna.delete({
+      where: { idEncontrista: id }
+    })
+  }
+
   return await prisma.responsavelExterna
     .update({
       data: {

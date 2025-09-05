@@ -91,27 +91,28 @@ async function getEncontristas({
 
   const nameFilter: Prisma.PessoaWhereInput = encontristaName
     ? {
-        OR: nameParts.flatMap((part) => [
-          { nome: { contains: part, mode: 'insensitive' } },
-          { sobrenome: { contains: part, mode: 'insensitive' } },
-        ]),
-      }
+      OR: nameParts.flatMap((part) => [
+        { nome: { contains: part, mode: 'insensitive' } },
+        { sobrenome: { contains: part, mode: 'insensitive' } },
+      ]),
+    }
     : {}
 
   const statusFilter: Prisma.EncontristaWhereInput = encontristaStatus
     ? {
-        idStatus:
-          encontristaStatus === 'confirmado' ||
+      idStatus:
+        encontristaStatus === 'confirmado' ||
           encontristaStatus === 'confirmado_sem_sexta'
-            ? { in: ['confirmado', 'confirmado_sem_sexta'] }
-            : { equals: encontristaStatus },
-      }
+          ? { in: ['confirmado', 'confirmado_sem_sexta'] }
+          : { equals: encontristaStatus },
+    }
     : { NOT: { idStatus: 'delete' } }
 
   const responsavelExternaFilter: Prisma.EncontristaWhereInput =
     responsavelExterna
-      ? { responsavelExterna: { idExterna: responsavelExterna } }
+      ? responsavelExterna === 'none' ? { responsavelExterna: null } : { responsavelExterna: { idExterna: responsavelExterna } }
       : {}
+      
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
   const direction =
     orderDirection === 'asc' || orderDirection === 'desc'
@@ -128,10 +129,10 @@ async function getEncontristas({
       // Ordenação para campos mapeados
       const orderObject = mapping.nestedRelation
         ? {
-            [mapping.relation]: {
-              [mapping.nestedRelation]: { [orderByField]: direction },
-            },
-          }
+          [mapping.relation]: {
+            [mapping.nestedRelation]: { [orderByField]: direction },
+          },
+        }
         : { [mapping.relation]: { [orderByField]: direction } }
       orderBy.push(orderObject)
     } else {
@@ -196,190 +197,50 @@ async function getTotal({
   encontristaName,
   encontristaStatus,
 }: getTotalEncontristasProps) {
-  if (responsavelExterna) {
-    if (encontristaName) {
-      if (encontristaStatus) {
-        if (encontristaStatus === 'confirmado') {
-          return await prisma.pessoa.count({
-            where: {
-              role: 'ENCONTRISTA',
-              OR: [
-                { nome: { contains: encontristaName } },
-                { sobrenome: { contains: encontristaName } },
-              ],
-              encontrista: {
-                OR: [
-                  { idStatus: 'confirmado' },
-                  { idStatus: 'confirmado_sem_sexta' },
-                ],
-                responsavelExterna: {
-                  idExterna: responsavelExterna,
-                },
-              },
-            },
-          })
-        } else {
-          return await prisma.pessoa.count({
-            where: {
-              role: 'ENCONTRISTA',
-              OR: [
-                { nome: { contains: encontristaName } },
-                { sobrenome: { contains: encontristaName } },
-              ],
-              encontrista: {
-                idStatus: encontristaStatus,
-                responsavelExterna: {
-                  idExterna: responsavelExterna,
-                },
-              },
-            },
-          })
-        }
-      } else {
-        return await prisma.pessoa.count({
-          where: {
-            role: 'ENCONTRISTA',
-            OR: [
-              { nome: { contains: encontristaName } },
-              { sobrenome: { contains: encontristaName } },
-            ],
-            encontrista: {
-              NOT: { idStatus: 'delete' },
-              responsavelExterna: {
-                idExterna: responsavelExterna,
-              },
-            },
-          },
-        })
-      }
-    } else {
-      if (encontristaStatus) {
-        if (encontristaStatus === 'confirmado') {
-          return await prisma.pessoa.count({
-            where: {
-              role: 'ENCONTRISTA',
-              encontrista: {
-                OR: [
-                  { idStatus: 'confirmado' },
-                  { idStatus: 'confirmado_sem_sexta' },
-                ],
-                responsavelExterna: {
-                  idExterna: responsavelExterna,
-                },
-              },
-            },
-          })
-        } else {
-          return await prisma.pessoa.count({
-            where: {
-              role: 'ENCONTRISTA',
-              encontrista: {
-                idStatus: encontristaStatus,
-                responsavelExterna: {
-                  idExterna: responsavelExterna,
-                },
-              },
-            },
-          })
-        }
-      } else {
-        return await prisma.pessoa.count({
-          where: {
-            role: 'ENCONTRISTA',
-            encontrista: {
-              NOT: { idStatus: 'delete' },
-              responsavelExterna: {
-                idExterna: responsavelExterna,
-              },
-            },
-          },
-        })
-      }
-    }
-  }
+  // filtro de responsavelExterna
+  const responsavelExternaFilter: Prisma.EncontristaWhereInput =
+    responsavelExterna
+      ? responsavelExterna === 'none'
+        ? { responsavelExterna: { is: null } }
+        : { responsavelExterna: { is: { idExterna: responsavelExterna } } }
+      : {}
 
-  if (encontristaName) {
-    if (encontristaStatus) {
-      if (encontristaStatus === 'confirmado') {
-        return await prisma.pessoa.count({
-          where: {
-            role: 'ENCONTRISTA',
-            OR: [
-              { nome: { contains: encontristaName } },
-              { sobrenome: { contains: encontristaName } },
-            ],
-            encontrista: {
-              OR: [
-                { idStatus: 'confirmado' },
-                { idStatus: 'confirmado_sem_sexta' },
-              ],
-            },
-          },
-        })
-      } else {
-        return await prisma.pessoa.count({
-          where: {
-            role: 'ENCONTRISTA',
-            OR: [
-              { nome: { contains: encontristaName } },
-              { sobrenome: { contains: encontristaName } },
-            ],
-            encontrista: {
-              idStatus: encontristaStatus,
-            },
-          },
-        })
-      }
-    } else {
-      return await prisma.pessoa.count({
-        where: {
-          role: 'ENCONTRISTA',
-          OR: [
-            { nome: { contains: encontristaName } },
-            { sobrenome: { contains: encontristaName } },
-          ],
-          encontrista: {
-            NOT: { idStatus: 'delete' },
-          },
-        },
-      })
-    }
-  }
-
-  if (encontristaStatus) {
-    if (encontristaStatus === 'confirmado') {
-      return await prisma.pessoa.count({
-        where: {
-          role: 'ENCONTRISTA',
-          encontrista: {
+  // filtro de status
+  const statusFilter: Prisma.EncontristaWhereInput =
+    encontristaStatus
+      ? encontristaStatus === 'confirmado'
+        ? {
             OR: [
               { idStatus: 'confirmado' },
               { idStatus: 'confirmado_sem_sexta' },
             ],
-          },
-        },
-      })
-    } else {
-      return await prisma.pessoa.count({
-        where: {
-          role: 'ENCONTRISTA',
-          encontrista: {
-            idStatus: encontristaStatus,
-          },
-        },
-      })
-    }
-  }
+          }
+        : { idStatus: encontristaStatus }
+      : { NOT: { idStatus: 'delete' } }
+
+  // filtro de nome/sobrenome
+  const nameFilter: Prisma.PessoaWhereInput =
+    encontristaName
+      ? {
+          OR: [
+            { nome: { contains: encontristaName } },
+            { sobrenome: { contains: encontristaName } },
+          ],
+        }
+      : {}
 
   return await prisma.pessoa.count({
     where: {
       role: 'ENCONTRISTA',
+      ...nameFilter,
       encontrista: {
-        NOT: { idStatus: 'delete' },
+        ...statusFilter,
+        ...responsavelExternaFilter,
       },
     },
   })
 }
+
 
 function transformToEncontristaSummaryData(
   encontristas: {

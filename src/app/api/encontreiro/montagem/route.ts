@@ -13,8 +13,6 @@ export async function GET(request: Request) {
 
   const page = pageParams ? Number(pageParams) : 1
 
-  console.log(preferenciaValue)
-
   const encontreiros = await getEncontreirosSummary({
     page,
     encontreiroName,

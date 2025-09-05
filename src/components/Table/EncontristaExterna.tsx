@@ -87,6 +87,7 @@ export function EncontristaExterna({
     })
   }
 
+
   return (
     <Form {...form}>
       <form
@@ -96,7 +97,7 @@ export function EncontristaExterna({
         <FormField
           control={form.control}
           name="idResponsavel"
-          defaultValue={idExterna || ''}
+          defaultValue={idExterna || 'none'}
           render={({ field }) => {
             return (
               <div className="w-full">
@@ -108,6 +109,13 @@ export function EncontristaExterna({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItemAvatar
+                        key='select'
+                        name='Selecione'
+                        id='none'
+                        avatarFallback='?'
+                        avatarUrl=''
+                      />
                       {equipe &&
                         equipe.map((membroExterna) => {
                           return (

@@ -53,7 +53,6 @@ export function AlertDialogAplicarContent({
             onClick={(event) => {
               event.preventDefault()
               handleAction().then((result) => {
-                console.log(result)
                 if (result.montagem.atualizados > 0) {
                   toast.success(
                     `${result.montagem.atualizados} encontreiros atualizados.`,

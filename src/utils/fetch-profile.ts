@@ -19,7 +19,6 @@ export async function getProfileSlug(slug: string): Promise<ProfileData> {
     `${process.env.NEXTAUTH_URL}/api/pessoa/id-from-slug/${slug}`,
     { cache: 'no-store' },
   ).then(async (res) => await res.json())
-  console.log(id)
 
   const profileData = await fetch(
     `${process.env.NEXTAUTH_URL}/api/encontreiro/${id}/profile`,

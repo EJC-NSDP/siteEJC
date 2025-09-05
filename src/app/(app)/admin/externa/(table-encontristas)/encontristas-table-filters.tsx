@@ -148,6 +148,11 @@ export function EncontristaTableFilters() {
                       value="all"
                       text="Todos Responsáveis"
                     />
+                    <SelectItem
+                      key="none"
+                      value="none"
+                      text="Sem Responsável"
+                    />
                     {equipeExterna &&
                       equipeExterna.map((membroExterna) => {
                         return (
