@@ -17,7 +17,9 @@ import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/lib/axios'
+import { getCategoriasCartas } from '@/utils/fetch-domains'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -25,6 +27,7 @@ import { z } from 'zod'
 
 const messageScheme = z.object({
   encontrista: z.string({ required_error: 'O encontrista é obrigatório.' }),
+  categoria: z.enum(['amigo', 'companheiro', 'familia', 'outro']),
   para: z
     .string({ required_error: 'Para quem devemos enviar?' })
     .min(2, { message: 'Para quem deve conter pelo menos 2 letras' }),
@@ -43,10 +46,16 @@ interface MensagemAbertaProps {
 }
 
 export function MensagemAberta({ encontristas }: MensagemAbertaProps) {
+  const { data: categorias } = useQuery<SelectArray[]>({
+    queryFn: async () => await getCategoriasCartas(),
+    queryKey: ['categoriasCartas'],
+  })
+
   const form = useForm<messageData>({
     resolver: zodResolver(messageScheme),
     defaultValues: {
       conteudo: '',
+      categoria: undefined,
       de: '',
       encontrista: '',
       para: '',
@@ -68,6 +77,7 @@ export function MensagemAberta({ encontristas }: MensagemAbertaProps) {
   async function handlPostMessage(data: messageData) {
     const message = await api.post('carta', {
       slugEncontrista: data.encontrista,
+      categoria: data.categoria,
       para: data.para,
       de: data.de,
       conteudo: data.conteudo,
@@ -107,6 +117,30 @@ export function MensagemAberta({ encontristas }: MensagemAbertaProps) {
                   >
                     {encontristas &&
                       encontristas.map((item) => {
+                        return (
+                          <SelectItem
+                            key={item.value}
+                            value={item.value}
+                            text={item.label}
+                          />
+                        )
+                      })}
+                  </SelectGroupInput>
+                )
+              }}
+            />
+            <FormField
+              control={control}
+              name="categoria"
+              render={({ field }) => {
+                return (
+                  <SelectGroupInput
+                    label="De onde você conhece o encontrista?"
+                    onChange={field.onChange}
+                    value={field.value}
+                  >
+                    {categorias &&
+                      categorias.map((item) => {
                         return (
                           <SelectItem
                             key={item.value}

@@ -85,7 +85,7 @@ export async function updateCirculo({
     })
     if (!foundTio) return
 
-    if (currentEncontro && currentEncontro.id === idEncontro)
+    if (currentEncontro && currentEncontro.id === idEncontro) {
       await prisma.pessoa.update({
         data: {
           role: 'TIOSECRETO',
@@ -94,6 +94,7 @@ export async function updateCirculo({
           id: foundTio.id,
         },
       })
+    }
 
     await prisma.equipeEncontro.update({
       data: {

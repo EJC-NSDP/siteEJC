@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 
 export interface CartaProps {
   slugEncontrista: string
+  categoria: string
   para: string
   de: string
   conteudo: string
@@ -9,6 +10,7 @@ export interface CartaProps {
 
 export async function createCarta({
   slugEncontrista,
+  categoria,
   conteudo,
   de,
   para,
@@ -31,6 +33,7 @@ export async function createCarta({
   return await prisma.carta.create({
     data: {
       slugEncontrista,
+      idCategoria: categoria,
       de,
       para,
       conteudo,

@@ -80,14 +80,17 @@ export function EncontristasCartasTable() {
           <Table className="text-xs">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-7 rounded-tl-xl lg:w-80">
+                <TableHead className="w-7 rounded-tl-xl lg:w-72">
                   Nome
                 </TableHead>
                 <TableHead className="w-32 text-center">
                   Cartas físicas
                 </TableHead>
-                <TableHead className="w-48 text-center">
+                <TableHead className="w-32 text-nowrap text-center">
                   Cartas virtuais impressas
+                </TableHead>
+                <TableHead className="w-48 text-left">
+                  Fonte das cartas virtuais
                 </TableHead>
                 <TableHead className="w-36 text-center">
                   Total de Cartas
@@ -105,7 +108,7 @@ export function EncontristasCartasTable() {
               {isLoadingEncontrista && <EncontristaCartasTableSkeleton />}
               {cartaSumary && cartaSumary.encontristas.length === 0 && (
                 <EmptyTableRow
-                  colspan={7}
+                  colspan={8}
                   content="Sem encontristas confirmados neste encontro"
                 />
               )}
@@ -121,14 +124,14 @@ export function EncontristasCartasTable() {
                 })}
             </TableBody>
             <TableFooter>
-              {isLoadingEncontrista && <PaginationSkeleton totalCol={7} />}
+              {isLoadingEncontrista && <PaginationSkeleton totalCol={8} />}
               {cartaSumary && (
                 <Pagination
                   pageIndex={cartaSumary.pageIndex}
                   totalCount={cartaSumary.totalCount}
                   perPage={cartaSumary.perPage}
                   onPageChange={handlePaginate}
-                  totalCol={7}
+                  totalCol={8}
                 />
               )}
             </TableFooter>

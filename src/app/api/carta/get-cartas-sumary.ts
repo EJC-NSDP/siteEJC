@@ -10,6 +10,12 @@ export type CartaSummaryData = {
   cartasVirtuaisTotais: number
   cartasVirtuaisImpressas: number
   tiosExterna: string | null
+  categorias: {
+    family: number
+    companion: number
+    friend: number
+    other: number
+  }
 }
 
 export type CartaSummary = {
@@ -240,6 +246,20 @@ export async function getMensagensSummary({
         corLabel:
           encontrista.encontreiro!.circulo?.corCirculo.cor || 'Não alocado',
         tiosExterna: tioExterna,
+        categorias: {
+          family: encontrista.cartasDigitais.filter(
+            (carta) => carta.idCategoria === 'familia',
+          ).length,
+          companion: encontrista.cartasDigitais.filter(
+            (carta) => carta.idCategoria === 'companheiro',
+          ).length,
+          friend: encontrista.cartasDigitais.filter(
+            (carta) => carta.idCategoria === 'amigo',
+          ).length,
+          other: encontrista.cartasDigitais.filter(
+            (carta) => carta.idCategoria === 'outro',
+          ).length,
+        },
       }
       mensagensResponse.push(cartaResponse)
       return cartaResponse

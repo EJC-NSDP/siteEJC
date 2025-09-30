@@ -1,3 +1,4 @@
+import type { CategoriaCartas } from '@/app/api/domains/categoriasCartas/get-categorias'
 import type { Cor } from '@/app/api/domains/coresEncontro/get-cores'
 import type { Disponibilidade } from '@/app/api/domains/disponibilidade/get-disponibilidade'
 import type { EquipesEncontro } from '@/app/api/domains/equipes/get-equipes'
@@ -21,6 +22,22 @@ export async function getReligioes() {
   const selectData: SelectArray[] = []
   response.forEach((item) => {
     const selectItem: SelectArray = { label: item.religiao, value: item.id }
+
+    selectData.push(selectItem)
+  })
+
+  return selectData
+}
+
+export async function getCategoriasCartas() {
+  const response: CategoriaCartas[] = await api
+    .get('domains/categoriasCartas')
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  const selectData: SelectArray[] = []
+  response.forEach((item) => {
+    const selectItem: SelectArray = { label: item.label, value: item.id }
 
     selectData.push(selectItem)
   })

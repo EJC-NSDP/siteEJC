@@ -177,6 +177,12 @@ export function EncontristaCartasTableRow({
         {encontristaCartas.cartasVirtuaisImpressas} (
         {encontristaCartas.cartasVirtuaisTotais})
       </TableCell>
+      <TableCell className="flex flex-col gap-1 text-left">
+        <span>Amigo(a): {encontristaCartas.categorias.friend}</span>
+        <span>Companheiro(a): {encontristaCartas.categorias.companion}</span>
+        <span>Família: {encontristaCartas.categorias.family}</span>
+        <span>Outro: {encontristaCartas.categorias.other}</span>
+      </TableCell>
       <TableCell className="text-center">{totalCartas}</TableCell>
       <TableCell>
         <EncontristaCartaStatus

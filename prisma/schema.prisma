@@ -222,14 +222,16 @@ model ResponsavelExterna {
 }
 
 model Carta {
-  id              String   @id @default(uuid())
+  id              String                 @id @default(uuid())
+  idCategoria     String                 @map("id_categoria")
   para            String
   de              String
   conteudo        String
-  createdAt       DateTime @default(now()) @map("created_at")
+  createdAt       DateTime               @default(now()) @map("created_at")
   slugEncontrista String
-  isPrinted       Boolean  @default(false)
-  pessoa          Pessoa   @relation(fields: [slugEncontrista], references: [slug])
+  isPrinted       Boolean                @default(false)
+  categoria       DomainCategoriasCartas @relation(fields: [idCategoria], references: [id])
+  pessoa          Pessoa                 @relation(fields: [slugEncontrista], references: [slug])
 
   @@map("cartas")
 }
@@ -301,6 +303,14 @@ model Quadrante {
   modifiedAt DateTime        @default(now()) @updatedAt @map("modified_at")
 
   @@map("quadrante")
+}
+
+model DomainCategoriasCartas {
+  id    String  @id @unique
+  label String
+  carta Carta[]
+
+  @@map("@categorias_cartas")
 }
 
 model DomainFuncoes {
