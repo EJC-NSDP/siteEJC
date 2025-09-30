@@ -14,7 +14,7 @@ export async function getCategoriasCartas() {
       },
       orderBy: {
         label: 'asc',
-      }
+      },
     })
 
   return categoriasCartas
