@@ -135,7 +135,7 @@ export function MensagemAberta({ encontristas }: MensagemAbertaProps) {
               render={({ field }) => {
                 return (
                   <SelectGroupInput
-                    label="De onde você conhece o encontrista?"
+                    label="De onde você conhece essa pessoa?"
                     onChange={field.onChange}
                     value={field.value}
                   >
