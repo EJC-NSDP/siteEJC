@@ -12,6 +12,9 @@ export async function getCategoriasCartas() {
         id: true,
         label: true,
       },
+      orderBy: {
+        label: 'asc',
+      }
     })
 
   return categoriasCartas
