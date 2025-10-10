@@ -4,11 +4,10 @@ import {
   type changeStatusMontagemRouteProps,
 } from './change-status'
 
-export async function PATCH(
-  request: Request,
-  context: { params: Promise<changeStatusMontagemRouteProps> },
-) {
-  const updated = await changeStatusMontagem(await context.params)
+export async function PATCH(request: Request) {
+  const data: changeStatusMontagemRouteProps = await request.json()
+
+  const updated = await changeStatusMontagem(data)
 
   if (!updated) return NextResponse.json({}, { status: 400 })
 

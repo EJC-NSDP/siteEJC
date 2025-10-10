@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server'
 import { changeStatus, type changeStatusRouteProps } from './change-status'
 
-export async function PATCH(
-  request: Request,
-  context: { params: Promise<changeStatusRouteProps> },
-) {
-  const updated = await changeStatus(await context.params)
+export async function PATCH(request: Request) {
+  const data: changeStatusRouteProps = await request.json()
+
+  const updated = await changeStatus(data)
 
   const infoPatched = {
     id: updated.idPessoa,

@@ -18,7 +18,10 @@ export async function changeStatus({
   encontreiroId,
   status,
 }: EncontreiroStatusProps) {
-  await api.patch(`encontreiro/${encontreiroId}/change-status/${status}`)
+  await api.patch(`encontreiro/${encontreiroId}/change-status`, {
+    id: encontreiroId,
+    status,
+  })
 }
 
 const encontreiroStatusSchema = z.object({
