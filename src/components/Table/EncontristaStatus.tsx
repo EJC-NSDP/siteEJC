@@ -32,7 +32,10 @@ export async function changeStatus({
   encontristaId,
   status,
 }: changeStatusProps) {
-  await api.patch(`encontrista/${encontristaId}/change-status/${status}`)
+  await api.patch(`encontrista/${encontristaId}/change-status`, {
+    id: encontristaId,
+    status: status,
+  })
 }
 
 const encontristaStatusSchema = z.object({
