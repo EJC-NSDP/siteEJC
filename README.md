@@ -183,3 +183,58 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 - `@tanstack/react-query` → `^5.90.21`
 - `cloudinary` → `^2.9.0`
 - `next-auth` → `^4.24.13`
+
+---
+
+### v4.0.0 — Montagem e funcionalidades do Dirigente
+> Julho–Outubro 2025
+
+- Sistema de montagem completo: divisão de encontreiros por equipe para o encontrão
+- Ações do dirigente: adicionar dirigentes ao encontro, divulgar montagem
+- Suporte a convidados especiais na listagem de encontreiros
+- Ordenação e lista de preferências na montagem
+- Inativos removidos da montagem
+- Exports de encontreiros (lista geral e lista de vigília)
+- Aniversariantes da semana (com ajuste para domingo)
+- Pasta virtual atualizada
+- Responsividade geral
+- Correções em rotas e quadrante
+
+---
+
+### v3.0.0 — Secretaria e Quadrante
+> Maio 2025
+
+- Módulo da Secretaria: edição de encontristas, controle de equipes, palestrantes e pastorais
+- Quadrante completo: controle de funções por encontrão, upload de imagem, QR Code, bloqueio de edição
+- Tios externa visíveis pela secretaria
+- Ficha de cadastro do encontreiro
+- Export de restrições alimentares
+- Tooltip responsivo no mobile
+- Upload de foto de perfil via Cloudinary (sem crop)
+- Correções em paginação e duplicidade em endereço
+
+---
+
+### v2.0.0 — Módulo da Externa e Carros
+> Abril–Maio 2025
+
+- Cadastro e edição de carros (motorista + carona)
+- Criação e edição de encontreiros pelo dirigente
+- Ficha de cadastro vinculada ao perfil
+- Círculos: edição e atualização
+- Encontrista como último encontro
+- Correções em formulários de carro, apelido, telefone e disponibilidade
+- Migração para Next.js 15
+- Base de roles por perfil de admin
+
+---
+
+### v1.0.0 — Base do sistema
+> Início do projeto
+
+- Estrutura inicial com Next.js, Prisma e NextAuth
+- Cadastro público de encontristas
+- Perfil de encontreiro
+- Listagens base (encontreiros, encontristas, carros, círculos)
+- Autenticação e controle de acesso por role
