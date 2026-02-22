@@ -15,7 +15,7 @@ export function HeaderInstitucional({
   children,
 }: HeaderInstitucionalProps) {
   return (
-    <div className="lg:-mt-institucional -mt-56 flex justify-center">
+    <div className="lg:-mt-institucional -mt-56 flex justify-center mx-auto w-full max-w-8xl">
       <div className="flex w-full flex-col gap-8 text-center lg:w-1/2 lg:gap-16">
         <h1 className="text-3xl font-extrabold text-violet-50 lg:text-5xl">
           {title}

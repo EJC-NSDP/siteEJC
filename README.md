@@ -3,7 +3,6 @@
 Sistema web do **Encontro de Jovens com Cristo** da Paróquia Nossa Senhora da Divina Providência — Jardim Botânico, Rio de Janeiro.
 
 🌐 **Produção:** [ejcnsdp.com.br](https://www.ejcnsdp.com.br)
-🌐 **Produção:** [ejcnsdp.com.br](https://www.ejcnsdp.com.br)
 
 ---
 
@@ -45,14 +44,14 @@ Equipe responsável pela logística do Encontrão (2x por ano).
 - Cadastro de tios de externa (motoristas)
 - Alocação de encontristas nos carros
 - Controle de pagamento da taxa de inscrição
-- Gerenciamento do sistema de cartas virtuais
+- Gerenciamento do sistema de cartas virtuais (abrir/fechar)
 
 ### 📋 Secretaria
-Equipe administrativa do Encontrão (2x por ano).
+Equipe administrativa do Encontrão.
 - Montagem do quadrante — controle de quem trabalhou em cada função em cada encontrão
 
 ### 📁 Coordenador
-Coordenadores de equipe do Encontrão (2x por ano).
+Coordenadores de equipe do Encontrão.
 - Visualização da própria tropa
 - Acesso à pasta virtual com informações do trabalho
 
@@ -96,7 +95,7 @@ Grupo de coordenadores do movimento durante um ano inteiro.
 Crie um arquivo `.env` na raiz com as seguintes variáveis:
 
 ```env
-# Banco de dados (Railway PostgreSQL)
+# Banco de dados (Neon PostgreSQL)
 DATABASE_PUBLIC_URL=
 
 # NextAuth
@@ -150,6 +149,26 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.0.1 — Correções pós-migração
+> Fevereiro 2026
+
+**Tailwind v4**
+- Correção das cores customizadas via `@theme` no `globals.css`
+- Remoção do `enableSystem` no `ThemeProvider` (site fixado em light mode)
+- Adição de `cursor: pointer` global em botões
+- Correção do `border-color` padrão que ficou escuro após migração
+
+**Next.js / Configuração**
+- Migração de `next.config.ts` para `next.config.mjs` por compatibilidade com ESM
+- Migração de `eslint.config.js` para `eslint.config.mjs`
+- Correção do `remotePatterns` do Cloudinary que não estava sendo lido com `"type": "module"`
+
+**Correções visuais**
+- Card do mapa na home alinhado com os triggers acima
+- Imagem dos cards de eventos padronizada com altura fixa e `object-cover`
+
+---
+
 ### v5.0.0 — Grandes migrações de infraestrutura
 > Breaking changes em múltiplas dependências críticas
 
@@ -183,6 +202,19 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 - `@tanstack/react-query` → `^5.90.21`
 - `cloudinary` → `^2.9.0`
 - `next-auth` → `^4.24.13`
+
+---
+
+### v5.1.0 — Correções pós-migração
+> Fevereiro 2026
+
+- `globals.css` migrado para sintaxe Tailwind v4 (`@import "tailwindcss"` + `@theme`) com todas as cores e customizações centralizadas
+- Configs renomeados para `.mjs` (`next.config.mjs`, `eslint.config.mjs`) para compatibilidade com `"type": "module"` no `package.json`
+- `ThemeProvider` corrigido: removido `enableSystem` para fixar tema light independente do sistema operacional
+- Bordas da tabela corrigidas para tom mais sutil (`border-color: zinc.200` global)
+- `cursor: pointer` adicionado globalmente para elementos `button`
+- Domínio do Cloudinary (`res.cloudinary.com`) corrigido no `next.config.mjs`
+- Melhorias no carousel da home: imagens com tamanho padronizado via `fill` + `object-cover`, mapa alinhado aos triggers
 
 ---
 

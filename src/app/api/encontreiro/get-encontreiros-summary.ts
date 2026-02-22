@@ -1,4 +1,5 @@
-import { type Prisma, type StatusEncontreiro } from '@/generated'
+import { type StatusEncontreiro } from '@/enums'
+import { type Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
 
 // Campos válidos para ordenação

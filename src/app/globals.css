@@ -1,8 +1,72 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@variant dark (&:where(.dark, .dark *));
+
+@plugin "tailwindcss-animate";
+
+@theme {
+  --color-primary: #7c3aed;
+  --color-secondary: #fbbf24;
+  --color-tertiary: #3a3440;
+  --color-gradient-primary: #582c85;
+  --color-gradient-secondary: #653db0;
+
+  --spacing-11\/20: 55%;
+  --spacing-3\/5: 60%;
+
+  --max-width-carousel: 72rem;
+  --max-width-8xl: 96rem;
+
+  --width-a4: 1131px;
+  --width-a5: 800px;
+  --width-88: 22rem;
+  --width-card: 37rem;
+  --width-100: 28rem;
+  --width-9\/10: 90%;
+  --width-title: 34rem;
+  --width-sheet: 1131px;
+
+  --height-a4: 1573px;
+  --height-a5: 1112px;
+  --height-9\/10: 90%;
+  --height-98: 26rem;
+  --height-100: 28rem;
+  --height-institucional: 32.5rem;
+  --height-sheet: 1573px;
+
+  --translate-institucional: 32.5rem;
+  --margin-institucional: 32.5rem;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
 
 @layer base {
+  * {
+    border-color: theme(colors.zinc.200);
+  }
+
+  button {
+    cursor: pointer;
+  }
+
   .font-outline-2 {
     -webkit-text-stroke: 0.1px black;
   }

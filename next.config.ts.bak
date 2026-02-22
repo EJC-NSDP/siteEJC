@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.VERCEL === '1',
   },
+  //   images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'https',
+  //       hostname: 'res.cloudinary.com',
+  //       pathname: '/**',
+  //     },
+  //   ],
+  // },
   images: {
     remotePatterns: [new URL('https://res.cloudinary.com/**')],
   },

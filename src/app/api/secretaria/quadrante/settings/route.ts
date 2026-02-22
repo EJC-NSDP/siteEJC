@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { getConfigQuadrante } from './get-config-quadrante'
 import { updateConfigQuadrante } from './update-config-quadrante'
 
-import type { Value_Quadrante as valueQuadrante } from '@/generated'
+import type { Value_Quadrante as valueQuadrante } from '@/enums'
 
 export async function GET() {
   const capas = await getConfigQuadrante()

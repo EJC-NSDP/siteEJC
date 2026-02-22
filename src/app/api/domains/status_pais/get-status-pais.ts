@@ -1,4 +1,4 @@
-import type { Value_StatusPais as valueStatusPais } from '@/generated'
+import type { Value_StatusPais as valueStatusPais } from '@/enums'
 import { prisma } from '@/lib/prisma'
 
 export type StatusPais = {

@@ -88,7 +88,7 @@ export function CarrosTableRow({ carro }: EncontristaTableRowProps) {
         <TableCell className="text-nowrap">{carro.placa}</TableCell>
         <TableCell>{carro.modelo}</TableCell>
         <TableCell>{carro.vagas}</TableCell>
-        <TableCell className="w-7 lg:w-[178px]">
+        <TableCell className="w-7 lg:w-44.5">
           {isLoading ? (
             <Skeleton className="h-4 w-14" />
           ) : (

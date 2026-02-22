@@ -93,7 +93,7 @@ export function Mapa() {
           Rua Lopes Quintas, 274 - Jardim Botânico
         </span>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-full max-w-8xl mx-auto">
         <div className="flex justify-center gap-2 lg:gap-8">
           {cardsTrigger.map((cardTrigger, index) => {
             return (

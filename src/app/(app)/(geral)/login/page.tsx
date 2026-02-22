@@ -1,9 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -89,16 +88,16 @@ export default function Login() {
                   </TextInput>
                 )}
               />
-              <Link href="/login" className="text-zinc-500 underline">
+              {/* <Link href="/login" className="text-zinc-500 underline">
                 Esqueceu a senha?
-              </Link>
+              </Link> */}
             </CardContent>
             <CardFooter className="flex w-full flex-col gap-8 p-0">
               <Button type="submit" disabled={isSubmitting} className="w-full">
                 Avançar
               </Button>
               <span className="text-sm text-zinc-400">
-                Não tem cadastro? Fale com um Dirigente!
+                Não tem cadastro? Ou esqueceu a senha? Fale com um Dirigente!
               </span>
             </CardFooter>
           </Card>

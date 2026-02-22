@@ -1,4 +1,4 @@
-import type { Value_Disponibilidade as valueDisponibilidade } from '@/generated'
+import type { Value_Disponibilidade as valueDisponibilidade } from '@/enums'
 import { prisma } from '@/lib/prisma'
 
 export type Disponibilidade = {

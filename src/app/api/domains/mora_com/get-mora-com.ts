@@ -1,4 +1,4 @@
-import type { Value_MoraCom as valueMoraCom } from '@/generated'
+import type { Value_MoraCom as valueMoraCom } from '@/enums'
 import { prisma } from '@/lib/prisma'
 
 export type MoraCom = {

@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
 import { SelectItemIcon, type SelectItemIconProps } from './SelectItemIcon'
 
 import type { EncontreiroSummary } from '@/app/api/encontreiro/get-encontreiros-summary'
-import type { StatusEncontreiro } from '@/generated'
+import type { StatusEncontreiro } from '@/enums'
 import { api } from '@/lib/axios'
 
 interface EncontreiroStatusProps {

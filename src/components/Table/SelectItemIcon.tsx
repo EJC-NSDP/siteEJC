@@ -3,7 +3,7 @@ import type { ElementType } from 'react'
 import { SelectItem } from '../ui/select'
 
 import type { valueStatus } from '@/@types/enums'
-import type { StatusEncontreiro } from '@/generated'
+import type { StatusEncontreiro } from '@/enums'
 import { cn } from '@/lib/utils'
 
 export interface SelectItemIconProps {

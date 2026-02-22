@@ -1,4 +1,4 @@
-import type { StatusEncontreiro } from '@/generated'
+import type { StatusEncontreiro } from '@/enums'
 import { prisma } from '@/lib/prisma'
 
 export interface changeStatusMontagemRouteProps {

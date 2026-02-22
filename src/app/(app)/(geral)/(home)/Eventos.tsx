@@ -99,7 +99,7 @@ export function Eventos() {
   }
   return (
     <section className="bg-white">
-      <div className="flex -translate-y-10 flex-col gap-8 px-8 lg:-translate-y-32 lg:px-16">
+      <div className="flex -translate-y-10 flex-col gap-8 px-8 max-w-8xl mx-auto lg:-translate-y-32 lg:px-16">
         <div className="flex justify-center gap-2 lg:gap-8">
           {cardsTrigger.map((cardTrigger, index) => {
             return (

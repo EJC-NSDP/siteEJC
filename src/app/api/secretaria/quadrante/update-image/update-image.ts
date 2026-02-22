@@ -1,6 +1,6 @@
 import type { UpdateQuadranteData } from './route'
 
-import type { Value_Quadrante as valueQuadrante } from '@/generated'
+import type { Value_Quadrante as valueQuadrante } from '@/enums'
 import { prisma } from '@/lib/prisma'
 
 export async function updateImage({ value, imageUrl }: UpdateQuadranteData) {
