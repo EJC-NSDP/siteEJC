@@ -149,6 +149,16 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.0.2 — Melhorias visuais
+> Fevereiro 2026
+
+- Página de aniversariantes reformulada: cards com avatar, idade e número do EJC
+- API de aniversariantes expandida com `apelido`, `idade`, `numeroEncontro` e `avatarUrl`
+- Página de equipes reformulada: grade de cards coloridos com total e indicador de coordenação
+- Correção de contraste nos cards de equipe (Teatro tudo branco, Mini tudo preto)
+
+---
+
 ### v5.0.1 — Correções pós-migração
 > Fevereiro 2026
 
@@ -202,19 +212,6 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 - `@tanstack/react-query` → `^5.90.21`
 - `cloudinary` → `^2.9.0`
 - `next-auth` → `^4.24.13`
-
----
-
-### v5.1.0 — Correções pós-migração
-> Fevereiro 2026
-
-- `globals.css` migrado para sintaxe Tailwind v4 (`@import "tailwindcss"` + `@theme`) com todas as cores e customizações centralizadas
-- Configs renomeados para `.mjs` (`next.config.mjs`, `eslint.config.mjs`) para compatibilidade com `"type": "module"` no `package.json`
-- `ThemeProvider` corrigido: removido `enableSystem` para fixar tema light independente do sistema operacional
-- Bordas da tabela corrigidas para tom mais sutil (`border-color: zinc.200` global)
-- `cursor: pointer` adicionado globalmente para elementos `button`
-- Domínio do Cloudinary (`res.cloudinary.com`) corrigido no `next.config.mjs`
-- Melhorias no carousel da home: imagens com tamanho padronizado via `fill` + `object-cover`, mapa alinhado aos triggers
 
 ---
 

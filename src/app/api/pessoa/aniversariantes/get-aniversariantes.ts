@@ -9,30 +9,37 @@ dayjs.extend(weekday)
 
 export interface Aniversariantes {
   nome: string
+  apelido: string | null
   dataNasc: string
+  idade: number
+  numeroEncontro: number
+  avatarUrl: string | null
 }
 
 export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
   let today = dayjs()
 
-  // Se for domingo (weekday = 0 no dayjs), volta um dia pra cair no sábado
   if (today.weekday() === 0) {
     today = today.subtract(1, 'day')
   }
 
-  // início (segunda) e fim (domingo) da semana
   const startOfWeek = today.weekday(1).startOf('day')
   const endOfWeek = today.weekday(7).endOf('day')
 
-  // Busca todos os usuários
   const users = await prisma.pessoa.findMany({
     select: {
       nome: true,
       sobrenome: true,
       apelido: true,
+      avatarUrl: true,
       encontreiro: {
         select: {
           dataNasc: true,
+          encontro: {
+            select: {
+                numeroEncontro: true,
+            },  
+          }
         },
       },
     },
@@ -44,7 +51,6 @@ export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
     },
   })
 
-  // Filtra aniversariantes da semana
   const birthdaysThisWeek = users
     .filter((pessoa) => {
       const birthdayThisYear = dayjs(pessoa.encontreiro!.dataNasc).year(
@@ -58,9 +64,12 @@ export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
       return dateA - dateB
     })
 
-  // Retorna no formato desejado
   return birthdaysThisWeek.map((pessoa) => ({
-    nome: `${pessoa.nome} ${pessoa.sobrenome} (${pessoa.apelido})`,
+    nome: `${pessoa.nome} ${pessoa.sobrenome}`,
+    apelido: pessoa.apelido,
     dataNasc: dayjs(pessoa.encontreiro!.dataNasc).format('DD/MM'),
+    idade: today.year() - dayjs(pessoa.encontreiro!.dataNasc).year(),
+    numeroEncontro: pessoa.encontreiro!.encontro!.numeroEncontro || 0,
+    avatarUrl: pessoa.avatarUrl,
   }))
 }

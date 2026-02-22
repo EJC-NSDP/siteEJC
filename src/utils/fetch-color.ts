@@ -101,7 +101,7 @@ export function getTextEquipeColor(id: string) {
                   : id === 'secretaria'
                     ? 'text-orange-700'
                     : id === 'teatro'
-                      ? 'text-black'
+                      ? 'text-white'
                       : id === 'dirigente'
                         ? 'text-primary'
                         : 'text-zinc-400'
