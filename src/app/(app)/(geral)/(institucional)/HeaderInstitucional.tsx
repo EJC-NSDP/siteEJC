@@ -1,8 +1,9 @@
+import Image from 'next/image'
+import type { ReactNode } from 'react'
+
 import espiritualidade from '@/assets/Espiritualidade.png'
 import movimento from '@/assets/Movimento71.png'
 import paroquia from '@/assets/Paroquia.png'
-import Image from 'next/image'
-import type { ReactNode } from 'react'
 
 export interface HeaderInstitucionalProps {
   title: string
@@ -14,7 +15,7 @@ export function HeaderInstitucional({
   children,
 }: HeaderInstitucionalProps) {
   return (
-    <div className="-mt-56 flex justify-center lg:-mt-institucional">
+    <div className="lg:-mt-institucional -mt-56 flex justify-center">
       <div className="flex w-full flex-col gap-8 text-center lg:w-1/2 lg:gap-16">
         <h1 className="text-3xl font-extrabold text-violet-50 lg:text-5xl">
           {title}
@@ -32,7 +33,7 @@ export function HeaderInstitucional({
         ) : (
           <Image src={paroquia} alt="Igreja pelo lado de fora" />
         )}
-        <div className="flex flex-col gap-8 text-pretty px-6 text-start text-base lg:px-20 lg:text-xl">
+        <div className="flex flex-col gap-8 px-6 text-start text-base text-pretty lg:px-20 lg:text-xl">
           {children}
         </div>
       </div>

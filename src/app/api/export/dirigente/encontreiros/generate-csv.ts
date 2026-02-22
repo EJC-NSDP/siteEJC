@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+
 import { getEncontreirosDirigentes } from './get-encontreios-dirigentes'
 
 export async function generateCSV(format?: 'csv' | 'xlsx') {

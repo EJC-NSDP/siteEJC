@@ -1,8 +1,9 @@
+import { useFormContext } from 'react-hook-form'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from 'react-hook-form'
 
 export function PasswordCard() {
   const form = useFormContext()

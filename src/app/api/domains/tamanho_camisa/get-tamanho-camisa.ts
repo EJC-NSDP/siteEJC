@@ -1,5 +1,5 @@
+import type { Value_TamanhoCamisa as valueTamanhoCamisa } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import type { Value_TamanhoCamisa as valueTamanhoCamisa } from '@prisma/client'
 
 export type TamanhoCamisa = {
   id: valueTamanhoCamisa

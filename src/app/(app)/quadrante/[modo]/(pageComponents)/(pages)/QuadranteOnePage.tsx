@@ -1,7 +1,8 @@
 'use client'
 
-import { usePageContext } from '@/context/PageContext'
 import { useEffect, useState } from 'react'
+
+import { usePageContext } from '@/context/PageContext'
 
 interface QuadranteOnePageProps {
   children: React.ReactNode
@@ -17,7 +18,7 @@ export function QuadranteOnePage({ children }: QuadranteOnePageProps) {
   }, [getNextPageNumber])
 
   return (
-    <div className="flex h-a4 w-sheet flex-col bg-white p-4 pt-8">
+    <div className="h-a4 w-sheet flex flex-col bg-white p-4 pt-8">
       <div className="flex flex-grow flex-col gap-4">{children}</div>
       <div className="mt-auto text-center text-lg text-gray-500">
         {pageNumber}

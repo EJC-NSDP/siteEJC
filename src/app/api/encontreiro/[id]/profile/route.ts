@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getProfile } from './get-profile'
 
 interface ProfileProps {

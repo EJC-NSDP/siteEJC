@@ -1,5 +1,6 @@
-import type { EncontristaSecreData } from '@/app/api/secretaria/encontrista/[slug]/get-encontrista-secre'
 import { EditSecreEncontristaForm } from './EditSecreEncontristaForm'
+
+import type { EncontristaSecreData } from '@/app/api/secretaria/encontrista/[slug]/get-encontrista-secre'
 
 async function getEncontrista(slug: string) {
   const encontrista = await fetch(

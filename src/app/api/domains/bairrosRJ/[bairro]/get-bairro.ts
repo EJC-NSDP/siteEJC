@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import type { BairrosRJ } from '../get-bairros-rj'
+
+import { prisma } from '@/lib/prisma'
 
 export async function getBairro(value: string) {
   const bairro: BairrosRJ | null = await prisma.domainBairroEncontro.findFirst({

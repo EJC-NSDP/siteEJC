@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { updateCartaPrinted } from './update-carta-printed'
 
 export interface updateCartaVirtualRouteProps {

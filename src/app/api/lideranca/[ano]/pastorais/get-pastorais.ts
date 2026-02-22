@@ -1,5 +1,5 @@
+import type { Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import type { Prisma } from '@prisma/client'
 
 export interface PessoaPastoral {
   id: string

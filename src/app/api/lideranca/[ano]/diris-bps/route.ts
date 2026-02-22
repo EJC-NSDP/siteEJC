@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getDirisBPs } from './get-diris-bps'
 
 interface LiderancaProps {

@@ -1,5 +1,8 @@
 'use client'
 
+import { Church, Heart, PartyPopper } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+
 import espiritualidade from '@/assets/AtividadeEspiritual.png'
 import caridade from '@/assets/Caridade.png'
 import festas from '@/assets/Festas.png'
@@ -11,8 +14,6 @@ import {
   CardCarouselTrigger,
   type CardInfo,
 } from '@/components/Carousel/CardCarouselTrigger'
-import { Church, Heart, PartyPopper } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 
 const cardsTrigger: CardInfo[] = [
   {

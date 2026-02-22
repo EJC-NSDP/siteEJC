@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { createEncontro, type EncontroProps } from './create-encontro'
 import { getEncontros } from './get-encontros'
 

@@ -1,5 +1,5 @@
+import type { Value_Religiao as valueReligiao } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import type { Value_Religiao as valueReligiao } from '@prisma/client'
 
 export type Religiao = {
   id: valueReligiao

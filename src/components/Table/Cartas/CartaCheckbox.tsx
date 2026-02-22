@@ -1,10 +1,11 @@
+import type { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+
 import type { CartaSummary } from '@/app/api/carta/get-cartas-sumary'
 import type { updateCartaVirtualRouteProps } from '@/app/api/carta/update-carta-virtual/route'
 import { Checkbox } from '@/components/ui/checkbox'
 import { api } from '@/lib/axios'
-import type { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
 
 interface CartaCheckbox extends CheckboxProps {
   id: string

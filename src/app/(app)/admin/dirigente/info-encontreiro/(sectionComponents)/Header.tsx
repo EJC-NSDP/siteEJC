@@ -1,5 +1,10 @@
 'use client'
 
+import { LogOut, Menu } from 'lucide-react'
+import Link from 'next/link'
+import { getSession, signOut } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+
 import LogoEJCColorido from '@/assets/LogoEJCColorido'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -8,10 +13,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { LogOut, Menu } from 'lucide-react'
-import { getSession, signOut } from 'next-auth/react'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export function Header() {
   const [avatar, setAvatar] = useState<string>('')
@@ -51,12 +52,12 @@ export function Header() {
         forceMount
         className="flex flex-col gap-12 data-[state=closed]:hidden lg:data-[state=closed]:flex"
       >
-        <nav className="flex flex-col items-center gap-6 pb-4 text-secondary lg:flex-row lg:pb-0">
+        <nav className="text-secondary flex flex-col items-center gap-6 pb-4 lg:flex-row lg:pb-0">
           <Button variant="tertiary" onClick={logout}>
             <LogOut />
           </Button>
           <Link href="/admin/profile">
-            <Avatar className="text-zinc-700 ring-1 ring-secondary">
+            <Avatar className="ring-secondary text-zinc-700 ring-1">
               <AvatarImage src={avatar} />
               <AvatarFallback>{avatarFallback}</AvatarFallback>
             </Avatar>

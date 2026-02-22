@@ -1,10 +1,11 @@
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+
+import { Button } from '@/components/ui/button'
 
 export function QuerParticipar() {
   return (
     <div className="bg-white px-4 py-16 lg:px-20 lg:py-32">
-      <div className="flex flex-col gap-6 text-tertiary lg:w-5/12 lg:gap-8">
+      <div className="text-tertiary flex flex-col gap-6 lg:w-5/12 lg:gap-8">
         <h2 className="text-3xl font-extrabold lg:text-5xl">
           Curtiu e quer fazer parte do EJC?
         </h2>

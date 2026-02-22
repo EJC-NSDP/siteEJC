@@ -1,14 +1,16 @@
 'use client'
 
-import LogoEJCColorido from '@/assets/LogoEJCColorido'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
+
 import { Button } from './ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from './ui/collapsible'
+
+import LogoEJCColorido from '@/assets/LogoEJCColorido'
 
 export function Header() {
   // const { resolvedTheme } = useTheme()
@@ -32,7 +34,7 @@ export function Header() {
         forceMount
         className="flex flex-col gap-12 data-[state=closed]:hidden lg:data-[state=closed]:flex"
       >
-        <nav className="flex flex-col items-center gap-6 pb-4 text-secondary lg:flex-row lg:pb-0">
+        <nav className="text-secondary flex flex-col items-center gap-6 pb-4 lg:flex-row lg:pb-0">
           <Link href="/" className="hover:text-secondary/80">
             Home
           </Link>

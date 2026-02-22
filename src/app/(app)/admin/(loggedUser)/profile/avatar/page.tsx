@@ -1,5 +1,10 @@
 'use client'
 
+import { ChevronLeft, CircleHelp } from 'lucide-react'
+import Link from 'next/link'
+import { getSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import { CardLoading } from '@/components/CardLoading'
 import { ImageUpload } from '@/components/Form/ImageUpload'
@@ -10,10 +15,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { getProfile } from '@/utils/fetch-profile'
-import { ChevronLeft, CircleHelp } from 'lucide-react'
-import { getSession } from 'next-auth/react'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export default function EditAvatar() {
   const [open, setOpen] = useState(false)

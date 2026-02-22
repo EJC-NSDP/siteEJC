@@ -1,14 +1,16 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Switch } from '@/components/ui/switch'
-import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+
 import { EncontristasCartasTable } from './(table-cartas)/encontristas-cartas-table'
+
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
+import { api } from '@/lib/axios'
 
 async function getCartasStatus() {
   const res = await api.get(`encontro/atual/1/get-carta-status`)
@@ -44,7 +46,7 @@ export default function Cartas() {
       <div className="pb-4">
         <div className="flex items-center justify-between gap-8 pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Controle de Cartas
             </h1>
             <span className="text-base font-normal text-zinc-500">

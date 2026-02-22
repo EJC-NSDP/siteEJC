@@ -1,3 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -18,12 +25,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/lib/axios'
 import { getCategoriasCartas } from '@/utils/fetch-domains'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 const messageScheme = z.object({
   encontrista: z.string({ required_error: 'O encontrista é obrigatório.' }),
@@ -153,7 +154,7 @@ export function MensagemAberta({ encontristas }: MensagemAbertaProps) {
                 )
               }}
             />
-            <div className="flex flex-col gap-4 border-2 border-dashed border-primary p-4">
+            <div className="border-primary flex flex-col gap-4 border-2 border-dashed p-4">
               <div className="flex items-end gap-1">
                 <FormField
                   control={control}

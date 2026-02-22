@@ -1,4 +1,3 @@
-
 export type CoresMapProps = {
   index: number
   color: string

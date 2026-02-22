@@ -1,13 +1,15 @@
-import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+
 import { AdicionarPastoralForm } from '../(form)/AdicionarPastoralForm'
+
+import { Button } from '@/components/ui/button'
 
 export default async function AdicionarPastoral() {
   return (
     <div className="space-y-4 text-zinc-700">
       <div className="flex items-center justify-between">
-        <span className="text-2xl font-semibold leading-none tracking-tight">
+        <span className="text-2xl leading-none font-semibold tracking-tight">
           Adicionar encontreiro a pastoral
         </span>
         <Link href="/admin/secretaria/pastorais">

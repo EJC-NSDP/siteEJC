@@ -1,10 +1,12 @@
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
 import { useDraggable, type UniqueIdentifier } from '@dnd-kit/core'
 import { cva } from 'class-variance-authority'
 import { GripVertical, MapPin } from 'lucide-react'
+
 import type { CarroId } from './page'
+
+import { Card } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 export interface CardEncontristaCarroContent {
   id: string

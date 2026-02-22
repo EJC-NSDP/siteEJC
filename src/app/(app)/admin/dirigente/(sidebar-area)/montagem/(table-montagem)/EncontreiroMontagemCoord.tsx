@@ -1,13 +1,12 @@
-import type { EncontreiroMontagemSummary } from '@/app/api/encontreiro/montagem/get-montagem-summary'
-import type { changeCoordStatusProps } from '@/app/api/montagem/change-coord-status/change-equipe-montagem'
-
-import { Checkbox } from '@/components/ui/checkbox'
-import { api } from '@/lib/axios'
 import type { CheckedState } from '@radix-ui/react-checkbox'
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
+
+import type { EncontreiroMontagemSummary } from '@/app/api/encontreiro/montagem/get-montagem-summary'
+import type { changeCoordStatusProps } from '@/app/api/montagem/change-coord-status/change-equipe-montagem'
+import { Checkbox } from '@/components/ui/checkbox'
+import { api } from '@/lib/axios'
 
 export interface EncontreiroMontagemCoordProps {
   idEncontreiro: string

@@ -1,9 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
+
 import { PastoraisSecreTable } from './(table-pastorais)/pastorais-secre-table'
+
+import { Button } from '@/components/ui/button'
 
 export default function SecretariaPastorais() {
   return (
@@ -11,7 +13,7 @@ export default function SecretariaPastorais() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">Pastorais</h1>
+            <h1 className="text-tertiary text-2xl font-bold">Pastorais</h1>
             <span className="text-base font-normal text-zinc-500">
               Lista de todas as Pastorais deste ano.
             </span>

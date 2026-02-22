@@ -1,6 +1,5 @@
-import { TableCell, TableRow } from '@/components/ui/table'
-
 import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
+import { TableCell, TableRow } from '@/components/ui/table'
 
 interface TiosExternaSecreTableRowProps {
   carro: CarroFromEncontro
@@ -11,7 +10,7 @@ export function TiosExternaSecreTableRow({
 }: TiosExternaSecreTableRowProps) {
   return (
     <TableRow className="items-center bg-white">
-      <TableCell className="text-nowrap font-medium">
+      <TableCell className="font-medium text-nowrap">
         {carro.motorista.nome} {carro.carona ? `e ${carro.carona.nome}` : ''}
       </TableCell>
       <TableCell>{carro.bairro}</TableCell>

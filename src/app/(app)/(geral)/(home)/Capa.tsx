@@ -1,13 +1,14 @@
-import fotoCapa from '@/assets/Capa.png'
-import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import fotoCapa from '@/assets/Capa.png'
+import { Button } from '@/components/ui/button'
 
 export function Capa() {
   return (
     <section className="h-full">
       <div className="relative">
-        <div className="flex flex-col gap-4 pb-28 pl-4 pt-8 lg:w-title lg:pb-72 lg:pl-16 lg:pt-32">
+        <div className="lg:w-title flex flex-col gap-4 pt-8 pb-28 pl-4 lg:pt-32 lg:pb-72 lg:pl-16">
           <span className="text-xs font-bold text-violet-200 lg:text-2xl">
             EJC-NSDP
           </span>
@@ -27,7 +28,7 @@ export function Capa() {
         <Image
           src={fotoCapa}
           alt="Jovens do EJC"
-          className="absolute bottom-0 right-0 w-2/3 md:w-2/5 lg:h-full lg:w-auto"
+          className="absolute right-0 bottom-0 w-2/3 md:w-2/5 lg:h-full lg:w-auto"
         />
       </div>
     </section>

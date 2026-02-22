@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { deletePastoral, type DeletePastoralProps } from './delete-pastoral'
 
 export async function DELETE(

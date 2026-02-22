@@ -1,16 +1,18 @@
 'use client'
 
-import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+
 import { CardPalestra } from './CardPalestra'
+
+import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { api } from '@/lib/axios'
 
 const palestraScheme = z.object({
   idPalestra: z.string().min(1, 'Informe a palestra'),
@@ -105,7 +107,7 @@ export default function PalestraForm({ palestras }: PalestraFormProps) {
             variant="outline"
             className="flex items-center gap-2"
           >
-            <Plus className="size-4 text-tertiary" />
+            <Plus className="text-tertiary size-4" />
             Adicionar Palestra
           </Button>
           <Button type="submit" disabled={isUpdating}>

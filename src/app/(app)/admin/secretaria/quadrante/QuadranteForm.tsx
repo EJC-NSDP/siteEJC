@@ -1,9 +1,10 @@
 'use client'
 
-import type { ConfigQuadrante } from '@/@types/quadrante'
 import { Capas } from './Capas'
 import { Cartas } from './Cartas'
 import { Cartazes } from './Cartazes'
+
+import type { ConfigQuadrante } from '@/@types/quadrante'
 
 interface QuadranteFormProps {
   config: ConfigQuadrante

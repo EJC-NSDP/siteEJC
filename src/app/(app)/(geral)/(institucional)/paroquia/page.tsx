@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 import { HeaderInstitucional } from '../HeaderInstitucional'
 
 export default function Paroquia() {

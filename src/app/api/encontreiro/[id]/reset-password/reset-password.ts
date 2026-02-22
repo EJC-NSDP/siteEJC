@@ -1,6 +1,8 @@
-import { prisma } from '@/lib/prisma'
 import { hash } from 'bcryptjs'
+
 import type { ResetPasswordProps } from './route'
+
+import { prisma } from '@/lib/prisma'
 
 export async function resetPassword({ id }: ResetPasswordProps) {
   const defaultPassword = 'ejcnsdp'

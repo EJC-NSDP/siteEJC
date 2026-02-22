@@ -1,5 +1,16 @@
 'use client'
 
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '../ui/command'
+
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -14,15 +25,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { Check, ChevronsUpDown } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '../ui/command'
 
 export interface ComboItemProp {
   label: string

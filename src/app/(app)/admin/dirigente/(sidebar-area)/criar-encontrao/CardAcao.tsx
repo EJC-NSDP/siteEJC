@@ -1,6 +1,7 @@
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { Check } from 'lucide-react'
 import type { ReactNode } from 'react'
+
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 
 export interface CardAcaoProps {
   title: string
@@ -23,7 +24,7 @@ export function CardAcao({
             <Check className="size-4 text-emerald-500" />
           </div>
         ) : (
-          <div className="rounded-full border border-tertiary p-1">
+          <div className="border-tertiary rounded-full border p-1">
             <Check className="size-4 opacity-0" />
           </div>
         )}

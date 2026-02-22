@@ -1,12 +1,5 @@
 'use client'
 
-import type { EncontristaData } from '@/app/api/encontrista/[id]/get-encontrista'
-import { Nav } from '@/components/Nav/Nav'
-import { NavItem } from '@/components/Nav/NavItem'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { api } from '@/lib/axios'
-import { dateToString } from '@/utils/string-to-date'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Bed,
@@ -22,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 import { AddressCard } from './(pageComponents)/AddressCard'
 import { AddressEncontroCard } from './(pageComponents)/AddressEncontroCard'
 import { ExternaCard } from './(pageComponents)/ExternaCard'
@@ -29,6 +23,14 @@ import { FamilyCard } from './(pageComponents)/FamilyCard'
 import { NominationCard } from './(pageComponents)/NominationCard'
 import { OtherCard } from './(pageComponents)/OtherCard'
 import { PersonalCard } from './(pageComponents)/PersonalCard'
+
+import type { EncontristaData } from '@/app/api/encontrista/[id]/get-encontrista'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { api } from '@/lib/axios'
+import { dateToString } from '@/utils/string-to-date'
 
 interface EditEncontristaProps {
   data: EncontristaData

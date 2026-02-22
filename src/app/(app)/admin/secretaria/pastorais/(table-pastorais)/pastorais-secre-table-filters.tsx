@@ -1,5 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { Search, SearchX } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
@@ -10,10 +14,6 @@ import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 import { SearchInput } from '@/components/ui/search-input'
 import { getAllPastorais } from '@/utils/fetch-domains'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
 
 const pastoraisFiltersSchema = z.object({
   encontreiroName: z.string().optional(),

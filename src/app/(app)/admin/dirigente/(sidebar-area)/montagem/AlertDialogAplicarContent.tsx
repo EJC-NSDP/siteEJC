@@ -1,3 +1,6 @@
+import { useState, type Dispatch, type SetStateAction } from 'react'
+import { toast } from 'sonner'
+
 import type { DivulgarMontagem } from '@/app/api/montagem/divulgar/divulgarMontagem'
 import {
   AlertDialogAction,
@@ -9,8 +12,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { api } from '@/lib/axios'
-import { useState, type Dispatch, type SetStateAction } from 'react'
-import { toast } from 'sonner'
 
 interface AlertDialogAplicarContentProps {
   openFn: Dispatch<SetStateAction<boolean>>

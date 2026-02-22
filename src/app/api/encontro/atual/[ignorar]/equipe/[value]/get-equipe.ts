@@ -1,7 +1,7 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
-import { Prisma } from '@prisma/client'
 
 export interface EncontreiroEmEquipe {
   nome: string

@@ -1,3 +1,18 @@
+import { useQuery } from '@tanstack/react-query'
+import { compareAsc } from 'date-fns'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
+
+import { TiosExternaTableFilters } from './tios-externa-table-filters'
+import { TiosExternaTableRow } from './tios-externa-table-row'
+import { TiosExternaTableSkeleton } from './tios-externa-table-skeleton'
+
+import type {
+  EncontristaSummary,
+  EncontristaSummaryData,
+} from '@/app/api/encontrista/get-encontristas-summary'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import {
   Table,
   TableBody,
@@ -6,21 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type {
-  EncontristaSummary,
-  EncontristaSummaryData,
-} from '@/app/api/encontrista/get-encontristas-summary'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { compareAsc } from 'date-fns'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
-import { TiosExternaTableFilters } from './tios-externa-table-filters'
-import { TiosExternaTableRow } from './tios-externa-table-row'
-import { TiosExternaTableSkeleton } from './tios-externa-table-skeleton'
 
 interface SearchProps {
   pageIndex: number
@@ -108,7 +109,7 @@ export function TiosExternaTable() {
           <Table className="text-xs">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-7 text-nowrap rounded-tl-xl pl-4 lg:w-[73px]">
+                <TableHead className="w-7 rounded-tl-xl pl-4 text-nowrap lg:w-[73px]">
                   Última externa
                 </TableHead>
                 <TableHead>Nome</TableHead>

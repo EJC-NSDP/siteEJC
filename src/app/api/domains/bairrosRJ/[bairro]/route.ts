@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getBairro } from './get-bairro'
 
 interface BairroProps {

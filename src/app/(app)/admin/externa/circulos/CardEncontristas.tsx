@@ -1,11 +1,13 @@
+import { useDraggable, type UniqueIdentifier } from '@dnd-kit/core'
+import { cva } from 'class-variance-authority'
+import { Calendar, Car, GripVertical } from 'lucide-react'
+
+import type { CirculoId } from './page'
+
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { getAge } from '@/utils/get-age'
-import { useDraggable, type UniqueIdentifier } from '@dnd-kit/core'
-import { cva } from 'class-variance-authority'
-import { Calendar, Car, GripVertical } from 'lucide-react'
-import type { CirculoId } from './page'
 
 export interface CardEncontrista {
   id: string

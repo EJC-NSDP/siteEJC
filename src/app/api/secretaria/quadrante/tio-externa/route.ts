@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getTiosExternaQuadrante } from './get-tio-externa-quadrante'
 
 export async function GET() {

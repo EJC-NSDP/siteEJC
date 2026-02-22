@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getEncontro } from './get-encontro'
 
 interface EncontroProps {

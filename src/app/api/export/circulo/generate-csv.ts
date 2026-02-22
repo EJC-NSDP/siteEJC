@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+
 import { getCirculos } from './get-circulos'
 
 export async function generateCSV(format?: 'csv' | 'xlsx') {

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getCartaStatus } from './get-circulos'
 
 export async function GET() {

@@ -1,8 +1,10 @@
-import type { PastoralQuadrante } from '@/@types/quadrante'
-import { cn } from '@/lib/utils'
 import Image from 'next/image'
+
 import { QuadranteOnePage } from './QuadranteOnePage'
 import { QuadranteTitlePage } from './QuadranteTitlePage'
+
+import type { PastoralQuadrante } from '@/@types/quadrante'
+import { cn } from '@/lib/utils'
 
 interface QuadrantePastoraisPageProps {
   title: string

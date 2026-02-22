@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
+
+import { prisma } from '@/lib/prisma'
 
 export interface PalestraEncontro {
   idPalestra: string

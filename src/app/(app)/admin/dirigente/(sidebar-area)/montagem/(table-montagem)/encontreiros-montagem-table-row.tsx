@@ -1,16 +1,16 @@
 import { Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { TableCell, TableRow } from '@/components/ui/table'
+import { EncontreiroMontagemCoord } from './EncontreiroMontagemCoord'
+import { EncontreiroMontagemEquipe } from './EncontreiroMontagemEquipe'
 
 import type { EncontreiroMontagemSummaryData } from '@/app/api/encontreiro/montagem/get-montagem-summary'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { getInitials } from '@/utils/get-initials'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
-import Link from 'next/link'
-import { useState } from 'react'
-import { EncontreiroMontagemCoord } from './EncontreiroMontagemCoord'
-import { EncontreiroMontagemEquipe } from './EncontreiroMontagemEquipe'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroMontagemSummaryData
@@ -46,7 +46,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
             />
             <AvatarFallback>{getInitials(encontreiro.nome)}</AvatarFallback>
           </Avatar>
-          <span className="text-nowrap text-center text-xs text-zinc-600">
+          <span className="text-center text-xs text-nowrap text-zinc-600">
             {encontreiro.encontro}º EJC
           </span>
         </div>
@@ -85,7 +85,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         ) : coordEnable === 'disabled' ? (
           <CircleOff className="size-4 text-zinc-300" />
         ) : coordEnable === 'mandatory' ? (
-          <Check className="size-4 text-primary/80" />
+          <Check className="text-primary/80 size-4" />
         ) : (
           <Loader className="size-4 animate-spin text-zinc-500" />
         )}
@@ -93,7 +93,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
       <TableCell>
         <Link href={`/admin/dirigente/info-encontreiro/${encontreiro.slug}`}>
           <Button variant="outline" className="border-primary/80">
-            <ScanSearch className="size-5 text-primary" />
+            <ScanSearch className="text-primary size-5" />
           </Button>
         </Link>
       </TableCell>

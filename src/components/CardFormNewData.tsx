@@ -1,9 +1,10 @@
-import { MultiStepGeneral } from '@/components/MultiStepGeneral'
-import { Button } from '@/components/ui/button'
-import { CardContent, CardFooter } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useWizard } from 'react-use-wizard'
+
+import { MultiStepGeneral } from '@/components/MultiStepGeneral'
+import { Button } from '@/components/ui/button'
+import { CardContent, CardFooter } from '@/components/ui/card'
 
 interface CardParticipeProps {
   children: ReactNode

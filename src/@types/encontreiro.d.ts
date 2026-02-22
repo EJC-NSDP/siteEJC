@@ -1,4 +1,3 @@
-
 interface EncontreiroPessoaFormData {
   nome: string
   sobrenome: string
@@ -28,7 +27,6 @@ interface EncontreiroEncontroFormData {
     coordenou: boolean
   }[]
 }
-
 
 export interface EncontreiroFormData {
   id: string

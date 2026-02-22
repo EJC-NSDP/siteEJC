@@ -1,12 +1,13 @@
 'use client'
 
-import type { EncontristaConfirmadosData } from '@/app/api/encontro/atual/[ignorar]/confirmados/get-confirmados'
-
-import { type SelectArray } from '@/components/Form/SelectInput/SelectItem'
-import { api } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
+
 import { MensagemAberta } from './MensagemAberta'
 import { MensagemFechada } from './MensagemFechada'
+
+import type { EncontristaConfirmadosData } from '@/app/api/encontro/atual/[ignorar]/confirmados/get-confirmados'
+import { type SelectArray } from '@/components/Form/SelectInput/SelectItem'
+import { api } from '@/lib/axios'
 
 async function getConfirmados() {
   const response: EncontristaConfirmadosData[] = await api

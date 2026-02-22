@@ -11,8 +11,8 @@ export default async function RestrictedLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="z-50 h-auto bg-primary p-4 lg:px-40">
-      <main className="z-40 flex h-auto items-center justify-center bg-primary">
+    <div className="bg-primary z-50 h-auto p-4 lg:px-40">
+      <main className="bg-primary z-40 flex h-auto items-center justify-center">
         {children}
       </main>
     </div>

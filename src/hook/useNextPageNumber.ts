@@ -1,5 +1,6 @@
-import { usePageContext } from '@/context/PageContext'
 import { useRef } from 'react'
+
+import { usePageContext } from '@/context/PageContext'
 
 export function useNextPageNumber() {
   const { getNextPageNumber } = usePageContext()

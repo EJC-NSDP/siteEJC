@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getCurrentEncontro } from './get-current-encontro'
 
 export async function GET() {

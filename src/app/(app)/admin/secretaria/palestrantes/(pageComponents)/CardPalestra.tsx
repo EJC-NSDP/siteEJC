@@ -1,3 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
+import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
+
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -9,9 +13,6 @@ import { Card } from '@/components/ui/card'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { getPalestras } from '@/utils/fetch-domains'
-import { useQuery } from '@tanstack/react-query'
-import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
 
 interface CardPalestraProps {
   index: number

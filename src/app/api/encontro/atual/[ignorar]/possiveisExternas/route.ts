@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getPossiveisExternas } from './get-possiveis-externas'
 
 export async function GET() {

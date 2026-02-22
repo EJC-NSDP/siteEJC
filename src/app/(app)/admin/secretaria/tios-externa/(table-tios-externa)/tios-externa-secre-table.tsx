@@ -1,3 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
+
+import { TiosExternaSecreTableRow } from './encontreiros-secre-table-row'
+import { TiosExternaSecreTableSkeleton } from './encontreiros-secre-table-skeleton'
+
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import {
   Table,
   TableBody,
@@ -7,13 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { TiosExternaSecreTableRow } from './encontreiros-secre-table-row'
-import { TiosExternaSecreTableSkeleton } from './encontreiros-secre-table-skeleton'
 
 export function ordenarCarrosPorNomeMotorista(
   carros: CarroFromEncontro[],

@@ -1,7 +1,10 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { toast } from 'sonner'
+
 import type { EquipesMontagem } from '@/app/api/domains/equipes/montagem/get-equipes'
 import type { EncontreiroMontagemSummary } from '@/app/api/encontreiro/montagem/get-montagem-summary'
 import type { changeEquipeProps } from '@/app/api/montagem/alocate-equipe/alocate-equipe'
-
 import {
   Select,
   SelectContent,
@@ -12,10 +15,6 @@ import {
 } from '@/components/ui/select'
 import { api } from '@/lib/axios'
 import { idPertenceARosa } from '@/utils/pertence'
-
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
-import { toast } from 'sonner'
 
 export interface EncontreiroMontagemEquipeProps {
   idEncontreiro: string

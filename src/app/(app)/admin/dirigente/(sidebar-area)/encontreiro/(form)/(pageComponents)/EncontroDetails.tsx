@@ -1,5 +1,10 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { Trash2 } from 'lucide-react'
+import { useEffect } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
@@ -12,10 +17,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { FormField, FormLabel } from '@/components/ui/form'
 import { getValidEquipes } from '@/utils/fetch-domains'
 import { getCirculosEncontro, getEncontros } from '@/utils/fetch-encontros'
-import { useQuery } from '@tanstack/react-query'
-import { Trash2 } from 'lucide-react'
-import { useEffect } from 'react'
-import { useFieldArray, useFormContext } from 'react-hook-form'
 
 const COORDENA_TRUE = [
   'apresentacao',

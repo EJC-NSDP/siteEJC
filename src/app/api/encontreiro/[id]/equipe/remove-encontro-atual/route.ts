@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { removeEncontreiroFromEquipe } from './remove-encontreiro-from-equipe'
 
 interface ProfileProps {

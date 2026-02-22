@@ -5,11 +5,11 @@ export function CardLoading() {
     <Card className="w-full items-center justify-center px-3 pt-8 text-center text-zinc-700">
       <CardContent className="w-full">
         <div className="flex items-center justify-center gap-3">
-          <span className="text-nowrap text-xl font-normal">Carregando...</span>
+          <span className="text-xl font-normal text-nowrap">Carregando...</span>
           <div role="status">
             <svg
               aria-hidden="true"
-              className="inline h-8 w-8 animate-spin fill-secondary text-gray-200"
+              className="fill-secondary inline h-8 w-8 animate-spin text-gray-200"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

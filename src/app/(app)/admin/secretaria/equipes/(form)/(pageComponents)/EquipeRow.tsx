@@ -1,8 +1,9 @@
+import { useFormContext } from 'react-hook-form'
+
 import type { EquipeSecre } from '@/app/api/secretaria/equipe/get-equipes-secre'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { useFormContext } from 'react-hook-form'
 
 export interface EquipeRowProps {
   equipe: EquipeSecre

@@ -1,3 +1,8 @@
+import dayjs from 'dayjs'
+import { Check, X } from 'lucide-react'
+import { useContext, useEffect } from 'react'
+import { useWizard } from 'react-use-wizard'
+
 import { Button } from '@/components/ui/button'
 import {
   CardContent,
@@ -7,10 +12,6 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CreateEncontristaContext } from '@/context/CreateEncontristaContext'
-import dayjs from 'dayjs'
-import { Check, X } from 'lucide-react'
-import { useContext, useEffect } from 'react'
-import { useWizard } from 'react-use-wizard'
 
 import 'dayjs/locale/pt-br'
 dayjs.locale('pt-br')

@@ -1,13 +1,14 @@
 'use client'
 
+import { Cake } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Cake } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
 interface BirthdayCardProps {
   isSelf?: boolean

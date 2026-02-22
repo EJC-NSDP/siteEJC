@@ -1,6 +1,8 @@
-import { TestimonialsSlider } from '@/components/Testimonials/TestimonialsSlider'
 import type { ReactNode } from 'react'
+
 import { DepoimentoItem } from './(pageComponents)/DepoimentoItem'
+
+import { TestimonialsSlider } from '@/components/Testimonials/TestimonialsSlider'
 
 // const depoimentosContent: ReactNode[] = [
 //   <DepoimentoItem

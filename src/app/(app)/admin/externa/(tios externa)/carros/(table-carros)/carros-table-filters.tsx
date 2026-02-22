@@ -1,17 +1,18 @@
-import { Search, SearchX } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+'use client'
 
-import { getEquipeExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
+import { Search, SearchX } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import { SelectItem } from '@/components/Form/SelectInput/SelectItem'
 import type { SelectItemAvatarProps } from '@/components/Table/SelectItemAvatar'
 import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 import { SearchInput } from '@/components/ui/search-input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
 
 const carrosFiltersSchema = z.object({
   motoristaName: z.string().optional(),
@@ -42,7 +43,10 @@ export function CarrosTableFilters() {
   const { handleSubmit, control, reset } = form
 
   const { data: equipeExterna } = useQuery<SelectItemAvatarProps[]>({
-    queryFn: async () => await getEquipeExterna(),
+    queryFn: async () => {
+      const res = await fetch('/api/encontro/atual/ignorar/externa')
+      return res.json()
+    },
     queryKey: ['equipeExterna'],
   })
 

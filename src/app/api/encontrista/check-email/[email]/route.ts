@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { checkEmailExists } from './check-email-exists'
 
 interface CheckEmailProps {

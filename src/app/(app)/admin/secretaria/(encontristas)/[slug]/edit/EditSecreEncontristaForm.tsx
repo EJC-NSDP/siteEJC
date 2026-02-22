@@ -1,19 +1,21 @@
 'use client'
 
-import type { EncontristaSecreData } from '@/app/api/secretaria/encontrista/[slug]/get-encontrista-secre'
-import { Nav } from '@/components/Nav/Nav'
-import { NavItem } from '@/components/Nav/NavItem'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Building2, Save, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 import { AddressCard } from './(pageComponents)/AddressCard'
 import { PersonalCard } from './(pageComponents)/PersonalCard'
+
+import type { EncontristaSecreData } from '@/app/api/secretaria/encontrista/[slug]/get-encontrista-secre'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { api } from '@/lib/axios'
 
 interface EditEncontristaSecreProps {
   data: EncontristaSecreData

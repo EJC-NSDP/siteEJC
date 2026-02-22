@@ -1,7 +1,9 @@
-import type { EditSecreFormDataInput } from '@/app/(app)/admin/secretaria/(encontristas)/[slug]/edit/EditSecreEncontristaForm'
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { getEncontristaSecre } from './get-encontrista-secre'
 import { updateEncontristaSecre } from './update-encontrista-secre'
+
+import type { EditSecreFormDataInput } from '@/app/(app)/admin/secretaria/(encontristas)/[slug]/edit/EditSecreEncontristaForm'
 
 interface EncontristaSecreProps {
   slug: string

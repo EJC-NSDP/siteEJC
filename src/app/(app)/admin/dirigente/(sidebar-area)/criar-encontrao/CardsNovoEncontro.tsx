@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { toast } from 'sonner'
+
 import {
   actionChangeEncontristas,
   actionLimparCartas,
@@ -11,6 +11,8 @@ import {
 } from './actions'
 import { BotaoAcao } from './BotaoAcao'
 import { CardAcao } from './CardAcao'
+
+import { Button } from '@/components/ui/button'
 
 export interface CardsNovoEncontroProps {
   ultimoEncontro: boolean

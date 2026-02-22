@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { getEquipesSecre, type EquipeSecre } from './get-equipes-secre'
 import { updateEquipesSecre } from './update-equipes-secre'
 

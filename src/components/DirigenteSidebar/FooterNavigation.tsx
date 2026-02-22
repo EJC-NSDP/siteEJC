@@ -1,8 +1,8 @@
 import { LogOut } from 'lucide-react'
-
-import { getSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
+import { getSession, signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Button } from '../ui/button'
 import { Skeleton } from '../ui/skeleton'

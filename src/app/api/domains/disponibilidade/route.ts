@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getDisponibilidade } from './get-disponibilidade'
 
 export async function GET() {

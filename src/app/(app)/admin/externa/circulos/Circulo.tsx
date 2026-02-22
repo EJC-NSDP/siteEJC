@@ -1,9 +1,11 @@
+import { useDroppable, type UniqueIdentifier } from '@dnd-kit/core'
+
+import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
+import { TioCirculo } from './TioCirculo'
+
 import type { TioCirculoType } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { useDroppable, type UniqueIdentifier } from '@dnd-kit/core'
-import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
-import { TioCirculo } from './TioCirculo'
 
 interface CirculoInfo {
   idCor: number

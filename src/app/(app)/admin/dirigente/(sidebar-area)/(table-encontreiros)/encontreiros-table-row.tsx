@@ -1,17 +1,16 @@
 import { Pencil, RotateCcwKey } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { TableCell, TableRow } from '@/components/ui/table'
+import Link from 'next/link'
+import { useState } from 'react'
 
 import type { EncontreiroSummaryData } from '@/app/api/encontreiro/get-encontreiros-summary'
 import { AlertDialogGenericContent } from '@/components/Dialog/AlertDialogGenericContent'
 import { EncontreiroMontagemStatus } from '@/components/Table/EncontreiroMontagemStatus'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getCirculoColor } from '@/utils/fetch-color'
-import Link from 'next/link'
-import { useState } from 'react'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroSummaryData
@@ -36,7 +35,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <TableRow className="bg-white">
-        <TableCell className="text-nowrap pl-4 font-medium">
+        <TableCell className="pl-4 font-medium text-nowrap">
           {encontreiro.numeroEncontro}
         </TableCell>
         <TableCell>{nomeCompleto}</TableCell>

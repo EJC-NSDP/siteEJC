@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { alocateEquipeMontagem, type changeEquipeProps } from './alocate-equipe'
 import { deleteEquipeMontagem } from './delete-equipe-montagem'
 

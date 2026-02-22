@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getBairrosRJ } from './get-bairros-rj'
 
 export async function GET() {

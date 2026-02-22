@@ -1,9 +1,10 @@
 'use server'
 
-import { authOptions } from '@/lib/auth/auth-options'
-import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 import { ReactNode } from 'react'
+
+import { authOptions } from '@/lib/auth/auth-options'
 
 interface AdminLayoutProps {
   children: ReactNode

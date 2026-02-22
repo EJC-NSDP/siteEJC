@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getTioExterna } from './get-tio-externa'
 
 interface TioExternaProps {

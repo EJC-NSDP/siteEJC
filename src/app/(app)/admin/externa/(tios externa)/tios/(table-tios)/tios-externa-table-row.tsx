@@ -1,7 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
+import { formatDate } from 'date-fns'
 import { MessageSquareMore, Pencil, Trash2 } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { TableCell, TableRow } from '@/components/ui/table'
+import Link from 'next/link'
+import { useState } from 'react'
 
 import type { valueStatus } from '@/@types/enums'
 import type { EncontristaSummaryData } from '@/app/api/encontrista/get-encontristas-summary'
@@ -10,7 +11,9 @@ import { EncontristaExterna } from '@/components/Table/EncontristaExterna'
 import { EncontristaStatus } from '@/components/Table/EncontristaStatus'
 import type { SelectItemAvatarProps } from '@/components/Table/SelectItemAvatar'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TableCell, TableRow } from '@/components/ui/table'
 import {
   Tooltip,
   TooltipContent,
@@ -18,10 +21,6 @@ import {
 } from '@/components/ui/tooltip'
 import { api } from '@/lib/axios'
 import { getAge } from '@/utils/get-age'
-import { useQuery } from '@tanstack/react-query'
-import { formatDate } from 'date-fns'
-import Link from 'next/link'
-import { useState } from 'react'
 
 export interface Encontrista {
   id_pessoa: string
@@ -69,7 +68,7 @@ export function TiosExternaTableRow({ encontrista }: EncontristaTableRowProps) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <TableRow className="bg-white">
-        <TableCell className="w-7 text-nowrap pl-4 font-medium lg:w-[73px]">
+        <TableCell className="w-7 pl-4 font-medium text-nowrap lg:w-[73px]">
           {dataInscricao}
         </TableCell>
         <TableCell>{nomeCompleto}</TableCell>

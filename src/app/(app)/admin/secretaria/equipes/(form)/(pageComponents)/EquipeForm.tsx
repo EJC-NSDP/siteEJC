@@ -1,5 +1,11 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import type { EquipeSecre } from '@/app/api/secretaria/equipe/get-equipes-secre'
 import type { UpdateEquipesSecreResponse } from '@/app/api/secretaria/equipe/route'
 import { TextInput } from '@/components/Form/TextInput'
@@ -7,11 +13,6 @@ import { Button } from '@/components/ui/button'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { api } from '@/lib/axios'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 interface EditEquipesProps {
   equipes: EquipeSecre[]
@@ -73,7 +74,7 @@ export function EquipesForm({ equipes }: EditEquipesProps) {
           {equipes.map((equipe, index) => {
             return (
               <div
-                className="flex w-full gap-10 rounded-xl border border-tertiary/20 p-4"
+                className="border-tertiary/20 flex w-full gap-10 rounded-xl border p-4"
                 key={index}
               >
                 <FormField

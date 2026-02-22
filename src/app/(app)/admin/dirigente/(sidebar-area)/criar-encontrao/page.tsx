@@ -1,5 +1,6 @@
-import type { EncontraoActions } from '@/app/api/encontro/atual/[ignorar]/get-encontrao-actions/get-encontrao-actions'
 import { CardsNovoEncontro } from './CardsNovoEncontro'
+
+import type { EncontraoActions } from '@/app/api/encontro/atual/[ignorar]/get-encontrao-actions/get-encontrao-actions'
 
 export default async function DirigentesCriarEncontro() {
   const actions: EncontraoActions = await fetch(
@@ -14,7 +15,7 @@ export default async function DirigentesCriarEncontro() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Criar Novo Encontrão
             </h1>
             <span className="text-base font-normal text-zinc-500">

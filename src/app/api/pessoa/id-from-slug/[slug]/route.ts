@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getIdFromSlug } from './get-id-from-slug'
 
 interface EncontristaProps {

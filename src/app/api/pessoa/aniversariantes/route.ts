@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getBirthdaysOfWeek } from './get-aniversariantes'
 
 export async function GET() {

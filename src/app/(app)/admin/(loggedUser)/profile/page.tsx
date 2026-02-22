@@ -1,5 +1,23 @@
 'use client'
 
+import {
+  Album,
+  BookUser,
+  CarFront,
+  ClipboardList,
+  Edit,
+  FolderOpen,
+  Users,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+
+import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
+import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
+import { EncontroCard } from './(sectionComponents)/EncontroCard'
+
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import AvatarGroup from '@/components/AvatarGroup'
 import { CardLoading } from '@/components/CardLoading'
@@ -10,22 +28,6 @@ import { cn } from '@/lib/utils'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
-import {
-  Album,
-  BookUser,
-  CarFront,
-  ClipboardList,
-  Edit,
-  FolderOpen,
-  Users,
-} from 'lucide-react'
-import { getSession } from 'next-auth/react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
-import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
-import { EncontroCard } from './(sectionComponents)/EncontroCard'
 
 export default function Profile() {
   const [profileData, setProfileData] = useState<ProfileData | undefined>(

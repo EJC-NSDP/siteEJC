@@ -1,7 +1,9 @@
-import { Card, CardContent } from '@/components/ui/card'
 import { useState } from 'react'
+
 import { SortableCirculo } from './(SortCirculos)/SortableCirculo'
 import { SortableCirculos } from './(SortCirculos)/SortableCirculos'
+
+import { Card, CardContent } from '@/components/ui/card'
 
 function createRange<T>(
   length: number,
@@ -20,7 +22,7 @@ export function OrderForm() {
   return (
     <Card className="w-full px-3 pt-8 text-zinc-700">
       <div className="px-4 pb-8">
-        <h3 className="text-2xl font-bold text-tertiary">Ordem dos círculos</h3>
+        <h3 className="text-tertiary text-2xl font-bold">Ordem dos círculos</h3>
         <span className="text-base font-normal text-zinc-500">
           Ordene os círculos deste encontro
         </span>

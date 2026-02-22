@@ -1,5 +1,5 @@
+import type { StatusEncontreiro } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import type { StatusEncontreiro } from '@prisma/client'
 
 export interface changeStatusMontagemRouteProps {
   id: string

@@ -1,6 +1,6 @@
+import { type Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
 import { dateToString } from '@/utils/string-to-date'
-import { type Prisma } from '@prisma/client'
 
 // Campos válidos para ordenação
 export const validOrderFields = ['nome', 'cor'] as const

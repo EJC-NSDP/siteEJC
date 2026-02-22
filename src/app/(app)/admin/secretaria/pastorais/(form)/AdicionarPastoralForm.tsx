@@ -1,5 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -10,13 +18,6 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { FormField } from '@/components/ui/form'
 import { api } from '@/lib/axios'
 import { getEncontreiros, getFuncoes } from '@/utils/fetch-domains'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 const pastoralScheme = z.object({
   idPessoa: z.string({ required_error: 'A pessoa é obrigatória.' }),

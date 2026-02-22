@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+
 import { getAllEncontristas } from './get-all-encontristas'
 
 export async function generateCSV(format?: 'csv' | 'xlsx') {

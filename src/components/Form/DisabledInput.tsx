@@ -1,6 +1,8 @@
-import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
+
 import { FormLabel } from '../ui/form'
+
+import { cn } from '@/lib/utils'
 
 export interface DisabledInputProps {
   label?: string

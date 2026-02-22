@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
 import { NavItem } from './NavItem'
 import { NavItemGroup } from './NavItemGroup'
 

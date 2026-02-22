@@ -1,9 +1,5 @@
 'use client'
 
-import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
-import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
-import { api } from '@/lib/axios'
-import { hasDraggableData } from '@/utils/draggable-data'
 import {
   DndContext,
   DragOverlay,
@@ -19,12 +15,18 @@ import {
 import { arrayMove } from '@dnd-kit/sortable'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+
 import {
   CardEncontristaCarro,
   type SortableEncontristaCarro,
 } from './CardEncontristasCarro'
 import { Carros } from './Carros'
 import { ListaConfirmadosSemCarro } from './ListaConfirmadosSemCarro'
+
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
+import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
+import { api } from '@/lib/axios'
+import { hasDraggableData } from '@/utils/draggable-data'
 
 export type CarroId = string
 
@@ -178,14 +180,14 @@ export default function AlocacaoCarros() {
       <div className="pb-4">
         <div className="flex items-center justify-between gap-8 pb-8">
           <div className="px-4">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Alocação de Carros
             </h1>
             <span className="text-base font-normal text-zinc-500">
               Montagem dos círculos e distribuição dos encontristas
             </span>
           </div>
-          <div className="flex flex-col items-center gap-2 lg:flex-row"></div>
+          <div className="flex flex-col items-center gap-2 lg:flex-row" />
         </div>
       </div>
 

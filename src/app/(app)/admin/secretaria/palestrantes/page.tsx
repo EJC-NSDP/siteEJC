@@ -1,5 +1,6 @@
-import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 import PalestraForm from './(pageComponents)/PalestraForm'
+
+import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 
 async function getCurrentPalestras() {
   const palestras = await fetch(
@@ -18,7 +19,7 @@ export default async function SecretariaPalestrantes() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div>
-            <h1 className="text-2xl font-bold text-tertiary">Palestrantes</h1>
+            <h1 className="text-tertiary text-2xl font-bold">Palestrantes</h1>
             <span className="text-base font-normal text-zinc-500">
               Lista de todos os palestrantes deste Encontrão.{' '}
               <strong>

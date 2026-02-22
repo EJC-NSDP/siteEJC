@@ -7,9 +7,9 @@ export default function GeneralLayout({
 }>) {
   return (
     // <div className="from-gradient-primary to-gradient-secondary h-auto bg-gradient-to-r">
-    <div className="z-50 h-screen w-auto bg-primary">
+    <div className="bg-primary z-50 h-screen w-auto">
       <Header />
-      <div className="z-40 h-auto bg-primary">{children}</div>
+      <div className="bg-primary z-40 h-auto">{children}</div>
     </div>
   )
 }

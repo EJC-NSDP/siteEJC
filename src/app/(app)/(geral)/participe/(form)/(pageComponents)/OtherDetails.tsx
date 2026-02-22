@@ -1,5 +1,16 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { useWizard } from 'react-use-wizard'
+import { z } from 'zod'
+
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
+
 import tamanhoCamisaReference from '@/assets/TamanhoCamisaReference.jpeg'
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
@@ -9,7 +20,6 @@ import {
   SelectItem,
 } from '@/components/Form/SelectInput/SelectItem'
 import { TextInput } from '@/components/Form/TextInput'
-
 import { Form, FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -18,15 +28,6 @@ import {
   OtherFormData,
 } from '@/context/CreateEncontristaContext'
 import { getTamanhoCamisa } from '@/utils/fetch-domains'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { useWizard } from 'react-use-wizard'
-import { z } from 'zod'
-import { CardParticipe } from '../(components)/CardParticipe'
-import { CardSection } from '../(components)/CardSection'
 
 const otherFormScheme = z.object({
   tamanhoCamisa: z

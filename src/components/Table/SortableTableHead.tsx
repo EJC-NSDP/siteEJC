@@ -1,11 +1,13 @@
-import { cn } from '@/lib/utils'
 import {
   ArrowDownNarrowWide,
   ArrowDownUp,
   ArrowUpWideNarrow,
 } from 'lucide-react'
 import type { ElementType } from 'react'
+
 import { TableHead } from '../ui/table'
+
+import { cn } from '@/lib/utils'
 
 export interface SortableTableHeadProps {
   label: string
@@ -42,7 +44,7 @@ export function SortableTableHead({
       <button id={value} onClick={() => handleFn(value)}>
         <div className="flex items-center justify-between gap-2">
           <span>{label}</span>
-          <Icon className="size-3 text-tertiary" />
+          <Icon className="text-tertiary size-3" />
         </div>
       </button>
     </TableHead>

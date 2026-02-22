@@ -1,6 +1,7 @@
-import { prisma } from '@/lib/prisma'
-import type { Value_Quadrante as valueQuadrante } from '@prisma/client'
 import type { UpdateQuadranteData } from './route'
+
+import type { Value_Quadrante as valueQuadrante } from '@/generated'
+import { prisma } from '@/lib/prisma'
 
 export async function updateImage({ value, imageUrl }: UpdateQuadranteData) {
   const valueTransformed = value as valueQuadrante

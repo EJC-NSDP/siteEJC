@@ -1,5 +1,8 @@
 'use client'
 
+import { ArrowLeft, Baby, Instagram } from 'lucide-react'
+import Link from 'next/link'
+
 import type { EncontreiroMontagemData } from '@/app/api/montagem/[slug]/get-encontreiro'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -16,8 +19,6 @@ import { cn } from '@/lib/utils'
 import { cleanValueEnum } from '@/utils/clean-value-enum'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { getInitials } from '@/utils/get-initials'
-import { ArrowLeft, Baby, Instagram } from 'lucide-react'
-import Link from 'next/link'
 
 interface CardEncontreiroProps {
   encontreiro: EncontreiroMontagemData
@@ -85,9 +86,9 @@ export function CardEncontreiro({
                 <Link href={`/admin/dirigente/montagem`}>
                   <Button
                     variant="outline"
-                    className="flex items-center gap-2 border-primary/80"
+                    className="border-primary/80 flex items-center gap-2"
                   >
-                    <ArrowLeft className="size-5 text-primary" />
+                    <ArrowLeft className="text-primary size-5" />
                     <span className="hidden text-base lg:flex">Voltar</span>
                   </Button>
                 </Link>
@@ -102,7 +103,7 @@ export function CardEncontreiro({
             <div className="flex w-full flex-col gap-8 lg:flex-row">
               <div className="flex flex-col gap-4 lg:w-2/3">
                 <div>
-                  <h4 className="mb-4 text-xl font-bold leading-none lg:text-2xl">
+                  <h4 className="mb-4 text-xl leading-none font-bold lg:text-2xl">
                     Informações gerais
                   </h4>
                   <h4 className="text-xs text-zinc-400">Bairro</h4>
@@ -134,7 +135,7 @@ export function CardEncontreiro({
                 </div>
               </div>
               <div className="lg:w-1/3">
-                <h4 className="mb-4 text-nowrap text-lg font-bold leading-none lg:text-xl">
+                <h4 className="mb-4 text-lg leading-none font-bold text-nowrap lg:text-xl">
                   Lista de preferência
                 </h4>
                 {encontreiro.preferencias.length > 0 ? (
@@ -156,7 +157,7 @@ export function CardEncontreiro({
 
         <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-[22rem] lg:w-1/2">
           <div className="w-full p-8">
-            <h4 className="mb-4 text-xl font-bold leading-none lg:text-2xl">
+            <h4 className="mb-4 text-xl leading-none font-bold lg:text-2xl">
               Últimas equipes
             </h4>
             {encontreiro.equipeEncontro.length > 0 ? (

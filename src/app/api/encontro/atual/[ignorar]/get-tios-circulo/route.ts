@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getTiosCirculo } from './get-tios-circulo'
 
 export async function GET() {

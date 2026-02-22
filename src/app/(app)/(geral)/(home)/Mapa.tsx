@@ -1,5 +1,8 @@
 'use client'
 
+import { BusFront, CarFront, Footprints } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+
 import carro from '@/assets/Carro.png'
 import onibus from '@/assets/Onibus.png'
 import ape from '@/assets/Pe.png'
@@ -11,8 +14,6 @@ import {
   CardCarouselTrigger,
   type CardInfo,
 } from '@/components/Carousel/CardCarouselTrigger'
-import { BusFront, CarFront, Footprints } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 
 const cardsTrigger: CardInfo[] = [
   {
@@ -88,7 +89,7 @@ export function Mapa() {
         <h2 className="text-xl font-extrabold lg:text-5xl">
           Bem facil de chegar!
         </h2>
-        <span className="text-sm text-tertiary lg:text-xl">
+        <span className="text-tertiary text-sm lg:text-xl">
           Rua Lopes Quintas, 274 - Jardim Botânico
         </span>
       </div>

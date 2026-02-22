@@ -1,6 +1,7 @@
+import { getCurrentEncontro } from '../../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+
 import type { CirculoFormData } from '@/@types/circulo'
 import { prisma } from '@/lib/prisma'
-import { getCurrentEncontro } from '../../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 
 export async function updateCirculo({
   id,

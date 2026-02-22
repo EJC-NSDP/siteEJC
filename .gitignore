@@ -41,3 +41,6 @@ next-env.d.ts
 
 #temporary routes for frist build
 /src/app/api/temp/
+
+# Prisma generated client
+/prisma/generated

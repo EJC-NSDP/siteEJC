@@ -1,5 +1,6 @@
-import { textEllipsis } from '@/utils/ellipsis-text'
 import { Armchair, CarFront } from 'lucide-react'
+
+import { textEllipsis } from '@/utils/ellipsis-text'
 
 export interface TioExternaProps {
   nome: string

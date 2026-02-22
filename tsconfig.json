@@ -16,6 +16,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "ES2017",
+    "types": [
+      "node"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -24,9 +28,14 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@/generated": [
+        "./prisma/generated/client"
+      ],
+      "@/enums": [
+        "./prisma/generated/enums"
       ]
-    },
-    "target": "ES2017"
+    }
   },
   "include": [
     "next-env.d.ts",

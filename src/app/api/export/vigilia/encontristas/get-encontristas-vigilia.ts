@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import type { PessoaVigilia } from '../encontreiros/get-encontreios-vigilia'
+
+import { prisma } from '@/lib/prisma'
 
 export interface EncontristaVigilia extends PessoaVigilia {
   círculo: string

@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['@prisma/adapter-pg', 'pg'],
   compiler: {
     styledComponents: true,
   },
@@ -12,5 +13,3 @@ const nextConfig: NextConfig = {
     remotePatterns: [new URL('https://res.cloudinary.com/**')],
   },
 }
-
-export default nextConfig

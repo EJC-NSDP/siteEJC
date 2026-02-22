@@ -1,13 +1,15 @@
 'use client'
 
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 import { Download, Megaphone, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+
 import { EncontreirosMontagemTable } from './(table-montagem)/encontreiros-montagem-table'
 import { AlertDialogAplicarContent } from './AlertDialogAplicarContent'
 import { CardsEquipesMontagem } from './CardsEquipesMontagem'
+
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 
 export default function Montagem() {
   const [open, setOpen] = useState(false)
@@ -18,7 +20,7 @@ export default function Montagem() {
         <div className="pb-4">
           <div className="flex items-center justify-between pb-8">
             <div className="">
-              <h1 className="text-2xl font-bold text-tertiary">Montagem</h1>
+              <h1 className="text-tertiary text-2xl font-bold">Montagem</h1>
               <span className="text-base font-normal text-zinc-500">
                 Lista de todos os encontreiros ativos para a próxima montagem
               </span>

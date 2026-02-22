@@ -1,9 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Download, Plus } from 'lucide-react'
 import Link from 'next/link'
+
 import { EncontreirosTable } from './(table-encontreiros)/encontreiros-table'
+
+import { Button } from '@/components/ui/button'
 
 export default function Dirigente() {
   return (
@@ -11,7 +13,7 @@ export default function Dirigente() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">Encontreiros</h1>
+            <h1 className="text-tertiary text-2xl font-bold">Encontreiros</h1>
             <span className="text-base font-normal text-zinc-500">
               Lista de todos os encontreiros
             </span>
@@ -20,7 +22,7 @@ export default function Dirigente() {
             <Link href="/api/export/convidados-especiais">
               <Button variant="secondary">
                 <div className="flex items-center justify-center gap-2 lg:w-auto">
-                  <Download className="h-4 w-4 text-tertiary" />
+                  <Download className="text-tertiary h-4 w-4" />
                   <span className="hidden lg:flex">
                     Baixar Convidados Especiais
                   </span>

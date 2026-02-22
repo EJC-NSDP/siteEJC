@@ -1,14 +1,5 @@
 'use client'
 
-import type {
-  CirculoEncontro,
-  CirculosResponse,
-} from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
-import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { api } from '@/lib/axios'
-import { hasDraggableData } from '@/utils/draggable-data'
 import {
   DndContext,
   DragOverlay,
@@ -26,10 +17,21 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Download, Puzzle } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+
 import { AutoSortButton } from './AutoSortButton'
 import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
 import { Circulos } from './Circulos'
 import { ListaConfirmadosSemCirculo } from './ListaConfirmados'
+
+import type {
+  CirculoEncontro,
+  CirculosResponse,
+} from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
+import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { api } from '@/lib/axios'
+import { hasDraggableData } from '@/utils/draggable-data'
 
 function ordenarCirculos(baseOrder: string, circulos: CirculoEncontro[]) {
   // Converter a string de baseOrder em um array de números
@@ -266,14 +268,14 @@ export default function MontagemCirculos() {
       <div className="pb-4">
         <div className="flex items-center justify-between gap-8 pb-8">
           <div className="px-4">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Montagem de Círculos
             </h1>
             <span className="text-base font-normal text-zinc-500">
               Montagem dos círculos e distribuição dos encontristas
             </span>
           </div>
-          <div className="flex flex-col items-center gap-2 lg:flex-row"></div>
+          <div className="flex flex-col items-center gap-2 lg:flex-row" />
         </div>
       </div>
 

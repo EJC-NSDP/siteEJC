@@ -1,7 +1,7 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import type { Role } from '@/enums'
 import { prisma } from '@/lib/prisma'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
-import type { Role } from '@prisma/client'
 
 export interface encontreiroEmEquipe {
   nome: string

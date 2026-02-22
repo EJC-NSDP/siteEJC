@@ -1,5 +1,10 @@
 'use client'
 
+import { BarChart4, Plus } from 'lucide-react'
+import Link from 'next/link'
+
+import { CarrosTable } from './(table-carros)/carros-table'
+
 import {
   Accordion,
   AccordionContent,
@@ -7,9 +12,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { BarChart4, Plus } from 'lucide-react'
-import Link from 'next/link'
-import { CarrosTable } from './(table-carros)/carros-table'
 
 export default function ListaCarros() {
   return (
@@ -17,7 +19,7 @@ export default function ListaCarros() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Lista de Carros
             </h1>
             <span className="text-base font-normal text-zinc-500">

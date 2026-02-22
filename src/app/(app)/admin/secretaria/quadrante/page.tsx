@@ -1,7 +1,9 @@
+import Link from 'next/link'
+
+import { QuadranteForm } from './QuadranteForm'
+
 import { Button } from '@/components/ui/button'
 import { fetchConfigData } from '@/lib/quadrante/fetchAllData'
-import Link from 'next/link'
-import { QuadranteForm } from './QuadranteForm'
 
 export default async function Quadrante() {
   const config = await fetchConfigData()
@@ -10,8 +12,8 @@ export default async function Quadrante() {
       <div className="pb-4">
         <div className="flex items-center justify-between gap-12 pb-8">
           <div>
-            <h1 className="text-2xl font-bold text-tertiary">Quadrante</h1>
-            <span className="text-balance text-base font-normal text-zinc-500">
+            <h1 className="text-tertiary text-2xl font-bold">Quadrante</h1>
+            <span className="text-base font-normal text-balance text-zinc-500">
               Adicione as capas, cartas e cartazes deste Encontrão.
             </span>
           </div>

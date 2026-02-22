@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import type { UpdateQuadranteData } from './route'
+
+import { prisma } from '@/lib/prisma'
 
 export async function updateConfigQuadrante(configs: UpdateQuadranteData[]) {
   return Promise.all(

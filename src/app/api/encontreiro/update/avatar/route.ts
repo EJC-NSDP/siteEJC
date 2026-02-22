@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { updateAvatar } from './update-avatar'
 
 export interface UpdateAvatarFormData {

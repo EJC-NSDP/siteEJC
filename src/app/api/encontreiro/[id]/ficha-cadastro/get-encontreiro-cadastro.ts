@@ -1,7 +1,7 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { getLastEncontro } from '@/app/api/encontro/atual/[ignorar]/get-last-encontro/get-last-encontro'
+import type { Value_Disponibilidade as valueDisponibilidade } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import type { Value_Disponibilidade as valueDisponibilidade } from '@prisma/client'
 
 export type ListaPreferencias = {
   posicao: number

@@ -1,3 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { compareDesc } from 'date-fns'
+import type { SetStateAction } from 'react'
+
+import type { SortableEncontrista } from './CardEncontristas'
+
 import type { CirculoEncontro } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import {
   AlertDialogAction,
@@ -8,10 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { useQueryClient } from '@tanstack/react-query'
-import { compareDesc } from 'date-fns'
-import type { SetStateAction } from 'react'
-import type { SortableEncontrista } from './CardEncontristas'
 
 function compareDate(a: SortableEncontrista, b: SortableEncontrista) {
   return compareDesc(a.content.dataNasc, b.content.dataNasc)

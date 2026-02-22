@@ -1,10 +1,11 @@
+import { useFormContext } from 'react-hook-form'
+import { useHookFormMask } from 'use-mask-input'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { CardFormSection } from '@/components/Form/CardFormSection'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from 'react-hook-form'
-import { useHookFormMask } from 'use-mask-input'
 
 export function NominationCard() {
   const form = useFormContext()

@@ -1,8 +1,9 @@
 'use client'
 
-import { usePageContext } from '@/context/PageContext'
 import Image from 'next/image'
 import { useEffect } from 'react'
+
+import { usePageContext } from '@/context/PageContext'
 
 interface QuadranteCoverPageProps {
   imageUrl: string
@@ -18,7 +19,7 @@ export function QuadranteCoverPage({ imageUrl, alt }: QuadranteCoverPageProps) {
   }, [getNextPageNumber])
 
   return (
-    <div className="relative flex h-a4 w-a4 flex-wrap items-start justify-center bg-white px-2 py-4 print:mx-auto">
+    <div className="h-a4 w-a4 relative flex flex-wrap items-start justify-center bg-white px-2 py-4 print:mx-auto">
       {imageUrl ? (
         <Image
           src={imageUrl}

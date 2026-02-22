@@ -1,6 +1,7 @@
-import { fetchQuadranteData } from '@/lib/quadrante/fetchAllData'
 import { QuadranteCompacto } from './QuadranteCompacto'
 import { QuadranteCompleto } from './QuadranteCompleto'
+
+import { fetchQuadranteData } from '@/lib/quadrante/fetchAllData'
 
 export default async function QuadrantePage(props: {
   params: Promise<{ modo: string }>

@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 import { Button } from '../ui/button'
 import { TableCell, TableRow } from '../ui/table'
 
@@ -88,8 +89,8 @@ export function Pagination({
             className="flex gap-1 disabled:opacity-50"
             disabled={pageIndex === 1}
           >
-            <ChevronLeft className="h-4 w-4 text-tertiary" />
-            <span className="font-medium text-tertiary">Anterior</span>
+            <ChevronLeft className="text-tertiary h-4 w-4" />
+            <span className="text-tertiary font-medium">Anterior</span>
           </Button>
 
           {pageNumbers.map((item, index) =>
@@ -112,7 +113,7 @@ export function Pagination({
                   className={`flex h-6 w-6 items-center justify-center rounded-full ${
                     pageIndex === item
                       ? 'bg-primary text-zinc-50'
-                      : 'bg-violet-200 text-tertiary hover:bg-violet-100'
+                      : 'text-tertiary bg-violet-200 hover:bg-violet-100'
                   }`}
                 >
                   <span>{item}</span>
@@ -127,8 +128,8 @@ export function Pagination({
             className="flex gap-1 disabled:opacity-50"
             disabled={totalPages < pageIndex + 1}
           >
-            <span className="font-medium text-tertiary">Próximo</span>
-            <ChevronRight className="h-4 w-4 text-tertiary" />
+            <span className="text-tertiary font-medium">Próximo</span>
+            <ChevronRight className="text-tertiary h-4 w-4" />
           </Button>
         </div>
       </TableCell>

@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import { getCurrentEncontro } from '../atual/[ignorar]/get-current-encontro/get-current-encontro'
+
+import { prisma } from '@/lib/prisma'
 
 export async function limparMontagem() {
   const currentEncontro = await getCurrentEncontro()

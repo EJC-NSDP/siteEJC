@@ -1,9 +1,10 @@
+import { createEndereco } from '../endereco/create-endereco'
+
 import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { prisma } from '@/lib/prisma'
 import { clearInstagram } from '@/utils/clear-instagram'
 import { createSlugForEncontrista } from '@/utils/create-slug'
 import { stringToDate } from '@/utils/string-to-date'
-import { createEndereco } from '../endereco/create-endereco'
 
 export async function createEncontreiro({
   pessoa,

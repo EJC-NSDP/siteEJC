@@ -1,9 +1,11 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { CircleChevronLeft, CircleChevronRight } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+
 import { Button } from '../ui/button'
+
+import { cn } from '@/lib/utils'
 
 interface TestimonialsSliderProps {
   content: React.ReactNode[]
@@ -44,7 +46,7 @@ export function TestimonialsSlider({
 
   return (
     <section>
-      <div className="relative flex w-80 max-w-carousel overflow-hidden pt-8 text-center lg:w-full lg:pt-16">
+      <div className="max-w-carousel relative flex w-80 overflow-hidden pt-8 text-center lg:w-full lg:pt-16">
         {content.map((testimonial, indexTestimonial) => {
           //   Outbound Slide
           let positionCSS = 'opacity-50 order-last scale-75 hidden lg:flex'
@@ -75,17 +77,17 @@ export function TestimonialsSlider({
         })}
         <Button
           variant="ghost"
-          className="absolute left-0 top-11/20 z-30 cursor-pointer rounded-full lg:left-1/3"
+          className="absolute top-11/20 left-0 z-30 cursor-pointer rounded-full lg:left-1/3"
           onClick={prevFunc}
         >
-          <CircleChevronLeft className="h-12 w-12 text-secondary" />
+          <CircleChevronLeft className="text-secondary h-12 w-12" />
         </Button>
         <Button
           variant="ghost"
-          className="absolute right-0 top-11/20 z-30 cursor-pointer rounded-full lg:right-1/3"
+          className="absolute top-11/20 right-0 z-30 cursor-pointer rounded-full lg:right-1/3"
           onClick={nextFunc}
         >
-          <CircleChevronRight className="h-12 w-12 text-secondary" />
+          <CircleChevronRight className="text-secondary h-12 w-12" />
         </Button>
       </div>
     </section>

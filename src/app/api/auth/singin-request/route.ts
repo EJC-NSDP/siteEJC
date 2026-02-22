@@ -1,7 +1,8 @@
-import { prisma } from '@/lib/prisma'
 import { compare } from 'bcryptjs'
-import { User } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
+import { User } from 'next-auth'
+
+import { prisma } from '@/lib/prisma'
 
 interface LoginProps {
   email: string

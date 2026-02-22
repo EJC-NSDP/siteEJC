@@ -1,8 +1,9 @@
+import { Calendar, Crown } from 'lucide-react'
+
 import type { TioCirculoType } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import { Separator } from '@/components/ui/separator'
 import { textEllipsis } from '@/utils/ellipsis-text'
 import { getAge } from '@/utils/get-age'
-import { Calendar, Crown } from 'lucide-react'
 
 export interface TioCirculoProps {
   data: TioCirculoType

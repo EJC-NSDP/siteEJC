@@ -1,6 +1,6 @@
 import type { valueStatus } from '@/@types/enums'
+import { type Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
-import { type Prisma } from '@prisma/client'
 
 // Campos válidos para ordenação
 export const validOrderFields = [

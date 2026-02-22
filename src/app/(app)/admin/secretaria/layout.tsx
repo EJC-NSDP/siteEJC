@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+
 import { SecretariaSidebar } from '@/components/SecretariaSidebar'
 import { authOptions } from '@/lib/auth/auth-options'
-import type { Metadata } from 'next'
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Quadrante | EJC NSDP',
@@ -31,7 +32,7 @@ export default async function SecretariaLayout({
       <div className="bg-blue-600 lg:col-span-2">
         <SecretariaSidebar />
       </div>
-      <main className="bg-zinc-100 pb-8 pl-4 pr-8 pt-12 lg:col-span-full lg:col-start-3">
+      <main className="bg-zinc-100 pt-12 pr-8 pb-8 pl-4 lg:col-span-full lg:col-start-3">
         {children}
       </main>
     </div>

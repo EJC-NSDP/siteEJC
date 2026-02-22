@@ -1,3 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import { useFormContext } from 'react-hook-form'
+import { useHookFormMask } from 'use-mask-input'
+
 import tamanhoCamisaReference from '@/assets/TamanhoCamisaReference.jpeg'
 import { CardForm } from '@/components/Form/CardForm'
 import { DisabledInput } from '@/components/Form/DisabledInput'
@@ -11,10 +16,6 @@ import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { getTamanhoCamisa } from '@/utils/fetch-domains'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import { useFormContext } from 'react-hook-form'
-import { useHookFormMask } from 'use-mask-input'
 
 export function PersonalCard() {
   const { data: tamanhoCamisa } = useQuery<SelectArray[]>({

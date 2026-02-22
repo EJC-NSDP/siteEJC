@@ -6,7 +6,7 @@ export default function ConfiguracoesEncontro() {
       <div className="pb-4">
         <div className="flex items-center justify-between gap-8 pb-8">
           <div className="px-4">
-            <h1 className="text-2xl font-bold text-tertiary">
+            <h1 className="text-tertiary text-2xl font-bold">
               Configurações do Encontrão
             </h1>
             <span className="text-base font-normal text-zinc-500">

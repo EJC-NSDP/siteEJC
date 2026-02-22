@@ -1,12 +1,14 @@
 'use client'
 
-import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
-import { api } from '@/lib/axios'
-import { getSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
+import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+
 import { InitialCard } from './(pageComponents)/InitialCard'
 import { FichaCadastroForm } from './FichaCadastroForm'
+
+import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
+import { api } from '@/lib/axios'
 
 async function getEncontreiro(id: string) {
   const res = await api.get(`encontreiro/${id}/ficha-cadastro`)
@@ -49,7 +51,7 @@ export default function FichaCadastro() {
     <div className="flex flex-col items-center justify-center gap-4 py-4">
       <span className="text-4xl font-bold text-white">Ficha de Cadastro</span>
       {!next ? (
-        <div className="w-11/12 px-0 lg:w-card lg:px-8">
+        <div className="lg:w-card w-11/12 px-0 lg:px-8">
           <InitialCard loaded={!!encontreiroData} updateNext={setNext} />
         </div>
       ) : (

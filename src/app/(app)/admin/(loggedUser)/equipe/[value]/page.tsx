@@ -1,12 +1,14 @@
+import { Download, FolderOpen } from 'lucide-react'
+import Link from 'next/link'
+
+import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
+
 import type { EquipeThisEncontro } from '@/app/api/encontro/atual/[ignorar]/equipe/[value]/get-equipe'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { getEquipeColor } from '@/utils/fetch-color'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
-import { Download, FolderOpen } from 'lucide-react'
-import Link from 'next/link'
-import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
 
 async function getEncontreirosEquipe(equipeValue: string) {
   const response = await fetch(
@@ -45,9 +47,9 @@ export default async function EquipeValue(props: {
               <Link href="/api/export/cozinha">
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2 text-tertiary"
+                  className="text-tertiary flex items-center gap-2"
                 >
-                  <Download className="size-4 text-tertiary" />
+                  <Download className="text-tertiary size-4" />
                   <span className="text-sm font-medium">
                     Baixar Restrições Alimentares
                   </span>
@@ -58,9 +60,9 @@ export default async function EquipeValue(props: {
               <Link href="/api/export/vigilia/encontreiros">
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2 text-tertiary"
+                  className="text-tertiary flex items-center gap-2"
                 >
-                  <Download className="size-4 text-tertiary" />
+                  <Download className="text-tertiary size-4" />
                   <span className="text-sm font-medium">
                     Baixar Lista de Encontreiros
                   </span>
@@ -71,9 +73,9 @@ export default async function EquipeValue(props: {
               <Link href="/api/export/vigilia/encontristas">
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2 text-tertiary"
+                  className="text-tertiary flex items-center gap-2"
                 >
-                  <Download className="size-4 text-tertiary" />
+                  <Download className="text-tertiary size-4" />
                   <span className="text-sm font-medium">
                     Baixar Lista de Encontristas
                   </span>
@@ -84,9 +86,9 @@ export default async function EquipeValue(props: {
               <Link href="/api/export/dirigente/encontreiros">
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2 text-tertiary"
+                  className="text-tertiary flex items-center gap-2"
                 >
-                  <Download className="size-4 text-tertiary" />
+                  <Download className="text-tertiary size-4" />
                   <span className="text-sm font-medium">
                     Baixar Lista de Encontreiros
                   </span>
@@ -97,7 +99,7 @@ export default async function EquipeValue(props: {
               <Link href={equipe.pastaUrl}>
                 <Button
                   variant="default"
-                  className="flex items-center gap-2 text-tertiary"
+                  className="text-tertiary flex items-center gap-2"
                 >
                   <FolderOpen className="size-4" />
                   <span className="text-sm font-medium">Pasta Virtual</span>

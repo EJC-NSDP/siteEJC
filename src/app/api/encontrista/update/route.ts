@@ -1,6 +1,8 @@
-import type { EditFormDataInput } from '@/app/(app)/admin/externa/[slug]/edit/EditEncontristaForm'
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { updateEncontrista } from './update-encontrista'
+
+import type { EditFormDataInput } from '@/app/(app)/admin/externa/[slug]/edit/EditEncontristaForm'
 
 export async function PUT(request: NextRequest) {
   const formData: EditFormDataInput = await request.json()

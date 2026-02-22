@@ -1,10 +1,11 @@
+import { ElementType } from 'react'
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { ElementType } from 'react'
 
 export interface NavItemGroupProps {
   title: string
@@ -20,7 +21,7 @@ export function NavItemGroup({
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="tios-externa" className="border-none">
-        <AccordionTrigger className="group flex h-full w-full items-center gap-4 rounded-xl px-6 py-4 text-zinc-50 hover:bg-primary/20">
+        <AccordionTrigger className="group hover:bg-primary/20 flex h-full w-full items-center gap-4 rounded-xl px-6 py-4 text-zinc-50">
           <div className="flex items-center gap-4">
             <Icon className="h-6 w-6 text-zinc-50" />
             <span className="text-sm font-medium text-zinc-50">{title}</span>

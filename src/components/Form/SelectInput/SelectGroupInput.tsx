@@ -1,11 +1,6 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
 import { CircleHelp } from 'lucide-react'
 import { useEffect, useState } from 'react'
+
 import {
   FormControl,
   FormDescription,
@@ -19,6 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../ui/select'
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type SelectGroupInputProps = React.ComponentPropsWithoutRef<
   typeof FormItem

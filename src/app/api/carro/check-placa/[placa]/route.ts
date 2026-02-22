@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { checkPlacaExists } from './check-placa-exists'
 
 interface CheckPlacaProps {

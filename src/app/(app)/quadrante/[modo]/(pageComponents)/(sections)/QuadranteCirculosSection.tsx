@@ -1,6 +1,7 @@
-import type { CartazQuadrante, CirculoQuadrante } from '@/@types/quadrante'
 import { QuadranteCirculoPage } from '../(pages)/QuadranteCirculoPage'
 import { QuadranteCoverPage } from '../(pages)/QuadranteCoverPage'
+
+import type { CartazQuadrante, CirculoQuadrante } from '@/@types/quadrante'
 
 export interface QuadranteCirculosSectionProps {
   circulos: CirculoQuadrante[]

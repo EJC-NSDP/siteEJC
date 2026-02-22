@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { limparCartas } from './limpar-cartas'
 
 export async function PATCH() {

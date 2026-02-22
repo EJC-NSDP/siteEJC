@@ -1,8 +1,9 @@
+import { useFormContext } from 'react-hook-form'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { DisabledInput } from '@/components/Form/DisabledInput'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
-import { useFormContext } from 'react-hook-form'
 
 export function EncontroCard() {
   const form = useFormContext()

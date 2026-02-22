@@ -1,5 +1,3 @@
-import type { QuadranteData } from '@/@types/quadrante'
-import { PageProvider } from '@/context/PageContext'
 import { QuadranteCoverPage } from './(pageComponents)/(pages)/QuadranteCoverPage'
 import { QuadranteEquipePage } from './(pageComponents)/(pages)/QuadranteEquipePage'
 import { QuadranteOnePage } from './(pageComponents)/(pages)/QuadranteOnePage'
@@ -8,6 +6,9 @@ import { QuadranteCirculosSection } from './(pageComponents)/(sections)/Quadrant
 import { QuadranteEquipesSection } from './(pageComponents)/(sections)/QuadranteEquipesSection'
 import { QuadrantePastoraisSection } from './(pageComponents)/(sections)/QuadrantePastoraisSection'
 import { QuadranteTiosExternaSection } from './(pageComponents)/(sections)/QuadranteTiosExternaSection'
+
+import type { QuadranteData } from '@/@types/quadrante'
+import { PageProvider } from '@/context/PageContext'
 
 interface QuadranteCompletoProps {
   data: QuadranteData

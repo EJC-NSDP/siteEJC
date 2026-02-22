@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getZona } from './get-zona'
 
 interface BairroProps {

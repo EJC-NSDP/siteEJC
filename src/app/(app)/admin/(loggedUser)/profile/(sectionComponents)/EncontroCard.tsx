@@ -1,12 +1,13 @@
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { api } from '@/lib/axios'
-import { getMonthBR } from '@/utils/get-month-locale'
-import type { Encontro, Local } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+
+import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import type { Encontro, Local } from '@/generated'
+import { api } from '@/lib/axios'
+import { getMonthBR } from '@/utils/get-month-locale'
 
 async function getCurrentEncontro() {
   const equipe = await api

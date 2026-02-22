@@ -1,3 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
+import { Crown } from 'lucide-react'
+
 import type { EquipeMontagemAggregated } from '@/app/api/domains/equipes/montagem/aggregated/[value]/get-equipe'
 import {
   Accordion,
@@ -14,8 +17,6 @@ import {
   getEquipeColor,
   getTextEquipeColor,
 } from '@/utils/fetch-color'
-import { useQuery } from '@tanstack/react-query'
-import { Crown } from 'lucide-react'
 
 export interface CardEquipeMontagemProps {
   value: string

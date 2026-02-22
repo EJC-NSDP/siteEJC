@@ -1,14 +1,14 @@
+import { CircleHelp } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { CircleHelp } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
-export interface CardQuadranteProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardQuadranteProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   children: React.ReactNode
   cartaz?: boolean
@@ -37,7 +37,7 @@ export function CardQuadrante({
 
   return (
     <Tooltip open={open} onOpenChange={setOpen} delayDuration={0}>
-      <Card className="col-span-2 space-y-4 p-4 text-tertiary lg:col-span-1">
+      <Card className="text-tertiary col-span-2 space-y-4 p-4 lg:col-span-1">
         <CardTitle>
           <div className="flex items-start gap-2">
             <span className="text-tertiary">{title}</span>
@@ -53,7 +53,7 @@ export function CardQuadrante({
         </CardTitle>
         <CardContent {...props}>{children}</CardContent>
       </Card>
-      <TooltipContent className="w-40 text-balance text-center lg:w-48">
+      <TooltipContent className="w-40 text-center text-balance lg:w-48">
         {tip}
       </TooltipContent>
     </Tooltip>

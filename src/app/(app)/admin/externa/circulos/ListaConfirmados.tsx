@@ -1,9 +1,11 @@
-import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
-import { Card } from '@/components/ui/card'
 import { useDroppable } from '@dnd-kit/core'
 import { useUniqueId } from '@dnd-kit/utilities'
 import { compareDesc } from 'date-fns'
+
 import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
+
+import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
+import { Card } from '@/components/ui/card'
 
 interface ListaConfirmadosSemCirculoProps {
   encontristas: SortableEncontrista[]

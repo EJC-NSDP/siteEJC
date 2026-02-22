@@ -1,6 +1,7 @@
+import { CardQuadrante } from './CardQuadrante'
+
 import type { CapasQuadrante } from '@/@types/quadrante'
 import { ImageUpload } from '@/components/Form/ImageUpload'
-import { CardQuadrante } from './CardQuadrante'
 
 interface CapasProps {
   capas: CapasQuadrante

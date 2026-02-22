@@ -1,5 +1,6 @@
-import { Card } from '@/components/ui/card'
 import Image, { type StaticImageData } from 'next/image'
+
+import { Card } from '@/components/ui/card'
 
 export interface CardEventoContentProps {
   title: string
@@ -28,7 +29,7 @@ export function CardCarouselContent({
             alt="Imagem card"
           />
           {aditionalInfo && (
-            <div className="flex flex-col gap-2 text-tertiary lg:gap-9">
+            <div className="text-tertiary flex flex-col gap-2 lg:gap-9">
               <h2 className="text-sm font-bold lg:text-2xl">
                 {aditionalInfo.title}
               </h2>

@@ -1,7 +1,9 @@
-import igreja from '@/assets/Igreja.png'
 import { Calendar, Clock, MapPin } from 'lucide-react'
 import Image from 'next/image'
+
 import { InfoMissa } from './(pageComponents)/InfoMissa'
+
+import igreja from '@/assets/Igreja.png'
 
 export function Missa() {
   return (

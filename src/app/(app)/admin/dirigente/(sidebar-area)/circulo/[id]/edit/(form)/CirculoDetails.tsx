@@ -1,5 +1,8 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { useFormContext } from 'react-hook-form'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { DisabledInput } from '@/components/Form/DisabledInput'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -13,8 +16,6 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { getTiosCirculoFromEncontro } from '@/utils/fetch-encontros'
-import { useQuery } from '@tanstack/react-query'
-import { useFormContext } from 'react-hook-form'
 
 export function CirculoDetails() {
   const form = useFormContext()

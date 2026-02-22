@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { divulgarMontagem } from './divulgarMontagem'
 
 export async function PUT() {

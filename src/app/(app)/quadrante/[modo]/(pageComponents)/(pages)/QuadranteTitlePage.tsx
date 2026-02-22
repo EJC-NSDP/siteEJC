@@ -1,14 +1,14 @@
-import { cn } from '@/lib/utils'
 import { Anton } from 'next/font/google'
 import type { HTMLAttributes, ReactNode } from 'react'
+
+import { cn } from '@/lib/utils'
 
 const anton = Anton({
   weight: ['400'],
   subsets: ['latin'],
 })
 
-export interface QuadrantePeoplePageProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface QuadrantePeoplePageProps extends HTMLAttributes<HTMLDivElement> {
   title: string
   titleColor?: string
   description?: string
@@ -39,7 +39,7 @@ export function QuadranteTitlePage({
           {title.toUpperCase()}
         </h1>
         {description && (
-          <h2 className="w-4/5 text-pretty text-2xl italic text-zinc-800">
+          <h2 className="w-4/5 text-2xl text-pretty text-zinc-800 italic">
             {description}
           </h2>
         )}

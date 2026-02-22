@@ -1,6 +1,14 @@
 'use client'
 
-import { TableCell, TableRow } from '@/components/ui/table'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  MailCheck,
+  MailWarning,
+  MailX,
+  MinusCircle,
+  PlusCircle,
+} from 'lucide-react'
+import type { ElementType } from 'react'
 
 import type {
   CartaSummary,
@@ -14,18 +22,10 @@ import { EditCartasStatus } from '@/components/Table/Cartas/EditCartasStatus'
 import { EncontristaCartaStatus } from '@/components/Table/Cartas/EncontristaCartaStatus'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getCirculoColor } from '@/utils/fetch-color'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  MailCheck,
-  MailWarning,
-  MailX,
-  MinusCircle,
-  PlusCircle,
-} from 'lucide-react'
-import type { ElementType } from 'react'
 
 interface EncontristaCartasTableRowProps {
   encontristaCartas: CartaSummaryData
@@ -157,7 +157,7 @@ export function EncontristaCartasTableRow({
             variant="ghost"
             className="p-0"
           >
-            <MinusCircle className="h-4 w-4 text-tertiary" />
+            <MinusCircle className="text-tertiary h-4 w-4" />
           </Button>
           <span className="text-tertiary">
             {encontristaCartas.cartasFisicas}
@@ -169,7 +169,7 @@ export function EncontristaCartasTableRow({
             variant="ghost"
             className="p-0"
           >
-            <PlusCircle className="h-4 w-4 text-tertiary" />
+            <PlusCircle className="text-tertiary h-4 w-4" />
           </Button>
         </div>
       </TableCell>

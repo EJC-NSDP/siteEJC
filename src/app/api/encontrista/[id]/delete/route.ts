@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { deleteEncontrista } from './delete-encontrista'
 import { softDeleteEncontrista } from './soft-delete-encontrista'
 

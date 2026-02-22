@@ -1,12 +1,11 @@
 import { Pencil } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { TableCell, TableRow } from '@/components/ui/table'
+import Link from 'next/link'
 
 import type { CirculoSummaryData } from '@/app/api/circulo/get-circulos-summary'
+import { Button } from '@/components/ui/button'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { getCirculoColor } from '@/utils/fetch-color'
-import Link from 'next/link'
 
 interface EncontreiroTableRowProps {
   circulo: CirculoSummaryData
@@ -17,7 +16,7 @@ export function CirculosTableRow({ circulo }: EncontreiroTableRowProps) {
 
   return (
     <TableRow className="bg-white">
-      <TableCell className="text-nowrap pl-4 font-medium">
+      <TableCell className="pl-4 font-medium text-nowrap">
         {circulo.numeroEncontro}
       </TableCell>
       <TableCell>

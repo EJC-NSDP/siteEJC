@@ -84,11 +84,10 @@ export interface CapasQuadrante {
   qrcode: string
 }
 
-
 export interface CartasQuadrante {
   papa: string
-    padre: string
-    diris: string
+  padre: string
+  diris: string
 }
 
 export interface CartazQuadrante {
@@ -101,7 +100,6 @@ export interface ConfigQuadrante {
   cartas: CartasQuadrante
   cartazes: CartazQuadrante[]
 }
-
 
 export interface QuadranteData {
   config: ConfigQuadrante

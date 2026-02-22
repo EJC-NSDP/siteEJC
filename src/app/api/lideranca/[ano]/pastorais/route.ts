@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getPastorais } from './get-pastorais'
 
 interface LiderancaProps {

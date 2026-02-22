@@ -1,8 +1,10 @@
-import type { valueStatus } from '@/@types/enums'
-import { cn } from '@/lib/utils'
-import type { StatusEncontreiro } from '@prisma/client'
 import type { ElementType } from 'react'
+
 import { SelectItem } from '../ui/select'
+
+import type { valueStatus } from '@/@types/enums'
+import type { StatusEncontreiro } from '@/generated'
+import { cn } from '@/lib/utils'
 
 export interface SelectItemIconProps {
   value: valueStatus | StatusEncontreiro
@@ -21,7 +23,7 @@ export function SelectItemIcon({
     <SelectItem value={value} className="hover:bg-violet-100">
       <div className="flex w-full items-center gap-2 pr-2">
         <Icon className={cn('h-4 w-4', color)} />
-        <span className="text-nowrap text-tertiary">{label}</span>
+        <span className="text-tertiary text-nowrap">{label}</span>
       </div>
     </SelectItem>
   )

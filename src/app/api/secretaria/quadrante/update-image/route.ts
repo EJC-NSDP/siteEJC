@@ -1,6 +1,8 @@
-import type { Value_Quadrante as valueQuadrante } from '@prisma/client'
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { updateImage } from './update-image'
+
+import type { Value_Quadrante as valueQuadrante } from '@/generated'
 
 export interface UpdateQuadranteData {
   value: valueQuadrante

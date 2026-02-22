@@ -1,6 +1,7 @@
-import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { SelectItem } from '../ui/select'
+
+import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
 
 export type SelectItemAvatarProps = MembroExterna
 
@@ -19,7 +20,7 @@ export function SelectItemAvatar({
             {avatarFallback}
           </AvatarFallback>
         </Avatar>
-        <span className="text-nowrap text-tertiary">{name}</span>
+        <span className="text-tertiary text-nowrap">{name}</span>
       </div>
     </SelectItem>
   )

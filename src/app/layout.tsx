@@ -1,11 +1,12 @@
+import type { Metadata } from 'next'
+import { Nunito } from 'next/font/google'
+
 import { ThemeProvider } from '@/components/theme/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import ReactQueryProvider from '@/lib/providers/ReactQueryProvider'
 import NextAuthSessionProvider from '@/lib/providers/SessionProvider'
 
-import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
 import './globals.css'
 
 const nunito = Nunito({ subsets: ['latin'] })
@@ -27,7 +28,6 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    // eslint-disable-next-line prettier/prettier
     <html lang="pt-br" className="antialiased" suppressHydrationWarning>
       <body className={nunito.className}>
         <NextAuthSessionProvider>

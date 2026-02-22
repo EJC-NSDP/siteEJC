@@ -1,9 +1,10 @@
+import { hash } from 'bcryptjs'
+
 import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
 import { prisma } from '@/lib/prisma'
 import { clearInstagram } from '@/utils/clear-instagram'
-import { hash } from 'bcryptjs'
 
 export async function updateCadastro(data: EditCadastroFormDataInput) {
   const foundUser = await prisma.pessoa.findUnique({

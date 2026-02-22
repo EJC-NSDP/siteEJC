@@ -1,7 +1,8 @@
-import type { QuadranteData } from '@/@types/quadrante'
-import { PageProvider } from '@/context/PageContext'
 import { QuadranteCoverPage } from './(pageComponents)/(pages)/QuadranteCoverPage'
 import { QuadranteCirculosSection } from './(pageComponents)/(sections)/QuadranteCirculosSection'
+
+import type { QuadranteData } from '@/@types/quadrante'
+import { PageProvider } from '@/context/PageContext'
 
 interface QuadranteCompactoProps {
   data: QuadranteData

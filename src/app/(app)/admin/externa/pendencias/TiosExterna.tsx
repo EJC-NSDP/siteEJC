@@ -1,11 +1,13 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+
+import { PendenciasSkeleton } from './PendenciasSkeleton'
+import { TioExterna } from './TioExterna'
+
 import type { CarroPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { CarroEmpty } from '@/components/Table/CarroEmpty'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { PendenciasSkeleton } from './PendenciasSkeleton'
-import { TioExterna } from './TioExterna'
 
 async function getCarrosComPendencias() {
   const response: CarroPendencias[] = await api

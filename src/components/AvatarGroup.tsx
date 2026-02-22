@@ -1,8 +1,9 @@
+import Link from 'next/link'
+
 import type { encontreiroEmEquipe } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { generateFallBack } from '@/utils/generate-fallback'
-import Link from 'next/link'
 
 interface AvatarGroupProps {
   encontreiros: encontreiroEmEquipe[]

@@ -1,14 +1,14 @@
 'use client'
 
-import { TableCell, TableRow } from '@/components/ui/table'
+import { Trash2 } from 'lucide-react'
+import { useState } from 'react'
 
 import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pastorais'
 import { DeleteGenericDialog } from '@/components/Table/DeleteGenericDialog'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
-import { Trash2 } from 'lucide-react'
-import { useState } from 'react'
 
 interface PastoraisSecreTableRowProps {
   pessoa: PessoaPastoral
@@ -28,7 +28,7 @@ export function PastoraisSecreTableRow({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <TableRow className="items-center bg-white">
-        <TableCell className="text-nowrap font-medium">{pessoa.nome}</TableCell>
+        <TableCell className="font-medium text-nowrap">{pessoa.nome}</TableCell>
         <TableCell>{pessoa.pastoral}</TableCell>
         <TableCell className="flex justify-center gap-2">
           <AlertDialogTrigger asChild title="Remover da Pastoral">

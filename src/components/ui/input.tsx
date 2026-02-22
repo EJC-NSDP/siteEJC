@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import { forwardRef, useState } from 'react'
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+import { cn } from '@/lib/utils'
+
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prefix?: string
   hidable?: boolean
 }

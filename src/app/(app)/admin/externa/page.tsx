@@ -1,5 +1,10 @@
 'use client'
 
+import { BarChart4, Download, Plus } from 'lucide-react'
+import Link from 'next/link'
+
+import { EncontristasTable } from './(table-encontristas)/encontristas-table'
+
 import {
   Accordion,
   AccordionContent,
@@ -7,9 +12,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { BarChart4, Download, Plus } from 'lucide-react'
-import Link from 'next/link'
-import { EncontristasTable } from './(table-encontristas)/encontristas-table'
 
 export default function Externa() {
   return (
@@ -17,7 +19,7 @@ export default function Externa() {
       <div className="pb-4">
         <div className="flex items-center justify-between pb-8">
           <div className="">
-            <h1 className="text-2xl font-bold text-tertiary">Encontrista</h1>
+            <h1 className="text-tertiary text-2xl font-bold">Encontrista</h1>
             <span className="text-base font-normal text-zinc-500">
               Lista de todos os encontristas
             </span>
@@ -26,7 +28,7 @@ export default function Externa() {
             <Link href="/api/export/encontrista">
               <Button variant="secondary">
                 <div className="flex items-center justify-center gap-2 lg:w-40">
-                  <Download className="h-4 w-4 text-tertiary" />
+                  <Download className="text-tertiary h-4 w-4" />
                   <span className="hidden lg:flex">Gerar XLSX</span>
                 </div>
               </Button>

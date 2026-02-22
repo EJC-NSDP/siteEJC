@@ -1,3 +1,7 @@
+import { EncontreiroEquipeTableRow } from './encontreiros-equipe-table-row'
+
+import type { EncontreiroEmEquipe } from '@/app/api/encontreiro/[id]/equipe/get-equipe'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import {
   Table,
   TableBody,
@@ -7,11 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { EncontreiroEmEquipe } from '@/app/api/encontreiro/[id]/equipe/get-equipe'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { cn } from '@/lib/utils'
-import { EncontreiroEquipeTableRow } from './encontreiros-equipe-table-row'
 
 interface EncontreirosEquipeTableProps {
   equipe: EncontreiroEmEquipe[]
@@ -37,7 +37,7 @@ export function EncontreirosEquipeTable({
           <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-[60px] text-nowrap rounded-tl-xl pl-4">
+                <TableHead className="w-[60px] rounded-tl-xl pl-4 text-nowrap">
                   EJC
                 </TableHead>
                 <TableHead className="w-auto">Nome</TableHead>

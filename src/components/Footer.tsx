@@ -2,11 +2,13 @@
 
 // import { LogoEJC } from '@/assets/LogoEJC'
 // import { useTheme } from 'next-themes'
-import LogoEJCColorido from '@/assets/LogoEJCColorido'
-import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import type { HTMLAttributes, ReactNode } from 'react'
+
 import { Separator } from './ui/separator'
+
+import LogoEJCColorido from '@/assets/LogoEJCColorido'
+import { cn } from '@/lib/utils'
 
 interface FooterSectionProps extends HTMLAttributes<HTMLDivElement> {
   title: string
@@ -25,7 +27,7 @@ function FooterSection({ title, children, className }: FooterSectionProps) {
 
 export function Footer() {
   return (
-    <div className="flex flex-col gap-4 bg-tertiary px-5 py-7 text-sm text-secondary lg:gap-8 lg:px-20 lg:py-14">
+    <div className="bg-tertiary text-secondary flex flex-col gap-4 px-5 py-7 text-sm lg:gap-8 lg:px-20 lg:py-14">
       <div className="flex w-full justify-between">
         <FooterSection
           title="Sobre o movimento"

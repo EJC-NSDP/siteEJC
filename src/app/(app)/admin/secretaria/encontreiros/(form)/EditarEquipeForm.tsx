@@ -1,5 +1,12 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState, type Dispatch, type SetStateAction } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import type { EncontreiroSecreSummaryData } from '@/app/api/secretaria/encontreiro/get-encontreiros-secre'
 import { DisabledInput } from '@/components/Form/DisabledInput'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -18,12 +25,6 @@ import { FormField } from '@/components/ui/form'
 import { api } from '@/lib/axios'
 import { getEquipes } from '@/utils/fetch-domains'
 import { idPertenceATropa } from '@/utils/pertence'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState, type Dispatch, type SetStateAction } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 const editEquipeScheme = z.object({
   idPessoa: z.string({ required_error: 'A pessoa é obrigatória.' }),

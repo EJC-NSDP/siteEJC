@@ -1,9 +1,5 @@
 'use client'
 
-import type { EncontristaIdentification } from '@/app/api/encontrista/identification/[slug]/get-identification'
-import type { Carta } from '@/app/api/export/carta/[slug]/get-encontrista-cartas'
-import { api } from '@/lib/axios'
-import { dividirEmParagrafos } from '@/utils/dividir-paragrafos'
 import {
   AlignmentType,
   Document,
@@ -16,8 +12,14 @@ import {
 import { saveAs } from 'file-saver'
 import { Download } from 'lucide-react'
 import { useEffect, useState } from 'react'
+
 import { Button } from '../ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+
+import type { EncontristaIdentification } from '@/app/api/encontrista/identification/[slug]/get-identification'
+import type { Carta } from '@/app/api/export/carta/[slug]/get-encontrista-cartas'
+import { api } from '@/lib/axios'
+import { dividirEmParagrafos } from '@/utils/dividir-paragrafos'
 
 interface PrintCartasEncontrista {
   cartas: Carta[]
@@ -142,7 +144,7 @@ export function PrintCartasEncontristaDocx({
           disabled={!hasCartas}
           onClick={generateDocx}
         >
-          <Download className="h-4 w-4 text-tertiary" />
+          <Download className="text-tertiary h-4 w-4" />
         </Button>
       </TooltipTrigger>
       <TooltipContent className="w-32 text-center">

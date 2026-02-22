@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { updateCartaFisica } from './update-carta-fisica'
 
 export interface updateCartaFisicaRouteProps {

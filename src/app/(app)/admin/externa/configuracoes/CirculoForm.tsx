@@ -1,3 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useFormContext } from 'react-hook-form'
+
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -7,9 +11,6 @@ import { TwoRowInput } from '@/components/TwoRowInput'
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { getSelectTios } from '@/utils/fetch-tios-circulo'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
 
 interface CirculoFormProps {
   label: string

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { deleteCarro } from './delete-encontrista'
 
 interface CarroProps {

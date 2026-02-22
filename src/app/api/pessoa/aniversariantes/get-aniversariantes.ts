@@ -1,7 +1,8 @@
-import { prisma } from '@/lib/prisma'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import weekday from 'dayjs/plugin/weekday'
+
+import { prisma } from '@/lib/prisma'
 
 dayjs.extend(isBetween)
 dayjs.extend(weekday)

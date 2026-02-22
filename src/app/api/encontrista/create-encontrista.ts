@@ -1,3 +1,5 @@
+import { createEndereco } from '../endereco/create-endereco'
+
 import {
   AddressFormData,
   FamilyFormData,
@@ -9,7 +11,6 @@ import { prisma } from '@/lib/prisma'
 import { clearInstagram } from '@/utils/clear-instagram'
 import { createSlugForEncontrista } from '@/utils/create-slug'
 import { stringToDate } from '@/utils/string-to-date'
-import { createEndereco } from '../endereco/create-endereco'
 
 export interface CreateEncontristaProps {
   personal: PersonalFormData

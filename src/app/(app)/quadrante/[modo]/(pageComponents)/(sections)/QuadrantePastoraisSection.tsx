@@ -1,5 +1,6 @@
-import type { EquipePastoraisQuadrante } from '@/@types/quadrante'
 import { QuadrantePastoraisPage } from '../(pages)/QuadrantePastoraisPage'
+
+import type { EquipePastoraisQuadrante } from '@/@types/quadrante'
 
 export interface QuadrantePastoraisSectionProps {
   pastorais: EquipePastoraisQuadrante

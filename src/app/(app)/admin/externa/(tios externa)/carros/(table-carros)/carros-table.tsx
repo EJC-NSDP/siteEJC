@@ -1,3 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
+
+import { CarrosTableFilters } from './carros-table-filters'
+import { CarrosTableRow } from './carros-table-row'
+import { CarrosTableSkeleton } from './carros-table-skeleton'
+
+import type { CarrosSummary } from '@/app/api/carro/get-carros-summary'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import {
   Table,
   TableBody,
@@ -6,18 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { CarrosSummary } from '@/app/api/carro/get-carros-summary'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
-import { CarrosTableFilters } from './carros-table-filters'
-import { CarrosTableRow } from './carros-table-row'
-import { CarrosTableSkeleton } from './carros-table-skeleton'
 
 interface SearchProps {
   pageIndex: number
@@ -100,7 +101,7 @@ export function CarrosTable() {
           <Table className="text-xs">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-7 text-nowrap rounded-tl-xl pl-4">
+                <TableHead className="w-7 rounded-tl-xl pl-4 text-nowrap">
                   Última externa
                 </TableHead>
                 <TableHead>Motorista</TableHead>

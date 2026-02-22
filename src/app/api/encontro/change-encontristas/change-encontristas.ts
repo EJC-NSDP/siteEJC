@@ -1,7 +1,8 @@
-import { prisma } from '@/lib/prisma'
-import { createSlugForEncontrista } from '@/utils/create-slug'
 import { resetPassword } from '../../encontreiro/[id]/reset-password/reset-password'
 import { getCurrentEncontro } from '../atual/[ignorar]/get-current-encontro/get-current-encontro'
+
+import { prisma } from '@/lib/prisma'
+import { createSlugForEncontrista } from '@/utils/create-slug'
 
 export async function changeEncontristas() {
   const currentEncontro = await getCurrentEncontro()

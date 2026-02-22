@@ -1,6 +1,7 @@
-import type { TioExternaQuadrante } from '@/@types/quadrante'
 import { QuadranteOnePage } from './QuadranteOnePage'
 import { QuadranteTitlePage } from './QuadranteTitlePage'
+
+import type { TioExternaQuadrante } from '@/@types/quadrante'
 
 interface QuadranteTiosExternaPageProps {
   title: string

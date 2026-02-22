@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+
 import { getRestricoes } from './get-restricoes'
 
 export async function generateCSV(format?: 'csv' | 'xlsx') {

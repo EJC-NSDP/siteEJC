@@ -12,7 +12,7 @@ export function EncontreiroMontagemTableSkeleton() {
           <Skeleton className="h-4 w-12" />
         </TableCell>
         <TableCell>
-          <Skeleton className="w-18 h-4" />
+          <Skeleton className="h-4 w-18" />
         </TableCell>
         <TableCell>
           <Skeleton className="h-4 w-28" />

@@ -1,14 +1,17 @@
-import type { EncontreiroSummary } from '@/app/api/encontreiro/get-encontreiros-summary'
-import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { StatusEncontreiro } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Check, Clock } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
+
 import { SelectItemIcon, type SelectItemIconProps } from './SelectItemIcon'
+
+import type { EncontreiroSummary } from '@/app/api/encontreiro/get-encontreiros-summary'
+import type { StatusEncontreiro } from '@/generated'
+import { api } from '@/lib/axios'
 
 interface EncontreiroStatusProps {
   encontreiroId: string

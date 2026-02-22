@@ -1,5 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import { TextInput } from '@/components/Form/TextInput'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,13 +20,6 @@ import {
 } from '@/components/ui/card'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { signIn } from 'next-auth/react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 const loginScheme = z.object({
   email: z
@@ -65,7 +66,7 @@ export default function Login() {
               <CardTitle className="text-3xl font-bold text-zinc-700">
                 Log In
               </CardTitle>
-              <CardDescription className="text-nowrap text-sm text-zinc-500">
+              <CardDescription className="text-sm text-nowrap text-zinc-500">
                 Área exclusiva para membros do movimento
               </CardDescription>
             </CardHeader>

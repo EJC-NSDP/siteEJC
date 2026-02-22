@@ -1,12 +1,12 @@
-import { TableCell, TableRow } from '@/components/ui/table'
+import { Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 
 import type { EncontreiroEmEquipe } from '@/app/api/encontreiro/[id]/equipe/get-equipe'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { labelPertenceARosa, labelPertenceASala } from '@/utils/pertence'
-import { Pencil, Trash2 } from 'lucide-react'
-import { useState } from 'react'
 
 interface EncontreiroEquipeTableRowProps {
   encontreiro: EncontreiroEmEquipe
@@ -45,7 +45,7 @@ export function EncontreiroEquipeTableRow({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <TableRow className={cn(isCoord, 'items-center bg-white')}>
-        <TableCell className="text-nowrap font-medium">
+        <TableCell className="font-medium text-nowrap">
           {encontreiro.numeroEncontro}
         </TableCell>
         <TableCell>

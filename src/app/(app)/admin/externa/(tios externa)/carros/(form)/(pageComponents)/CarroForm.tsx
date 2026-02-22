@@ -1,22 +1,24 @@
 'use client'
 
-import type { CarFormData } from '@/@types/carro'
-import { Nav } from '@/components/Nav/Nav'
-import { NavItem } from '@/components/Nav/NavItem'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Role } from '@prisma/client'
 import { Armchair, Car, CarFront, Save } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 import { CaronaDetails } from './CaronaDetails'
 import { CarroDetails } from './CarroDetails'
 import { MotoristaDetails } from './MotoristaDetails'
+
+import type { CarFormData } from '@/@types/carro'
+import { Nav } from '@/components/Nav/Nav'
+import { NavItem } from '@/components/Nav/NavItem'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Role } from '@/enums'
+import { api } from '@/lib/axios'
 
 interface CarroFormProps {
   data?: CarFormData

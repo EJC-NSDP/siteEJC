@@ -1,15 +1,16 @@
-import { TableCell, TableRow } from '@/components/ui/table'
+import { Trash2, UserLock, UserPen } from 'lucide-react'
+import { useState } from 'react'
+
+import { EditarEquipeForm } from '../(form)/EditarEquipeForm'
 
 import type { EncontreiroSecreSummaryData } from '@/app/api/secretaria/encontreiro/get-encontreiros-secre'
 import { DeleteGenericDialog } from '@/components/Table/DeleteGenericDialog'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
-import { Trash2, UserLock, UserPen } from 'lucide-react'
-import { useState } from 'react'
-import { EditarEquipeForm } from '../(form)/EditarEquipeForm'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroSecreSummaryData
@@ -36,7 +37,7 @@ export function EncontreiroSecreTableRow({
 
   return (
     <TableRow className="items-center bg-white">
-      <TableCell className="text-nowrap font-medium">
+      <TableCell className="font-medium text-nowrap">
         {encontreiro.numeroEncontro}
       </TableCell>
       <TableCell>

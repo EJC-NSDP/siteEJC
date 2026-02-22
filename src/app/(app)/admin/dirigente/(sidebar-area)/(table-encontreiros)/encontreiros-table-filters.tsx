@@ -1,14 +1,14 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Search, SearchX } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import { SelectItem } from '@/components/Form/SelectInput/SelectItem'
 import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 import { SearchInput } from '@/components/ui/search-input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
 
 const encontreiroFiltersSchema = z.object({
   encontreiroName: z.string().optional(),

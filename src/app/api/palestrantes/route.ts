@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getPalestrantes } from './get-palestrantes-summary'
 
 export async function GET() {

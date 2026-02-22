@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getEncontristasSecreSummary } from './get-encontristas-secre'
 
 export async function GET(request: Request) {

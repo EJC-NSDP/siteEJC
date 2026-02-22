@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getCarros } from './get-carros'
 
 export async function GET() {

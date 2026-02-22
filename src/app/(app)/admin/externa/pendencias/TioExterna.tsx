@@ -1,3 +1,7 @@
+import { CircleUserRound, MessageSquare } from 'lucide-react'
+
+import { EncontristaPending } from './EncontristaPending'
+
 import type { CarroPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
@@ -6,8 +10,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-import { CircleUserRound, MessageSquare } from 'lucide-react'
-import { EncontristaPending } from './EncontristaPending'
 
 export interface TioExternaProps {
   carro: CarroPendencias
@@ -23,7 +25,7 @@ export function TioExterna({ carro }: TioExternaProps) {
   return (
     <div className="col-span-1 p-4">
       <Card className="flex flex-col gap-4 text-zinc-700 shadow-lg">
-        <CardTitle className={cn('rounded-t-lg bg-primary/20')}>
+        <CardTitle className={cn('bg-primary/20 rounded-t-lg')}>
           <div className="flex items-center justify-between p-4">
             <div className="flex flex-col gap-2">
               <h2>

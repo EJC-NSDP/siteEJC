@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getCores } from './get-cores'
 
 export async function GET() {

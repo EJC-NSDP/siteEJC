@@ -1,5 +1,11 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { toast } from 'sonner'
+import { useHookFormMask } from 'use-mask-input'
+
 import type { CarPersonFormData } from '@/@types/carro'
 import { CardForm } from '@/components/Form/CardForm'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -10,15 +16,10 @@ import {
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Role } from '@/enums'
 import { getCEPData, type CEPResponse } from '@/utils/fetch-cep'
 import { getPossiveisTios } from '@/utils/fetch-this-encontro'
 import { getTioExternaData } from '@/utils/fetch-tio-externa'
-import type { Role } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { toast } from 'sonner'
-import { useHookFormMask } from 'use-mask-input'
 
 interface CaronaDetailsProps {
   disabled?: boolean

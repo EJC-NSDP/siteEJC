@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createEndereco, type EnderecoProps } from './create-endereco'
 
 export async function POST(request: NextRequest) {

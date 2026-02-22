@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getIdentification } from './get-identification'
 
 interface EncontristaSumaryProps {

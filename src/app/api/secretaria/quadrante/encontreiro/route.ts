@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getEncontreirosQuadrante } from './get-encontreiros-quadrante'
 
 export async function GET() {

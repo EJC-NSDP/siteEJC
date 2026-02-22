@@ -1,3 +1,16 @@
+import { useQuery } from '@tanstack/react-query'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
+
+import { EncontreiroSecreTableFilters } from './encontreiros-secre-table-filters'
+import { EncontreiroSecreTableRow } from './encontreiros-secre-table-row'
+import { EncontreiroSecreTableSkeleton } from './encontreiros-secre-table-skeleton'
+
+import type { EncontreiroSecreSummary } from '@/app/api/secretaria/encontreiro/get-encontreiros-secre'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
+import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import {
   Table,
   TableBody,
@@ -6,19 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { EncontreiroSecreSummary } from '@/app/api/secretaria/encontreiro/get-encontreiros-secre'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
-import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
-import { EncontreiroSecreTableFilters } from './encontreiros-secre-table-filters'
-import { EncontreiroSecreTableRow } from './encontreiros-secre-table-row'
-import { EncontreiroSecreTableSkeleton } from './encontreiros-secre-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

@@ -1,3 +1,6 @@
+import { DollarSign, Mails, Users } from 'lucide-react'
+import { useState } from 'react'
+
 import type { EncontristaPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { Card } from '@/components/ui/card'
 import {
@@ -7,8 +10,6 @@ import {
 } from '@/components/ui/tooltip'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
-import { DollarSign, Mails, Users } from 'lucide-react'
-import { useState } from 'react'
 
 export interface EncontristaProps {
   encontrista: EncontristaPendencias
@@ -63,7 +64,7 @@ export function EncontristaPending({ encontrista }: EncontristaProps) {
   }
 
   return (
-    <Card className="border-0 bg-primary/5">
+    <Card className="bg-primary/5 border-0">
       <div className="flex items-center justify-between px-2 py-3">
         <div className="flex items-center gap-2">
           <div className={cn('h-4 w-4 rounded-md', cor[0].value)} />
@@ -74,10 +75,10 @@ export function EncontristaPending({ encontrista }: EncontristaProps) {
             <TooltipTrigger asChild>
               <button
                 className={cn(
-                  'rounded-full border border-tertiary p-2',
+                  'border-tertiary rounded-full border p-2',
                   checkFamilia
                     ? 'border-primary bg-primary text-white'
-                    : 'border-tertiary bg-transparent text-tertiary',
+                    : 'border-tertiary text-tertiary bg-transparent',
                 )}
                 onClick={handleFamilia}
               >
@@ -93,10 +94,10 @@ export function EncontristaPending({ encontrista }: EncontristaProps) {
             <TooltipTrigger asChild>
               <button
                 className={cn(
-                  'rounded-full border border-tertiary p-2',
+                  'border-tertiary rounded-full border p-2',
                   checkGenerosa
                     ? 'border-primary bg-primary text-white'
-                    : 'border-tertiary bg-transparent text-tertiary',
+                    : 'border-tertiary text-tertiary bg-transparent',
                 )}
                 onClick={handleGenerosa}
               >
@@ -112,10 +113,10 @@ export function EncontristaPending({ encontrista }: EncontristaProps) {
             <TooltipTrigger asChild>
               <button
                 className={cn(
-                  'rounded-full border border-tertiary p-2',
+                  'border-tertiary rounded-full border p-2',
                   checkCartas
                     ? 'border-primary bg-primary text-white'
-                    : 'border-tertiary bg-transparent text-tertiary',
+                    : 'border-tertiary text-tertiary bg-transparent',
                 )}
                 onClick={handleCartas}
               >

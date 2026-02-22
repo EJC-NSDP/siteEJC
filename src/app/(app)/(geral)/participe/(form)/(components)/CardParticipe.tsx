@@ -1,8 +1,9 @@
+import { ReactNode } from 'react'
+import { useWizard } from 'react-use-wizard'
+
 import { MultiStep } from '@/components/MultiStep'
 import { Button } from '@/components/ui/button'
 import { CardContent, CardFooter } from '@/components/ui/card'
-import { ReactNode } from 'react'
-import { useWizard } from 'react-use-wizard'
 
 interface CardParticipeProps {
   children: ReactNode

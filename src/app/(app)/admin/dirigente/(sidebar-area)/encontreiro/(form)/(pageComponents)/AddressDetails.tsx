@@ -1,14 +1,15 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { toast } from 'sonner'
+import { useHookFormMask } from 'use-mask-input'
+
 import { CardForm } from '@/components/Form/CardForm'
 import { TextInput } from '@/components/Form/TextInput'
 import { FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { getCEPData, type CEPResponse } from '@/utils/fetch-cep'
-import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { toast } from 'sonner'
-import { useHookFormMask } from 'use-mask-input'
 
 export function AddressDetails() {
   const form = useFormContext()

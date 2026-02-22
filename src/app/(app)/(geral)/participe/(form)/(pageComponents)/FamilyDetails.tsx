@@ -1,5 +1,16 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { useWizard } from 'react-use-wizard'
+import { useHookFormMask } from 'use-mask-input'
+import { z } from 'zod'
+
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
+
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
@@ -15,15 +26,6 @@ import {
   FamilyFormData,
 } from '@/context/CreateEncontristaContext'
 import { getMoraCom, getStatusPais } from '@/utils/fetch-domains'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { useWizard } from 'react-use-wizard'
-import { useHookFormMask } from 'use-mask-input'
-import { z } from 'zod'
-import { CardParticipe } from '../(components)/CardParticipe'
-import { CardSection } from '../(components)/CardSection'
 
 const familyFormScheme = z.object({
   moraCom: z.enum(['sozinho', 'conjuge', 'familiar', 'amigos'], {

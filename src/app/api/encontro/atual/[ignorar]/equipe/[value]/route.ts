@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getEquipe } from './get-equipe'
 
 interface EquipeValueProps {

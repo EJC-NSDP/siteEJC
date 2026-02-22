@@ -1,8 +1,9 @@
+import type { NextResponse } from 'next/server'
+
 import type { valueQuadrante } from '@/@types/enums'
 import type { UpdateAvatarFormData } from '@/app/api/encontreiro/update/avatar/route'
 import type { UpdateQuadranteData } from '@/app/api/secretaria/quadrante/settings/route'
 import { api } from '@/lib/axios'
-import type { NextResponse } from 'next/server'
 
 type UpdateQuadranteActionResponse =
   | NextResponse<{ status: number }>

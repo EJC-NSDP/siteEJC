@@ -1,7 +1,9 @@
-import type { PalestrasData } from '@/app/(app)/admin/secretaria/palestrantes/(pageComponents)/PalestraForm'
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { getPalestrantesAtual } from './get-palestrantes'
 import { updatePalestrantes } from './update-palestrantes'
+
+import type { PalestrasData } from '@/app/(app)/admin/secretaria/palestrantes/(pageComponents)/PalestraForm'
 
 export async function GET() {
   const palestrantes = await getPalestrantesAtual()

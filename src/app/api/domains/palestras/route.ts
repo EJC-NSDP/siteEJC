@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getPalestra } from './get-palestra'
 
 export async function GET() {

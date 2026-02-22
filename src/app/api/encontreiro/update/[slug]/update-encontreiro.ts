@@ -1,9 +1,9 @@
 import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { updateEndereco } from '@/app/api/endereco/[cep]/update/update-endereco'
+import type { EquipeEncontro } from '@/generated'
 import { prisma } from '@/lib/prisma'
 import { clearInstagram } from '@/utils/clear-instagram'
 import { stringToDate } from '@/utils/string-to-date'
-import type { EquipeEncontro } from '@prisma/client'
 
 export async function updateEncontreiro({
   id,

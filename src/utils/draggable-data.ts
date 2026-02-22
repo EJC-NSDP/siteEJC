@@ -1,7 +1,8 @@
+import { Active, DataRef, Over } from '@dnd-kit/core'
+
 import type { CarroDropData } from '@/app/(app)/admin/externa/(tios externa)/alocacao-carros/Carro'
 import type { EncontristaDragData } from '@/app/(app)/admin/externa/circulos/CardEncontristas'
 import type { CirculoDropData } from '@/app/(app)/admin/externa/circulos/Circulo'
-import { Active, DataRef, Over } from '@dnd-kit/core'
 
 type DraggableData = EncontristaDragData | CirculoDropData | CarroDropData
 

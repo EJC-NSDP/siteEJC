@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import { MessageSquareMore, Pencil, Trash2 } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { TableCell, TableRow } from '@/components/ui/table'
+import Link from 'next/link'
+import { useState } from 'react'
 
 import type { valueStatus } from '@/@types/enums'
 import type { CarroSummaryData } from '@/app/api/carro/get-carros-summary'
@@ -10,17 +10,16 @@ import { DeleteCarroDialog } from '@/components/Table/DeleteCarroDialog'
 import { ImportCarroButton } from '@/components/Table/ImportCarroButton'
 import type { SelectItemAvatarProps } from '@/components/Table/SelectItemAvatar'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TableCell, TableRow } from '@/components/ui/table'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import type { Encontro } from '@/generated'
 import { api } from '@/lib/axios'
-import type { Encontro } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
-import { useState } from 'react'
 
 export interface Encontrista {
   id_pessoa: string

@@ -1,10 +1,10 @@
+import { cache } from 'react'
+
 import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import type { PossiveisTiosExterna } from '@/app/api/encontro/atual/[ignorar]/possiveisExternas/get-possiveis-externas'
 import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pastorais'
-
 import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
-import { cache } from 'react'
 
 export async function getCurrentEncontro() {
   const encontroFound = await fetch(

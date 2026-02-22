@@ -6,12 +6,13 @@ import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
-
 import { SheetOverlay, SheetPortal, sheetVariants } from './ui/sheet'
 
+import { cn } from '@/lib/utils'
+
 interface InterceptedSheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+  extends
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
 export const InterceptedSheetContent = React.forwardRef<
@@ -37,7 +38,7 @@ export const InterceptedSheetContent = React.forwardRef<
         {children}
         <button
           onClick={onDismiss}
-          className="ring-offset-background focus:ring-ring absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+          className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
         >
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>

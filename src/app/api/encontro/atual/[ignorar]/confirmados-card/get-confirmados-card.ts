@@ -1,9 +1,10 @@
+import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
+
 import {
   getZona,
   type BairroResponse,
 } from '@/app/api/domains/bairrosRJ/zona/[bairro]/get-zona'
 import { prisma } from '@/lib/prisma'
-import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
 
 export interface CardEncontristaResponse {
   id: string

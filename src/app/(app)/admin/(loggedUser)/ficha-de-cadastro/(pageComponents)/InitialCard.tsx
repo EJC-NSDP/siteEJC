@@ -1,6 +1,7 @@
+import type { Dispatch, SetStateAction } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import type { Dispatch, SetStateAction } from 'react'
 
 interface InitialCard {
   loaded: boolean
@@ -12,7 +13,7 @@ export function InitialCard({ loaded, updateNext }: InitialCard) {
     <Card className="w-full items-center justify-center px-3 pt-8 text-center text-zinc-700">
       <CardContent className="flex w-full flex-col gap-4">
         <p className="text-xl font-bold">Bem-vindo(a)!</p>
-        <p className="text-pretty text-lg">
+        <p className="text-lg text-pretty">
           Agora você pode atualizar suas informações para o próximo encontro em
           nosso sistema. Alguns campos estão bloqueados, pois são controlados
           pelos dirigentes. Caso precise alterar alguma desses, entre em contato
@@ -21,16 +22,16 @@ export function InitialCard({ loaded, updateNext }: InitialCard) {
 
         <Button onClick={() => updateNext(true)}>
           {loaded ? (
-            <span className="text-nowrap text-xl font-semibold">Preencher</span>
+            <span className="text-xl font-semibold text-nowrap">Preencher</span>
           ) : (
             <div className="flex items-center justify-center gap-3">
-              <span className="text-nowrap text-xl font-normal">
+              <span className="text-xl font-normal text-nowrap">
                 Carregando...
               </span>
               <div role="status">
                 <svg
                   aria-hidden="true"
-                  className="inline h-8 w-8 animate-spin fill-primary/50 text-zinc-100"
+                  className="fill-primary/50 inline h-8 w-8 animate-spin text-zinc-100"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

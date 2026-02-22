@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { createCarta, type CartaProps } from './create-carta'
 import { getMensagensSummary } from './get-cartas-sumary'
 

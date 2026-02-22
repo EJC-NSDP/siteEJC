@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getReligiao } from './get-religiao'
 
 export async function GET() {

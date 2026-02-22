@@ -1,3 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
+
+import { CirculosTableFilters } from './circulos-table-filters'
+import { CirculosTableRow } from './circulos-table-row'
+import { CirculosTableSkeleton } from './circulos-table-skeleton'
+
+import type { CirculosSummary } from '@/app/api/circulo/get-circulos-summary'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import {
   Table,
   TableBody,
@@ -6,18 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { CirculosSummary } from '@/app/api/circulo/get-circulos-summary'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
-import { CirculosTableFilters } from './circulos-table-filters'
-import { CirculosTableRow } from './circulos-table-row'
-import { CirculosTableSkeleton } from './circulos-table-skeleton'
 
 interface SearchProps {
   pageIndex: number
@@ -94,7 +95,7 @@ export function CirculosTable() {
           <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-[60px] text-nowrap rounded-tl-xl pl-4">
+                <TableHead className="w-[60px] rounded-tl-xl pl-4 text-nowrap">
                   EJC
                 </TableHead>
                 <TableHead className="w-[150px]">Cor</TableHead>

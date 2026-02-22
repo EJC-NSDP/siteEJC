@@ -1,5 +1,6 @@
-import type { EncontreiroMontagemData } from '@/app/api/montagem/[slug]/get-encontreiro'
 import { CardEncontreiro } from './CardEncontreiro'
+
+import type { EncontreiroMontagemData } from '@/app/api/montagem/[slug]/get-encontreiro'
 
 async function getEncontreiroData(slug: string) {
   return await fetch(`${process.env.NEXTAUTH_URL}/api/montagem/${slug}`, {

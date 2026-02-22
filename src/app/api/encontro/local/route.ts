@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+
 import { createLocal, type LocalProps } from './create-local'
 
 export async function POST(request: NextRequest) {

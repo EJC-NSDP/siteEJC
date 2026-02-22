@@ -1,10 +1,11 @@
-import type { EncontristaQuadrante } from '@/@types/quadrante'
-import { cn } from '@/lib/utils'
-import { getCirculoTitleColor } from '@/utils/fetch-color'
 import Image from 'next/image'
 
 import { QuadranteOnePage } from './QuadranteOnePage'
 import { QuadranteTitlePage } from './QuadranteTitlePage'
+
+import type { EncontristaQuadrante } from '@/@types/quadrante'
+import { cn } from '@/lib/utils'
+import { getCirculoTitleColor } from '@/utils/fetch-color'
 
 interface QuadranteCirculoPageProps {
   title: string

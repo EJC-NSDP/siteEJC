@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getConfirmadosCard } from './get-confirmados-card'
 
 export async function GET() {

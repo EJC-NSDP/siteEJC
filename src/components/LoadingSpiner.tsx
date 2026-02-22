@@ -2,7 +2,7 @@ export function LoadingSpiner() {
   return (
     <svg
       aria-hidden="true"
-      className="inline size-4 animate-spin fill-secondary text-gray-200"
+      className="fill-secondary inline size-4 animate-spin text-gray-200"
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

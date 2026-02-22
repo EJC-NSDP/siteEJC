@@ -1,6 +1,7 @@
-import type { PalestranteQuadrante } from '@/@types/quadrante'
 import { QuadranteOnePage } from './QuadranteOnePage'
 import { QuadranteTitlePage } from './QuadranteTitlePage'
+
+import type { PalestranteQuadrante } from '@/@types/quadrante'
 
 interface QuadrantePalestraPageProps {
   title: string

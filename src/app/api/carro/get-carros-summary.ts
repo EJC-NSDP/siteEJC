@@ -1,7 +1,6 @@
 // eslint-disable-next-line prettier/prettier
-import { prisma } from '@/lib/prisma';
-// eslint-disable-next-line prettier/prettier
-import { type Prisma } from '@prisma/client';
+import { type Prisma } from '@/generated';
+import { prisma } from '@/lib/prisma'
 
 // Campos válidos para ordenação
 export const validOrderFields = [

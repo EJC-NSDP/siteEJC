@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getPreviousExternaInfo } from './get-previous-externa-info'
 
 interface EncontristaProps {

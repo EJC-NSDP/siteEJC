@@ -1,6 +1,7 @@
+import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
+
 import type { PalestrasData } from '@/app/(app)/admin/secretaria/palestrantes/(pageComponents)/PalestraForm'
 import { prisma } from '@/lib/prisma'
-import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
 
 export async function updatePalestrantes({ palestras }: PalestrasData) {
   const currentEncontro = await getCurrentEncontro()

@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils'
 import { Search } from 'lucide-react'
 import { forwardRef } from 'react'
 
-export interface SearchInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+import { cn } from '@/lib/utils'
+
+export interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prefix?: string
 }
 

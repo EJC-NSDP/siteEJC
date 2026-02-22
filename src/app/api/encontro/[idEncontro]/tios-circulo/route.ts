@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getTiosCirculos } from './get-tios-circulo'
 
 interface EncontroProps {

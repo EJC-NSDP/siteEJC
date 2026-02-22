@@ -1,8 +1,9 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check } from 'lucide-react'
+
+import { Badge } from '@/components/ui/badge'
 
 export interface SelectArray {
   value: string

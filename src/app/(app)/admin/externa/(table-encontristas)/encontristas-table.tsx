@@ -1,3 +1,16 @@
+import { useQuery } from '@tanstack/react-query'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
+
+import { EncontristaTableFilters } from './encontristas-table-filters'
+import { EncontristaTableRow } from './encontristas-table-row'
+import { EncontristaTableSkeleton } from './encontristas-table-skeleton'
+
+import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
+import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import {
   Table,
   TableBody,
@@ -6,19 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
-import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
-import { EncontristaTableFilters } from './encontristas-table-filters'
-import { EncontristaTableRow } from './encontristas-table-row'
-import { EncontristaTableSkeleton } from './encontristas-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

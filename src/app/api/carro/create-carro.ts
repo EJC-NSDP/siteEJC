@@ -1,8 +1,9 @@
+import { getCurrentEncontro } from '../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { createEndereco } from '../endereco/create-endereco'
+
 import type { CarFormData } from '@/@types/carro'
 import { prisma } from '@/lib/prisma'
 import { createSlugForTioExterna } from '@/utils/create-slug'
-import { getCurrentEncontro } from '../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
-import { createEndereco } from '../endereco/create-endereco'
 
 export async function createCarro({ carro, motorista, carona }: CarFormData) {
   const encontro = await getCurrentEncontro()

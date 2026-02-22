@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getEncontraoActions } from './get-encontrao-actions'
 
 export async function GET() {

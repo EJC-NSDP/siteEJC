@@ -1,6 +1,6 @@
-import { api } from '@/lib/axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState, type Dispatch, type SetStateAction } from 'react'
+
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -10,6 +10,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../ui/alert-dialog'
+
+import { api } from '@/lib/axios'
 
 interface DeleteProps {
   idCarro: string
