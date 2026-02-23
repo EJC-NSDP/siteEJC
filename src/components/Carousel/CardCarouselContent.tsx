@@ -19,16 +19,16 @@ export function CardCarouselContent({
   type = 'evento',
 }: CardCarouselContentProps) {
   return (
-    <Card className="flex items-center justify-center bg-zinc-50 p-0 shadow-xl overflow-hidden">
+    <Card className="flex items-center justify-center overflow-hidden bg-zinc-50 p-0 shadow-xl">
       {type === 'evento' ? (
         <div className="flex h-98 flex-col items-center gap-2 p-4 lg:h-auto lg:flex-row lg:gap-8 lg:p-8">
-          <div className="w-auto h-64 lg:h-80 relative shrink-0">
+          <div className="relative h-64 w-auto shrink-0 lg:h-80">
             <Image
               src={imageSrc.src}
               width={imageSrc.width}
               height={imageSrc.height}
               alt={`Imagem do evento ${aditionalInfo?.title}`}
-              className="object-cover rounded-lg"
+              className="rounded-lg object-cover"
             />
           </div>
           {aditionalInfo && (

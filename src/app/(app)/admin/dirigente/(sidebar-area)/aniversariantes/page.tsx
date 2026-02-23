@@ -1,5 +1,6 @@
-import type { Aniversariantes } from '@/app/api/pessoa/aniversariantes/get-aniversariantes'
 import { CardAniversariante } from './CardAniversariante'
+
+import type { Aniversariantes } from '@/app/api/pessoa/aniversariantes/get-aniversariantes'
 
 async function getAniversariantes() {
   const response: Aniversariantes[] = await fetch(
@@ -14,7 +15,7 @@ export default async function Aniversariantes() {
   const aniversariantes = await getAniversariantes()
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <div className="pb-8">
         <h1 className="text-tertiary text-2xl font-bold">Aniversariantes</h1>
         <span className="text-base font-normal text-zinc-500">

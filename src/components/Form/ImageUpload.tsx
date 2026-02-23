@@ -1,9 +1,9 @@
 'use client'
 
+import Image from 'next/image'
 import type { Session } from 'next-auth'
 import { getSession, useSession } from 'next-auth/react'
 import type { CloudinaryUploadWidgetResults } from 'next-cloudinary'
-import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
 

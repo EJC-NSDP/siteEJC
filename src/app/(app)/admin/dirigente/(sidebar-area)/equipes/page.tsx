@@ -37,7 +37,7 @@ export default async function EquipesEncontroAtual() {
   )
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <div className="pb-8">
         <h1 className="text-tertiary text-2xl font-bold">Equipes</h1>
         <span className="text-base font-normal text-zinc-500">
@@ -63,14 +63,14 @@ export default async function EquipesEncontroAtual() {
             >
               <div
                 className={cn(
-                  'flex flex-col justify-between rounded-2xl px-5 py-5 h-full min-h-28 transition-all hover:scale-[1.02] hover:shadow-md cursor-pointer',
+                  'flex h-full min-h-28 cursor-pointer flex-col justify-between rounded-2xl px-5 py-5 transition-all hover:scale-[1.02] hover:shadow-md',
                   bgColor,
                 )}
               >
                 <div className="flex items-start justify-between gap-2">
                   <span
                     className={cn(
-                      'font-bold text-base leading-tight',
+                      'text-base leading-tight font-bold',
                       titleColor,
                     )}
                   >
@@ -78,7 +78,7 @@ export default async function EquipesEncontroAtual() {
                   </span>
                   <span
                     className={cn(
-                      'text-2xl font-extrabold leading-none',
+                      'text-2xl leading-none font-extrabold',
                       textColor,
                     )}
                   >
@@ -88,13 +88,15 @@ export default async function EquipesEncontroAtual() {
 
                 <div
                   className={cn(
-                    'flex items-center gap-1.5 mt-3 text-xs font-medium',
+                    'mt-3 flex items-center gap-1.5 text-xs font-medium',
                     titleColor,
                   )}
                 >
                   <Crown className="size-3" />
                   <span>
-                    {equipe.detalhe.coordDone ? 'Coord. completa' : 'Sem coord.'}
+                    {equipe.detalhe.coordDone
+                      ? 'Coord. completa'
+                      : 'Sem coord.'}
                   </span>
                 </div>
               </div>

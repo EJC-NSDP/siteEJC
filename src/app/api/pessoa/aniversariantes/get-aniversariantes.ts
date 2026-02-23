@@ -37,9 +37,9 @@ export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
           dataNasc: true,
           encontro: {
             select: {
-                numeroEncontro: true,
-            },  
-          }
+              numeroEncontro: true,
+            },
+          },
         },
       },
     },
