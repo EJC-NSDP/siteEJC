@@ -18,6 +18,10 @@ export async function getCurrentEncontro() {
 export const getCurrentEncontroDate = cache(async (): Promise<Date | null> => {
   const data: CurrentEncontro = await getCurrentEncontro()
 
+  if(data.numeroCirculos === 0) {
+    return null
+  }
+
   const date = new Date(data.dataInicio.toString().split('T')[0])
   return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
 })

@@ -150,6 +150,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.1.1 — Correção no início da inscrição
+> Fevereiro 2026
+
+- A tela inicial da inscrição dos encontristas estava apresentando uma data aleatória, foi corrigido para apenas mostrar a data em um encontrão ativo.
+
+---
+
 ### v5.1.0 — Fechar encontro e reestruturação da dirigência
 > Fevereiro 2026
 
