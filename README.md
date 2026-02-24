@@ -150,10 +150,11 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
-### v5.1.1 — Correção no início da inscrição
+### v5.1.1 — Correção visual
 > Fevereiro 2026
 
 - A tela inicial da inscrição dos encontristas estava apresentando uma data aleatória, foi corrigido para apenas mostrar a data em um encontrão ativo.
+- Remove o card do Encontro da tela de perfil
 
 ---
 

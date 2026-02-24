@@ -1,32 +1,17 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { Encontro, Local } from '@/generated'
-import { api } from '@/lib/axios'
 import { getMonthBR } from '@/utils/get-month-locale'
 
-async function getCurrentEncontro() {
-  const equipe = await api
-    .get(`encontro/atual/1/get-current-encontro`)
-    .then((response) => response.data)
-    .catch((err) => console.error(err))
-
-  return equipe
+interface EncontroCardProps {
+  currentEncontro: CurrentEncontro
 }
 
-interface CurrentEncontro extends Encontro {
-  local: Local
-}
-
-export function EncontroCard() {
-  const { data: currentEncontro } = useQuery<CurrentEncontro>({
-    queryFn: async () => await getCurrentEncontro(),
-    queryKey: ['currentEnconto'],
-  })
+export function EncontroCard({ currentEncontro  }: EncontroCardProps) {
 
   return (
     <Card className="w-full border-none bg-zinc-100 p-4 px-2 lg:w-2/6 lg:p-8">

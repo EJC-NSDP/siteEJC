@@ -9,9 +9,9 @@ import {
   FolderOpen,
   Users,
 } from 'lucide-react'
+import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
@@ -25,9 +25,22 @@ import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { api } from '@/lib/axios'
+import { useQuery } from '@tanstack/react-query'
 import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'
+
+
+async function getCurrentEncontro() {
+  const equipe = await api
+    .get(`encontro/atual/1/get-current-encontro`)
+    .then((response) => response.data)
+    .catch((err) => console.error(err))
+
+  return equipe
+}
 
 export default function Profile() {
   const [profileData, setProfileData] = useState<ProfileData | undefined>(
@@ -35,6 +48,12 @@ export default function Profile() {
   )
   const [corCirculo, setCorCirculo] = useState<string>('bg-zinc-200')
   const [isBirthday, setIsBirthday] = useState<boolean>(false)
+
+  const { data: currentEncontro } = useQuery<CurrentEncontro>({
+    queryFn: async () => await getCurrentEncontro(),
+    queryKey: ['currentEnconto'],
+  })
+
 
   const router = useRouter()
 
@@ -178,31 +197,31 @@ export default function Profile() {
                     {(profileData.role === 'EXTERNA' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Externa"
-                        icon={CarFront}
-                        link="/admin/externa"
-                      />
-                    )}
+                        <ButtonLabel
+                          label="Externa"
+                          icon={CarFront}
+                          link="/admin/externa"
+                        />
+                      )}
 
                     {(profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Dirigencia"
-                        icon={Album}
-                        link="/admin/dirigente"
-                      />
-                    )}
+                        <ButtonLabel
+                          label="Dirigencia"
+                          icon={Album}
+                          link="/admin/dirigente"
+                        />
+                      )}
 
                     {(profileData.role === 'SECRETARIA' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Secretaria"
-                        icon={BookUser}
-                        link="/admin/secretaria"
-                      />
-                    )}
+                        <ButtonLabel
+                          label="Secretaria"
+                          icon={BookUser}
+                          link="/admin/secretaria"
+                        />
+                      )}
 
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel
@@ -215,12 +234,12 @@ export default function Profile() {
                     {(profileData.pastaURL !== '' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Minha equipe"
-                        icon={Users}
-                        link="/admin/minha-equipe"
-                      />
-                    )}
+                        <ButtonLabel
+                          label="Minha equipe"
+                          icon={Users}
+                          link="/admin/minha-equipe"
+                        />
+                      )}
 
                     {profileData && (
                       <ButtonLabel
@@ -237,7 +256,10 @@ export default function Profile() {
                 </div>
               </CardFooter>
             </Card>
-            <EncontroCard />
+
+            {currentEncontro && currentEncontro.numeroCirculos !== 0 && (
+              <EncontroCard currentEncontro={currentEncontro} />
+            )}
           </CardContent>
         </Card>
       )}
