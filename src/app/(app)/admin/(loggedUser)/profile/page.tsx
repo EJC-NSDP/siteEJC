@@ -1,5 +1,6 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import {
   Album,
   BookUser,
@@ -9,29 +10,27 @@ import {
   FolderOpen,
   Users,
 } from 'lucide-react'
-import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import AvatarGroup from '@/components/AvatarGroup'
 import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
+import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 
-import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
-import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
 import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'
-
 
 async function getCurrentEncontro() {
   const equipe = await api
@@ -53,7 +52,6 @@ export default function Profile() {
     queryFn: async () => await getCurrentEncontro(),
     queryKey: ['currentEnconto'],
   })
-
 
   const router = useRouter()
 
@@ -197,31 +195,31 @@ export default function Profile() {
                     {(profileData.role === 'EXTERNA' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Externa"
-                          icon={CarFront}
-                          link="/admin/externa"
-                        />
-                      )}
+                      <ButtonLabel
+                        label="Externa"
+                        icon={CarFront}
+                        link="/admin/externa"
+                      />
+                    )}
 
                     {(profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Dirigencia"
-                          icon={Album}
-                          link="/admin/dirigente"
-                        />
-                      )}
+                      <ButtonLabel
+                        label="Dirigencia"
+                        icon={Album}
+                        link="/admin/dirigente"
+                      />
+                    )}
 
                     {(profileData.role === 'SECRETARIA' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Secretaria"
-                          icon={BookUser}
-                          link="/admin/secretaria"
-                        />
-                      )}
+                      <ButtonLabel
+                        label="Secretaria"
+                        icon={BookUser}
+                        link="/admin/secretaria"
+                      />
+                    )}
 
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel
@@ -234,12 +232,12 @@ export default function Profile() {
                     {(profileData.pastaURL !== '' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Minha equipe"
-                          icon={Users}
-                          link="/admin/minha-equipe"
-                        />
-                      )}
+                      <ButtonLabel
+                        label="Minha equipe"
+                        icon={Users}
+                        link="/admin/minha-equipe"
+                      />
+                    )}
 
                     {profileData && (
                       <ButtonLabel

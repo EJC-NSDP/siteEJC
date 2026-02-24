@@ -11,8 +11,7 @@ interface EncontroCardProps {
   currentEncontro: CurrentEncontro
 }
 
-export function EncontroCard({ currentEncontro  }: EncontroCardProps) {
-
+export function EncontroCard({ currentEncontro }: EncontroCardProps) {
   return (
     <Card className="w-full border-none bg-zinc-100 p-4 px-2 lg:w-2/6 lg:p-8">
       <CardContent className="flex flex-col justify-start gap-4">

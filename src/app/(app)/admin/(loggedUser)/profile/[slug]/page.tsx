@@ -10,7 +10,6 @@ import { getProfileSlug } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 
 import { BirthdayCard } from '../(sectionComponents)/BirthdayCard'
-import { EncontroCard } from '../(sectionComponents)/EncontroCard'
 
 export default async function ProfileSlug(props: {
   params: Promise<{ slug: string }>
@@ -114,7 +113,6 @@ export default async function ProfileSlug(props: {
                 </div>
               </CardContent>
             </Card>
-            <EncontroCard />
           </CardContent>
         </Card>
       )}
