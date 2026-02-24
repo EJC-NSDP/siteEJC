@@ -80,9 +80,16 @@ export async function changeEncontristas() {
   })
 
   atualizados.map(async (atualizado) => {
+    await prisma.responsavelExterna.deleteMany({
+      where: {
+        idEncontrista: atualizado.idPessoa,
+      },
+    })
+
     await prisma.encontreiro.update({
       data: {
         idCirculo: null,
+        statusMontagem: 'ATIVO',
       },
       where: {
         idPessoa: atualizado.idPessoa,

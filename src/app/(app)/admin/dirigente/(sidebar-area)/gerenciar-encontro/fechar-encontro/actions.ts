@@ -15,3 +15,7 @@ export async function actionLimparCartas() {
 export async function actionLimparMontagem() {
   return await api.patch('encontro/limpar-montagem')
 }
+
+export async function actionFecharEncontro() {
+  return await api.post('encontro')
+}

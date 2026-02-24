@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 
 import {
   actionChangeEncontristas,
+  actionFecharEncontro,
   actionLimparCartas,
   actionLimparMontagem,
   actionResetRoles,
@@ -19,6 +20,7 @@ export interface CardsNovoEncontroProps {
   encontristas: boolean
   cartas: boolean
   montagem: boolean
+  temEncontroAberto: boolean
 }
 
 export function CardsNovoEncontro({
@@ -26,14 +28,25 @@ export function CardsNovoEncontro({
   encontristas,
   cartas,
   montagem,
+  temEncontroAberto,
 }: CardsNovoEncontroProps) {
   const [acessoUltimoEncontro, setAcessoUltimoEncontro] =
     useState(ultimoEncontro)
   const [mudarEncontristas, setMudarEncontristas] = useState(encontristas)
   const [limparCartas, setLimparCartas] = useState(cartas)
   const [limparMontagem, setLimparMontagem] = useState(montagem)
-  const criarEncontrao =
+  const [encontroAberto, setEncontroAberto] = useState(temEncontroAberto)
+
+  const todasAcoesFeitas =
     acessoUltimoEncontro && mudarEncontristas && limparCartas && limparMontagem
+  const podeFechar = todasAcoesFeitas && encontroAberto
+
+  function getButtonText() {
+    if (!encontroAberto) return 'Sem encontro aberto'
+    if (!todasAcoesFeitas)
+      return 'Cheque todos os campos acima para fechar o Encontro'
+    return 'Fechar Encontro Atual'
+  }
 
   async function handleResetRoles() {
     try {
@@ -71,10 +84,19 @@ export function CardsNovoEncontro({
     }
   }
 
+  async function handleFecharEncontro() {
+    try {
+      await actionFecharEncontro()
+      setEncontroAberto(false)
+    } catch {
+      toast.error('Erro ao fechar o encontro')
+    }
+  }
+
   return (
     <div className="space-y-4">
       <CardAcao
-        title="Tirar acessos do último Encontrão"
+        title="Tirar acessos do último Encontro"
         description="Retire o acesso dos coordenadores aos sistemas exclusivos do site. Essa ação não afetará os acessos normais, apenas aqueles que tem relação com o encontro passado."
         status={acessoUltimoEncontro}
       >
@@ -87,7 +109,7 @@ export function CardsNovoEncontro({
       </CardAcao>
       <CardAcao
         title="Transformar encontristas em encontreiros"
-        description="Altere os encontristas confirmados e confirmados sem sexta para encontreiros. Essa ação removerá todas as informações que não são mais relevantes das pessoas que já fizeram o último Encontrão. Essa ação também exlcuirá quem está com o status desistiu ou foi deletado no último Encontrão do banco de dados"
+        description="Altere os encontristas confirmados e confirmados sem sexta para encontreiros. Essa ação removerá todas as informações que não são mais relevantes das pessoas que já fizeram o último Encontro. Essa ação também exlcuirá quem está com o status desistiu ou foi deletado no último Encontro do banco de dados"
         status={mudarEncontristas}
       >
         <BotaoAcao
@@ -99,7 +121,7 @@ export function CardsNovoEncontro({
       </CardAcao>
       <CardAcao
         title="Limpar cartas"
-        description="Remova todas as cartas recebidas no último Encontrão"
+        description="Remova todas as cartas recebidas no último Encontro"
         status={limparCartas}
       >
         <BotaoAcao
@@ -122,12 +144,11 @@ export function CardsNovoEncontro({
         />
       </CardAcao>
       <Button
-        disabled={!criarEncontrao}
+        disabled={!podeFechar}
         className="w-full py-8 text-xl disabled:cursor-not-allowed disabled:bg-zinc-300"
+        onClick={handleFecharEncontro}
       >
-        {criarEncontrao
-          ? 'Criar Novo Encontrão'
-          : 'Cheque todos os campos acima para criar um novo Encontrão'}
+        {getButtonText()}
       </Button>
     </div>
   )

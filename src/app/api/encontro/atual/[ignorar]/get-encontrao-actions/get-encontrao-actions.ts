@@ -1,3 +1,5 @@
+import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
+
 import { prisma } from '@/lib/prisma'
 
 export interface EncontraoActions {
@@ -5,9 +7,16 @@ export interface EncontraoActions {
   encontristas: boolean
   cartas: boolean
   montagem: boolean
+  temEncontroAberto: boolean
 }
 
 export async function getEncontraoActions(): Promise<EncontraoActions | null> {
+  const currentEncontro = await getCurrentEncontro()
+
+  const temEncontroAberto = currentEncontro
+    ? currentEncontro.numeroCirculos !== 0
+    : false
+
   const encontraoRoles = await prisma.pessoa.count({
     where: {
       OR: [
@@ -39,5 +48,6 @@ export async function getEncontraoActions(): Promise<EncontraoActions | null> {
     encontristas: encontristas === 0,
     cartas: cartas === 0,
     montagem: equipesMontagem === 0,
+    temEncontroAberto,
   }
 }

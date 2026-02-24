@@ -2,14 +2,14 @@
 
 import { Menu } from 'lucide-react'
 
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../ui/collapsible'
+} from '../../ui/collapsible'
+import { FooterNavigation } from '../FooterNavigation'
 
-import { FooterNavigation } from './FooterNavigation'
 import { MainNavigation } from './MainNavigation'
 
 import LogoEJCColorido from '@/assets/LogoEJCColorido'

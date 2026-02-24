@@ -155,7 +155,7 @@ export function CardEncontreiro({
           </div>
         </ScrollArea>
 
-        <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-[22rem] lg:w-1/2">
+        <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-88 lg:w-1/2">
           <div className="w-full p-8">
             <h4 className="mb-4 text-xl leading-none font-bold lg:text-2xl">
               Últimas equipes

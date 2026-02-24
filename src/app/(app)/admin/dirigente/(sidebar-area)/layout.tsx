@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { DirigenteSidebar } from '@/components/DirigenteSidebar'
+import { DirigenteSidebar } from '@/components/Sidebar/DirigenteSidebar'
 
 export const metadata: Metadata = {
   title: 'Dirigente | EJC NSDP',

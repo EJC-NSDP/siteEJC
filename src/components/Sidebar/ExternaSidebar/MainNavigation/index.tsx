@@ -10,8 +10,8 @@ import {
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { NavItem } from './NavItem'
-import { NavItemGroup } from './NavItemGroup'
+import { NavItem } from '../../NavItem'
+import { NavItemGroup } from '../../NavItemGroup'
 
 export function MainNavigation() {
   const path = usePathname()
@@ -32,14 +32,11 @@ export function MainNavigation() {
           active={path === '/admin/externa/circulos'}
         />
       </Link>
-      <NavItemGroup title="Tios de Externa" icon={CarFront}>
-        {/* <Link href="/admin/externa/tios">
-          <NavItem
-            title="Lista de Tios"
-            icon={Users}
-            active={path === '/admin/externa/tios'}
-          />
-        </Link> */}
+      <NavItemGroup
+        title="Tios de Externa"
+        value="tios-externa"
+        icon={CarFront}
+      >
         <Link href="/admin/externa/alocacao-carros">
           <NavItem
             title="Alocação nos Carros"

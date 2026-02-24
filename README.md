@@ -61,6 +61,7 @@ Grupo de coordenadores do movimento durante um ano inteiro.
 - Edição de informações de círculos
 - Montagem: divisão de quem trabalhará em cada equipe no encontrão
 - Criação de novo encontrão (com reset de acessos)
+- Fechar encontro atual (após executar todas as ações preparatórias)
 - Visualização das pastas de cada equipe
 - Visualização dos aniversariantes da semana
 
@@ -148,6 +149,16 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 ---
 
 ## Changelog
+
+### v5.1.0 — Fechar encontro e reestruturação da dirigência
+> Fevereiro 2026
+
+- Funcionalidade de fechar o encontro atual no módulo do dirigente
+- Botão de fechar encontro com três estados: sem encontro aberto, ações pendentes e pronto para fechar
+- Estado local atualizado após fechar o encontro com sucesso
+- Reestruturação de rotas e agrupamento de funções na área da dirigência
+
+---
 
 ### v5.0.2 — Melhorias visuais
 > Fevereiro 2026

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
-import { SecretariaSidebar } from '@/components/SecretariaSidebar'
+import { SecretariaSidebar } from '@/components/Sidebar/SecretariaSidebar'
 import { authOptions } from '@/lib/auth/auth-options'
 
 export const metadata: Metadata = {
