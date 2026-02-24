@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
+
 import { getEncontreiroCadastro } from './get-encontreiro-cadastro'
 import { updateCadastro } from './update-cadastro'
-
-import type { EditCadastroFormDataInput } from '@/app/(app)/admin/(loggedUser)/ficha-de-cadastro/FichaCadastroForm'
 
 interface EncontristaProps {
   id: string

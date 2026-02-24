@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
+import { Card, CardContent } from '@/components/ui/card'
+
 import { SortableCirculo } from './(SortCirculos)/SortableCirculo'
 import { SortableCirculos } from './(SortCirculos)/SortableCirculos'
-
-import { Card, CardContent } from '@/components/ui/card'
 
 function createRange<T>(
   length: number,

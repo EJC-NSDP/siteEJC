@@ -1,6 +1,6 @@
-import type { EquipeSecre } from './get-equipes-secre'
-
 import { prisma } from '@/lib/prisma'
+
+import type { EquipeSecre } from './get-equipes-secre'
 
 export async function updateEquipesSecre(equipes: EquipeSecre[]) {
   return Promise.all(

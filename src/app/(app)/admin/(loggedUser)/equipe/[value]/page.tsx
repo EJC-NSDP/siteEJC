@@ -1,14 +1,14 @@
 import { Download, FolderOpen } from 'lucide-react'
 import Link from 'next/link'
 
-import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
-
 import type { EquipeThisEncontro } from '@/app/api/encontro/atual/[ignorar]/equipe/[value]/get-equipe'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { getEquipeColor } from '@/utils/fetch-color'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
+
+import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
 
 async function getEncontreirosEquipe(equipeValue: string) {
   const response = await fetch(

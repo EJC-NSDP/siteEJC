@@ -1,6 +1,6 @@
-import { CirculoForm } from './(form)/CirculoForm'
-
 import type { CirculoFormData } from '@/@types/circulo'
+
+import { CirculoForm } from './(form)/CirculoForm'
 
 async function getCirculo(id: string) {
   const circulo = await fetch(`${process.env.NEXTAUTH_URL}/api/circulo/${id}`, {

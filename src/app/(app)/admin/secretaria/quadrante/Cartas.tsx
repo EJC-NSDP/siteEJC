@@ -1,7 +1,7 @@
-import { CardQuadrante } from './CardQuadrante'
-
 import type { CartasQuadrante } from '@/@types/quadrante'
 import { ImageUpload } from '@/components/Form/ImageUpload'
+
+import { CardQuadrante } from './CardQuadrante'
 
 interface CartasProps {
   cartas: CartasQuadrante

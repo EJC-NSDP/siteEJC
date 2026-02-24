@@ -1,6 +1,6 @@
-import { CardAniversariante } from './CardAniversariante'
-
 import type { Aniversariantes } from '@/app/api/pessoa/aniversariantes/get-aniversariantes'
+
+import { CardAniversariante } from './CardAniversariante'
 
 async function getAniversariantes() {
   const response: Aniversariantes[] = await fetch(

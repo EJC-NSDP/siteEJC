@@ -2,15 +2,15 @@ import { Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { EncontreiroMontagemCoord } from './EncontreiroMontagemCoord'
-import { EncontreiroMontagemEquipe } from './EncontreiroMontagemEquipe'
-
 import type { EncontreiroMontagemSummaryData } from '@/app/api/encontreiro/montagem/get-montagem-summary'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { getInitials } from '@/utils/get-initials'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
+
+import { EncontreiroMontagemCoord } from './EncontreiroMontagemCoord'
+import { EncontreiroMontagemEquipe } from './EncontreiroMontagemEquipe'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroMontagemSummaryData

@@ -2,6 +2,8 @@
 
 import { Wizard } from 'react-use-wizard'
 
+import { Card } from '@/components/ui/card'
+
 import { AddressDetails } from './(pageComponents)/AddressDetails'
 import { FamilyDetails } from './(pageComponents)/FamilyDetails'
 import { FinalForm } from './(pageComponents)/FinalForm'
@@ -9,8 +11,6 @@ import { InitialForm } from './(pageComponents)/InitialForm'
 import { NominationDetails } from './(pageComponents)/NominationDetails'
 import { OtherDetails } from './(pageComponents)/OtherDetails'
 import { PersonalDetails } from './(pageComponents)/PersonalDetails'
-
-import { Card } from '@/components/ui/card'
 
 interface ParticipeFormProps {
   dataInicio: Date | null

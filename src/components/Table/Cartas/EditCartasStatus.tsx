@@ -1,10 +1,5 @@
 import { Mails } from 'lucide-react'
 
-import { Button } from '../../ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
-
-import { CheckCartasVirtuaisDialog } from './CheckCartasVirtuaisDialog'
-
 import type { EncontristaIdentification } from '@/app/api/encontrista/identification/[slug]/get-identification'
 import type { Carta } from '@/app/api/export/carta/[slug]/get-encontrista-cartas'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -13,6 +8,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+
+import { Button } from '../../ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
+
+import { CheckCartasVirtuaisDialog } from './CheckCartasVirtuaisDialog'
 
 interface EditCartasStatusProps {
   cartas: Carta[]

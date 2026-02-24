@@ -3,10 +3,6 @@ import { compareAsc } from 'date-fns'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
-import { TiosExternaTableFilters } from './tios-externa-table-filters'
-import { TiosExternaTableRow } from './tios-externa-table-row'
-import { TiosExternaTableSkeleton } from './tios-externa-table-skeleton'
-
 import type {
   EncontristaSummary,
   EncontristaSummaryData,
@@ -22,6 +18,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { TiosExternaTableFilters } from './tios-externa-table-filters'
+import { TiosExternaTableRow } from './tios-externa-table-row'
+import { TiosExternaTableSkeleton } from './tios-externa-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

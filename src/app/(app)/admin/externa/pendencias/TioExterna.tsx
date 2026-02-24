@@ -1,7 +1,5 @@
 import { CircleUserRound, MessageSquare } from 'lucide-react'
 
-import { EncontristaPending } from './EncontristaPending'
-
 import type { CarroPendencias } from '@/app/api/encontro/atual/[ignorar]/pendencias/get-pendencias'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
@@ -10,6 +8,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+
+import { EncontristaPending } from './EncontristaPending'
 
 export interface TioExternaProps {
   carro: CarroPendencias

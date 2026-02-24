@@ -1,7 +1,7 @@
+import type { CirculoEncontro } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
+
 import type { SortableEncontrista } from './CardEncontristas'
 import { Circulo, type CirculoDroppable } from './Circulo'
-
-import type { CirculoEncontro } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 
 interface CirculosProps {
   circulos: CirculoEncontro[]

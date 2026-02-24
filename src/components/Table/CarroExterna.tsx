@@ -5,17 +5,17 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Form, FormControl, FormField, FormItem } from '../ui/form'
-import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
-
-import { SelectItemAvatar } from './SelectItemAvatar'
-
 import type { CarrosSummary } from '@/app/api/carro/get-carros-summary'
 import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
 import type { ExternaInfo } from '@/app/api/pessoa/externa/[idExterna]/get-previous-externa-info'
 import { api } from '@/lib/axios'
 import { getInitials } from '@/utils/get-initials'
+
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Form, FormControl, FormField, FormItem } from '../ui/form'
+import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
+
+import { SelectItemAvatar } from './SelectItemAvatar'
 
 interface CarroExternaProps {
   idExterna: string | null

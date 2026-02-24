@@ -1,8 +1,8 @@
-import { CardQuadrante } from './CardQuadrante'
-
 import type { valueQuadrante } from '@/@types/enums'
 import type { CartazQuadrante } from '@/@types/quadrante'
 import { ImageUpload } from '@/components/Form/ImageUpload'
+
+import { CardQuadrante } from './CardQuadrante'
 
 interface CartazesProps {
   cartazes: CartazQuadrante[]

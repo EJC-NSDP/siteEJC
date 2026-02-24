@@ -1,9 +1,9 @@
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-import { AdicionarPastoralForm } from '../(form)/AdicionarPastoralForm'
-
 import { Button } from '@/components/ui/button'
+
+import { AdicionarPastoralForm } from '../(form)/AdicionarPastoralForm'
 
 export default async function AdicionarPastoral() {
   return (

@@ -3,8 +3,6 @@
 import { BarChart4, Download, Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { TiosExternaTable } from './(table-tios)/tios-externa-table'
-
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +10,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+
+import { TiosExternaTable } from './(table-tios)/tios-externa-table'
 
 export default function ListaTios() {
   return (

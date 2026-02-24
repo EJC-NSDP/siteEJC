@@ -1,7 +1,7 @@
+import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { SelectItem } from '../ui/select'
-
-import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
 
 export type SelectItemAvatarProps = MembroExterna
 

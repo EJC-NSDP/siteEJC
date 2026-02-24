@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { EncontreiroFormData } from '@/@types/encontreiro'
+
 import { getEditEncontreiro } from './get-edit-encontreiro'
 import { updateEncontreiro } from './update-encontreiro'
-
-import type { EncontreiroFormData } from '@/@types/encontreiro'
 
 interface EncontreiroProps {
   slug: string

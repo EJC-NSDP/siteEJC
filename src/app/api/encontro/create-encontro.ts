@@ -1,7 +1,7 @@
-import { getCurrentEncontro } from './atual/[ignorar]/get-current-encontro/get-current-encontro'
-
 import { prisma } from '@/lib/prisma'
 import { createSlugForEncontrista } from '@/utils/create-slug'
+
+import { getCurrentEncontro } from './atual/[ignorar]/get-current-encontro/get-current-encontro'
 
 export async function createEncontro() {
   const encontroAtual = await getCurrentEncontro()

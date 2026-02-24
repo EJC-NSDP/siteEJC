@@ -4,12 +4,12 @@ import { Download, Megaphone, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+
 import { EncontreirosMontagemTable } from './(table-montagem)/encontreiros-montagem-table'
 import { AlertDialogAplicarContent } from './AlertDialogAplicarContent'
 import { CardsEquipesMontagem } from './CardsEquipesMontagem'
-
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 
 export default function Montagem() {
   const [open, setOpen] = useState(false)

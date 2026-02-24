@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { EncontreiroFormData } from '@/@types/encontreiro'
+
 import { createEncontreiro } from './create-encontreiro'
 import { getEncontreirosSummary } from './get-encontreiros-summary'
-
-import type { EncontreiroFormData } from '@/@types/encontreiro'
 
 export async function POST(request: NextRequest) {
   const formData: EncontreiroFormData = await request.json()

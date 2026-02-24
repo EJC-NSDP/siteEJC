@@ -5,10 +5,10 @@
 import Link from 'next/link'
 import type { HTMLAttributes, ReactNode } from 'react'
 
-import { Separator } from './ui/separator'
-
 import LogoEJCColorido from '@/assets/LogoEJCColorido'
 import { cn } from '@/lib/utils'
+
+import { Separator } from './ui/separator'
 
 interface FooterSectionProps extends HTMLAttributes<HTMLDivElement> {
   title: string

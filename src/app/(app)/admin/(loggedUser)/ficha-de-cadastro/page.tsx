@@ -4,11 +4,11 @@ import { redirect } from 'next/navigation'
 import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
-import { InitialCard } from './(pageComponents)/InitialCard'
-import { FichaCadastroForm } from './FichaCadastroForm'
-
 import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { api } from '@/lib/axios'
+
+import { InitialCard } from './(pageComponents)/InitialCard'
+import { FichaCadastroForm } from './FichaCadastroForm'
 
 async function getEncontreiro(id: string) {
   const res = await api.get(`encontreiro/${id}/ficha-cadastro`)

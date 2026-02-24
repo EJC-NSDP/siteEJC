@@ -5,12 +5,12 @@ import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import { EncontristasCartasTable } from './(table-cartas)/encontristas-cartas-table'
-
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import { api } from '@/lib/axios'
+
+import { EncontristasCartasTable } from './(table-cartas)/encontristas-cartas-table'
 
 async function getCartasStatus() {
   const res = await api.get(`encontro/atual/1/get-carta-status`)

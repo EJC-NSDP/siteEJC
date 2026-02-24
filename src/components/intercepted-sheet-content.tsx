@@ -6,9 +6,9 @@ import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { SheetOverlay, SheetPortal, sheetVariants } from './ui/sheet'
-
 import { cn } from '@/lib/utils'
+
+import { SheetOverlay, SheetPortal, sheetVariants } from './ui/sheet'
 
 interface InterceptedSheetContentProps
   extends

@@ -1,6 +1,3 @@
-import { BirthdayCard } from '../(sectionComponents)/BirthdayCard'
-import { EncontroCard } from '../(sectionComponents)/EncontroCard'
-
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
 import AvatarGroup from '@/components/AvatarGroup'
 import { CardLoading } from '@/components/CardLoading'
@@ -11,6 +8,9 @@ import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { getProfileSlug } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
+
+import { BirthdayCard } from '../(sectionComponents)/BirthdayCard'
+import { EncontroCard } from '../(sectionComponents)/EncontroCard'
 
 export default async function ProfileSlug(props: {
   params: Promise<{ slug: string }>

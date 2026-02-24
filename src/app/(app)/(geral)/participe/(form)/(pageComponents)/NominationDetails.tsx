@@ -7,9 +7,6 @@ import { useWizard } from 'react-use-wizard'
 import { useHookFormMask } from 'use-mask-input'
 import { z } from 'zod'
 
-import { CardParticipe } from '../(components)/CardParticipe'
-import { CardSection } from '../(components)/CardSection'
-
 import { TextInput } from '@/components/Form/TextInput'
 import { Form, FormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -17,6 +14,9 @@ import {
   CreateEncontristaContext,
   NominationFormData,
 } from '@/context/CreateEncontristaContext'
+
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const nominationFormScheme = z.object({
   indicadoPorNome: z.string().optional(),

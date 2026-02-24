@@ -3,14 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
+import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
+import { api } from '@/lib/axios'
+
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
 
 import { SelectItemAvatar } from './SelectItemAvatar'
-
-import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
-import type { MembroExterna } from '@/app/api/encontro/atual/[ignorar]/externa/get-equipe-externa'
-import { api } from '@/lib/axios'
 
 interface EncontristaExternaProps {
   idExterna: string | null

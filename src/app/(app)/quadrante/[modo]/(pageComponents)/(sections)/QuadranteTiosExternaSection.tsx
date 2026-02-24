@@ -1,6 +1,6 @@
-import { QuadranteTiosExternaPage } from '../(pages)/QuadranteTiosExternaPage'
-
 import type { EquipeTiosExternaQuadrante } from '@/@types/quadrante'
+
+import { QuadranteTiosExternaPage } from '../(pages)/QuadranteTiosExternaPage'
 
 export interface QuadranteTiosExternaSectionProps {
   tiosExterna: EquipeTiosExternaQuadrante

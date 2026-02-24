@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
-import { updateImage } from './update-image'
-
 import type { Value_Quadrante as valueQuadrante } from '@/enums'
+
+import { updateImage } from './update-image'
 
 export interface UpdateQuadranteData {
   value: valueQuadrante

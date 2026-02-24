@@ -16,17 +16,17 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
+import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
+import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
+import { api } from '@/lib/axios'
+import { hasDraggableData } from '@/utils/draggable-data'
+
 import {
   CardEncontristaCarro,
   type SortableEncontristaCarro,
 } from './CardEncontristasCarro'
 import { Carros } from './Carros'
 import { ListaConfirmadosSemCarro } from './ListaConfirmadosSemCarro'
-
-import type { CarroFromEncontro } from '@/app/api/encontro/atual/[ignorar]/carros/get-carros'
-import type { CardEncontristaResponse } from '@/app/api/encontro/atual/[ignorar]/confirmados-card/get-confirmados-card'
-import { api } from '@/lib/axios'
-import { hasDraggableData } from '@/utils/draggable-data'
 
 export type CarroId = string
 

@@ -3,9 +3,9 @@
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { PastoraisSecreTable } from './(table-pastorais)/pastorais-secre-table'
-
 import { Button } from '@/components/ui/button'
+
+import { PastoraisSecreTable } from './(table-pastorais)/pastorais-secre-table'
 
 export default function SecretariaPastorais() {
   return (

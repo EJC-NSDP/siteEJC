@@ -1,8 +1,6 @@
 import { Trash2, UserLock, UserPen } from 'lucide-react'
 import { useState } from 'react'
 
-import { EditarEquipeForm } from '../(form)/EditarEquipeForm'
-
 import type { EncontreiroSecreSummaryData } from '@/app/api/secretaria/encontreiro/get-encontreiros-secre'
 import { DeleteGenericDialog } from '@/components/Table/DeleteGenericDialog'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
@@ -11,6 +9,8 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
+
+import { EditarEquipeForm } from '../(form)/EditarEquipeForm'
 
 interface EncontreiroTableRowProps {
   encontreiro: EncontreiroSecreSummaryData

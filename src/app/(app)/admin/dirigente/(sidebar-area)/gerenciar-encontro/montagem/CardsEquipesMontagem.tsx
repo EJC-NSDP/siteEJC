@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { CardEquipeMontagem } from './CardEquipeMontagem'
-
 import type { EquipesMontagemAggregated } from '@/app/api/domains/equipes/montagem/aggregated/get-equipes'
 import { api } from '@/lib/axios'
+
+import { CardEquipeMontagem } from './CardEquipeMontagem'
 
 async function getEquipes() {
   const response: EquipesMontagemAggregated[] = await api

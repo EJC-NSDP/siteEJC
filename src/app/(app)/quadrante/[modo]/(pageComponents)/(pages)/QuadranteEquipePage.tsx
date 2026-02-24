@@ -1,8 +1,8 @@
-import { QuadranteTitlePage } from './QuadranteTitlePage'
-
 import type { EncontreiroQuadrante } from '@/@types/quadrante'
 import { cn } from '@/lib/utils'
 import { idPertenceARosa } from '@/utils/pertence'
+
+import { QuadranteTitlePage } from './QuadranteTitlePage'
 
 interface QuadranteEquipePageProps {
   title: string

@@ -1,6 +1,6 @@
-import type { updateCartaVirtualRouteProps } from './route'
-
 import { prisma } from '@/lib/prisma'
+
+import type { updateCartaVirtualRouteProps } from './route'
 
 export async function updateCartaPrinted({
   id,

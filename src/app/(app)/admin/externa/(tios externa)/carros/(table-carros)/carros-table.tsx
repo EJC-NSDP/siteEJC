@@ -2,10 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
-import { CarrosTableFilters } from './carros-table-filters'
-import { CarrosTableRow } from './carros-table-row'
-import { CarrosTableSkeleton } from './carros-table-skeleton'
-
 import type { CarrosSummary } from '@/app/api/carro/get-carros-summary'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { Pagination } from '@/components/Table/Pagination'
@@ -19,6 +15,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { CarrosTableFilters } from './carros-table-filters'
+import { CarrosTableRow } from './carros-table-row'
+import { CarrosTableSkeleton } from './carros-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

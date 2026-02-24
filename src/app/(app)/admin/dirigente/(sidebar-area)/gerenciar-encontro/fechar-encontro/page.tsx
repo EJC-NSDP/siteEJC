@@ -1,6 +1,6 @@
-import { CardsNovoEncontro } from './CardsNovoEncontro'
-
 import type { EncontraoActions } from '@/app/api/encontro/atual/[ignorar]/get-encontrao-actions/get-encontrao-actions'
+
+import { CardsNovoEncontro } from './CardsNovoEncontro'
 
 export default async function DirigentesFecharEncontro() {
   const actions: EncontraoActions = await fetch(

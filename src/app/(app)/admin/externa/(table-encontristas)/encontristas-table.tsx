@@ -2,10 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
-import { EncontristaTableFilters } from './encontristas-table-filters'
-import { EncontristaTableRow } from './encontristas-table-row'
-import { EncontristaTableSkeleton } from './encontristas-table-skeleton'
-
 import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { Pagination } from '@/components/Table/Pagination'
@@ -20,6 +16,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { EncontristaTableFilters } from './encontristas-table-filters'
+import { EncontristaTableRow } from './encontristas-table-row'
+import { EncontristaTableSkeleton } from './encontristas-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

@@ -18,11 +18,6 @@ import { Download, Puzzle } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import { AutoSortButton } from './AutoSortButton'
-import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
-import { Circulos } from './Circulos'
-import { ListaConfirmadosSemCirculo } from './ListaConfirmados'
-
 import type {
   CirculoEncontro,
   CirculosResponse,
@@ -32,6 +27,11 @@ import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
 import { hasDraggableData } from '@/utils/draggable-data'
+
+import { AutoSortButton } from './AutoSortButton'
+import { CardEncontrista, type SortableEncontrista } from './CardEncontristas'
+import { Circulos } from './Circulos'
+import { ListaConfirmadosSemCirculo } from './ListaConfirmados'
 
 function ordenarCirculos(baseOrder: string, circulos: CirculoEncontro[]) {
   // Converter a string de baseOrder em um array de números

@@ -1,7 +1,7 @@
-import { createEndereco } from '../../endereco/create-endereco'
-
 import { prisma } from '@/lib/prisma'
 import { getCEPData, type CEPResponse } from '@/utils/fetch-cep'
+
+import { createEndereco } from '../../endereco/create-endereco'
 
 export type LocalProps = {
   enderecoCep: string

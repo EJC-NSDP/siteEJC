@@ -1,7 +1,5 @@
 'use client'
 
-import { EncontreiroEquipeTableRow } from './encontreiros-equipe-table-row'
-
 import type { EncontreiroEmEquipe } from '@/app/api/encontreiro/[id]/equipe/get-equipe'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import {
@@ -14,6 +12,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
+
+import { EncontreiroEquipeTableRow } from './encontreiros-equipe-table-row'
 
 interface EncontreirosEquipeTableProps {
   equipe: EncontreiroEmEquipe[]

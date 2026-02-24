@@ -2,10 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
-import { EncontreiroMontagemTableFilters } from './encontreiros-montagem-table-filters'
-import { EncontreiroTableRow } from './encontreiros-montagem-table-row'
-import { EncontreiroMontagemTableSkeleton } from './encontreiros-montagem-table-skeleton'
-
 import type { EncontreiroMontagemSummary } from '@/app/api/encontreiro/montagem/get-montagem-summary'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { Pagination } from '@/components/Table/Pagination'
@@ -20,6 +16,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { EncontreiroMontagemTableFilters } from './encontreiros-montagem-table-filters'
+import { EncontreiroTableRow } from './encontreiros-montagem-table-row'
+import { EncontreiroMontagemTableSkeleton } from './encontreiros-montagem-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

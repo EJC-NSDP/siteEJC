@@ -7,12 +7,6 @@ import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { AddressCard } from './(pageComponents)/AddressCard'
-import { EncontroCard } from './(pageComponents)/EncontroCard'
-import { PasswordCard } from './(pageComponents)/PasswordCard'
-import { PersonalCard } from './(pageComponents)/PersonalCard'
-import { ProxEncontroCard } from './(pageComponents)/ProxEncontroCard'
-
 import type { EncontreiroCadastroData } from '@/app/api/encontreiro/[id]/ficha-cadastro/get-encontreiro-cadastro'
 import { Nav } from '@/components/Nav/Nav'
 import { NavItem } from '@/components/Nav/NavItem'
@@ -21,6 +15,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 import { getCirculoColor } from '@/utils/fetch-color'
 import { dateToString } from '@/utils/string-to-date'
+
+import { AddressCard } from './(pageComponents)/AddressCard'
+import { EncontroCard } from './(pageComponents)/EncontroCard'
+import { PasswordCard } from './(pageComponents)/PasswordCard'
+import { PersonalCard } from './(pageComponents)/PersonalCard'
+import { ProxEncontroCard } from './(pageComponents)/ProxEncontroCard'
 
 interface FichaCadastroProps {
   data: EncontreiroCadastroData

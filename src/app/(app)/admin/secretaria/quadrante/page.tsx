@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import { QuadranteForm } from './QuadranteForm'
-
 import { Button } from '@/components/ui/button'
 import { fetchConfigData } from '@/lib/quadrante/fetchAllData'
+
+import { QuadranteForm } from './QuadranteForm'
 
 export default async function Quadrante() {
   const config = await fetchConfigData()

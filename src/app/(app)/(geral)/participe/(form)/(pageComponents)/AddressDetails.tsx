@@ -8,9 +8,6 @@ import { toast } from 'sonner'
 import { useHookFormMask } from 'use-mask-input'
 import { z } from 'zod'
 
-import { CardParticipe } from '../(components)/CardParticipe'
-import { CardSection } from '../(components)/CardSection'
-
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
 import { TextInput } from '@/components/Form/TextInput'
@@ -21,6 +18,9 @@ import {
   CreateEncontristaContext,
 } from '@/context/CreateEncontristaContext'
 import { getCEPData, type CEPResponse } from '@/utils/fetch-cep'
+
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const addressFormScheme = z.object({
   cep: z

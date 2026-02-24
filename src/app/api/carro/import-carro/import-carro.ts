@@ -1,7 +1,7 @@
+import { prisma } from '@/lib/prisma'
+
 import { getCurrentEncontro } from '../../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { getNextCarroEncontro } from '../../encontro/atual/[ignorar]/get-next-carro-encontro/get-next-carro-encontro'
-
-import { prisma } from '@/lib/prisma'
 
 export interface ImportCarroProps {
   idCarro: string

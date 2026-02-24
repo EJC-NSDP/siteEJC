@@ -13,13 +13,13 @@ import { saveAs } from 'file-saver'
 import { Download } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { Button } from '../ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
-
 import type { EncontristaIdentification } from '@/app/api/encontrista/identification/[slug]/get-identification'
 import type { Carta } from '@/app/api/export/carta/[slug]/get-encontrista-cartas'
 import { api } from '@/lib/axios'
 import { dividirEmParagrafos } from '@/utils/dividir-paragrafos'
+
+import { Button } from '../ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 interface PrintCartasEncontrista {
   cartas: Carta[]

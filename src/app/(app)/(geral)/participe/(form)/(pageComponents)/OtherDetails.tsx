@@ -8,9 +8,6 @@ import { useForm } from 'react-hook-form'
 import { useWizard } from 'react-use-wizard'
 import { z } from 'zod'
 
-import { CardParticipe } from '../(components)/CardParticipe'
-import { CardSection } from '../(components)/CardSection'
-
 import tamanhoCamisaReference from '@/assets/TamanhoCamisaReference.jpeg'
 import { RadioInputGroup } from '@/components/Form/RadioInput/RadioInputGroup'
 import { RadioInputItem } from '@/components/Form/RadioInput/RadioInputItem'
@@ -28,6 +25,9 @@ import {
   OtherFormData,
 } from '@/context/CreateEncontristaContext'
 import { getTamanhoCamisa } from '@/utils/fetch-domains'
+
+import { CardParticipe } from '../(components)/CardParticipe'
+import { CardSection } from '../(components)/CardSection'
 
 const otherFormScheme = z.object({
   tamanhoCamisa: z

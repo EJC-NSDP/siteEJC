@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-import { editEncontreiroFromEquipeAtual } from './edit-encontreiro-equipe-atual'
-
 import type { EditEquipeData } from '@/app/(app)/admin/secretaria/encontreiros/(form)/EditarEquipeForm'
+
+import { editEncontreiroFromEquipeAtual } from './edit-encontreiro-equipe-atual'
 
 export async function PATCH(request: Request) {
   const formData: EditEquipeData = await request.json()

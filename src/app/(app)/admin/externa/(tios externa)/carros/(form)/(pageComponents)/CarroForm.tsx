@@ -8,10 +8,6 @@ import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { CaronaDetails } from './CaronaDetails'
-import { CarroDetails } from './CarroDetails'
-import { MotoristaDetails } from './MotoristaDetails'
-
 import type { CarFormData } from '@/@types/carro'
 import { Nav } from '@/components/Nav/Nav'
 import { NavItem } from '@/components/Nav/NavItem'
@@ -19,6 +15,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Role } from '@/enums'
 import { api } from '@/lib/axios'
+
+import { CaronaDetails } from './CaronaDetails'
+import { CarroDetails } from './CarroDetails'
+import { MotoristaDetails } from './MotoristaDetails'
 
 interface CarroFormProps {
   data?: CarFormData

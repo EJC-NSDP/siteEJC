@@ -7,12 +7,12 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { CardPalestra } from './CardPalestra'
-
 import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { api } from '@/lib/axios'
+
+import { CardPalestra } from './CardPalestra'
 
 const palestraScheme = z.object({
   idPalestra: z.string().min(1, 'Informe a palestra'),

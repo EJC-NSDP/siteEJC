@@ -7,14 +7,14 @@ import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { CirculoDetails } from './CirculoDetails'
-
 import type { CirculoFormData } from '@/@types/circulo'
 import { Nav } from '@/components/Nav/Nav'
 import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
+
+import { CirculoDetails } from './CirculoDetails'
 
 interface EditCirculoProps {
   data: CirculoFormData

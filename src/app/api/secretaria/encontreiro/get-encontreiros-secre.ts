@@ -1,7 +1,7 @@
-import { getCurrentEncontro } from '../../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
-
 import { type Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
+
+import { getCurrentEncontro } from '../../encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 
 // Campos válidos para ordenação
 export const validOrderFields = [

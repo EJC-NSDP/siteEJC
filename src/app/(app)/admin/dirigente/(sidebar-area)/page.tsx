@@ -3,9 +3,9 @@
 import { Download, Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { EncontreirosTable } from './(table-encontreiros)/encontreiros-table'
-
 import { Button } from '@/components/ui/button'
+
+import { EncontreirosTable } from './(table-encontreiros)/encontreiros-table'
 
 export default function Dirigente() {
   return (

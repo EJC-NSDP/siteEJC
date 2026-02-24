@@ -13,14 +13,14 @@ import {
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import type { valueStatus } from '@/@types/enums'
+import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
+import { api } from '@/lib/axios'
+
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Select, SelectContent, SelectTrigger, SelectValue } from '../ui/select'
 
 import { SelectItemIcon, type SelectItemIconProps } from './SelectItemIcon'
-
-import type { valueStatus } from '@/@types/enums'
-import type { EncontristaSummary } from '@/app/api/encontrista/get-encontristas-summary'
-import { api } from '@/lib/axios'
 
 interface changeStatusProps {
   encontristaId: string

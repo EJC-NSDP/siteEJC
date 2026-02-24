@@ -3,14 +3,14 @@
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 
+import LogoEJCColorido from '@/assets/LogoEJCColorido'
+
 import { Button } from './ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from './ui/collapsible'
-
-import LogoEJCColorido from '@/assets/LogoEJCColorido'
 
 export function Header() {
   // const { resolvedTheme } = useTheme()

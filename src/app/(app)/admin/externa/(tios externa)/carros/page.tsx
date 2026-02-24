@@ -3,8 +3,6 @@
 import { BarChart4, Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { CarrosTable } from './(table-carros)/carros-table'
-
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +10,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+
+import { CarrosTable } from './(table-carros)/carros-table'
 
 export default function ListaCarros() {
   return (

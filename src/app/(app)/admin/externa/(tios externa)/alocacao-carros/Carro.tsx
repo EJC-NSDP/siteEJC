@@ -1,12 +1,6 @@
 import { useDroppable, type UniqueIdentifier } from '@dnd-kit/core'
 import { CircleUserRound, MessageSquare } from 'lucide-react'
 
-import {
-  CardEncontristaCarro,
-  type SortableEncontristaCarro,
-} from './CardEncontristasCarro'
-import { type TioExternaProps } from './TioExterna'
-
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
   Tooltip,
@@ -14,6 +8,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+
+import {
+  CardEncontristaCarro,
+  type SortableEncontristaCarro,
+} from './CardEncontristasCarro'
+import { type TioExternaProps } from './TioExterna'
 
 interface CarroInfo {
   numeroCarro: number

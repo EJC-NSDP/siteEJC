@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { CarFormData } from '@/@types/carro'
+
 import { createCarro } from './create-carro'
 import { getCarrosSummary } from './get-carros-summary'
-
-import type { CarFormData } from '@/@types/carro'
 
 export async function POST(request: NextRequest) {
   const formData: CarFormData = await request.json()

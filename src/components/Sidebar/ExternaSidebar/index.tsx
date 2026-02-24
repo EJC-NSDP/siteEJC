@@ -2,6 +2,8 @@
 
 import { Menu } from 'lucide-react'
 
+import LogoEJCColorido from '@/assets/LogoEJCColorido'
+
 import { Button } from '../../ui/button'
 import {
   Collapsible,
@@ -11,8 +13,6 @@ import {
 import { FooterNavigation } from '../FooterNavigation'
 
 import { MainNavigation } from './MainNavigation'
-
-import LogoEJCColorido from '@/assets/LogoEJCColorido'
 
 export function ExternaSidebar() {
   return (

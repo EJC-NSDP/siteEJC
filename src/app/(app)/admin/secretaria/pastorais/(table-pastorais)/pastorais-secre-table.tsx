@@ -1,10 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 
-import { PastoraisSecreTableFilters } from './pastorais-secre-table-filters'
-import { PastoraisSecreTableRow } from './pastorais-secre-table-row'
-import { PastoraisSecreTableSkeleton } from './pastorais-secre-table-skeleton'
-
 import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pastorais'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import {
@@ -17,6 +13,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { PastoraisSecreTableFilters } from './pastorais-secre-table-filters'
+import { PastoraisSecreTableRow } from './pastorais-secre-table-row'
+import { PastoraisSecreTableSkeleton } from './pastorais-secre-table-skeleton'
 
 interface SearchProps {
   ano: number

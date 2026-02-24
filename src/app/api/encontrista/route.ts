@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import type { valueStatus } from '@/@types/enums'
+
 import {
   createEncontrista,
   type CreateEncontristaProps,
 } from './create-encontrista'
 import { getEncontristasSummary } from './get-encontristas-summary'
-
-import type { valueStatus } from '@/@types/enums'
 
 export async function POST(request: NextRequest) {
   const formData: CreateEncontristaProps = await request.json()

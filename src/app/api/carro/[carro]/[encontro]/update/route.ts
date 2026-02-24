@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { CarFormData } from '@/@types/carro'
+
 import { getCarro, type GetCarroProps } from './get-carro'
 import { updateCarro } from './update-carro'
-
-import type { CarFormData } from '@/@types/carro'
 
 export async function GET(
   request: Request,

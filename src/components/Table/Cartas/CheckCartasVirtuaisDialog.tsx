@@ -2,10 +2,6 @@
 
 import { formatDate } from 'date-fns'
 
-import { DialogDescription, DialogHeader, DialogTitle } from '../../ui/dialog'
-
-import { CartaCheckbox } from './CartaCheckbox'
-
 import type { EncontristaIdentification } from '@/app/api/encontrista/identification/[slug]/get-identification'
 import type { Carta } from '@/app/api/export/carta/[slug]/get-encontrista-cartas'
 import {
@@ -17,6 +13,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { textEllipsis } from '@/utils/ellipsis-text'
+
+import { DialogDescription, DialogHeader, DialogTitle } from '../../ui/dialog'
+
+import { CartaCheckbox } from './CartaCheckbox'
 
 interface CheckCartasVirtuaisDialogProps {
   cartas: Carta[]

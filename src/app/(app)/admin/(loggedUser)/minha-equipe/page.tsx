@@ -6,8 +6,6 @@ import Link from 'next/link'
 import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
-import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
-
 import type { MinhaEquipe } from '@/app/api/encontreiro/[id]/equipe/get-equipe'
 import { CardLoading } from '@/components/CardLoading'
 import { Button } from '@/components/ui/button'
@@ -16,6 +14,8 @@ import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { getEquipeColor } from '@/utils/fetch-color'
 import { idPertenceARosa, idPertenceASala } from '@/utils/pertence'
+
+import { EncontreirosEquipeTable } from './(table-equipe)/encontreiros-equipe-table'
 
 async function getEncontreirosEquipe(id: string) {
   const response: MinhaEquipe = await api

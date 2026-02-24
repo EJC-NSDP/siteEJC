@@ -7,16 +7,16 @@ import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { AddressDetails } from './AddressDetails'
-import { EncontroDetails } from './EncontroDetails'
-import { PersonalDetails } from './PersonalDetails'
-
 import type { EncontreiroFormData } from '@/@types/encontreiro'
 import { Nav } from '@/components/Nav/Nav'
 import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { api } from '@/lib/axios'
+
+import { AddressDetails } from './AddressDetails'
+import { EncontroDetails } from './EncontroDetails'
+import { PersonalDetails } from './PersonalDetails'
 
 interface EditEncontreiroProps {
   data?: EncontreiroFormData

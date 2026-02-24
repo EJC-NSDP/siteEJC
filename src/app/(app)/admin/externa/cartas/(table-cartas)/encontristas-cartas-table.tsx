@@ -3,10 +3,6 @@ import { compareAsc } from 'date-fns'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
-import { EncontristaCartasTableFilters } from './encontristas-cartas-table-filters'
-import { EncontristaCartasTableRow } from './encontristas-cartas-table-row'
-import { EncontristaCartasTableSkeleton } from './encontristas-cartas-table-skeleton'
-
 import type {
   CartaSummary,
   CartaSummaryData,
@@ -23,6 +19,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { EncontristaCartasTableFilters } from './encontristas-cartas-table-filters'
+import { EncontristaCartasTableRow } from './encontristas-cartas-table-row'
+import { EncontristaCartasTableSkeleton } from './encontristas-cartas-table-skeleton'
 
 interface SearchProps {
   pageIndex: number

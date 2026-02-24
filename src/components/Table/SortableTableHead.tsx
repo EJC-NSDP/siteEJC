@@ -5,9 +5,9 @@ import {
 } from 'lucide-react'
 import type { ElementType } from 'react'
 
-import { TableHead } from '../ui/table'
-
 import { cn } from '@/lib/utils'
+
+import { TableHead } from '../ui/table'
 
 export interface SortableTableHeadProps {
   label: string

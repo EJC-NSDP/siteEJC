@@ -7,10 +7,10 @@ import type { CloudinaryUploadWidgetResults } from 'next-cloudinary'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { UploadWidgetWrapper } from './UploadWidgetWrapper'
-
 import { updateCapas, updateProfile } from '@/actions/updateCloudinary'
 import type { Value_Quadrante as valueQuadrante } from '@/enums'
+
+import { UploadWidgetWrapper } from './UploadWidgetWrapper'
 
 interface ImageUploadProps {
   label?: string

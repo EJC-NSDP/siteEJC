@@ -1,8 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { DirisBpsSecreTableRow } from './diris-bps-secre-table-row'
-import { DirisBpsSecreTableSkeleton } from './diris-bps-secre-table-skeleton'
-
 import type { DiriBP } from '@/app/api/lideranca/[ano]/diris-bps/get-diris-bps'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import {
@@ -15,6 +12,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { api } from '@/lib/axios'
+
+import { DirisBpsSecreTableRow } from './diris-bps-secre-table-row'
+import { DirisBpsSecreTableSkeleton } from './diris-bps-secre-table-skeleton'
 
 async function getDirisBps(ano: number) {
   const response: DiriBP[] = await api

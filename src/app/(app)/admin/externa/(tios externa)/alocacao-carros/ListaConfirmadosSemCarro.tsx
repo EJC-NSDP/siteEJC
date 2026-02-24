@@ -1,14 +1,14 @@
 import { useDroppable } from '@dnd-kit/core'
 import { useUniqueId } from '@dnd-kit/utilities'
 
+import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
+
 import {
   CardEncontristaCarro,
   type SortableEncontristaCarro,
 } from './CardEncontristasCarro'
-
-import { CardEncontristasListEmpty } from '@/components/Table/CardEncontristasListEmpty'
-import { Card } from '@/components/ui/card'
-import { cn } from '@/lib/utils'
 
 interface ListaConfirmadosSemCirculoProps {
   encontristas: SortableEncontristaCarro[]

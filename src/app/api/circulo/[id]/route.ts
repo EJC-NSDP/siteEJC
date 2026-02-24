@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import type { CirculoFormData } from '@/@types/circulo'
+
 import { getCirculo } from './get-circulo'
 import { updateCirculo } from './update-circulo'
-
-import type { CirculoFormData } from '@/@types/circulo'
 
 interface CirculoProps {
   id: string

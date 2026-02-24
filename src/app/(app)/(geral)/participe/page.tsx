@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 
-import { ParticipeForm } from './(form)/ParticipeForm'
-
 import { CardLoading } from '@/components/CardLoading'
 import { CreateEncontristaContextProvider } from '@/context/CreateEncontristaContext'
 import { getCurrentEncontroDate } from '@/utils/fetch-this-encontro'
+
+import { ParticipeForm } from './(form)/ParticipeForm'
 
 export default async function ParticipePage() {
   const dataEncontro = await getCurrentEncontroDate()

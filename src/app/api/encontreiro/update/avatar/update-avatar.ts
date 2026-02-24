@@ -1,6 +1,6 @@
-import type { UpdateAvatarFormData } from './route'
-
 import { prisma } from '@/lib/prisma'
+
+import type { UpdateAvatarFormData } from './route'
 
 export async function updateAvatar({ slug, avatarUrl }: UpdateAvatarFormData) {
   const foundUser = await prisma.pessoa.findUnique({

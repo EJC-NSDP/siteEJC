@@ -1,14 +1,14 @@
-import { QuadranteCoverPage } from '../(pages)/QuadranteCoverPage'
-import { QuadranteEquipePage } from '../(pages)/QuadranteEquipePage'
-import { QuadranteOnePage } from '../(pages)/QuadranteOnePage'
-import { QuadranteTwoPage } from '../(pages)/QuadranteTwoPage'
-
 import type { EquipeQuadrante } from '@/@types/quadrante'
 import {
   idPertenceARosa,
   idPertenceASala,
   idPertenceATropa,
 } from '@/utils/pertence'
+
+import { QuadranteCoverPage } from '../(pages)/QuadranteCoverPage'
+import { QuadranteEquipePage } from '../(pages)/QuadranteEquipePage'
+import { QuadranteOnePage } from '../(pages)/QuadranteOnePage'
+import { QuadranteTwoPage } from '../(pages)/QuadranteTwoPage'
 
 export interface QuadranteEquipesSectionProps {
   equipes: EquipeQuadrante[]

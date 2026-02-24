@@ -1,6 +1,6 @@
-import type { updateCartaFisicaRouteProps } from './route'
-
 import { prisma } from '@/lib/prisma'
+
+import type { updateCartaFisicaRouteProps } from './route'
 
 export async function updateCartaFisica({
   id,

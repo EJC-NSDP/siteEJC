@@ -1,6 +1,6 @@
-import { EditEncontristaForm } from './EditEncontristaForm'
-
 import type { EncontristaData } from '@/app/api/encontrista/[id]/get-encontrista'
+
+import { EditEncontristaForm } from './EditEncontristaForm'
 
 async function getEncontrista(slug: string) {
   const id = await fetch(
