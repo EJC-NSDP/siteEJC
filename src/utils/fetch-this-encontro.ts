@@ -18,7 +18,7 @@ export async function getCurrentEncontro() {
 export const getCurrentEncontroDate = cache(async (): Promise<Date | null> => {
   const data: CurrentEncontro = await getCurrentEncontro()
 
-  if(data.numeroCirculos === 0) {
+  if (data.numeroCirculos === 0) {
     return null
   }
 

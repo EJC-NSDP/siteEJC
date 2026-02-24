@@ -1,11 +1,11 @@
 {
   "name": "siteejc_v4",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "prisma generate && next dev --turbopack -p 3003",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && eslint src --fix && next build",
     "start": "next start -p 3003",
     "lint": "eslint src --fix",
     "seed": "tsx prisma/seed.ts",

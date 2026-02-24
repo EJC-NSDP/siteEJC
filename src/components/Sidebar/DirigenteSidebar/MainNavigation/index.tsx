@@ -7,7 +7,7 @@ import {
   Puzzle,
   SquareChartGantt,
   SquareUserRound,
-  Users
+  Users,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
