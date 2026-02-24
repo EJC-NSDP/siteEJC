@@ -1,6 +1,5 @@
 import {
   Cake,
-  CalendarHeart,
   Circle,
   DoorClosedLocked,
   DoorOpen,
@@ -8,7 +7,7 @@ import {
   Puzzle,
   SquareChartGantt,
   SquareUserRound,
-  Users,
+  Users
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -37,13 +36,13 @@ export function MainNavigation() {
           />
         </Link>
 
-        <Link href="/admin/dirigente/historico/encontroes">
+        {/* <Link href="/admin/dirigente/historico/encontroes">
           <NavItem
             title="Encontrões"
             icon={CalendarHeart}
             active={path === '/admin/dirigente/historico/encontroes'}
           />
-        </Link>
+        </Link> */}
       </NavItemGroup>
 
       <NavItemGroup
