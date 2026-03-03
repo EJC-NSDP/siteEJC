@@ -43,6 +43,7 @@ export type EncontreiroCadastroData = {
     coordenou: boolean
   }
   encontro: {
+    isOpen: boolean
     equipe: string
     coordenou: boolean
   }
@@ -129,24 +130,33 @@ export async function getEncontreiroCadastro(id: string) {
   if (!encontreiro || !encontro) {
     return null
   }
+  const encontroIsOpen = encontro.numeroCirculos > 0
 
-  const equipeEncontroAtual = await prisma.equipeEncontro.findUnique({
-    select: {
-      equipe: {
-        select: {
-          equipeLabel: true,
+  const equipeEncontroAtual = !encontroIsOpen
+    ? {
+        equipe: {
+          equipeLabel: 'Venha descobrir com a gente!',
         },
-      },
-      fichaPreenchida: true,
-      coordenou: true,
-    },
-    where: {
-      idPessoa_idEncontro: {
-        idEncontro: encontro.id,
-        idPessoa: encontreiro.id,
-      },
-    },
-  })
+        coordenou: false,
+        fichaPreenchida: false,
+      }
+    : await prisma.equipeEncontro.findUnique({
+        select: {
+          equipe: {
+            select: {
+              equipeLabel: true,
+            },
+          },
+          fichaPreenchida: true,
+          coordenou: true,
+        },
+        where: {
+          idPessoa_idEncontro: {
+            idEncontro: encontro.id,
+            idPessoa: encontreiro.id,
+          },
+        },
+      })
 
   const equipeEncontroPassado = await prisma.equipeEncontro.findUnique({
     select: {
@@ -172,6 +182,10 @@ export async function getEncontreiroCadastro(id: string) {
   const listaPreferencias = gerarListaCompletaPreferencias(
     encontreiro.encontreiro!.listaPreferencias,
   )
+
+  const podeUsarDados =
+    !encontroIsOpen || equipeEncontroAtual?.fichaPreenchida === true
+
   const encontreiroResponse: EncontreiroCadastroData = {
     id: encontreiro.id,
     slug: encontreiro.slug,
@@ -188,10 +202,7 @@ export async function getEncontreiroCadastro(id: string) {
       idTamanhoCamisa: encontreiro.encontreiro!.idTamanhoCamisa,
       restricaoAlimentar: encontreiro.encontreiro!.restricaoAlimentar,
       obsBanda: encontreiro.encontreiro!.obsBanda,
-      observacoes:
-        equipeEncontroAtual && equipeEncontroAtual.fichaPreenchida
-          ? encontreiro.encontreiro!.observacoes
-          : '',
+      observacoes: podeUsarDados ? encontreiro.encontreiro!.observacoes : '',
     },
     endereco: {
       cep: encontreiro.endereco.cep,
@@ -221,6 +232,7 @@ export async function getEncontreiroCadastro(id: string) {
         : false,
     },
     encontro: {
+      isOpen: encontroIsOpen,
       equipe: equipeEncontroAtual
         ? equipeEncontroAtual.equipe.equipeLabel
         : 'Não irá participar',
@@ -228,15 +240,10 @@ export async function getEncontreiroCadastro(id: string) {
     },
     proxEncontro: {
       disponibilidade:
-        equipeEncontroAtual &&
-        equipeEncontroAtual.fichaPreenchida &&
-        encontreiro.encontreiro!.disponibilidade
+        podeUsarDados && encontreiro.encontreiro!.disponibilidade
           ? encontreiro.encontreiro!.disponibilidade.id
           : 'NAO_PREENCHEU',
-      preferencias:
-        equipeEncontroAtual && equipeEncontroAtual.fichaPreenchida
-          ? listaPreferencias
-          : [],
+      preferencias: podeUsarDados ? listaPreferencias : [],
     },
   }
 

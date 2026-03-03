@@ -150,6 +150,14 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.1.2 — Correção na ficha de cadastro
+> Março 2026
+
+- Agora a ficha de cadastro entende que o Encontrão está fechado e não aparece como "Não participará" mas sim "Venha descobrir com a gente!"
+- Além disso a ficha de cadastro passado é importada.
+
+---
+
 ### v5.1.1 — Correção visual
 > Fevereiro 2026
 

@@ -102,6 +102,8 @@ type TamanhoCamisa = z.infer<typeof tamanhoCamisaEnum>
 type Disponibilidade = z.infer<typeof disponibilidadeEnum>
 
 export function FichaCadastroForm({ data }: FichaCadastroProps) {
+  console.log(data)
+
   const [isUpdating, setUpdating] = useState(false)
 
   const router = useRouter()
