@@ -25,6 +25,12 @@ export interface EquipeThisEncontro {
   encontreiros: EncontreiroEmEquipe[]
 }
 
+const pastaRosa =
+  'https://drive.google.com/drive/folders/0B-VkauOPmnS_fnlyTlZ6QTBMdGxNVGNPcEZub2VLOUdhYXE5UkVHY3RiVzlNcDZObWoxa1U?resourcekey=0-SING7jU_YW2r9TOhE3qF6Q'
+
+const pastaSala =
+  'https://drive.google.com/drive/folders/0B-VkauOPmnS_fmJkMkgxdmE1Ny1rTTZLNS1kWFJiTDEzbW5pYzQxYTdBeDdtcF9zcW5vYk0?resourcekey=0-0XWEeC2uDKKE_g1KECf0xQ'
+
 export async function getEquipe(value: string) {
   const encontro = await getCurrentEncontro()
 
@@ -56,6 +62,29 @@ export async function getEquipe(value: string) {
           idEncontro: encontro.id,
           idEquipe: value,
         }
+
+  const equipe =
+    value === 'sala'
+      ? {
+          equipeValue: value,
+          equipeLabel: 'Sala',
+          pastaUrl: pastaSala,
+          description: 'Sala',
+        }
+      : value === 'rosa'
+        ? {
+            equipeValue: value,
+            equipeLabel: 'Rosa',
+            pastaUrl: pastaRosa,
+            description: 'Rosa',
+          }
+        : await prisma.domainEquipes.findUnique({
+            where: {
+              equipeValue: value,
+            },
+          })
+
+  if (!equipe) return null
 
   const equipeEncontreiros = await prisma.equipeEncontro.findMany({
     select: {
@@ -138,12 +167,12 @@ export async function getEquipe(value: string) {
     ? 'Rosa'
     : idPertenceASala(value)
       ? 'Sala'
-      : equipeEncontreiros[0].equipe.equipeLabel
+      : equipe.equipeLabel
 
   const equipeData: EquipeThisEncontro = {
     idEquipe: value,
     equipeLabel,
-    pastaUrl: equipeEncontreiros[0].equipe.pastaUrl!,
+    pastaUrl: equipe.pastaUrl!,
     encontreiros,
   }
   return equipeData

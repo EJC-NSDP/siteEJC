@@ -1,4 +1,6 @@
 export default async function DirigentesCriarEncontro() {
+  // const locais = await getLocais()
+
   // const actions: EncontraoActions = await fetch(
   //   `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-encontrao-actions`,
   //   {
@@ -19,6 +21,8 @@ export default async function DirigentesCriarEncontro() {
               Lembre-se de revisar os dados antes de salvar.
             </span>
           </div>
+
+          {/* <EncontroForm locais={locais} /> */}
         </div>
       </div>
     </div>

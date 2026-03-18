@@ -12,6 +12,16 @@ interface EncontroCardProps {
 }
 
 export function EncontroCard({ currentEncontro }: EncontroCardProps) {
+  const temaNaoRevelado = `${dayjs(currentEncontro.dataTema).format('DD')} de ${getMonthBR(currentEncontro.dataInicio)} de ${dayjs(currentEncontro.dataInicio).format('YYYY')}`
+
+  const temaEspiritual = currentEncontro.temaEspiritual
+    ? currentEncontro.temaEspiritual
+    : `Venha descobrir ${temaNaoRevelado}`
+
+  const temaFantasia = currentEncontro.temaFantasia
+    ? currentEncontro.temaFantasia
+    : `Venha descobrir ${temaNaoRevelado}`
+
   return (
     <Card className="w-full border-none bg-zinc-100 p-4 px-2 lg:w-2/6 lg:p-8">
       <CardContent className="flex flex-col justify-start gap-4">
@@ -52,9 +62,7 @@ export function EncontroCard({ currentEncontro }: EncontroCardProps) {
           {!currentEncontro ? (
             <Skeleton className="h-5 w-44" />
           ) : (
-            <span className="text-zinc-700">
-              {currentEncontro.temaEspiritual}
-            </span>
+            <span className="text-zinc-700">{temaEspiritual}</span>
           )}
         </div>
         <div>
@@ -62,9 +70,7 @@ export function EncontroCard({ currentEncontro }: EncontroCardProps) {
           {!currentEncontro ? (
             <Skeleton className="h-5 w-14" />
           ) : (
-            <span className="text-zinc-700">
-              {currentEncontro.temaFantasia}
-            </span>
+            <span className="text-zinc-700">{temaFantasia}</span>
           )}
         </div>
       </CardContent>

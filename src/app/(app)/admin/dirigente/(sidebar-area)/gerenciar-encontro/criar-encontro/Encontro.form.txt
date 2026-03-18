@@ -1,0 +1,329 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+export type EncontroFormData = {
+  id?: string
+  numeroEncontro: number
+  idLocal: string
+  nomeLocal?: string
+  numeroLocal?: string
+  endereco?: string
+  numeroCirculos: number
+  dataInicio: string
+  dataTema: string
+}
+
+export type LocalOption = {
+  id: string
+  nomeLocal: string
+  numeroLocal: string
+  enderecoCep: string
+  endereco?: {
+    logradouro: string
+    bairro: string
+    cidade: string
+    uf: string
+  }
+}
+
+type Props = {
+  data?: EncontreiroFormData
+  locais: LocalOption[]
+}
+
+export function EncontroForm({ data, locais }: Props) {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedLocal, setSelectedLocal] = useState<LocalOption | null>(
+    data?.idLocal ? locais.find((l) => l.id === data.idLocal) ?? null : null,
+  )
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<EncontroFormData>({
+    defaultValues: {
+      id: data?.id ?? '',
+      numeroEncontro: data?.numeroEncontro,
+      idLocal: data?.idLocal ?? '',
+      numeroCirculos: data?.numeroCirculos,
+      dataInicio: data?.dataInicio
+        ? new Date(data.dataInicio).toISOString().split('T')[0]
+        : '',
+      dataTema: data?.dataTema
+        ? new Date(data.dataTema).toISOString().split('T')[0]
+        : '',
+    },
+  })
+
+  function handleLocalChange(id: string) {
+    const local = locais.find((l) => l.id === id) ?? null
+    setSelectedLocal(local)
+    setValue('idLocal', id)
+  }
+
+  async function onSubmit(formData: EncontroFormData) {
+    setIsSubmitting(true)
+    try {
+      const url = formData.id
+        ? `/api/encontro/update/${formData.id}`
+        : `/api/encontro/create`
+
+      const method = formData.id ? 'PUT' : 'POST'
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      router.push('/admin/dirigente/gerenciar-encontro')
+      router.refresh()
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const enderecoFormatado = selectedLocal?.endereco
+    ? `${selectedLocal.endereco.logradouro}, ${selectedLocal.nomeLocal} — ${selectedLocal.endereco.bairro}, ${selectedLocal.endereco.cidade} - ${selectedLocal.endereco.uf}`
+    : ''
+
+  return (
+    <div className="w-full h-full">
+      <div className="pb-4">
+        <div className="flex items-center justify-between pb-8">
+          <div>
+            <h1 className="text-tertiary text-2xl font-bold">
+              {data?.id ? 'Editar Encontrão' : 'Abrir Novo Encontrão'}
+            </h1>
+            <span className="text-base font-normal text-zinc-500">
+              Preencha as informações abaixo para{' '}
+              {data?.id ? 'editar o' : 'criar um novo'} encontrão. Lembre-se de
+              revisar os dados antes de salvar.
+            </span>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          {/* Hidden ID */}
+          <input type="hidden" {...register('id')} />
+
+          {/* ── Dados do Encontro ── */}
+          <section className="space-y-4">
+            <h2 className="text-tertiary text-lg font-semibold border-b border-zinc-200 pb-2">
+              Dados do Encontro
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Número do Encontro */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="numeroEncontro"
+                  className="text-sm font-medium text-zinc-700"
+                >
+                  Número do Encontro <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="numeroEncontro"
+                  type="number"
+                  className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tertiary disabled:bg-zinc-100 disabled:text-zinc-500"
+                  {...register('numeroEncontro', {
+                    required: 'Informe o número do encontro',
+                    valueAsNumber: true,
+                    min: { value: 1, message: 'Deve ser maior que 0' },
+                  })}
+                />
+                {errors.numeroEncontro && (
+                  <span className="text-xs text-red-500">
+                    {errors.numeroEncontro.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Número de Círculos */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="numeroCirculos"
+                  className="text-sm font-medium text-zinc-700"
+                >
+                  Número de Círculos <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="numeroCirculos"
+                  type="number"
+                  className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tertiary disabled:bg-zinc-100 disabled:text-zinc-500"
+                  {...register('numeroCirculos', {
+                    required: 'Informe o número de círculos',
+                    valueAsNumber: true,
+                    min: { value: 1, message: 'Deve ser maior que 0' },
+                  })}
+                />
+                {errors.numeroCirculos && (
+                  <span className="text-xs text-red-500">
+                    {errors.numeroCirculos.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Data do Encontro */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="dataInicio"
+                  className="text-sm font-medium text-zinc-700"
+                >
+                  Data do Encontro <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="dataInicio"
+                  type="date"
+                  className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tertiary"
+                  {...register('dataInicio', {
+                    required: 'Informe a data do encontro',
+                  })}
+                />
+                {errors.dataInicio && (
+                  <span className="text-xs text-red-500">
+                    {errors.dataInicio.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Data da Revelação do Tema */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="dataTema"
+                  className="text-sm font-medium text-zinc-700"
+                >
+                  Data da Revelação do Tema{' '}
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="dataTema"
+                  type="date"
+                  className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tertiary"
+                  {...register('dataTema', {
+                    required: 'Informe a data da revelação do tema',
+                  })}
+                />
+                {errors.dataTema && (
+                  <span className="text-xs text-red-500">
+                    {errors.dataTema.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Local ── */}
+          <section className="space-y-4">
+            <h2 className="text-tertiary text-lg font-semibold border-b border-zinc-200 pb-2">
+              Local do Encontro
+            </h2>
+
+            {/* Dropdown de locais */}
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="idLocal"
+                className="text-sm font-medium text-zinc-700"
+              >
+                Selecionar Local <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="idLocal"
+                className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tertiary bg-white"
+                {...register('idLocal', { required: 'Selecione um local' })}
+                onChange={(e) => handleLocalChange(e.target.value)}
+              >
+                <option value="">Selecione um local...</option>
+                {locais.map((local) => (
+                  <option key={local.id} value={local.id}>
+                    {local.nomeLocal}
+                  </option>
+                ))}
+              </select>
+              {errors.idLocal && (
+                <span className="text-xs text-red-500">
+                  {errors.idLocal.message}
+                </span>
+              )}
+            </div>
+
+            {/* Detalhes do local (readonly) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-zinc-700">
+                  Nome do Local
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={selectedLocal?.nomeLocal ?? ''}
+                  className="rounded-md border border-zinc-200 px-3 py-2 text-sm bg-zinc-100 text-zinc-500 cursor-not-allowed"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-zinc-700">
+                  Número
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={selectedLocal?.numeroLocal ?? ''}
+                  className="rounded-md border border-zinc-200 px-3 py-2 text-sm bg-zinc-100 text-zinc-500 cursor-not-allowed"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1 md:col-span-1">
+                <label className="text-sm font-medium text-zinc-700">
+                  CEP
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={selectedLocal?.enderecoCep ?? ''}
+                  className="rounded-md border border-zinc-200 px-3 py-2 text-sm bg-zinc-100 text-zinc-500 cursor-not-allowed"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1 md:col-span-3">
+                <label className="text-sm font-medium text-zinc-700">
+                  Endereço
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={enderecoFormatado}
+                  className="rounded-md border border-zinc-200 px-3 py-2 text-sm bg-zinc-100 text-zinc-500 cursor-not-allowed"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* ── Actions ── */}
+          <div className="flex justify-end gap-3 pt-4">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="rounded-md border border-zinc-300 px-5 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-md bg-tertiary px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {isSubmitting ? 'Salvando...' : data?.id ? 'Salvar Alterações' : 'Abrir Encontrão'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}

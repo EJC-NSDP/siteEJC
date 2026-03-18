@@ -150,6 +150,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.1.3 — Correção páginas equipes
+> Março 2026
+
+- A página das equipes foram corrigidas para funcionar independente de ter uma equipe ativa.
+
+---
+
 ### v5.1.2 — Correção na ficha de cadastro
 > Março 2026
 
