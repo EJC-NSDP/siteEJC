@@ -150,6 +150,29 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.3.1 — Minor bug fixes
+> Março 2026
+
+- Algumas funções estavam chamando incorretamente currentEncontro, este caso foi corrigido;
+
+---
+
+### v5.3.0 — Área da apresentação
+> Março 2026
+
+- Foi criada a nova funcionalidade na área da apresentação onde os apresentadores consegue ordenar os círculos e selecionar quem são os tios deles.
+- Também foi corrigido a função getCurrentEncontro
+
+---
+
+### v5.2.0 — Área da apresentação
+> Março 2026
+
+- Foi criada a nova área da apresentação com a funcionalidade de edição do tema do encontro atual.
+- Uma nova role foi criada também para os apresentadores.
+
+---
+
 ### v5.1.3 — Correção páginas equipes
 > Março 2026
 

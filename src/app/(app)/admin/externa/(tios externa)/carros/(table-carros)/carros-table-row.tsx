@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import type { valueStatus } from '@/@types/enums'
 import type { CarroSummaryData } from '@/app/api/carro/get-carros-summary'
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { CarroExterna } from '@/components/Table/CarroExterna'
 import { DeleteCarroDialog } from '@/components/Table/DeleteCarroDialog'
 import { ImportCarroButton } from '@/components/Table/ImportCarroButton'
@@ -18,7 +19,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { Encontro } from '@/generated'
 import { api } from '@/lib/axios'
 
 export interface Encontrista {
@@ -69,7 +69,7 @@ export function CarrosTableRow({ carro }: EncontristaTableRowProps) {
     queryKey: ['equipeExterna'],
   })
 
-  const { data: currentEnconto } = useQuery<Encontro>({
+  const { data: currentEnconto } = useQuery<CurrentEncontro | null>({
     queryFn: async () => await getCurrentEncontro(),
     queryKey: ['currentEnconto'],
   })

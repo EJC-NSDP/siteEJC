@@ -30,7 +30,7 @@ export function CirculosTableRow({ circulo }: EncontreiroTableRowProps) {
       <TableCell>{circulo.tioSecreto.nome}</TableCell>
       <TableCell className="flex gap-2 pr-4">
         <Link
-          href={`/admin/dirigente/circulo/${circulo.id}/edit`}
+          href={`/admin/dirigente/historico/circulo/${circulo.id}/edit`}
           title="Editar"
         >
           <Button variant="ghost" className="p-0">

@@ -95,16 +95,14 @@ export function CirculosTable() {
           <Table className="w-full text-xs lg:table-fixed">
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="w-[60px] rounded-tl-xl pl-4 text-nowrap">
+                <TableHead className="w-15 rounded-tl-xl pl-4 text-nowrap">
                   EJC
                 </TableHead>
-                <TableHead className="w-[150px]">Cor</TableHead>
-                <TableHead className="w-[220px]">Nome</TableHead>
+                <TableHead className="w-37.5">Cor</TableHead>
+                <TableHead className="w-55">Nome</TableHead>
                 <TableHead className="w-auto">Tio Aparente</TableHead>
                 <TableHead className="w-auto">Tio Secreto</TableHead>
-                <TableHead className="w-[80px] rounded-tr-xl pr-4">
-                  Ações
-                </TableHead>
+                <TableHead className="w-20 rounded-tr-xl pr-4">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="bg-transparent">

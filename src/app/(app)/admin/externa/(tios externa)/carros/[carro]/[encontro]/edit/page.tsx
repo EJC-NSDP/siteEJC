@@ -1,6 +1,6 @@
 import type { CarFormData } from '@/@types/carro'
 import type { GetCarroProps } from '@/app/api/carro/[carro]/[encontro]/update/get-carro'
-import type { EncontroData } from '@/app/api/encontro/[idEncontro]/get-encontro'
+import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 
 import { CarroForm } from '../../../(form)/(pageComponents)/CarroForm'
@@ -18,7 +18,7 @@ export default async function EditCarro(props: {
   params: Promise<GetCarroProps>
 }) {
   const params = await props.params
-  const currentEncontro: EncontroData = await getCurrentEncontro()
+  const currentEncontro: CurrentEncontro | null = await getCurrentEncontro()
 
   const carro: CarFormData = await getCarro(params)
 

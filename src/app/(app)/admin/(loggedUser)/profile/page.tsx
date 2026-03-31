@@ -8,11 +8,12 @@ import {
   ClipboardList,
   Edit,
   FolderOpen,
+  Theater,
   Users,
 } from 'lucide-react'
+import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
@@ -22,24 +23,15 @@ import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
-import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getInitials } from '@/utils/get-initials'
 
+import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'
-
-async function getCurrentEncontro() {
-  const equipe = await api
-    .get(`encontro/atual/1/get-current-encontro`)
-    .then((response) => response.data)
-    .catch((err) => console.error(err))
-
-  return equipe
-}
 
 export default function Profile() {
   const [profileData, setProfileData] = useState<ProfileData | undefined>(
@@ -48,7 +40,7 @@ export default function Profile() {
   const [corCirculo, setCorCirculo] = useState<string>('bg-zinc-200')
   const [isBirthday, setIsBirthday] = useState<boolean>(false)
 
-  const { data: currentEncontro } = useQuery<CurrentEncontro>({
+  const { data: currentEncontro } = useQuery<CurrentEncontro | null>({
     queryFn: async () => await getCurrentEncontro(),
     queryKey: ['currentEnconto'],
   })
@@ -218,6 +210,16 @@ export default function Profile() {
                         label="Secretaria"
                         icon={BookUser}
                         link="/admin/secretaria"
+                      />
+                    )}
+
+                    {(profileData.role === 'APRESENTACAO' ||
+                      profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
+                      <ButtonLabel
+                        label="Apresentação"
+                        icon={Theater}
+                        link="/admin/apresentacao"
                       />
                     )}
 

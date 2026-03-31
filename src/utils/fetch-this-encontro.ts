@@ -6,19 +6,27 @@ import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pas
 import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { api } from '@/lib/axios'
 
-export async function getCurrentEncontro() {
-  const encontroFound = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-current-encontro`,
-    { cache: 'no-store' },
-  ).then(async (res) => await res.json())
+// export async function getCurrentEncontro() {
+//   const encontroFound = await fetch(
+//     `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-current-encontro`,
+//     { cache: 'no-store' },
+//   ).then(async (res) => await res.json())
 
-  return encontroFound
+//   return encontroFound
+// }
+
+export async function getCurrentEncontro(): Promise<CurrentEncontro | null> {
+  try {
+    const response = await api.get('encontro/atual/1/get-current-encontro')
+    return response.data
+  } catch {
+    return null
+  }
 }
-
 export const getCurrentEncontroDate = cache(async (): Promise<Date | null> => {
-  const data: CurrentEncontro = await getCurrentEncontro()
+  const data: CurrentEncontro | null = await getCurrentEncontro()
 
-  if (data.numeroCirculos === 0) {
+  if (!data || data.numeroCirculos === 0) {
     return null
   }
 

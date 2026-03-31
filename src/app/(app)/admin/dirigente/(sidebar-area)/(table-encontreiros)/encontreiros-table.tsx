@@ -138,7 +138,7 @@ export function EncontreirosTable() {
                 <SortableTableHead
                   label="EJC"
                   value="numeroEncontro"
-                  classname="text-nowrap rounded-tl-xl w-[60px] pl-4"
+                  classname="text-nowrap rounded-tl-xl w-15 pl-4"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
@@ -154,24 +154,22 @@ export function EncontreirosTable() {
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"
-                  classname="w-[120px]"
+                  classname="w-30"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-[200px]">E-mail</TableHead>
-                <TableHead className="w-[170px]">Círculo</TableHead>
+                <TableHead className="w-50">E-mail</TableHead>
+                <TableHead className="w-42.5">Círculo</TableHead>
                 <SortableTableHead
                   label="Status"
                   value="statusMontagem"
-                  classname="w-[150px]"
+                  classname="w-37.5"
                   orderByField={orderByField}
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-[80px] rounded-tr-xl pr-4">
-                  Ações
-                </TableHead>
+                <TableHead className="w-20 rounded-tr-xl pr-4">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="bg-transparent">
