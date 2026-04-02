@@ -35,12 +35,8 @@ import {
   type CirculosOrdemData,
 } from './validators'
 
-// ── ids fixos das zonas droppable ──────────────────────────────────────────
-
 const DROPPABLE_ATIVOS = 'zona-ativos'
 const DROPPABLE_INATIVOS = 'zona-inativos'
-
-// ── mapeamento ─────────────────────────────────────────────────────────────
 
 const COR_POR_ID: Record<number, string> = {
   1: 'Amarelo',
@@ -49,8 +45,6 @@ const COR_POR_ID: Record<number, string> = {
   4: 'Verde',
   5: 'Vermelho',
 }
-
-// ── helpers ────────────────────────────────────────────────────────────────
 
 function buildLists(response: CirculosResponse): {
   ativos: CirculoItem[]
@@ -93,8 +87,6 @@ function computeOrder(ativos: CirculoItem[]): number {
   return Number(ativos.map((c) => c.idCorCirculo).join(''))
 }
 
-// ── wrapper droppable ──────────────────────────────────────────────────────
-
 function DroppableZone({
   id,
   children,
@@ -109,8 +101,6 @@ function DroppableZone({
     </div>
   )
 }
-
-// ── componente principal ───────────────────────────────────────────────────
 
 interface SortCirculosProps {
   circulosEncontro: CirculosResponse
@@ -143,6 +133,8 @@ export function SortCirculos({
     }
   }
 
+  // onDragOver — só atualiza os states para feedback visual
+  // sem form.setValue para não causar loop de re-render
   function handleDragOver({ active, over }: DragOverEvent) {
     if (!over || active.id === over.id) return
 
@@ -151,11 +143,8 @@ export function SortCirculos({
     const overInAtivos = ativos.findIndex((c) => c.id === over.id)
     const overInInativos = inativos.findIndex((c) => c.id === over.id)
 
-    // arrastando sobre a zona droppable de inativos ou sobre um item inativo
     const overIsInativoZone =
       over.id === DROPPABLE_INATIVOS || overInInativos !== -1
-
-    // arrastando sobre a zona droppable de ativos ou sobre um item ativo
     const overIsAtivoZone = over.id === DROPPABLE_ATIVOS || overInAtivos !== -1
 
     // ativo → inativo
@@ -173,7 +162,6 @@ export function SortCirculos({
       setAtivos(nextAtivos)
       setInativos(nextInativos)
       setOrder(computeOrder(nextAtivos))
-      form.setValue('circulos', [...nextAtivos, ...nextInativos])
       return
     }
 
@@ -187,12 +175,16 @@ export function SortCirculos({
       setAtivos(nextAtivos)
       setInativos(nextInativos)
       setOrder(computeOrder(nextAtivos))
-      form.setValue('circulos', [...nextAtivos, ...nextInativos])
     }
   }
 
+  // onDragEnd — sincroniza o form com o estado final
   function handleDragEnd({ active, over }: DragEndEvent) {
     setActiveCirculo(null)
+
+    // sempre sincroniza ao soltar, independente de onde foi dropado
+    form.setValue('circulos', [...ativos, ...inativos])
+
     if (!over || active.id === over.id) return
 
     const activeInAtivos = ativos.findIndex((c) => c.id === active.id)
@@ -200,6 +192,7 @@ export function SortCirculos({
     const activeInInativos = inativos.findIndex((c) => c.id === active.id)
     const overInInativos = inativos.findIndex((c) => c.id === over.id)
 
+    // reordenação dentro dos ativos
     if (activeInAtivos !== -1 && overInAtivos !== -1) {
       const next = arrayMove(ativos, activeInAtivos, overInAtivos)
       setAtivos(next)
@@ -208,6 +201,7 @@ export function SortCirculos({
       return
     }
 
+    // reordenação dentro dos inativos
     if (activeInInativos !== -1 && overInInativos !== -1) {
       const next = arrayMove(inativos, activeInInativos, overInInativos)
       setInativos(next)

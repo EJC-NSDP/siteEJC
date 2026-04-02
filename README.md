@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.4.1 — Área da apresentação: fix
+> Abril 2026
+
+- A página quebrava quando o usuário arrastava o card círculo para a área de fora do encontro e voltava sem soltar o elemento. 
+
+---
+
 ### v5.4.0 — Área da apresentação: ordenação de círculos e temas
 > Abril 2026
 
