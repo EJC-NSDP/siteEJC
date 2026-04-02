@@ -1,9 +1,11 @@
 import { prisma } from '@/lib/prisma'
 
+import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
+
 interface CirculoPayload {
   id: string
-  tioAparente: string // id da Pessoa ou 'unknown' ou ''
-  tioSecreto: string // id da Pessoa ou 'unknown' ou ''
+  tioAparente: string
+  tioSecreto: string
   ativo: boolean
 }
 
@@ -16,9 +18,12 @@ export async function atualizarCirculos({
   order,
   circulos,
 }: AtualizarCirculosPayload) {
-  // 1. Atualiza ordemCirculos no encontro atual
-  await prisma.encontro.updateMany({
-    where: { isReceivingCartas: false }, // encontro aberto/ativo
+  const currentEncontro = await getCurrentEncontro()
+
+  if (!currentEncontro) return null
+
+  await prisma.encontro.update({
+    where: { id: currentEncontro.id },
     data: { ordemCirculos: order },
   })
 

@@ -4,8 +4,8 @@ const circuloScheme = z.object({
   id: z.string(),
   idCorCirculo: z.number(),
   cor: z.string(),
-  tioAparente: z.string(),
-  tioSecreto: z.string(),
+  tioAparente: z.string().optional(),
+  tioSecreto: z.string().optional(),
   ativo: z.boolean(),
 })
 

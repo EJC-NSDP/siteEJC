@@ -11,9 +11,9 @@ import {
   Theater,
   Users,
 } from 'lucide-react'
-import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
@@ -26,9 +26,9 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
+import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 import { getInitials } from '@/utils/get-initials'
 
-import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 import { BirthdayCard } from './(sectionComponents)/BirthdayCard'
 import { ButtonLabel } from './(sectionComponents)/ButtonLabel'
 import { EncontroCard } from './(sectionComponents)/EncontroCard'

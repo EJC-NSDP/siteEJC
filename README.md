@@ -65,6 +65,12 @@ Grupo de coordenadores do movimento durante um ano inteiro.
 - Visualização das pastas de cada equipe
 - Visualização dos aniversariantes da semana
 
+### 🎤 Apresentação
+Equipe responsável pela apresentação do Encontrão.
+- Ordenação dos círculos
+- Definição dos tios aparente e secreto de cada círculo
+- Edição do tema fantasia e espiritual do encontro atual
+
 ---
 
 ## Stack
@@ -149,6 +155,21 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 ---
 
 ## Changelog
+
+### v5.4.0 — Área da apresentação: ordenação de círculos e temas
+> Abril 2026
+
+- Página de ordenação dos círculos com drag and drop entre duas listas: "Neste Encontro" e "Fora deste Encontro"
+- Arrastar um círculo para fora do encontro limpa automaticamente os campos de tio aparente e secreto
+- Seleção de tio aparente e secreto por círculo via select com os encontreiros do encontro atual
+- Campos de tio desabilitados visualmente para círculos fora do encontro
+- Persistência da ordem dos círculos via campo `ordemCirculos` no encontro atual
+- Persistência dos tios via campos `idTioAparente` e `idTioSecreto` na tabela de círculos
+- Página de temas com formulário para edição do tema fantasia e espiritual do encontro atual
+- Sidebar própria para a área de apresentação com rota isolada `/admin/apresentacao`
+- Nova role `APRESENTACAO` com acesso às páginas da área
+
+---
 
 ### v5.3.1 — Minor bug fixes
 > Março 2026

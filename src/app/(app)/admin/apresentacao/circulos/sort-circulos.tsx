@@ -1,5 +1,23 @@
 'use client'
 
+import {
+  DndContext,
+  DragOverlay,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useDroppable,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragOverEvent,
+  type DragStartEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -10,12 +28,17 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { api } from '@/lib/axios'
 
-import { CardCirculo } from './card-circulo'
+import { CardCirculo, CardCirculoBase } from './card-circulo'
 import {
   circulosOrdemScheme,
   type CirculoItem,
   type CirculosOrdemData,
 } from './validators'
+
+// ── ids fixos das zonas droppable ──────────────────────────────────────────
+
+const DROPPABLE_ATIVOS = 'zona-ativos'
+const DROPPABLE_INATIVOS = 'zona-inativos'
 
 // ── mapeamento ─────────────────────────────────────────────────────────────
 
@@ -32,6 +55,7 @@ const COR_POR_ID: Record<number, string> = {
 function buildLists(response: CirculosResponse): {
   ativos: CirculoItem[]
   inativos: CirculoItem[]
+  order: number
 } {
   const orderDigits = response.order.toString().split('').map(Number)
   const circuloById = Object.fromEntries(
@@ -41,7 +65,8 @@ function buildLists(response: CirculosResponse): {
   const ativos: CirculoItem[] = orderDigits
     .filter((digit) => circuloById[digit])
     .map((digit) => ({
-      ...circuloById[digit],
+      id: circuloById[digit].id,
+      idCorCirculo: circuloById[digit].idCorCirculo,
       cor: COR_POR_ID[digit] ?? '',
       tioAparente: '',
       tioSecreto: '',
@@ -53,30 +78,39 @@ function buildLists(response: CirculosResponse): {
   const inativos: CirculoItem[] = response.circulos
     .filter((c) => !idsAtivos.has(c.idCorCirculo))
     .map((c) => ({
-      ...c,
+      id: c.id,
+      idCorCirculo: c.idCorCirculo,
       cor: COR_POR_ID[c.idCorCirculo] ?? '',
       tioAparente: '',
       tioSecreto: '',
       ativo: false,
     }))
 
-  return { ativos, inativos }
+  return { ativos, inativos, order: response.order }
 }
 
-function buildOrder(ativos: CirculoItem[]): number {
+function computeOrder(ativos: CirculoItem[]): number {
   return Number(ativos.map((c) => c.idCorCirculo).join(''))
 }
 
-// sincroniza o form com o estado atual das duas listas
-function syncForm(
-  form: ReturnType<typeof useForm<CirculosOrdemData>>,
-  ativos: CirculoItem[],
-  inativos: CirculoItem[],
-) {
-  form.setValue('circulos', [...ativos, ...inativos])
+// ── wrapper droppable ──────────────────────────────────────────────────────
+
+function DroppableZone({
+  id,
+  children,
+}: {
+  id: string
+  children: React.ReactNode
+}) {
+  const { setNodeRef } = useDroppable({ id })
+  return (
+    <div ref={setNodeRef} className="min-h-16">
+      {children}
+    </div>
+  )
 }
 
-// ── componente ─────────────────────────────────────────────────────────────
+// ── componente principal ───────────────────────────────────────────────────
 
 interface SortCirculosProps {
   circulosEncontro: CirculosResponse
@@ -92,91 +126,106 @@ export function SortCirculos({
   const initial = buildLists(circulosEncontro)
   const [ativos, setAtivos] = useState<CirculoItem[]>(initial.ativos)
   const [inativos, setInativos] = useState<CirculoItem[]>(initial.inativos)
+  const [order, setOrder] = useState<number>(initial.order)
+  const [activeCirculo, setActiveCirculo] = useState<CirculoItem | null>(null)
 
   const form = useForm<CirculosOrdemData>({
     resolver: zodResolver(circulosOrdemScheme),
     defaultValues: { circulos: [...initial.ativos, ...initial.inativos] },
   })
 
-  const { handleSubmit } = form
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
-  // ── movimentação dentro dos ativos ──────────────────────────────────────
-
-  function moveAtivoUp(index: number) {
-    if (index === 0) return
-    setAtivos((prev) => {
-      const next = [...prev]
-      ;[next[index - 1], next[index]] = [next[index], next[index - 1]]
-      syncForm(form, next, inativos)
-      return next
-    })
+  function handleDragStart({ active }: DragStartEvent) {
+    const data = active.data.current
+    if (data?.type === 'CirculoSort') {
+      setActiveCirculo(data.circulo as CirculoItem)
+    }
   }
 
-  function moveAtivoDown(index: number) {
-    // último ativo → vira inativo, limpa tios
-    if (index === ativos.length - 1) {
+  function handleDragOver({ active, over }: DragOverEvent) {
+    if (!over || active.id === over.id) return
+
+    const activeInAtivos = ativos.findIndex((c) => c.id === active.id)
+    const activeInInativos = inativos.findIndex((c) => c.id === active.id)
+    const overInAtivos = ativos.findIndex((c) => c.id === over.id)
+    const overInInativos = inativos.findIndex((c) => c.id === over.id)
+
+    // arrastando sobre a zona droppable de inativos ou sobre um item inativo
+    const overIsInativoZone =
+      over.id === DROPPABLE_INATIVOS || overInInativos !== -1
+
+    // arrastando sobre a zona droppable de ativos ou sobre um item ativo
+    const overIsAtivoZone = over.id === DROPPABLE_ATIVOS || overInAtivos !== -1
+
+    // ativo → inativo
+    if (activeInAtivos !== -1 && overIsInativoZone) {
       const item = {
-        ...ativos[index],
+        ...ativos[activeInAtivos],
         ativo: false,
         tioAparente: '',
         tioSecreto: '',
       }
-      const nextAtivos = ativos.slice(0, index)
-      const nextInativos = [item, ...inativos]
+      const nextAtivos = ativos.filter((_, i) => i !== activeInAtivos)
+      const insertAt = overInInativos !== -1 ? overInInativos : inativos.length
+      const nextInativos = [...inativos]
+      nextInativos.splice(insertAt, 0, item)
       setAtivos(nextAtivos)
       setInativos(nextInativos)
-      syncForm(form, nextAtivos, nextInativos)
+      setOrder(computeOrder(nextAtivos))
+      form.setValue('circulos', [...nextAtivos, ...nextInativos])
       return
     }
-    setAtivos((prev) => {
-      const next = [...prev]
-      ;[next[index], next[index + 1]] = [next[index + 1], next[index]]
-      syncForm(form, next, inativos)
-      return next
-    })
-  }
 
-  // ── movimentação dentro dos inativos ────────────────────────────────────
-
-  function moveInativoUp(index: number) {
-    // primeiro inativo → vira ativo (vai para o fim dos ativos)
-    if (index === 0) {
-      const item = { ...inativos[0], ativo: true }
-      const nextAtivos = [...ativos, item]
-      const nextInativos = inativos.slice(1)
+    // inativo → ativo
+    if (activeInInativos !== -1 && overIsAtivoZone) {
+      const item = { ...inativos[activeInInativos], ativo: true }
+      const nextInativos = inativos.filter((_, i) => i !== activeInInativos)
+      const insertAt = overInAtivos !== -1 ? overInAtivos : ativos.length
+      const nextAtivos = [...ativos]
+      nextAtivos.splice(insertAt, 0, item)
       setAtivos(nextAtivos)
       setInativos(nextInativos)
-      syncForm(form, nextAtivos, nextInativos)
+      setOrder(computeOrder(nextAtivos))
+      form.setValue('circulos', [...nextAtivos, ...nextInativos])
+    }
+  }
+
+  function handleDragEnd({ active, over }: DragEndEvent) {
+    setActiveCirculo(null)
+    if (!over || active.id === over.id) return
+
+    const activeInAtivos = ativos.findIndex((c) => c.id === active.id)
+    const overInAtivos = ativos.findIndex((c) => c.id === over.id)
+    const activeInInativos = inativos.findIndex((c) => c.id === active.id)
+    const overInInativos = inativos.findIndex((c) => c.id === over.id)
+
+    if (activeInAtivos !== -1 && overInAtivos !== -1) {
+      const next = arrayMove(ativos, activeInAtivos, overInAtivos)
+      setAtivos(next)
+      setOrder(computeOrder(next))
+      form.setValue('circulos', [...next, ...inativos])
       return
     }
-    setInativos((prev) => {
-      const next = [...prev]
-      ;[next[index - 1], next[index]] = [next[index], next[index - 1]]
-      syncForm(form, ativos, next)
-      return next
-    })
-  }
 
-  function moveInativoDown(index: number) {
-    if (index === inativos.length - 1) return
-    setInativos((prev) => {
-      const next = [...prev]
-      ;[next[index], next[index + 1]] = [next[index + 1], next[index]]
-      syncForm(form, ativos, next)
-      return next
-    })
+    if (activeInInativos !== -1 && overInInativos !== -1) {
+      const next = arrayMove(inativos, activeInInativos, overInInativos)
+      setInativos(next)
+      form.setValue('circulos', [...ativos, ...next])
+    }
   }
-
-  // ── save ─────────────────────────────────────────────────────────────────
 
   async function handleSave(formData: CirculosOrdemData) {
     setIsUpdating(true)
     try {
-      const order = buildOrder(ativos)
-      await api.put('encontro/atual/1/circulos', {
-        order,
-        circulos: formData.circulos,
-      })
+      const circulos = formData.circulos.map((c) => ({
+        ...c,
+        tioAparente:
+          c.tioAparente && c.tioAparente !== 'unknown' ? c.tioAparente : null,
+        tioSecreto:
+          c.tioSecreto && c.tioSecreto !== 'unknown' ? c.tioSecreto : null,
+      }))
+      await api.put('encontro/atual/1/circulos', { order, circulos })
       toast.success('Ordenação salva!')
     } catch {
       toast.error('Erro ao salvar a ordenação.')
@@ -185,81 +234,109 @@ export function SortCirculos({
     }
   }
 
-  // ── render ────────────────────────────────────────────────────────────────
-
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(handleSave)} className="space-y-8">
-        {/* ── Neste Encontro ── */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-zinc-700">
-              Neste Encontro
-            </h2>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
-              {ativos.length}
-            </span>
-          </div>
+      <form onSubmit={form.handleSubmit(handleSave)} className="space-y-8">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          {/* ── Neste Encontro ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-zinc-700">
+                Neste Encontro
+              </h2>
+              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                {ativos.length}
+              </span>
+            </div>
 
-          {ativos.length === 0 && (
-            <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
-              Nenhum círculo neste encontro.
-            </Card>
-          )}
+            <DroppableZone id={DROPPABLE_ATIVOS}>
+              <SortableContext
+                items={ativos.map((c) => c.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="flex flex-col gap-3">
+                  {ativos.length === 0 && (
+                    <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
+                      Nenhum círculo neste encontro.
+                    </Card>
+                  )}
+                  {ativos.map((circulo, index) => (
+                    <CardCirculo
+                      key={circulo.id}
+                      id={circulo.id}
+                      circulo={circulo}
+                      index={index}
+                      localIndex={index}
+                      isAtivo
+                      idEncontro={idEncontro}
+                      control={form.control}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DroppableZone>
+          </section>
 
-          <div className="flex flex-col gap-3">
-            {ativos.map((field, index) => (
-              <CardCirculo
-                key={field.id}
-                index={index}
-                totalAtivos={ativos.length}
-                totalFora={inativos.length}
-                isAtivo
+          {/* ── Fora deste Encontro ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-zinc-500">
+                Fora deste Encontro
+              </h2>
+              <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500">
+                {inativos.length}
+              </span>
+            </div>
+
+            <DroppableZone id={DROPPABLE_INATIVOS}>
+              <SortableContext
+                items={inativos.map((c) => c.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="flex flex-col gap-3">
+                  {inativos.length === 0 && (
+                    <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
+                      Todos os círculos estão neste encontro.
+                    </Card>
+                  )}
+                  {inativos.map((circulo, index) => {
+                    const globalIndex = ativos.length + index
+                    return (
+                      <CardCirculo
+                        key={circulo.id}
+                        id={circulo.id}
+                        circulo={circulo}
+                        index={globalIndex}
+                        localIndex={index}
+                        isAtivo={false}
+                        idEncontro={idEncontro}
+                        control={form.control}
+                      />
+                    )
+                  })}
+                </div>
+              </SortableContext>
+            </DroppableZone>
+          </section>
+
+          {/* ── DragOverlay — card completo ── */}
+          <DragOverlay>
+            {activeCirculo && (
+              <CardCirculoBase
+                circulo={activeCirculo}
+                isAtivo={activeCirculo.ativo}
                 idEncontro={idEncontro}
-                control={form.control}
-                onMoveUp={() => moveAtivoUp(index)}
-                onMoveDown={() => moveAtivoDown(index)}
+                isOverlay
               />
-            ))}
-          </div>
-        </section>
-
-        {/* ── Fora deste Encontro ── */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-zinc-500">
-              Fora deste Encontro
-            </h2>
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500">
-              {inativos.length}
-            </span>
-          </div>
-
-          {inativos.length === 0 && (
-            <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
-              Todos os círculos estão neste encontro.
-            </Card>
-          )}
-
-          <div className="flex flex-col gap-3">
-            {inativos.map((field, index) => {
-              const globalIndex = ativos.length + index
-              return (
-                <CardCirculo
-                  key={field.id}
-                  index={globalIndex}
-                  totalAtivos={ativos.length}
-                  totalFora={inativos.length}
-                  isAtivo={false}
-                  idEncontro={idEncontro}
-                  control={form.control}
-                  onMoveUp={() => moveInativoUp(index)}
-                  onMoveDown={() => moveInativoDown(index)}
-                />
-              )
-            })}
-          </div>
-        </section>
+            )}
+          </DragOverlay>
+        </DndContext>
 
         {/* ── Salvar ── */}
         <div className="flex justify-end pt-2">

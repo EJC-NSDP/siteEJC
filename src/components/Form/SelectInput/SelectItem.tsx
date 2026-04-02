@@ -24,7 +24,7 @@ export function SelectItem({ text, badge, ...props }: SelectItemProps) {
 
   return (
     <SelectPrimitive.Item
-      className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm outline-none data-[highlighted]:bg-amber-50 dark:data-[highlighted]:bg-zinc-700"
+      className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm outline-none data-highlighted:bg-amber-50 dark:data-highlighted:bg-zinc-700"
       {...props}
     >
       <SelectPrimitive.ItemText asChild>

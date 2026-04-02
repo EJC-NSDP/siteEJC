@@ -20,6 +20,7 @@ export function hasDraggableData<T extends Active | Over>(
   if (
     data?.type === 'Encontrista' ||
     data?.type === 'Circulo' ||
+    data?.type === 'CirculoSort' ||
     data?.type === 'Carro'
   ) {
     return true
