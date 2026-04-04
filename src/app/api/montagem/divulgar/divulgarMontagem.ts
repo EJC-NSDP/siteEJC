@@ -124,7 +124,10 @@ async function ajustarRoles() {
           role: 'ADMIN',
         },
       })
-    } else if (encontreiro.idEquipe === 'apresentacao' && encontreiro.coordenou) {
+    } else if (
+      encontreiro.idEquipe === 'apresentacao' &&
+      encontreiro.coordenou
+    ) {
       console.log('Atualizando role para APRESENTACAO:', encontreiro.idPessoa)
       await prisma.pessoa.update({
         where: {
