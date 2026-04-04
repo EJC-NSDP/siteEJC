@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.4.2 — Montagem: fix
+> Abril 2026
+
+- Existia um bug que resetava a role de apresentação quando uma nova montagem era divulgada. O caso foi corrigido. 
+
+---
+
 ### v5.4.1 — Área da apresentação: fix
 > Abril 2026
 

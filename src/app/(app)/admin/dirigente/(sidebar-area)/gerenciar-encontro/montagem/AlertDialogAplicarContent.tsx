@@ -66,6 +66,7 @@ export function AlertDialogAplicarContent({
                 }
                 toast(
                   <div className="flex flex-col gap-1">
+                    <span>Apresentacao: {result.roles.apresentacao}</span>
                     <span>Externa: {result.roles.externa}</span>
                     <span>Secretaria: {result.roles.secretaria}</span>
                     <span>Tios Secretos: {result.roles.tiosSecretos}</span>

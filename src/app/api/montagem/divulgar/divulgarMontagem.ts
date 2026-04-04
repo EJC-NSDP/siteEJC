@@ -8,6 +8,7 @@ export interface DivulgarMontagem {
     deletados: number
   }
   roles: {
+    apresentacao: number
     secretaria: number
     externa: number
     tiosSecretos: number
@@ -123,6 +124,16 @@ async function ajustarRoles() {
           role: 'ADMIN',
         },
       })
+    } else if (encontreiro.idEquipe === 'apresentacao' && encontreiro.coordenou) {
+      console.log('Atualizando role para APRESENTACAO:', encontreiro.idPessoa)
+      await prisma.pessoa.update({
+        where: {
+          id: encontreiro.idPessoa,
+        },
+        data: {
+          role: 'APRESENTACAO',
+        },
+      })
     } else if (encontreiro.idEquipe === 'secretaria' && encontreiro.coordenou) {
       await prisma.pessoa.update({
         where: {
@@ -180,6 +191,12 @@ async function ajustarRoles() {
     }
   })
 
+  const apresentacao = await prisma.pessoa.count({
+    where: {
+      role: 'APRESENTACAO',
+    },
+  })
+
   const secretaria = await prisma.pessoa.count({
     where: {
       role: 'SECRETARIA',
@@ -205,6 +222,7 @@ async function ajustarRoles() {
   })
 
   return {
+    apresentacao,
     secretaria,
     externa,
     tiosSecretos,
@@ -222,6 +240,7 @@ export async function divulgarMontagem(): Promise<DivulgarMontagem> {
       deletados: resultadoMontagem?.deletados || 0,
     },
     roles: {
+      apresentacao: resultadoRoles?.apresentacao || 0,
       secretaria: resultadoRoles?.secretaria || 0,
       externa: resultadoRoles?.externa || 0,
       tiosSecretos: resultadoRoles?.tiosSecretos || 0,
