@@ -11,9 +11,9 @@ import {
   Theater,
   Users,
 } from 'lucide-react'
+import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
@@ -184,63 +184,33 @@ export default function Profile() {
                     Seus acessos
                   </h4>
                   <div className="flex flex-col gap-8 lg:flex-row">
-                    {(profileData.role === 'EXTERNA' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Externa"
-                        icon={CarFront}
-                        link="/admin/externa"
-                      />
-                    )}
-
-                    {(profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Dirigencia"
-                        icon={Album}
-                        link="/admin/dirigente"
-                      />
-                    )}
-
-                    {(profileData.role === 'SECRETARIA' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Secretaria"
-                        icon={BookUser}
-                        link="/admin/secretaria"
-                      />
-                    )}
-
                     {(profileData.role === 'APRESENTACAO' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Apresentação"
-                        icon={Theater}
-                        link="/admin/apresentacao"
-                      />
-                    )}
+                        <ButtonLabel
+                          label="Apresentação"
+                          icon={Theater}
+                          link="/admin/apresentacao"
+                        />
+                      )}
 
-                    {profileData.pastaURL !== '' && (
-                      <ButtonLabel
-                        label="Pasta Virtual"
-                        icon={FolderOpen}
-                        link={profileData.pastaURL}
-                      />
-                    )}
-
-                    {(profileData.pastaURL !== '' ||
+                    {(profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
+                        <ButtonLabel
+                          label="Dirigencia"
+                          icon={Album}
+                          link="/admin/dirigente"
+                        />
+                      )}
+                    {(profileData.role === 'EXTERNA' ||
                       profileData.role === 'DIRIGENTE' ||
                       profileData.role === 'ADMIN') && (
-                      <ButtonLabel
-                        label="Minha equipe"
-                        icon={Users}
-                        link="/admin/minha-equipe"
-                      />
-                    )}
-
+                        <ButtonLabel
+                          label="Externa"
+                          icon={CarFront}
+                          link="/admin/externa"
+                        />
+                      )}
                     {profileData && (
                       <ButtonLabel
                         label="Ficha de Cadastro"
@@ -248,10 +218,31 @@ export default function Profile() {
                         link="/admin/ficha-de-cadastro"
                       />
                     )}
-
-                    {/* {profileData.equipeEncontroCoord && (
-                      <ButtonLabel label="Tropa" icon={Users} link="/" />
-                    )} */}
+                    {(profileData.pastaURL !== '' ||
+                      profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
+                        <ButtonLabel
+                          label="Minha equipe"
+                          icon={Users}
+                          link="/admin/minha-equipe"
+                        />
+                      )}
+                    {profileData.pastaURL !== '' && (
+                      <ButtonLabel
+                        label="Pasta Virtual"
+                        icon={FolderOpen}
+                        link={profileData.pastaURL}
+                      />
+                    )}
+                    {(profileData.role === 'SECRETARIA' ||
+                      profileData.role === 'DIRIGENTE' ||
+                      profileData.role === 'ADMIN') && (
+                        <ButtonLabel
+                          label="Secretaria"
+                          icon={BookUser}
+                          link="/admin/secretaria"
+                        />
+                      )}
                   </div>
                 </div>
               </CardFooter>

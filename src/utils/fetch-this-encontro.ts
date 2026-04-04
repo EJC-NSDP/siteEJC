@@ -14,15 +14,16 @@ import { api } from '@/lib/axios'
 
 //   return encontroFound
 // }
-
 export async function getCurrentEncontro(): Promise<CurrentEncontro | null> {
   try {
     const response = await api.get('encontro/atual/1/get-current-encontro')
     return response.data
-  } catch {
+  } catch (err) {
+    console.error('Erro ao buscar encontro atual:', err)
     return null
   }
 }
+
 export const getCurrentEncontroDate = cache(async (): Promise<Date | null> => {
   const data: CurrentEncontro | null = await getCurrentEncontro()
 

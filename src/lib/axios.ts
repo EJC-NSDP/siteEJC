@@ -1,5 +1,8 @@
 import axios from 'axios'
 
-export const api = axios.create({
-  baseURL: '/api/',
-})
+const baseURL =
+  typeof window === 'undefined'
+    ? `${process.env.NEXTAUTH_URL}/api/`
+    : '/api/'
+
+export const api = axios.create({ baseURL })

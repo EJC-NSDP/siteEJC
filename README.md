@@ -156,6 +156,11 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.4.3 — Fix: instância axios no servidor
+> Abril 2026
+
+- A instância do axios estava configurada com `baseURL` relativa (`/api/`), o que causava `ERR_INVALID_URL` em Server Components. Corrigido para usar URL absoluta via `NEXTAUTH_URL` no servidor.
+
 ### v5.4.2 — Montagem: fix
 > Abril 2026
 
