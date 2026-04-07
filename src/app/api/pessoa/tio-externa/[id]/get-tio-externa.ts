@@ -5,7 +5,7 @@ export async function getTioExterna(id: string) {
   const pessoaFound = await prisma.pessoa.findFirst({
     select: {
       id: true,
-      role: true,
+      roles: true,
       nome: true,
       sobrenome: true,
       apelido: true,
@@ -33,7 +33,7 @@ export async function getTioExterna(id: string) {
   const tioExterna: CarPersonFormData = {
     id: pessoaFound.id,
     nome: pessoaFound.nome,
-    role: pessoaFound.role,
+    roles: pessoaFound.roles,
     sobrenome: pessoaFound.sobrenome,
     celular: pessoaFound.celular,
     telefone: pessoaFound.telefone || '',

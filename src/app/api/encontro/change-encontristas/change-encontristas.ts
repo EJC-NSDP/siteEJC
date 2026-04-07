@@ -25,11 +25,20 @@ export async function changeEncontristas() {
       currentEncontro.numeroEncontro,
     )
 
+    // Remove ENCONTRISTA e garante ENCONTREIRO
+    const novasRoles = [
+      ...new Set(
+        confirmado.roles
+          .filter((r) => r !== 'ENCONTRISTA')
+          .concat('ENCONTREIRO'),
+      ),
+    ]
+
     if (slug !== confirmado.slug) {
       await prisma.pessoa.update({
         data: {
           slug,
-          role: 'ENCONTREIRO',
+          roles: { set: novasRoles },
         },
         where: {
           id: confirmado.id,
@@ -38,7 +47,7 @@ export async function changeEncontristas() {
     } else {
       await prisma.pessoa.update({
         data: {
-          role: 'ENCONTREIRO',
+          roles: { set: novasRoles },
         },
         where: {
           id: confirmado.id,

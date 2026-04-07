@@ -17,7 +17,7 @@ export async function getEquipeExterna() {
       avatarUrl: true,
     },
     where: {
-      role: 'EXTERNA',
+      roles: { hasSome: ['EXTERNA'] },
     },
   })
 

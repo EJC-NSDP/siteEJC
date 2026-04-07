@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 
 import { ExternaSidebar } from '@/components/Sidebar/ExternaSidebar'
 import { authOptions } from '@/lib/auth/auth-options'
+import { hasRole } from '@/lib/auth/permissions'
 
 export const metadata: Metadata = {
   title: 'Externa | EJC NSDP',
@@ -17,13 +18,9 @@ export default async function ExternaLayout({
 }>) {
   const session = await getServerSession(authOptions)
 
-  const isAuthorized =
-    session &&
-    (session.user.role === 'EXTERNA' ||
-      session.user.role === 'ADMIN' ||
-      session.user.role === 'DIRIGENTE')
+  if (!session) redirect('/login')
 
-  if (!isAuthorized) {
+  if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'EXTERNA'])) {
     redirect('/admin/profile')
   }
 

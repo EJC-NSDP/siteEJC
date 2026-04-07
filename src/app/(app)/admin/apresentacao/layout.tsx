@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 
 import { ApresentacaoSidebar } from '@/components/Sidebar/ApresentacaoSidebar'
 import { authOptions } from '@/lib/auth/auth-options'
+import { hasRole } from '@/lib/auth/permissions'
 
 export const metadata: Metadata = {
   title: 'Apresentação | EJC NSDP',
@@ -17,13 +18,9 @@ export default async function ApresentacaoLayout({
 }>) {
   const session = await getServerSession(authOptions)
 
-  const isAuthorized =
-    session &&
-    (session.user.role === 'ADMIN' ||
-      session.user.role === 'DIRIGENTE' ||
-      session.user.role === 'APRESENTACAO')
+  if (!session) redirect('/login')
 
-  if (!isAuthorized) {
+  if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'APRESENTACAO'])) {
     redirect('/admin/profile')
   }
 

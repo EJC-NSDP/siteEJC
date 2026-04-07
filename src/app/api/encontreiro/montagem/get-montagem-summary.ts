@@ -1,7 +1,6 @@
 import type { Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
 
-// Campos válidos para ordenação
 export const validOrderFields = [
   'numeroEncontro',
   'nome',
@@ -10,7 +9,6 @@ export const validOrderFields = [
   'disponibilidade',
 ] as const
 
-// Mapeamento de campos para suas respectivas relações
 const fieldMappings: Record<
   string,
   { relation?: string; nestedRelation?: string; targetField?: string }
@@ -213,7 +211,6 @@ async function getEncontreirosMontagem({
       orderBy.push({ [orderByField]: direction })
     }
   } else {
-    // Ordem padrão: por nome e sobrenome
     orderBy.push({ nome: 'asc' }, { sobrenome: 'asc' })
   }
 
@@ -222,9 +219,7 @@ async function getEncontreirosMontagem({
     take: perPage,
     select: pessoaSelect,
     where: {
-      role: {
-        notIn: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'],
-      },
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'] } },
       ...nameFilter,
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
@@ -272,9 +267,7 @@ async function getTotalMontagem({
 
   return await prisma.pessoa.count({
     where: {
-      role: {
-        notIn: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'],
-      },
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'DIRIGENTE', 'TIOEXTERNA'] } },
       ...nameFilter,
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
@@ -299,12 +292,8 @@ function comparePosicao(
     }
   },
 ) {
-  if (a.posicao < b.posicao) {
-    return -1
-  }
-  if (a.posicao > b.posicao) {
-    return 1
-  }
+  if (a.posicao < b.posicao) return -1
+  if (a.posicao > b.posicao) return 1
   return 0
 }
 

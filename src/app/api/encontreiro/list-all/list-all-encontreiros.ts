@@ -23,7 +23,7 @@ export async function listAllEncontreiros(): Promise<ListEncontreiros[]> {
       },
     },
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOEXTERNA'] } },
     },
     orderBy: {
       nome: 'asc',

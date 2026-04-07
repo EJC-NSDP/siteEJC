@@ -12,145 +12,99 @@ export async function updateCirculo({
 }: CirculoFormData) {
   const currentEncontro = await getCurrentEncontro()
   const circulo = await prisma.circulo.update({
-    data: {
-      nome,
-    },
-    where: {
-      id,
-    },
+    data: { nome },
+    where: { id },
   })
 
   if (tioAparente && tioAparente.id !== 'unknown') {
     const foundTio = await prisma.pessoa.findUnique({
-      where: {
-        id: tioAparente.id,
-      },
+      where: { id: tioAparente.id },
     })
     if (!foundTio) return
 
     await prisma.equipeEncontro.update({
-      data: {
-        coordenou: false,
-        idEquipe: 'tio_aparente',
-      },
+      data: { coordenou: false, idEquipe: 'tio_aparente' },
       where: {
-        idPessoa_idEncontro: {
-          idEncontro,
-          idPessoa: foundTio.id,
-        },
+        idPessoa_idEncontro: { idEncontro, idPessoa: foundTio.id },
       },
     })
 
     await prisma.circulo.update({
-      data: {
-        idTioAparente: foundTio.id,
-      },
-      where: {
-        id,
-      },
+      data: { idTioAparente: foundTio.id },
+      where: { id },
     })
   } else {
-    const circulo = await prisma.circulo.findUnique({
-      where: {
-        id,
-      },
-    })
+    const circulo = await prisma.circulo.findUnique({ where: { id } })
+
     if (circulo && circulo.idTioAparente !== null) {
       await prisma.equipeEncontro.update({
-        data: {
-          idEquipe: 'tio_circulo',
-        },
+        data: { idEquipe: 'tio_circulo' },
         where: {
-          idPessoa_idEncontro: {
-            idPessoa: circulo.idTioAparente,
-            idEncontro,
-          },
+          idPessoa_idEncontro: { idPessoa: circulo.idTioAparente, idEncontro },
         },
       })
       await prisma.circulo.update({
-        data: {
-          idTioAparente: null,
-        },
-        where: {
-          id,
-        },
+        data: { idTioAparente: null },
+        where: { id },
       })
     }
   }
 
   if (tioSecreto && tioSecreto.id !== 'unknown') {
     const foundTio = await prisma.pessoa.findUnique({
-      where: {
-        id: tioSecreto.id,
-      },
+      where: { id: tioSecreto.id },
     })
     if (!foundTio) return
 
     if (currentEncontro && currentEncontro.id === idEncontro) {
       await prisma.pessoa.update({
         data: {
-          role: 'TIOSECRETO',
+          roles: { push: ['TIOSECRETO'] },
         },
-        where: {
-          id: foundTio.id,
-        },
+        where: { id: foundTio.id },
       })
     }
 
     await prisma.equipeEncontro.update({
-      data: {
-        coordenou: false,
-        idEquipe: 'tio_secreto',
-      },
+      data: { coordenou: false, idEquipe: 'tio_secreto' },
       where: {
-        idPessoa_idEncontro: {
-          idEncontro,
-          idPessoa: foundTio.id,
-        },
+        idPessoa_idEncontro: { idEncontro, idPessoa: foundTio.id },
       },
     })
 
     await prisma.circulo.update({
-      data: {
-        idTioSecreto: foundTio.id,
-      },
-      where: {
-        id,
-      },
+      data: { idTioSecreto: foundTio.id },
+      where: { id },
     })
   } else {
-    const circulo = await prisma.circulo.findUnique({
-      where: {
-        id,
-      },
-    })
+    const circulo = await prisma.circulo.findUnique({ where: { id } })
+
     if (circulo && circulo.idTioSecreto !== null) {
-      await prisma.pessoa.update({
-        data: {
-          role: 'ENCONTREIRO',
-        },
-        where: {
-          id: circulo.idTioSecreto,
-        },
+      const tioAtual = await prisma.pessoa.findUnique({
+        where: { id: circulo.idTioSecreto },
       })
-      await prisma.equipeEncontro.update({
-        data: {
-          idEquipe: 'tio_circulo',
-        },
-        where: {
-          idPessoa_idEncontro: {
-            idPessoa: circulo.idTioSecreto,
-            idEncontro,
+
+      if (tioAtual) {
+        await prisma.pessoa.update({
+          data: {
+            roles: {
+              set: tioAtual.roles.filter((r) => r !== 'TIOSECRETO'),
+            },
           },
+          where: { id: tioAtual.id },
+        })
+      }
+
+      await prisma.equipeEncontro.update({
+        data: { idEquipe: 'tio_circulo' },
+        where: {
+          idPessoa_idEncontro: { idPessoa: circulo.idTioSecreto, idEncontro },
         },
       })
+
       await prisma.circulo.update({
-        data: {
-          idTioSecreto: null,
-        },
-        where: {
-          id,
-        },
+        data: { idTioSecreto: null },
+        where: { id },
       })
     }
   }

@@ -25,7 +25,7 @@ export interface ProfileData {
   slug: string
   nome: string
   avatarUrl: string | undefined
-  role: Role
+  roles: Role[]
   dataNascimento: Date | undefined
   numeroEncontro: number | undefined
   corCirculo: string | undefined
@@ -47,7 +47,7 @@ export async function getProfile(id: string) {
       nome: true,
       sobrenome: true,
       avatarUrl: true,
-      role: true,
+      roles: true,
       encontreiro: {
         select: {
           dataNasc: true,
@@ -265,7 +265,7 @@ export async function getProfile(id: string) {
     slug: encontreiro.slug,
     nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
     avatarUrl: encontreiro.avatarUrl || undefined,
-    role: encontreiro.role,
+    roles: encontreiro.roles,
     dataNascimento: encontreiro.encontreiro?.dataNasc || undefined,
     numeroEncontro: encontreiro.encontreiro?.encontro?.numeroEncontro,
     corCirculo: encontreiro.encontreiro?.circulo?.corCirculo.cor,

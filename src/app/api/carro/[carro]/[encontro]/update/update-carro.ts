@@ -36,40 +36,39 @@ export async function updateCarro({
     encontro.numeroEncontro,
   )
 
-  const foundMotorista =
-    motorista.role === 'TIOEXTERNA'
-      ? await prisma.pessoa.upsert({
-          where: {
-            id: motorista.id,
-          },
-          create: {
-            nome: motorista.nome,
-            sobrenome: motorista.sobrenome,
-            apelido: motorista.apelido,
-            email: motorista.email,
-            celular: motorista.celular,
-            telefone: motorista.telefone,
-            enderecoCep: motorista.enderecoCep,
-            enderecoNumero: parseInt(motorista.enderecoNumero, 10),
-            slug: motoristaSlug,
-            role: 'TIOEXTERNA',
-          },
-          update: {
-            nome: motorista.nome,
-            sobrenome: motorista.sobrenome,
-            apelido: motorista.apelido,
-            email: motorista.email,
-            celular: motorista.celular,
-            telefone: motorista.telefone,
-            enderecoCep: motorista.enderecoCep,
-            enderecoNumero: parseInt(motorista.enderecoNumero, 10),
-          },
-        })
-      : await prisma.pessoa.findUnique({
-          where: {
-            id: motorista.id,
-          },
-        })
+  const foundMotorista = motorista.roles.includes('TIOEXTERNA')
+    ? await prisma.pessoa.upsert({
+        where: {
+          id: motorista.id,
+        },
+        create: {
+          nome: motorista.nome,
+          sobrenome: motorista.sobrenome,
+          apelido: motorista.apelido,
+          email: motorista.email,
+          celular: motorista.celular,
+          telefone: motorista.telefone,
+          enderecoCep: motorista.enderecoCep,
+          enderecoNumero: parseInt(motorista.enderecoNumero, 10),
+          slug: motoristaSlug,
+          roles: ['TIOEXTERNA'],
+        },
+        update: {
+          nome: motorista.nome,
+          sobrenome: motorista.sobrenome,
+          apelido: motorista.apelido,
+          email: motorista.email,
+          celular: motorista.celular,
+          telefone: motorista.telefone,
+          enderecoCep: motorista.enderecoCep,
+          enderecoNumero: parseInt(motorista.enderecoNumero, 10),
+        },
+      })
+    : await prisma.pessoa.findUnique({
+        where: {
+          id: motorista.id,
+        },
+      })
 
   if (!foundMotorista) return null
 
@@ -90,7 +89,7 @@ export async function updateCarro({
 
   const foundCarona =
     caronaSlug && carona
-      ? carona.role === 'TIOEXTERNA'
+      ? carona.roles.includes('TIOEXTERNA')
         ? await prisma.pessoa.upsert({
             where: {
               id: carona.id,
@@ -105,7 +104,7 @@ export async function updateCarro({
               enderecoCep: carona.enderecoCep,
               enderecoNumero: parseInt(carona.enderecoNumero, 10),
               slug: caronaSlug,
-              role: 'TIOEXTERNA',
+              roles: ['TIOEXTERNA'],
             },
             update: {
               nome: carona.nome,

@@ -79,7 +79,7 @@ export function MotoristaDetails({ disabled = false }: MotoristaDetailsProps) {
         setValue('motorista.id', pessoa.id, {
           shouldValidate: true,
         })
-        setValue('motorista.role', pessoa.role, {
+        setValue('motorista.roles', pessoa.roles, {
           shouldValidate: true,
         })
         setValue('motorista.nome', pessoa.nome, {

@@ -17,7 +17,7 @@ export async function createEncontro() {
 
   const encontristas = await prisma.pessoa.findMany({
     where: {
-      role: 'ENCONTRISTA',
+      roles: { hasSome: ['ENCONTRISTA'] },
     },
   })
 

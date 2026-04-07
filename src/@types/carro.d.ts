@@ -10,7 +10,7 @@ interface CarInfoFormData {
 
 interface CarPersonFormData {
   id: string
-  role: Role
+  roles: Role[]
   nome: string
   sobrenome: string
   celular: string

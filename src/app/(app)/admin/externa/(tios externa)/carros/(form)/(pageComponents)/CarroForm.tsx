@@ -37,7 +37,7 @@ const carroFormScheme = z.object({
 
 const carroPessoaFormScheme = z.object({
   id: z.string(),
-  role: z.nativeEnum(Role),
+  roles: z.array(z.nativeEnum(Role)),
   nome: z
     .string({ required_error: 'O nome é obrigatório.' })
     .min(3, { message: 'O nome precisa ter pelo menos 3 letras.' }),
@@ -68,10 +68,11 @@ const carroPessoaFormScheme = z.object({
   rua: z.string().min(1, { message: 'A rua é obrigatória.' }),
   observacaoMotorista: z.string().optional(),
 })
+
 const carroCaronaFormScheme = z
   .object({
     id: z.string(),
-    role: z.nativeEnum(Role),
+    roles: z.array(z.nativeEnum(Role)),
     nome: z.string().optional(),
     sobrenome: z.string().optional(),
     apelido: z.string().optional(),
@@ -156,7 +157,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
         id: data?.motorista.id || '-1',
         nome: data?.motorista.nome || '',
         sobrenome: data?.motorista.sobrenome || '',
-        role: data?.motorista.role || 'TIOEXTERNA',
+        roles: data?.motorista.roles || ['TIOEXTERNA'],
         celular: data?.motorista.celular || '',
         telefone: data?.motorista.telefone || undefined,
         email: data?.motorista.email || '',
@@ -169,12 +170,11 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
         apelido: data?.motorista.apelido || '',
         observacaoMotorista: data?.motorista.observacaoMotorista || '',
       },
-
       carona: {
         id: data?.carona?.id || '1',
         nome: data?.carona?.nome || '',
         sobrenome: data?.carona?.sobrenome || '',
-        role: data?.carona?.role || 'TIOEXTERNA',
+        roles: data?.carona?.roles || ['TIOEXTERNA'],
         celular: data?.carona?.celular || '',
         telefone: data?.carona?.telefone || undefined,
         email: data?.carona?.email || '',
@@ -203,7 +203,7 @@ export function CarroForm({ data, disabled }: CarroFormProps) {
           ? null
           : {
               id: formDataInput.carona.id,
-              role: formDataInput.carona.role,
+              roles: formDataInput.carona.roles,
               nome: formDataInput.carona.nome || '',
               sobrenome: formDataInput.carona.sobrenome || '',
               celular: formDataInput.carona.celular || '',

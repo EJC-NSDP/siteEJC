@@ -2,7 +2,6 @@ import { type StatusEncontreiro } from '@/enums'
 import { type Prisma } from '@/generated'
 import { prisma } from '@/lib/prisma'
 
-// Campos válidos para ordenação
 export const validOrderFields = [
   'numeroEncontro',
   'nome',
@@ -10,7 +9,6 @@ export const validOrderFields = [
   'statusMontagem',
 ] as const
 
-// Mapeamento de campos para suas respectivas relações
 const fieldMappings: Record<
   string,
   { relation?: string; nestedRelation?: string }
@@ -108,10 +106,8 @@ async function getEncontreiros({
     const mapping = fieldMappings[orderByField] || {}
 
     if (orderByField === 'nome') {
-      // Ordenação específica para nome e sobrenome
       orderBy.push({ nome: direction }, { sobrenome: direction })
     } else if (mapping.relation) {
-      // Ordenação para campos mapeados
       const orderObject = mapping.nestedRelation
         ? {
             [mapping.relation]: {
@@ -121,11 +117,9 @@ async function getEncontreiros({
         : { [mapping.relation]: { [orderByField]: direction } }
       orderBy.push(orderObject)
     } else {
-      // Ordenação padrão
       orderBy.push({ [orderByField]: direction })
     }
   } else {
-    // Ordenação padrão por 'nome' se o campo for inválido
     orderBy.push({ nome: 'asc' })
   }
 
@@ -167,7 +161,7 @@ async function getEncontreiros({
       },
     },
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOEXTERNA'] } },
       ...nameFilter,
       encontreiro: {
         ...statusFilter,
@@ -204,7 +198,7 @@ async function getTotal({
 
   return await prisma.pessoa.count({
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOEXTERNA'] } },
       ...nameFilter,
       encontreiro: {
         ...statusFilter,

@@ -183,7 +183,7 @@ async function getEncontristas({
       },
     },
     where: {
-      role: 'ENCONTRISTA',
+      roles: { hasSome: ['ENCONTRISTA'] },
       ...nameFilter,
       encontrista: {
         ...statusFilter,
@@ -231,7 +231,7 @@ async function getTotal({
 
   return await prisma.pessoa.count({
     where: {
-      role: 'ENCONTRISTA',
+      roles: { hasSome: ['ENCONTRISTA'] },
       ...nameFilter,
       encontrista: {
         ...statusFilter,

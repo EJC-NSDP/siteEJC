@@ -11,9 +11,9 @@ import {
   Theater,
   Users,
 } from 'lucide-react'
-import { getSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import type { ProfileData } from '@/app/api/encontreiro/[id]/profile/get-profile'
@@ -23,6 +23,7 @@ import { CardLoading } from '@/components/CardLoading'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
+import { hasRole } from '@/lib/auth/permissions'
 import { cn } from '@/lib/utils'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
@@ -170,7 +171,7 @@ export default function Profile() {
                           encontreiros={profileData.coordenadores}
                           loose
                         />
-                        {profileData.role !== 'DIRIGENTE' && (
+                        {!hasRole(profileData.roles, ['DIRIGENTE']) && (
                           <AvatarGroup encontreiros={profileData.tropa} />
                         )}
                       </div>
@@ -184,33 +185,36 @@ export default function Profile() {
                     Seus acessos
                   </h4>
                   <div className="flex flex-col gap-8 lg:flex-row">
-                    {(profileData.role === 'APRESENTACAO' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Apresentação"
-                          icon={Theater}
-                          link="/admin/apresentacao"
-                        />
-                      )}
+                    {hasRole(profileData.roles, [
+                      'APRESENTACAO',
+                      'DIRIGENTE',
+                      'ADMIN',
+                    ]) && (
+                      <ButtonLabel
+                        label="Apresentação"
+                        icon={Theater}
+                        link="/admin/apresentacao"
+                      />
+                    )}
 
-                    {(profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Dirigencia"
-                          icon={Album}
-                          link="/admin/dirigente"
-                        />
-                      )}
-                    {(profileData.role === 'EXTERNA' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Externa"
-                          icon={CarFront}
-                          link="/admin/externa"
-                        />
-                      )}
+                    {hasRole(profileData.roles, ['DIRIGENTE', 'ADMIN']) && (
+                      <ButtonLabel
+                        label="Dirigencia"
+                        icon={Album}
+                        link="/admin/dirigente"
+                      />
+                    )}
+                    {hasRole(profileData.roles, [
+                      'EXTERNA',
+                      'DIRIGENTE',
+                      'ADMIN',
+                    ]) && (
+                      <ButtonLabel
+                        label="Externa"
+                        icon={CarFront}
+                        link="/admin/externa"
+                      />
+                    )}
                     {profileData && (
                       <ButtonLabel
                         label="Ficha de Cadastro"
@@ -219,14 +223,13 @@ export default function Profile() {
                       />
                     )}
                     {(profileData.pastaURL !== '' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Minha equipe"
-                          icon={Users}
-                          link="/admin/minha-equipe"
-                        />
-                      )}
+                      hasRole(profileData.roles, ['DIRIGENTE', 'ADMIN'])) && (
+                      <ButtonLabel
+                        label="Minha equipe"
+                        icon={Users}
+                        link="/admin/minha-equipe"
+                      />
+                    )}
                     {profileData.pastaURL !== '' && (
                       <ButtonLabel
                         label="Pasta Virtual"
@@ -234,15 +237,17 @@ export default function Profile() {
                         link={profileData.pastaURL}
                       />
                     )}
-                    {(profileData.role === 'SECRETARIA' ||
-                      profileData.role === 'DIRIGENTE' ||
-                      profileData.role === 'ADMIN') && (
-                        <ButtonLabel
-                          label="Secretaria"
-                          icon={BookUser}
-                          link="/admin/secretaria"
-                        />
-                      )}
+                    {hasRole(profileData.roles, [
+                      'DIRIGENTE',
+                      'SECRETARIA',
+                      'ADMIN',
+                    ]) && (
+                      <ButtonLabel
+                        label="Secretaria"
+                        icon={BookUser}
+                        link="/admin/secretaria"
+                      />
+                    )}
                   </div>
                 </div>
               </CardFooter>

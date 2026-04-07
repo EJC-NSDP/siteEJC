@@ -33,7 +33,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
           pessoaMotorista: {
             select: {
               id: true,
-              role: true,
+              roles: true,
               nome: true,
               sobrenome: true,
               apelido: true,
@@ -56,7 +56,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
           pessoaCarona: {
             select: {
               id: true,
-              role: true,
+              roles: true,
               nome: true,
               sobrenome: true,
               apelido: true,
@@ -104,7 +104,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
     },
     motorista: {
       id: carroFound.carro.pessoaMotorista.id,
-      role: carroFound.carro.pessoaMotorista.role,
+      roles: carroFound.carro.pessoaMotorista.roles,
       nome: carroFound.carro.pessoaMotorista.nome,
       sobrenome: carroFound.carro.pessoaMotorista.sobrenome,
       celular: carroFound.carro.pessoaMotorista.celular,
@@ -123,7 +123,7 @@ export async function getCarro({ carro, encontro }: GetCarroProps) {
     carona: carroFound.carro.pessoaCarona
       ? {
           id: carroFound.carro.pessoaCarona.id,
-          role: carroFound.carro.pessoaCarona.role,
+          roles: carroFound.carro.pessoaCarona.roles,
           nome: carroFound.carro.pessoaCarona.nome,
           sobrenome: carroFound.carro.pessoaCarona.sobrenome,
           celular: carroFound.carro.pessoaCarona.celular,

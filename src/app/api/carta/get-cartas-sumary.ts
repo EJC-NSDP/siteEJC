@@ -93,7 +93,7 @@ async function getCartas({ page, perPage, encontristaName }: getCartaProps) {
         },
       },
       where: {
-        role: 'ENCONTRISTA',
+        roles: { has: 'ENCONTRISTA' },
         OR: [
           { nome: { contains: encontristaName } },
           { sobrenome: { contains: encontristaName } },
@@ -160,7 +160,7 @@ async function getCartas({ page, perPage, encontristaName }: getCartaProps) {
       },
     },
     where: {
-      role: 'ENCONTRISTA',
+      roles: { has: 'ENCONTRISTA' },
       encontrista: {
         OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
       },
@@ -175,7 +175,7 @@ async function getTotal({ encontristaName }: getTotalEncontristasProps) {
   if (encontristaName) {
     return await prisma.pessoa.count({
       where: {
-        role: 'ENCONTRISTA',
+        roles: { has: 'ENCONTRISTA' },
         OR: [
           { nome: { contains: encontristaName } },
           { sobrenome: { contains: encontristaName } },
@@ -192,7 +192,7 @@ async function getTotal({ encontristaName }: getTotalEncontristasProps) {
 
   return await prisma.pessoa.count({
     where: {
-      role: 'ENCONTRISTA',
+      roles: { has: 'ENCONTRISTA' },
       encontrista: {
         OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
       },

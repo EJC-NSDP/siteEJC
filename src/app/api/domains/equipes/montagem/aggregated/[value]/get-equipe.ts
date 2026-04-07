@@ -18,8 +18,6 @@ const salaEquipes = [
 const rosaEquipes = ['compras', 'externa', 'meditacao', 'recepcao', 'vigilia']
 const tioEquipes = ['tio_aparente', 'tio_circulo', 'tio_secreto']
 
-// Função auxiliar para equipes agrupadas (sala, rosa)
-
 export async function getEquipe(
   value: string,
 ): Promise<EquipeMontagemAggregated> {
@@ -79,7 +77,6 @@ export async function getEquipe(
     }
   }
 
-  // Sala ou Rosa
   if (value === 'sala') {
     return await createEquipeAgrupada('sala', 'Sala', salaEquipes)
   }
@@ -88,12 +85,11 @@ export async function getEquipe(
     return await createEquipeAgrupada('rosa', 'Rosa', rosaEquipes)
   }
 
-  // Sem equipe
   if (value === 'sem_equipe') {
     const totalEncontreirosSemEquipe = await prisma.pessoa.count({
       where: {
-        role: {
-          notIn: ['TIOEXTERNA', 'ENCONTRISTA', 'DIRIGENTE'],
+        NOT: {
+          roles: { hasSome: ['TIOEXTERNA', 'ENCONTRISTA', 'DIRIGENTE'] },
         },
         encontreiro: {
           equipeMontagem: null,
@@ -112,7 +108,6 @@ export async function getEquipe(
     }
   }
 
-  // Equipe individual
   const totalCoords = await prisma.equipeMontagem.count({
     where: {
       valueEquipe: value,
@@ -121,9 +116,7 @@ export async function getEquipe(
   })
 
   const total = await prisma.equipeMontagem.count({
-    where: {
-      valueEquipe: value,
-    },
+    where: { valueEquipe: value },
   })
 
   const tropa = total - totalCoords

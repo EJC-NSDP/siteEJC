@@ -68,7 +68,7 @@ export async function getAllEncontristas() {
       },
     },
     where: {
-      role: 'ENCONTRISTA',
+      roles: { has: 'ENCONTRISTA' },
       encontrista: {
         NOT: {
           OR: [{ idStatus: 'delete' }, { idStatus: 'desistiu' }],

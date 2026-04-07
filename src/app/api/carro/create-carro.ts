@@ -54,7 +54,7 @@ export async function createCarro({ carro, motorista, carona }: CarFormData) {
         email: motorista.email,
         enderecoNumero: parseInt(motorista.enderecoNumero, 10),
         slug: motoristaSlug,
-        role: 'TIOEXTERNA',
+        roles: ['TIOEXTERNA'],
       },
     })
     if (!motoristaPessoa) {
@@ -119,7 +119,7 @@ export async function createCarro({ carro, motorista, carona }: CarFormData) {
           enderecoNumero: parseInt(carona.enderecoNumero, 10),
           email: carona.email,
           slug: caronaSlug,
-          role: 'TIOEXTERNA',
+          roles: ['TIOEXTERNA'],
         },
       })
       if (!caronaPessoa) {

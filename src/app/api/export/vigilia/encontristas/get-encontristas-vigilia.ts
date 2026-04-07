@@ -26,7 +26,7 @@ export async function getEncontristasVigilia(): Promise<EncontristaVigilia[]> {
       },
     },
     where: {
-      role: 'ENCONTRISTA',
+      roles: { has: 'ENCONTRISTA' },
       encontrista: {
         OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
       },

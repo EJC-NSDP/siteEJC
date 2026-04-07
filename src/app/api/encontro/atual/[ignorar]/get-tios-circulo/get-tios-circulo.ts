@@ -4,7 +4,7 @@ export type TiosCirculo = {
   id: string
   nome: string
   encontro?: string
-  role: string
+  roles: string[]
 }
 
 export async function getTiosCirculo() {
@@ -17,7 +17,7 @@ export async function getTiosCirculo() {
               id: true,
               nome: true,
               sobrenome: true,
-              role: true,
+              roles: true,
             },
           },
           encontro: {
@@ -37,19 +37,17 @@ export async function getTiosCirculo() {
     },
   })
 
-  const tiosCirculo = await Promise.all(
-    pessoasTios.map(async (pessoaTio) => {
-      return {
-        id: pessoaTio.encontreiro.pessoa.id,
-        nome:
-          pessoaTio.encontreiro.pessoa.nome +
-          ' ' +
-          pessoaTio.encontreiro.pessoa.sobrenome,
-        encontro: pessoaTio.encontreiro.encontro!.numeroEncontro,
-        role: pessoaTio.encontreiro.pessoa.role,
-      }
-    }),
-  )
+  const tiosCirculo = pessoasTios.map((pessoaTio) => {
+    return {
+      id: pessoaTio.encontreiro.pessoa.id,
+      nome:
+        pessoaTio.encontreiro.pessoa.nome +
+        ' ' +
+        pessoaTio.encontreiro.pessoa.sobrenome,
+      encontro: pessoaTio.encontreiro.encontro!.numeroEncontro,
+      roles: pessoaTio.encontreiro.pessoa.roles,
+    }
+  })
 
   tiosCirculo.sort((a, b) => a.nome.localeCompare(b.nome))
 

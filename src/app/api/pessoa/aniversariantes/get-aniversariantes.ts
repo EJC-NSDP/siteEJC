@@ -44,7 +44,7 @@ export async function getBirthdaysOfWeek(): Promise<Aniversariantes[]> {
       },
     },
     where: {
-      NOT: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOEXTERNA'] } },
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
       },

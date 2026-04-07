@@ -1,12 +1,5 @@
 import { prisma } from '@/lib/prisma'
 
-// Nome
-// Apelido
-// Encontrão
-// Telefone
-// Bairro
-// Instagram
-
 export async function getCirculos() {
   const encontristas = await prisma.pessoa.findMany({
     select: {
@@ -40,7 +33,7 @@ export async function getCirculos() {
       },
     },
     where: {
-      role: 'ENCONTRISTA',
+      roles: { has: 'ENCONTRISTA' },
       encontrista: {
         OR: [{ idStatus: 'confirmado' }, { idStatus: 'confirmado_sem_sexta' }],
       },

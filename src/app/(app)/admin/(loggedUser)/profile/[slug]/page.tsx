@@ -104,7 +104,7 @@ export default async function ProfileSlug(props: {
                           encontreiros={profileData.coordenadores}
                           loose
                         />
-                        {profileData.role !== 'DIRIGENTE' && (
+                        {!profileData.roles.includes('DIRIGENTE') && (
                           <AvatarGroup encontreiros={profileData.tropa} />
                         )}
                       </div>

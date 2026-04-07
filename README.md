@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.4.4 — 
+> Abril 2026
+
+- [completar]
+
+---
+
 ### v5.4.3 — Fix: instância axios no servidor
 > Abril 2026
 

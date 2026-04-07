@@ -20,7 +20,7 @@ model Pessoa {
   avatarUrl          String?      @map("avatar_url")
   password           String?
   apelido            String?
-  role               Role         @default(ENCONTRISTA)
+  roles              Role[]       @default([ENCONTRISTA])
   slug               String       @unique
   enderecoNumero     Int?         @map("endereco_numero")
   changePassword     Boolean      @default(false)
@@ -507,6 +507,7 @@ enum Value_TamanhoCamisa {
 enum Role {
   ADMIN
   DIRIGENTE
+  BP
   ENCONTREIRO
   COORDENADOR
   EXTERNA

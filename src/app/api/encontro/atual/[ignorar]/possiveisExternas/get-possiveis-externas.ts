@@ -4,7 +4,7 @@ export type PossiveisTiosExterna = {
   id: string
   nome: string
   encontro?: string
-  role: string
+  roles: string[]
 }
 
 export async function getPossiveisExternas() {
@@ -13,7 +13,7 @@ export async function getPossiveisExternas() {
       id: true,
       nome: true,
       sobrenome: true,
-      role: true,
+      roles: true,
       encontreiro: {
         select: {
           encontro: {
@@ -25,33 +25,29 @@ export async function getPossiveisExternas() {
       },
     },
     where: {
-      NOT: {
-        OR: [{ role: 'ENCONTRISTA' }, { role: 'TIOSECRETO' }],
-      },
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOSECRETO'] } },
     },
     orderBy: {
       nome: 'asc',
     },
   })
 
-  const tiosExterna = await Promise.all(
-    pessoasExterna.map(async (pessoaExterna) => {
-      if (pessoaExterna.encontreiro && pessoaExterna.encontreiro.encontro) {
-        return {
-          id: pessoaExterna.id,
-          nome: pessoaExterna.nome + ' ' + pessoaExterna.sobrenome,
-          encontro: pessoaExterna.encontreiro.encontro.numeroEncontro,
-          role: pessoaExterna.role,
-        }
-      } else {
-        return {
-          id: pessoaExterna.id,
-          nome: pessoaExterna.nome + ' ' + pessoaExterna.sobrenome,
-          role: pessoaExterna.role,
-        }
+  const tiosExterna = pessoasExterna.map((pessoaExterna) => {
+    if (pessoaExterna.encontreiro && pessoaExterna.encontreiro.encontro) {
+      return {
+        id: pessoaExterna.id,
+        nome: pessoaExterna.nome + ' ' + pessoaExterna.sobrenome,
+        encontro: pessoaExterna.encontreiro.encontro.numeroEncontro,
+        roles: pessoaExterna.roles,
       }
-    }),
-  )
+    } else {
+      return {
+        id: pessoaExterna.id,
+        nome: pessoaExterna.nome + ' ' + pessoaExterna.sobrenome,
+        roles: pessoaExterna.roles,
+      }
+    }
+  })
 
   return tiosExterna
 }

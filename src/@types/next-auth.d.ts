@@ -7,7 +7,7 @@ declare module 'next-auth' {
     name: string
     surname: string
     email: string
-    role: Role
+    roles: Role[]
     avatar_url?: string
   }
 

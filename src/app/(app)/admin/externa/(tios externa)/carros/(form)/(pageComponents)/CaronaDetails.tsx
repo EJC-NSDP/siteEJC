@@ -80,7 +80,7 @@ export function CaronaDetails({ disabled = false }: CaronaDetailsProps) {
         setValue('carona.id', pessoa.id, {
           shouldValidate: true,
         })
-        setValue('carona.role', pessoa.role, {
+        setValue('carona.roles', pessoa.roles, {
           shouldValidate: true,
         })
         setValue('carona.nome', pessoa.nome, {

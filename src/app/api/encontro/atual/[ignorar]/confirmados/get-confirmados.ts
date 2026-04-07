@@ -22,9 +22,9 @@ export async function getConfirmados() {
               { idStatus: 'confirmado_sem_sexta' },
             ],
           },
-          role: 'ENCONTRISTA',
+          roles: { hasSome: ['ENCONTRISTA'] },
         },
-        { role: 'TIOSECRETO' },
+        { roles: { hasSome: ['TIOSECRETO'] } },
       ],
     },
     orderBy: {

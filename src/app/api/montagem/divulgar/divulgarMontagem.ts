@@ -16,12 +16,21 @@ export interface DivulgarMontagem {
   }
 }
 
+const ROLES_AJUSTAVEIS = [
+  'COORDENADOR',
+  'EXTERNA',
+  'SECRETARIA',
+  'APRESENTACAO',
+  'TIOSECRETO',
+] as const
+type RoleAjustavel = (typeof ROLES_AJUSTAVEIS)[number]
+
 async function aplicarEquipeMontagem() {
   const currentEncontro = await getCurrentEncontro()
   const equipeMontagem = await prisma.equipeMontagem.findMany()
   const dirigentes = await prisma.pessoa.findMany({
     where: {
-      role: 'DIRIGENTE',
+      roles: { has: 'DIRIGENTE' },
     },
   })
   let upserted = 0
@@ -109,128 +118,59 @@ async function aplicarEquipeMontagem() {
 async function ajustarRoles() {
   const currentEncontro = await getCurrentEncontro()
   if (!currentEncontro) return null
+
   const equipeEncontro = await prisma.equipeEncontro.findMany({
-    where: {
-      idEncontro: currentEncontro.id,
-    },
-  })
-  equipeEncontro.forEach(async (encontreiro) => {
-    if (encontreiro.idPessoa === 'a1f70688-c397-43ff-bfe5-4e7d3af73be0') {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'ADMIN',
-        },
-      })
-    } else if (
-      encontreiro.idEquipe === 'apresentacao' &&
-      encontreiro.coordenou
-    ) {
-      console.log('Atualizando role para APRESENTACAO:', encontreiro.idPessoa)
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'APRESENTACAO',
-        },
-      })
-    } else if (encontreiro.idEquipe === 'secretaria' && encontreiro.coordenou) {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'SECRETARIA',
-        },
-      })
-    } else if (encontreiro.idEquipe === 'externa') {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'EXTERNA',
-        },
-      })
-    } else if (encontreiro.idEquipe === 'dirigente') {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'DIRIGENTE',
-        },
-      })
-    } else if (encontreiro.idEquipe === 'tio_secreto') {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'TIOSECRETO',
-        },
-      })
-    } else if (encontreiro.coordenou) {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'COORDENADOR',
-        },
-      })
-    } else {
-      await prisma.pessoa.update({
-        where: {
-          id: encontreiro.idPessoa,
-        },
-        data: {
-          role: 'ENCONTREIRO',
-        },
-      })
-    }
-  })
-
-  const apresentacao = await prisma.pessoa.count({
-    where: {
-      role: 'APRESENTACAO',
+    where: { idEncontro: currentEncontro.id },
+    include: {
+      encontreiro: {
+        include: { pessoa: true },
+      },
     },
   })
 
-  const secretaria = await prisma.pessoa.count({
-    where: {
-      role: 'SECRETARIA',
-    },
-  })
+  await Promise.all(
+    equipeEncontro.map(async (equipe) => {
+      const pessoa = equipe.encontreiro.pessoa
 
-  const externa = await prisma.pessoa.count({
-    where: {
-      role: 'EXTERNA',
-    },
-  })
+      const rolesPreservados = pessoa.roles.filter(
+        (r) => !ROLES_AJUSTAVEIS.includes(r as RoleAjustavel),
+      )
 
-  const coordenador = await prisma.pessoa.count({
-    where: {
-      role: 'COORDENADOR',
-    },
-  })
+      let novosRolesAjustaveis: RoleAjustavel[] = []
 
-  const tiosSecretos = await prisma.pessoa.count({
-    where: {
-      role: 'TIOSECRETO',
-    },
-  })
+      if (equipe.idEquipe === 'apresentacao' && equipe.coordenou) {
+        novosRolesAjustaveis = ['APRESENTACAO', 'COORDENADOR']
+      } else if (equipe.idEquipe === 'secretaria' && equipe.coordenou) {
+        novosRolesAjustaveis = ['SECRETARIA', 'COORDENADOR']
+      } else if (equipe.idEquipe === 'externa') {
+        novosRolesAjustaveis = ['EXTERNA', 'COORDENADOR']
+      } else if (equipe.idEquipe === 'tio_secreto') {
+        novosRolesAjustaveis = ['TIOSECRETO']
+      } else if (equipe.coordenou) {
+        novosRolesAjustaveis = ['COORDENADOR']
+      }
 
-  return {
-    apresentacao,
-    secretaria,
-    externa,
-    tiosSecretos,
-    coordenador,
-  }
+      const novoRoles = [
+        ...new Set([...rolesPreservados, ...novosRolesAjustaveis]),
+      ]
+
+      await prisma.pessoa.update({
+        where: { id: pessoa.id },
+        data: { roles: { set: novoRoles } },
+      })
+    }),
+  )
+
+  const [apresentacao, secretaria, externa, coordenador, tiosSecretos] =
+    await Promise.all([
+      prisma.pessoa.count({ where: { roles: { has: 'APRESENTACAO' } } }),
+      prisma.pessoa.count({ where: { roles: { has: 'SECRETARIA' } } }),
+      prisma.pessoa.count({ where: { roles: { has: 'EXTERNA' } } }),
+      prisma.pessoa.count({ where: { roles: { has: 'COORDENADOR' } } }),
+      prisma.pessoa.count({ where: { roles: { has: 'TIOSECRETO' } } }),
+    ])
+
+  return { apresentacao, secretaria, externa, tiosSecretos, coordenador }
 }
 
 export async function divulgarMontagem(): Promise<DivulgarMontagem> {

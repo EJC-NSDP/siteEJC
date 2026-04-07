@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
 import { authOptions } from '@/lib/auth/auth-options'
+import { hasRole } from '@/lib/auth/permissions'
 
 export const metadata: Metadata = {
   title: 'Equipe | EJC NSDP',
@@ -16,15 +17,9 @@ export default async function EquipeLayout({
 }>) {
   const session = await getServerSession(authOptions)
 
-  const isAuthorized =
-    session &&
-    (session.user.role === 'SECRETARIA' ||
-      session.user.role === 'DIRIGENTE' ||
-      session.user.role === 'COORDENADOR' ||
-      session.user.role === 'EXTERNA' ||
-      session.user.role === 'ADMIN')
+  if (!session) redirect('/login')
 
-  if (!isAuthorized) {
+  if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'COORDENADOR'])) {
     redirect('/admin/profile')
   }
 

@@ -56,7 +56,9 @@ export async function getPossiveisTios() {
   response.forEach((item) => {
     const selectItem: SelectArray = {
       label: item.nome,
-      badge: item.encontro ? item.encontro : item.role,
+      badge: item.encontro
+        ? item.encontro
+        : item.roles.filter((role) => role !== 'externa')[0],
       value: item.id,
     }
 

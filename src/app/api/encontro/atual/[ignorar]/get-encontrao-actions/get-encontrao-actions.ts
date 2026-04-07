@@ -19,12 +19,9 @@ export async function getEncontraoActions(): Promise<EncontraoActions | null> {
 
   const encontraoRoles = await prisma.pessoa.count({
     where: {
-      OR: [
-        { role: 'COORDENADOR' },
-        { role: 'EXTERNA' },
-        { role: 'SECRETARIA' },
-        { role: 'TIOSECRETO' },
-      ],
+      roles: {
+        hasSome: ['COORDENADOR', 'EXTERNA', 'SECRETARIA', 'TIOSECRETO'],
+      },
     },
   })
 

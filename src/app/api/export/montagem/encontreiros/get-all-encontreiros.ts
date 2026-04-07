@@ -87,9 +87,7 @@ export async function getAllEncontreiros() {
       },
     },
     where: {
-      NOT: {
-        OR: [{ role: 'ENCONTRISTA' }, { role: 'TIOEXTERNA' }],
-      },
+      NOT: { roles: { hasSome: ['ENCONTRISTA', 'TIOEXTERNA'] } },
       encontreiro: {
         NOT: { statusMontagem: 'INATIVO' },
       },
@@ -128,5 +126,6 @@ export async function getAllEncontreiros() {
       banda: encontreiro.encontreiro?.obsBanda || '',
     }
   })
+
   return parsedData
 }

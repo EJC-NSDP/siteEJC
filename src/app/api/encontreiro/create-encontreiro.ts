@@ -58,7 +58,7 @@ export async function createEncontreiro({
       slug: encontreiroSlug,
       password: '$2a$08$9zaT7CNUBU/f2VDYRCoCku1m5xrutlNUn99j0prkNfsTuVapkSuSW',
       changePassword: true,
-      role: 'ENCONTREIRO',
+      roles: ['ENCONTREIRO'],
       encontreiro: {
         create: {
           dataNasc: dataNascimento,

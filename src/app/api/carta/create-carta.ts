@@ -17,14 +17,14 @@ export async function createCarta({
 }: CartaProps) {
   const encontrista = await prisma.pessoa.findUnique({
     select: {
-      role: true,
+      roles: true,
     },
     where: {
       slug: slugEncontrista,
     },
   })
 
-  const isSecreto = encontrista?.role === 'TIOSECRETO'
+  const isSecreto = encontrista?.roles.includes('TIOSECRETO')
 
   if (isSecreto) {
     return true
