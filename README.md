@@ -156,6 +156,12 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.6.1 — Minor Fix
+> Abril 2026
+
+- Minor fix no Link da página editar bps
+
+---
 ### v5.6.0 — Nova função editar bps
 > Abril 2026
 

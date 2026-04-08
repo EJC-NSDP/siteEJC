@@ -12,7 +12,7 @@ export default async function EditarBPs() {
         <span className="text-2xl leading-none font-semibold tracking-tight">
           Editar BPs
         </span>
-        <Link href="/admin/bp">
+        <Link href="/admin/dirigente/diris-bps">
           <Button variant="secondary">
             <div className="flex items-center justify-center gap-2 lg:w-40">
               <ArrowLeft className="size-4" />
