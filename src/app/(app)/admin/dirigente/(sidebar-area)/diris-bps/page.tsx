@@ -27,14 +27,14 @@ export default function DirisBps() {
                 </div>
               </Button>
             </Link>
-            {/* <Link href="/admin/dirigente/diris-bps/editar-bps">
+            <Link href="/admin/dirigente/diris-bps/editar-bps">
               <Button>
                 <div className="flex items-center justify-center gap-2 lg:w-40">
                   <Pencil className="size-4" />
                   <span className="hidden lg:flex">Editar BPs</span>
                 </div>
               </Button>
-            </Link> */}
+            </Link>
           </div>
         </div>
         <DirisBpsTable />

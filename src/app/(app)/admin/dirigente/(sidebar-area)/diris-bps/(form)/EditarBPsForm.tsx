@@ -2,12 +2,14 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import type { BP } from '@/app/api/lideranca/[ano]/bps/get-bps'
 import { SelectGroupInput } from '@/components/Form/SelectInput/SelectGroupInput'
 import {
   SelectItem,
@@ -16,137 +18,188 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { FormField } from '@/components/ui/form'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/axios'
-import { getEncontreiros, getFuncoes } from '@/utils/fetch-domains'
+import { getEncontreiros } from '@/utils/fetch-domains'
 
-const dirisScheme = z.object({
-  idPessoa: z.string({ required_error: 'A pessoa é obrigatória.' }),
-  idPasta: z.string({ required_error: 'A pasta é obrigatória.' }),
-  idDom: z.string({ required_error: 'O dom é obrigatório.' }),
-  ano: z.string(),
+async function getBPsByAno(ano: number) {
+  const res = await api.get(`lideranca/${ano}/bps`)
+  const data: BP[] = res.data
+  return data
+}
+
+// ---
+
+const bpRowScheme = z.object({
+  idPessoa: z.string({ required_error: 'Selecione um encontreiro.' }),
 })
 
-export type DirisData = z.infer<typeof dirisScheme>
+const bpFormScheme = z.object({
+  ano: z.number(),
+  bps: z.array(bpRowScheme).min(1, 'Adicione ao menos um BP.'),
+})
 
-interface EditarDirisFormProps {
+export type BPFormData = z.infer<typeof bpFormScheme>
+
+interface EditarBPsFormProps {
   sheet?: boolean
 }
 
-export function EditarBPsForm({ sheet = false }: EditarDirisFormProps) {
+export function EditarBPsForm({ sheet = false }: EditarBPsFormProps) {
   const router = useRouter()
-
   const queryClient = useQueryClient()
-
   const thisYear = new Date().getFullYear()
 
+  const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
-  const form = useForm<DirisData>({
-    resolver: zodResolver(dirisScheme),
+  const form = useForm<BPFormData>({
+    resolver: zodResolver(bpFormScheme),
+    defaultValues: {
+      ano: thisYear,
+      bps: Array.from({ length: 2 }, () => ({ idPessoa: '' })),
+    },
   })
 
-  const { handleSubmit, control } = form
+  const { handleSubmit, control, reset } = form
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'bps',
+  })
 
   const { data: encontreiros } = useQuery<SelectArray[]>({
-    queryFn: async () => await getEncontreiros(),
+    queryFn: getEncontreiros,
     queryKey: ['encontreiros'],
   })
 
-  const { data: funcoes } = useQuery<SelectArray[]>({
-    queryFn: async () => await getFuncoes(),
-    queryKey: ['funcoes'],
-  })
+  useEffect(() => {
+    async function handleAnoSwitch() {
+      setIsLoading(true)
+      try {
+        const bpsAtuais = await getBPsByAno(thisYear)
 
-  async function handleAssignDirigencia(formDataInput: DirisData) {
+        if (bpsAtuais.length > 0) {
+          reset({
+            ano: bpsAtuais[0].ano,
+            bps: bpsAtuais.map((d) => ({
+              idPessoa: d.id,
+            })),
+          })
+        } else {
+          reset({
+            ano: thisYear,
+            bps: Array.from({ length: 4 }, () => ({ idPessoa: '' })),
+          })
+        }
+      } catch {
+        reset({
+          ano: thisYear,
+          bps: Array.from({ length: 4 }, () => ({ idPessoa: '' })),
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    handleAnoSwitch()
+  }, [reset, thisYear])
+
+  async function handleSubmitBPs(formDataInput: BPFormData) {
     setIsUpdating(true)
-    const dirigentes = await api.post('lideranca', formDataInput)
-
-    if (dirigentes.status === 201) {
-      setIsUpdating(false)
-      queryClient.invalidateQueries({
-        queryKey: ['dirigentes', parseInt(formDataInput.ano, 10)],
+    try {
+      await api.put(`lideranca/${formDataInput.ano}/bps`, {
+        bps: formDataInput.bps,
       })
+
+      queryClient.invalidateQueries({ queryKey: ['bps'] })
+      toast.success('BPs salvos com sucesso!')
+
       if (sheet) {
         router.back()
       } else {
         router.replace('/admin/dirigente/diris-bps')
       }
-    } else {
+    } catch {
+      toast.error('Erro ao salvar os BPs.')
+    } finally {
       setIsUpdating(false)
-      toast.error('Erro ao adicionar esse encontreiro aos dirigentes.')
     }
   }
 
   return (
     <FormProvider {...form}>
-      <form
-        id="editDirigenteForm"
-        onSubmit={handleSubmit(handleAssignDirigencia)}
-      >
+      <form id="editBPsForm" onSubmit={handleSubmit(handleSubmitBPs)}>
         <Card className="w-full space-y-8 p-8 text-zinc-700">
           <CardContent className="flex w-full flex-col gap-8 p-0">
-            <FormField
-              control={control}
-              name="ano"
-              defaultValue={thisYear.toString()}
-              render={() => {
-                return <></>
-              }}
-            />
-            <FormField
-              control={control}
-              name="idPessoa"
-              render={({ field }) => {
-                return (
-                  <SelectGroupInput
-                    label="Encontreiro"
-                    placeholder="Selecione um encontreiro"
-                    onChange={field.onChange}
-                    value={field.value}
+            {/* Lista de BPs */}
+            <div className="flex flex-col gap-4">
+              {isLoading ? (
+                <div className="space-y-4">
+                  <Skeleton className="h-16 w-full" />
+                  <Skeleton className="h-16 w-full" />
+                </div>
+              ) : (
+                fields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="grid grid-cols-1 gap-4 rounded-lg border border-zinc-200 p-4 lg:grid-cols-[1fr_auto]"
                   >
-                    {encontreiros &&
-                      encontreiros.map((item) => {
-                        return (
-                          <SelectItem
-                            key={item.value}
-                            value={item.value}
-                            text={item.label}
-                          />
-                        )
-                      })}
-                  </SelectGroupInput>
-                )
-              }}
-            />
-            <FormField
-              control={control}
-              name="idDom"
-              render={({ field }) => {
-                return (
-                  <SelectGroupInput
-                    label="Pastoral"
-                    placeholder="Selecione uma Pastoral"
-                    onChange={field.onChange}
-                    value={field.value}
-                  >
-                    {funcoes &&
-                      funcoes.map((item) => {
-                        return (
-                          <SelectItem
-                            key={item.value}
-                            value={item.value}
-                            text={item.label}
-                          />
-                        )
-                      })}
-                  </SelectGroupInput>
-                )
-              }}
-            />
+                    <FormField
+                      control={control}
+                      name={`bps.${index}.idPessoa`}
+                      render={({ field: f }) => (
+                        <SelectGroupInput
+                          label="Encontreiro"
+                          placeholder="Selecione"
+                          onChange={f.onChange}
+                          value={f.value}
+                        >
+                          {encontreiros?.map((item) => (
+                            <SelectItem
+                              key={item.value}
+                              value={item.value}
+                              text={item.label}
+                            />
+                          ))}
+                        </SelectGroupInput>
+                      )}
+                    />
+
+                    <div className="flex items-end">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="text-zinc-400 hover:text-red-500"
+                        onClick={() => remove(index)}
+                        disabled={fields.length === 1}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))
+              )}
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit"
+                onClick={() => append({ idPessoa: '' })}
+                disabled={isLoading}
+              >
+                + Adicionar BP
+              </Button>
+            </div>
           </CardContent>
-          <CardFooter className="flex w-full justify-end gap-8 p-0">
-            <Button type="submit" className="h-10 w-40" disabled={isUpdating}>
-              Salvar
+          <CardFooter className="flex w-full justify-end gap-4 p-0">
+            <Button
+              type="submit"
+              className="h-10 w-40"
+              disabled={isUpdating || isLoading}
+            >
+              {isUpdating ? 'Salvando...' : 'Atualizar'}
             </Button>
           </CardFooter>
         </Card>

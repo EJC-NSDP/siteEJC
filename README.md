@@ -156,7 +156,14 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
-### v5.5.0 — Fix: double submit na inscrição de encontrista
+### v5.6.0 — Nova função editar bps
+> Abril 2026
+
+- [Complementar]
+
+---
+
+### v5.5.0 — Nova função editar dirigentes
 > Abril 2026
 
 - [Complementar]

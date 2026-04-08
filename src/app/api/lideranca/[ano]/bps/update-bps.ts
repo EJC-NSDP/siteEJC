@@ -1,44 +1,38 @@
 import { prisma } from '@/lib/prisma'
 
-interface DirigentesInput {
+interface BPsInput {
   idPessoa: string
-  idDom: string
-  idPasta: string
 }
 
-export async function updateDirigentes(
+export async function updateBPs(
   ano: number,
-  dirigentes: DirigentesInput[],
+  bps: BPsInput[],
 ) {
-  const dirigentesAntigos = await prisma.lideranca.findMany({
-    where: { ano, idFuncao: 'dirigente' },
+  const bpsAntigos = await prisma.lideranca.findMany({
+    where: { ano, idFuncao: 'bp' },
     select: { idPessoa: true },
   })
 
-  const idsAntigos = new Set(dirigentesAntigos.map((d) => d.idPessoa))
-  const idsNovos = new Set(dirigentes.map((d) => d.idPessoa))
+  const idsAntigos = new Set(bpsAntigos.map((d) => d.idPessoa))
+  const idsNovos = new Set(bps.map((d) => d.idPessoa))
 
   const removidos = [...idsAntigos].filter((id) => !idsNovos.has(id))
   const adicionados = [...idsNovos].filter((id) => !idsAntigos.has(id))
 
-  // Atualiza dom e pasta de cada dirigente
+  // Atualiza os bps
   await Promise.all(
-    dirigentes.map((d) =>
-      prisma.lideranca.upsert({
-        where: { idPessoa_ano: { idPessoa: d.idPessoa, ano } },
-        update: { idDom: d.idDom, idPasta: d.idPasta },
-        create: {
-          idPessoa: d.idPessoa,
+    adicionados.map((id) =>
+      prisma.lideranca.create({
+        data: {
+          idPessoa: id,
           ano,
-          idDom: d.idDom,
-          idPasta: d.idPasta,
-          idFuncao: 'dirigente',
+          idFuncao: 'bp',
         },
       }),
     ),
   )
 
-  // Remove role DIRIGENTE de quem saiu
+  // Remove role BP de quem saiu
   await Promise.all(
     removidos.map(async (id) => {
       await prisma.lideranca.delete({
@@ -57,13 +51,13 @@ export async function updateDirigentes(
       await prisma.pessoa.update({
         where: { id },
         data: {
-          roles: { set: pessoa.roles.filter((r) => r !== 'DIRIGENTE') },
+          roles: { set: pessoa.roles.filter((r) => r !== 'BP') },
         },
       })
     }),
   )
 
-  // Adiciona role DIRIGENTE a quem entrou
+  // Adiciona role BP a quem entrou
   await Promise.all(
     adicionados.map(async (id) => {
       const pessoa = await prisma.pessoa.findUnique({
@@ -74,11 +68,11 @@ export async function updateDirigentes(
       await prisma.pessoa.update({
         where: { id },
         data: {
-          roles: { push: 'DIRIGENTE' },
+          roles: { push: 'BP' },
         },
       })
     }),
   )
 
-  return { ano, atualizados: dirigentes.length }
+  return { ano, atualizados: bps.length }
 }
