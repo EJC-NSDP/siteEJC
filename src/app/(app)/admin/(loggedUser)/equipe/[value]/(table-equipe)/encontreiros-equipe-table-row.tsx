@@ -53,25 +53,25 @@ export function EncontreiroEquipeTableRow({
         </TableCell>
         <TableCell className="text-nowrap">{encontreiro.celular}</TableCell>
         <TableCell
-          className="max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap"
+          className="max-w-30 overflow-hidden text-ellipsis whitespace-nowrap"
           title={encontreiro.bairro}
         >
           {encontreiro.bairro}
         </TableCell>
         <TableCell
-          className="max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap"
+          className="max-w-30 overflow-hidden text-ellipsis whitespace-nowrap"
           title={encontreiro.instagram || ''}
         >
           {encontreiro.instagram && `@${encontreiro.instagram}`}
         </TableCell>
         <TableCell
-          className="max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap"
+          className="max-w-30 overflow-hidden text-ellipsis whitespace-nowrap"
           title={encontreiro.email || ''}
         >
           {encontreiro.email}
         </TableCell>
         <TableCell
-          className="max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap"
+          className="max-w-30 overflow-hidden text-ellipsis whitespace-nowrap"
           title={encontreiro.email || ''}
         >
           {encontreiro.equipeLabel}

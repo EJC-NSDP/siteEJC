@@ -162,17 +162,26 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 - Minor fix no Link da página editar bps
 
 ---
-### v5.6.0 — Nova função editar bps
+### v5.6.0 — Nova função editar BPs
 > Abril 2026
 
-- [Complementar]
+- Página de edição dos Bons Pastores (BPs) do ano corrente
+- Formulário em grid com múltiplas linhas (idPessoa), com adição e remoção dinâmica de linhas
+- Rota `GET /lideranca/[ano]/bps` para buscar BPs por ano
+- Rota `PUT /lideranca/[ano]/bps` para atualizar registros existentes, removendo a role `BP` de quem saiu e adicionando a quem entrou
 
 ---
 
 ### v5.5.0 — Nova função editar dirigentes
 > Abril 2026
 
-- [Complementar]
+- Página de edição dos dirigentes do ano corrente ou criação para o ano seguinte
+- Formulário em grid com múltiplas linhas (idPessoa + idDom + idPasta), com adição e remoção dinâmica de linhas
+- Switch para alternar entre editar dirigentes do ano atual (pré-populado com dados existentes) ou criar para o próximo ano (limpo, 5 linhas)
+- Ano do próximo ciclo calculado dinamicamente a partir do `ano` dos dirigentes atuais + 1, sem rota extra
+- Rota `GET /lideranca/[ano]/dirigentes` para buscar dirigentes por ano
+- Rota `PUT /lideranca/[ano]/dirigentes` para atualizar `idDom` e `idPasta` de cada dirigente, removendo a role `DIRIGENTE` de quem saiu e adicionando a quem entrou — registros anteriores preservados na tabela
+- Rota `POST /lideranca/[ano]/dirigentes` para criação de novo ciclo: calcula o próximo ano pelo maior `ano` na tabela com `idFuncao: 'dirigente'`, remove a role `DIRIGENTE` de todos e atribui aos novos
 
 ---
 
