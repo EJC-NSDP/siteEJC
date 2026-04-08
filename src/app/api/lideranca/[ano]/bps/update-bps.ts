@@ -4,10 +4,7 @@ interface BPsInput {
   idPessoa: string
 }
 
-export async function updateBPs(
-  ano: number,
-  bps: BPsInput[],
-) {
+export async function updateBPs(ano: number, bps: BPsInput[]) {
   const bpsAntigos = await prisma.lideranca.findMany({
     where: { ano, idFuncao: 'bp' },
     select: { idPessoa: true },
