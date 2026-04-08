@@ -1,4 +1,4 @@
-import { Theater } from 'lucide-react'
+import { HeartHandshake } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -9,11 +9,11 @@ export function MainNavigation() {
 
   return (
     <nav className="flex flex-col gap-4 space-y-0.5">
-      <Link href="/admin/bps">
+      <Link href="/admin/bp">
         <NavItem
-          title="Divulgação dos temas"
-          icon={Theater}
-          active={path === '/admin/bps'}
+          title="Pastorais"
+          icon={HeartHandshake}
+          active={path === '/admin/bp'}
         />
       </Link>
       {/* <Link href="/admin/bps/circulos">

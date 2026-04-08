@@ -20,23 +20,6 @@ export interface CreateEncontristaProps {
   other: OtherFormData
 }
 
-// async function getBairroEncontro(addressData: AddressFormData) {
-//   if (addressData.bairroDuranteOEncontro !== undefined)
-//     return addressData.bairroDuranteOEncontro
-
-//   const bairroID = await prisma.domainBairroEncontro.findFirst({
-//     where: {
-//       bairro: addressData.bairro,
-//     },
-//   })
-
-//   if (!bairroID) {
-//     return 'jardim_botanico'
-//   }
-
-//   return bairroID.value
-// }
-
 export async function createEncontrista({
   personal,
   address,

@@ -1,10 +1,5 @@
 'use client'
 
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
-
 import { PastoraisSecreTable } from './(table-pastorais)/pastorais-secre-table'
 
 export default function SecretariaPastorais() {
@@ -15,17 +10,10 @@ export default function SecretariaPastorais() {
           <div className="">
             <h1 className="text-tertiary text-2xl font-bold">Pastorais</h1>
             <span className="text-base font-normal text-zinc-500">
-              Lista de todas as Pastorais deste ano.
+              Lista de todas as Pastorais deste ano. Caso veja que tem alguém
+              errado peça para um BP corrigir.
             </span>
           </div>
-          <Link href="/admin/secretaria/pastorais/adicionar-pastoral">
-            <Button>
-              <div className="flex items-center justify-center gap-2 lg:w-40">
-                <Plus className="size-4" />
-                <span className="hidden lg:flex">Adicionar Pastoral</span>
-              </div>
-            </Button>
-          </Link>
         </div>
 
         <PastoraisSecreTable />

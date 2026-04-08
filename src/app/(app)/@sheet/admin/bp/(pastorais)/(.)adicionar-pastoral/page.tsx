@@ -1,4 +1,4 @@
-import { AdicionarPastoralForm } from '@/app/(app)/admin/secretaria/pastorais/(form)/AdicionarPastoralForm'
+import { AdicionarPastoralForm } from '@/app/(app)/admin/bp/(pastorais)/(form)/AdicionarPastoralForm'
 import { InterceptedSheetContent } from '@/components/intercepted-sheet-content'
 import { Sheet, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 

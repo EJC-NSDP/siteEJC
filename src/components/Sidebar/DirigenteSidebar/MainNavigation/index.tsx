@@ -5,6 +5,7 @@ import {
   DoorOpen,
   History,
   Puzzle,
+  Shirt,
   SquareChartGantt,
   SquareUserRound,
   Users,
@@ -25,6 +26,13 @@ export function MainNavigation() {
           title="Encontreiros"
           icon={SquareUserRound}
           active={path === '/admin/dirigente'}
+        />
+      </Link>
+      <Link href="/admin/dirigente/diris-bps">
+        <NavItem
+          title="Diris e BPs"
+          icon={Shirt}
+          active={path === '/admin/dirigente/diris-bps'}
         />
       </Link>
       <NavItemGroup title="Histórico" value="historico" icon={History}>

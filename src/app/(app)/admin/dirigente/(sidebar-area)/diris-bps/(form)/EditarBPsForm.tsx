@@ -19,21 +19,20 @@ import { FormField } from '@/components/ui/form'
 import { api } from '@/lib/axios'
 import { getEncontreiros, getFuncoes } from '@/utils/fetch-domains'
 
-const pastoralScheme = z.object({
+const dirisScheme = z.object({
   idPessoa: z.string({ required_error: 'A pessoa é obrigatória.' }),
-  idFuncao: z.string({ required_error: 'A função é obrigatória.' }),
+  idPasta: z.string({ required_error: 'A pasta é obrigatória.' }),
+  idDom: z.string({ required_error: 'O dom é obrigatório.' }),
   ano: z.string(),
 })
 
-export type PastoralData = z.infer<typeof pastoralScheme>
+export type DirisData = z.infer<typeof dirisScheme>
 
-interface AdicionarPastoralFormProps {
+interface EditarDirisFormProps {
   sheet?: boolean
 }
 
-export function AdicionarPastoralForm({
-  sheet = false,
-}: AdicionarPastoralFormProps) {
+export function EditarBPsForm({ sheet = false }: EditarDirisFormProps) {
   const router = useRouter()
 
   const queryClient = useQueryClient()
@@ -42,8 +41,8 @@ export function AdicionarPastoralForm({
 
   const [isUpdating, setIsUpdating] = useState(false)
 
-  const form = useForm<PastoralData>({
-    resolver: zodResolver(pastoralScheme),
+  const form = useForm<DirisData>({
+    resolver: zodResolver(dirisScheme),
   })
 
   const { handleSubmit, control } = form
@@ -58,29 +57,32 @@ export function AdicionarPastoralForm({
     queryKey: ['funcoes'],
   })
 
-  async function handleAssignPastoral(formDataInput: PastoralData) {
+  async function handleAssignDirigencia(formDataInput: DirisData) {
     setIsUpdating(true)
-    const pastoral = await api.post('lideranca', formDataInput)
+    const dirigentes = await api.post('lideranca', formDataInput)
 
-    if (pastoral.status === 201) {
+    if (dirigentes.status === 201) {
       setIsUpdating(false)
       queryClient.invalidateQueries({
-        queryKey: ['pastorais', parseInt(formDataInput.ano, 10)],
+        queryKey: ['dirigentes', parseInt(formDataInput.ano, 10)],
       })
       if (sheet) {
         router.back()
       } else {
-        router.replace('/admin/secretaria/pastorais')
+        router.replace('/admin/dirigente/diris-bps')
       }
     } else {
       setIsUpdating(false)
-      toast.error('Erro ao adicionar esse encontreiro a pastoral.')
+      toast.error('Erro ao adicionar esse encontreiro aos dirigentes.')
     }
   }
 
   return (
     <FormProvider {...form}>
-      <form id="addPastoralForm" onSubmit={handleSubmit(handleAssignPastoral)}>
+      <form
+        id="editDirigenteForm"
+        onSubmit={handleSubmit(handleAssignDirigencia)}
+      >
         <Card className="w-full space-y-8 p-8 text-zinc-700">
           <CardContent className="flex w-full flex-col gap-8 p-0">
             <FormField
@@ -118,7 +120,7 @@ export function AdicionarPastoralForm({
             />
             <FormField
               control={control}
-              name="idFuncao"
+              name="idDom"
               render={({ field }) => {
                 return (
                   <SelectGroupInput
@@ -144,7 +146,7 @@ export function AdicionarPastoralForm({
           </CardContent>
           <CardFooter className="flex w-full justify-end gap-8 p-0">
             <Button type="submit" className="h-10 w-40" disabled={isUpdating}>
-              Adicionar
+              Salvar
             </Button>
           </CardFooter>
         </Card>

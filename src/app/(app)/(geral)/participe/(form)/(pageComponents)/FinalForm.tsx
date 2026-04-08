@@ -102,10 +102,10 @@ function SendingCreation() {
     <>
       <CardHeader className="flex w-full flex-col items-center gap-6 py-0">
         <Skeleton className="h-16 w-16 rounded-full" />
-        <Skeleton className="h-8 w-[470px]" />
+        <Skeleton className="h-8 w-117.5" />
       </CardHeader>
       <CardContent className="flex w-full flex-col gap-3 px-3 py-2 text-lg">
-        <Skeleton className="h-20 w-[520px]" />
+        <Skeleton className="h-20 w-130" />
       </CardContent>
     </>
   )

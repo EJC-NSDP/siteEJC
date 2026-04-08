@@ -8,6 +8,7 @@ import {
   ClipboardList,
   Edit,
   FolderOpen,
+  HelpingHand,
   Theater,
   Users,
 } from 'lucide-react'
@@ -194,6 +195,17 @@ export default function Profile() {
                         label="Apresentação"
                         icon={Theater}
                         link="/admin/apresentacao"
+                      />
+                    )}
+                    {hasRole(profileData.roles, [
+                      'ADMIN',
+                      'BP',
+                      'DIRIGENTE',
+                    ]) && (
+                      <ButtonLabel
+                        label="Bom Pastor"
+                        icon={HelpingHand}
+                        link="/admin/bp"
                       />
                     )}
 

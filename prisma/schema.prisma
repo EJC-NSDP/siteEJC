@@ -285,12 +285,16 @@ model Palestrantes {
 }
 
 model Lideranca {
-  idPessoa String @map("id_pessoa")
-  idFuncao String @map("id_funcao")
+  idPessoa String  @map("id_pessoa")
+  idFuncao String  @map("id_funcao")
+  idDom    String? @map("id_dom")
+  idPasta  String? @map("id_pasta")
   ano      Int
 
   funcao DomainFuncoes @relation(fields: [idFuncao], references: [id])
   pessoa Pessoa        @relation(fields: [idPessoa], references: [id])
+  dom    DomainDom?    @relation(fields: [idDom], references: [value])
+  pasta  DomainPasta?  @relation(fields: [idPasta], references: [value])
 
   @@id([idPessoa, ano])
   @@map("lideranca")
@@ -408,6 +412,22 @@ model DomainEquipes {
   ListaPreferencia ListaPreferencia[]
 
   @@map("@equipes")
+}
+
+model DomainDom {
+  value      String      @id
+  label      String      @unique
+  liderancas Lideranca[]
+
+  @@map("@dons")
+}
+
+model DomainPasta {
+  value      String      @id
+  label      String      @unique
+  liderancas Lideranca[]
+
+  @@map("@pastas")
 }
 
 model Account {

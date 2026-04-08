@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, createContext, useState } from 'react'
+import { ReactNode, createContext, useRef, useState } from 'react'
 
 import type { CreateEncontristaProps } from '@/app/api/encontrista/create-encontrista'
 import { api } from '@/lib/axios'
@@ -161,6 +161,8 @@ export function CreateEncontristaContextProvider({
     'not sent' | 'created' | 'error'
   >('not sent')
 
+  const isSending = useRef(false)
+
   function updateData({ data, step }: FormData) {
     if (step === 1) {
       const newEncontrista = {
@@ -211,9 +213,10 @@ export function CreateEncontristaContextProvider({
   }
 
   async function createNewEncontrista() {
-    if (completeForm.personal.nome === initialState.personal.nome) {
-      return
-    }
+    if (completeForm.personal.nome === initialState.personal.nome) return
+    if (isSending.current) return
+
+    isSending.current = true
     await api
       .post('encontrista', completeForm)
       .then(() => setUserCreated('created'))
@@ -222,6 +225,7 @@ export function CreateEncontristaContextProvider({
 
   const clearForm = () => {
     setCompleteForm({ ...initialState })
+    isSending.current = false
   }
 
   return (

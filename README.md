@@ -156,10 +156,35 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
-### v5.4.4 — 
+### v5.5.0 — Fix: double submit na inscrição de encontrista
 > Abril 2026
 
-- [completar]
+- [Complementar]
+
+---
+
+### v5.4.5 — Fix: double submit na inscrição de encontrista
+> Abril 2026
+
+- O React StrictMode em desenvolvimento remonta componentes propositalmente, fazendo o `useEffect` do `FinalForm` disparar `createNewEncontrista` duas vezes
+- A segunda chamada chegava ao `api.post` antes da primeira terminar, causando erro `P2002` de unique constraint no campo `email`
+- Corrigido com `useRef` (`isSending`) no contexto `CreateEncontristaContext` para bloquear chamadas concorrentes de forma síncrona
+- O `clearForm` também reseta o `isSending` para permitir nova inscrição na mesma sessão
+
+---
+
+### v5.4.4 — Roles: migração de campo único para array
+> Abril 2026
+
+- Migração do campo `role` (enum único) para `roles` (array de enums) na tabela `pessoas`
+- Mapeamento de roles legadas para arrays com hierarquia definida (ex: `EXTERNA` → `[ENCONTREIRO, COORDENADOR, EXTERNA]`)
+- Adição da role `BP` (Bom Pastor), compatível com múltiplas roles simultâneas via tabela `lideranca`
+- Atualização do NextAuth para carregar e expor `roles[]` na sessão
+- Helper `hasRole` para verificação de permissões no RBAC
+- Funções de reset e ajuste de roles refatoradas para operar sobre arrays, preservando roles não ajustáveis (`ADMIN`, `DIRIGENTE`, `BP`, `ENCONTREIRO`, `ENCONTRISTA`, `TIOEXTERNA`)
+- Queries Prisma migradas de `role` para `roles` com operadores `has`, `hasSome` e `hasEvery`
+- Comparações de role em componentes client migradas para `roles.includes()`
+- Fluxo de `changeEncontristas` atualizado para remover `ENCONTRISTA` e adicionar `ENCONTREIRO` ao promover um encontrista
 
 ---
 
