@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.6.2 — Minor Fix Encontristas
+> Abril 2026
+
+- Minor fix na criação de um novo Encontro. Agora quando um encontro é criado os encontristas são atualizados para o novo encontro.
+
+---
+
 ### v5.6.1 — Minor Fix
 > Abril 2026
 
