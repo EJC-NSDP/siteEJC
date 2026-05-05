@@ -39,7 +39,7 @@ async function getPastorais({ ano, encontreiroName, pastorais }: SearchProps) {
 }
 
 export function PastoraisSecreTable() {
-  const totalCol = 3
+  const totalCol = 2
   const ano = new Date().getFullYear()
 
   const searchParams = useSearchParams()
@@ -61,10 +61,7 @@ export function PastoraisSecreTable() {
             <TableHeader>
               <TableRow className="px-2">
                 <TableHead className="rounded-tl-xl pl-4">Nome</TableHead>
-                <TableHead>Pastoral</TableHead>
-                <TableHead className="rounded-tr-xl pr-4 lg:w-[90px]">
-                  Ações
-                </TableHead>
+                <TableHead className='rounded-tr-xl pr-4'>Pastoral</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="bg-transparent">

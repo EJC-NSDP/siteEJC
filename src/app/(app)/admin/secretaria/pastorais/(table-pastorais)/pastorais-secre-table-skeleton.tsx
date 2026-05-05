@@ -11,9 +11,6 @@ export function PastoraisSecreTableSkeleton() {
         <TableCell>
           <Skeleton className="h-4 w-32" />
         </TableCell>
-        <TableCell>
-          <Skeleton className="h-4 w-5" />
-        </TableCell>
       </TableRow>
     )
   })

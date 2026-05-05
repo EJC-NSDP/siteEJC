@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.6.3 — Remove ações on secretaria/pastorais
+> Maio 2026
+
+- A habilidade de remover uma pessoa de uma pastoral foi removida da aba da secretaria. Caso a equipe precise dessa alteração ela deve pedir a correção por um BP.
+
+---
+
 ### v5.6.2 — Minor Fix Encontristas
 > Abril 2026
 
