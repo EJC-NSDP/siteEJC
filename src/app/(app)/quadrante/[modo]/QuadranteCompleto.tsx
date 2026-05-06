@@ -90,7 +90,7 @@ export function QuadranteCompleto({ data }: QuadranteCompletoProps) {
 
       {/* Pastorais */}
       {data.pastorais && (
-        <QuadrantePastoraisSection pastorais={data.pastorais} maxPorPag={5} />
+        <QuadrantePastoraisSection pastorais={data.pastorais} maxPorPag={4} />
       )}
     </PageProvider>
   )

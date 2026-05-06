@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.6.4 — Correção no quadrante
+> Maio 2026
+
+- Minor fix na página das pastorais e dos tios secretos no quadrante.
+
+---
+
 ### v5.6.3 — Remove ações on secretaria/pastorais
 > Maio 2026
 

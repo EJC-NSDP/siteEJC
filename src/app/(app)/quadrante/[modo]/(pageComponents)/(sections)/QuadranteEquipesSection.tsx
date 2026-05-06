@@ -84,6 +84,8 @@ export function QuadranteEquipesSection({
           description={equipesSala[2].descricao}
           integrantes={equipesSala[2].integrantes}
         />
+      </QuadranteTwoPage>
+      <QuadranteTwoPage>
         <QuadranteEquipePage
           key="Tio Secreto"
           title={`${equipesSala[3].nome} (Sala)`}
