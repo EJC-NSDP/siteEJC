@@ -1,6 +1,9 @@
+'use client'
+
 import { useDroppable, type UniqueIdentifier } from '@dnd-kit/core'
 import { CircleUserRound, MessageSquare } from 'lucide-react'
 
+import { PrintEncontristaCarroDocx } from '@/components/Docx/PrintEncontristaCarroDocx'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import {
   Tooltip,
@@ -44,36 +47,17 @@ export interface CarroDropData {
 }
 
 function compareName(a: SortableEncontristaCarro, b: SortableEncontristaCarro) {
-  if (a.content.nome < b.content.nome) {
-    return -1
-  }
-  if (a.content.nome > b.content.nome) {
-    return 1
-  }
+  if (a.content.nome < b.content.nome) return -1
+  if (a.content.nome > b.content.nome) return 1
   return 0
 }
 
 const corZona = [
-  {
-    zona: 'sul',
-    bg: 'bg-red-500/20',
-  },
-  {
-    zona: 'norte',
-    bg: 'bg-emerald-500/20',
-  },
-  {
-    zona: 'oeste',
-    bg: 'bg-yellow-500/20',
-  },
-  {
-    zona: 'central',
-    bg: 'bg-blue-500/20',
-  },
-  {
-    zona: '?',
-    bg: 'bg-zinc-500/20',
-  },
+  { zona: 'sul', bg: 'bg-red-500/20' },
+  { zona: 'norte', bg: 'bg-emerald-500/20' },
+  { zona: 'oeste', bg: 'bg-yellow-500/20' },
+  { zona: 'central', bg: 'bg-blue-500/20' },
+  { zona: '?', bg: 'bg-zinc-500/20' },
 ]
 
 export function Carro({ carro, encontristas }: CarroProps) {
@@ -96,7 +80,6 @@ export function Carro({ carro, encontristas }: CarroProps) {
   const obsColor = carro.carroInfo.observacoes
     ? 'text-zinc-700'
     : 'text-zinc-400'
-
   const externaColor = carro.carroInfo.externa
     ? 'text-zinc-700'
     : 'text-zinc-400'
@@ -117,7 +100,7 @@ export function Carro({ carro, encontristas }: CarroProps) {
                 )}
               </h2>
               <div className="flex gap-4 text-sm">
-                <span className="text-sm">{`${carro.carroInfo.bairro}`}</span>
+                <span className="text-sm">{carro.carroInfo.bairro}</span>
                 <span>
                   Vagas:{' '}
                   {carro.carroInfo.lugaresCarro -
@@ -125,8 +108,22 @@ export function Carro({ carro, encontristas }: CarroProps) {
                 </span>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-2 text-base">
-              <span>#{carro.carroInfo.numeroCarro}</span>
+
+            <div className="flex flex-col items-end justify-center gap-2 text-base">
+              <div className="flex items-center justify-center gap-2">
+                <PrintEncontristaCarroDocx
+                  idCarro={String(carro.id)}
+                  numeroCarro={carro.carroInfo.numeroCarro}
+                  tios={
+                    carro.carroInfo.carona
+                      ? `${carro.carroInfo.motorista.nome} e ${carro.carroInfo.carona.nome}`
+                      : carro.carroInfo.motorista.nome
+                  }
+                  externa={carro.carroInfo.externa}
+                />
+                <span>#{carro.carroInfo.numeroCarro}</span>
+              </div>
+
               <Tooltip>
                 <TooltipTrigger disabled={carro.carroInfo.observacoes === ''}>
                   <MessageSquare className={cn('size-4', obsColor)} />
@@ -139,6 +136,7 @@ export function Carro({ carro, encontristas }: CarroProps) {
                   )}
                 </TooltipContent>
               </Tooltip>
+
               <Tooltip>
                 <TooltipTrigger disabled={carro.carroInfo.externa === ''}>
                   <CircleUserRound className={cn('size-4', externaColor)} />
@@ -156,17 +154,15 @@ export function Carro({ carro, encontristas }: CarroProps) {
             </div>
           </div>
         </CardTitle>
+
         <CardContent>
           <div className="flex flex-col gap-4">
-            {encontristasFromThisCarro &&
-              encontristasFromThisCarro.map((encontrista) => {
-                return (
-                  <CardEncontristaCarro
-                    key={`${encontrista.id}-${encontrista.carroId}`}
-                    encontrista={encontrista}
-                  />
-                )
-              })}
+            {encontristasFromThisCarro.map((encontrista) => (
+              <CardEncontristaCarro
+                key={`${encontrista.id}-${encontrista.carroId}`}
+                encontrista={encontrista}
+              />
+            ))}
           </div>
         </CardContent>
       </Card>

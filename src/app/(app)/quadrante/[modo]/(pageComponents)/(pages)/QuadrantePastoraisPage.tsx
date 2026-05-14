@@ -29,7 +29,7 @@ export function QuadrantePastoraisPage({
             <div
               key={index}
               className={cn(
-                'mb-4 flex items-center justify-center gap-4 py-4 text-base border border-zinc-200 rounded-lg',
+                'mb-4 flex items-center justify-center gap-4 rounded-lg border border-zinc-200 py-4 text-base',
                 (index + 1) % 2 === 0 && 'flex-row-reverse pr-48',
                 (index + 1) % 2 === 1 && 'flex-row pl-32',
               )}

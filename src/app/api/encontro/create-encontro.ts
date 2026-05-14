@@ -34,8 +34,8 @@ export async function createEncontro() {
 
     await prisma.pessoa.update({
       data: {
-        encontreiro:{
-          update:{
+        encontreiro: {
+          update: {
             idEncontro: newEncontro.id,
           },
         },

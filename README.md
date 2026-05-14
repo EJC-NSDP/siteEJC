@@ -155,6 +155,15 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 ---
 
 ## Changelog
+ 
+### v5.7.0 — Export de ficha do carro
+> Maio 2026
+ 
+- Export em `.docx` da ficha de cada carro com uma página por encontrista, contendo identificação, contatos de emergência, indicação e informações adicionais
+- Geração client-side via `docx` + `file-saver`, acionada no clique do botão de download no card do carro
+- Fetch dos dados no clique via Server Action, evitando carregar dados desnecessariamente
+- Separação de tipos e helpers em `carro-helpers.ts` para isolar imports de servidor do bundle do cliente
+---
 
 ### v5.6.4 — Correção no quadrante
 > Maio 2026

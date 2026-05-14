@@ -1,6 +1,5 @@
 'use client'
 
-
 import type { PessoaPastoral } from '@/app/api/lideranca/[ano]/pastorais/get-pastorais'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { api } from '@/lib/axios'
@@ -18,7 +17,6 @@ async function deletePastoral(id: string) {
 export function PastoraisSecreTableRow({
   pessoa,
 }: PastoraisSecreTableRowProps) {
-
   return (
     <TableRow className="items-center bg-white">
       <TableCell className="font-medium text-nowrap">{pessoa.nome}</TableCell>

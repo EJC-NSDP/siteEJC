@@ -61,7 +61,7 @@ export function PastoraisSecreTable() {
             <TableHeader>
               <TableRow className="px-2">
                 <TableHead className="rounded-tl-xl pl-4">Nome</TableHead>
-                <TableHead className='rounded-tr-xl pr-4'>Pastoral</TableHead>
+                <TableHead className="rounded-tr-xl pr-4">Pastoral</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="bg-transparent">
