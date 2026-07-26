@@ -34,7 +34,9 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
   const [coordEnable, setCoordEnable] = useState(
     encontreiro.equipe ? canBeCoord(encontreiro.equipe.value) : 'disabled',
   )
-  const [avatarUrl, setAvatarUrl] = useState(encontreiro.avatarUrl)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(
+    encontreiro.avatarUrl?.startsWith('http') ? encontreiro.avatarUrl : null,
+  )
 
   function updateCoordEnable(equipeValue: string) {
     setCoordEnable(canBeCoord(equipeValue))
@@ -88,7 +90,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
               >
                 <Avatar className="size-10">
                   <AvatarImage
-                    src={avatarUrl || undefined}
+                    src={avatarUrl ?? undefined}
                     className="transition-opacity duration-300 group-hover:opacity-50"
                   />
                   <AvatarFallback>{getInitials(encontreiro.nome)}</AvatarFallback>
