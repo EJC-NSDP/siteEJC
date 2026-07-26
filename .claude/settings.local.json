@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(Get-ChildItem README.md -ErrorAction SilentlyContinue)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(xargs grep -l \"ListaPreferencia\\\\|preferencia\")",
+      "Bash(xargs grep -l \"preferencia\\\\|ListaPreferencia\")",
+      "Bash(xargs grep -l \"idDisponibilidade\\\\|Disponibilidade\")",
+      "Bash(xargs grep -l \"ficha.*preenchida\\\\|fichaPreenchida\")"
+    ]
+  }
+}
