@@ -101,7 +101,7 @@ export function EncontreiroMontagemTableFilters() {
             render={({ field }) => (
               <SearchInput
                 className="h-5 w-fit"
-                placeholder="Nome do encontreiro..."
+                placeholder="Nome ou Apelido do encontreiro..."
                 {...field}
               />
             )}
