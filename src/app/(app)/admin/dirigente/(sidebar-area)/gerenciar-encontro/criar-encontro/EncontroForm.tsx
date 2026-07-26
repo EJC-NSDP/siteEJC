@@ -60,7 +60,9 @@ export function EncontroForm({ data, locais }: Props) {
   const isNovo = !data || data.numeroCirculos === 0
 
   const [selectedLocal, setSelectedLocal] = useState<LocalOption | null>(
-    data?.idLocal ? (locaisState.find((l) => l.id === data.idLocal) ?? null) : null,
+    data?.idLocal
+      ? (locaisState.find((l) => l.id === data.idLocal) ?? null)
+      : null,
   )
 
   const form = useForm<EncontroFormData>({

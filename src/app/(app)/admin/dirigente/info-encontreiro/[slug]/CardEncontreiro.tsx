@@ -131,7 +131,9 @@ export function CardEncontreiro({
                   <h4 className="text-xs text-zinc-400">Ficha atualizada</h4>
                   <span className="text-base font-semibold text-zinc-700 lg:text-lg">
                     {encontreiro.fichaAtualizadaEm
-                      ? new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')
+                      ? new Date(
+                          encontreiro.fichaAtualizadaEm,
+                        ).toLocaleDateString('pt-BR')
                       : '-'}
                   </span>
                 </div>

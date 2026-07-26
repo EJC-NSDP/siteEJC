@@ -9,7 +9,12 @@ interface CardFormProps {
   action?: ReactNode
 }
 
-export function CardForm({ title, sectionId, children, action }: CardFormProps) {
+export function CardForm({
+  title,
+  sectionId,
+  children,
+  action,
+}: CardFormProps) {
   return (
     <Card id={sectionId} className="w-full px-0 pt-8 text-zinc-700">
       <CardContent className="w-full">

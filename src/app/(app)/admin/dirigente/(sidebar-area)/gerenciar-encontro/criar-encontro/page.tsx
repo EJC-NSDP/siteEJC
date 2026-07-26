@@ -1,7 +1,11 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { prisma } from '@/lib/prisma'
 
-import { EncontroForm, type EncontroFormData, type LocalOption } from './EncontroForm'
+import {
+  EncontroForm,
+  type EncontroFormData,
+  type LocalOption,
+} from './EncontroForm'
 
 async function getLocais(): Promise<LocalOption[]> {
   return prisma.local.findMany({

@@ -48,7 +48,12 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-2">
-            <div className={cn(corCirculo, 'size-3 shrink-0 rounded-full shadow-sm')} />
+            <div
+              className={cn(
+                corCirculo,
+                'size-3 shrink-0 rounded-full shadow-sm',
+              )}
+            />
             <span className="text-xs">{encontreiro.circulo.nome}</span>
           </div>
         </TableCell>

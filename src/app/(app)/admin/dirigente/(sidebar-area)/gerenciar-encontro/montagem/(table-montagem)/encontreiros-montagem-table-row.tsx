@@ -1,7 +1,7 @@
 import { Camera, Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
+import Link from 'next/link'
 import type { CloudinaryUploadWidgetResults } from 'next-cloudinary'
 import { CldUploadWidget } from 'next-cloudinary'
-import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -93,7 +93,9 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
                     src={avatarUrl ?? undefined}
                     className="transition-opacity duration-300 group-hover:opacity-50"
                   />
-                  <AvatarFallback>{getInitials(encontreiro.nome)}</AvatarFallback>
+                  <AvatarFallback>
+                    {getInitials(encontreiro.nome)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <Camera className="size-4 text-white" />
@@ -101,7 +103,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
               </button>
             )}
           </CldUploadWidget>
-          <span className="text-center text-nowrap text-xs text-zinc-600">
+          <span className="text-center text-xs text-nowrap text-zinc-600">
             {encontreiro.encontro}º EJC
           </span>
         </div>
