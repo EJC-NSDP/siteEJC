@@ -1,7 +1,11 @@
-import { Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
+import { Camera, Check, CircleOff, Loader, ScanSearch } from 'lucide-react'
+import type { CloudinaryUploadWidgetResults } from 'next-cloudinary'
+import { CldUploadWidget } from 'next-cloudinary'
 import Link from 'next/link'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
+import { updateProfile } from '@/actions/updateCloudinary'
 import type { EncontreiroMontagemSummaryData } from '@/app/api/encontreiro/montagem/get-montagem-summary'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -30,23 +34,72 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
   const [coordEnable, setCoordEnable] = useState(
     encontreiro.equipe ? canBeCoord(encontreiro.equipe.value) : 'disabled',
   )
+  const [avatarUrl, setAvatarUrl] = useState(encontreiro.avatarUrl)
 
   function updateCoordEnable(equipeValue: string) {
     setCoordEnable(canBeCoord(equipeValue))
+  }
+
+  async function handleAvatarUpload(results: CloudinaryUploadWidgetResults) {
+    const info = results.info
+    if (
+      results.event !== 'success' ||
+      typeof info !== 'object' ||
+      !info.secure_url
+    ) {
+      toast.error('Erro ao enviar imagem')
+      return
+    }
+    const newImageUrl = info.secure_url
+    setAvatarUrl(newImageUrl)
+    try {
+      await updateProfile({ slug: encontreiro.slug, avatarUrl: newImageUrl })
+      toast.success('Foto atualizada com sucesso')
+    } catch {
+      toast.error('Erro ao atualizar a foto')
+    }
   }
 
   return (
     <TableRow className="bg-white">
       <TableCell className="flex items-center gap-4">
         <div className="flex flex-col items-center gap-2">
-          <Avatar className="size-10">
-            <AvatarImage
-              src={encontreiro.avatarUrl || undefined}
-              className="transition-opacity duration-300 group-hover:opacity-50"
-            />
-            <AvatarFallback>{getInitials(encontreiro.nome)}</AvatarFallback>
-          </Avatar>
-          <span className="text-center text-xs text-nowrap text-zinc-600">
+          <CldUploadWidget
+            signatureEndpoint="/api/cloudinary/sign-upload"
+            uploadPreset="signed_upload"
+            options={{
+              folder: '/people',
+              publicId: encontreiro.slug,
+              cropping: true,
+              croppingAspectRatio: 1,
+              croppingShowDimensions: true,
+              showSkipCropButton: false,
+              croppingCoordinatesMode: 'custom',
+              clientAllowedFormats: ['jpg', 'jpeg', 'png'],
+              multiple: false,
+            }}
+            onSuccess={(result) => handleAvatarUpload(result)}
+          >
+            {({ open }) => (
+              <button
+                type="button"
+                onClick={() => open()}
+                className="group relative cursor-pointer"
+              >
+                <Avatar className="size-10">
+                  <AvatarImage
+                    src={avatarUrl || undefined}
+                    className="transition-opacity duration-300 group-hover:opacity-50"
+                  />
+                  <AvatarFallback>{getInitials(encontreiro.nome)}</AvatarFallback>
+                </Avatar>
+                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <Camera className="size-4 text-white" />
+                </div>
+              </button>
+            )}
+          </CldUploadWidget>
+          <span className="text-center text-nowrap text-xs text-zinc-600">
             {encontreiro.encontro}º EJC
           </span>
         </div>

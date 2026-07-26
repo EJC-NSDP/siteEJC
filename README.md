@@ -156,6 +156,15 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.3 — Montagem: upload de foto na tabela
+> Julho 2026
+
+- Ao passar o mouse sobre a foto na tabela de montagem, aparece um ícone de câmera e a imagem abre o widget de upload do Cloudinary
+- Ao concluir o upload, a foto é atualizada imediatamente na linha e persistida via `updateProfile`
+- Adicionado `data-gramm="false"` na tabela para evitar interferência de extensões de escrita (Grammarly etc.) que causavam sublinhados e cores indevidas em células
+
+---
+
 ### v5.8.2 — Montagem: contagem de encontristas por equipe
 > Julho 2026
 

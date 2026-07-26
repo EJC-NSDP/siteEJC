@@ -134,7 +134,7 @@ export function EncontreirosMontagemTable() {
       <div className="flex flex-col gap-4 py-1">
         <EncontreiroMontagemTableFilters />
         <div className="w-full overflow-x-auto bg-transparent">
-          <Table className="w-full text-xs lg:table-fixed">
+          <Table className="w-full text-xs lg:table-fixed" data-gramm="false">
             <TableHeader>
               <TableRow className="px-2">
                 <SortableTableHead
