@@ -213,6 +213,8 @@ async function getEncontreirosMontagem({
           [mapping.nestedRelation]: { [orderByField]: direction },
         },
       })
+    } else if (mapping.relation) {
+      orderBy.push({ [mapping.relation]: { [orderByField]: direction } })
     } else {
       orderBy.push({ [orderByField]: direction })
     }

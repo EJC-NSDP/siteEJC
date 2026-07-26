@@ -9,6 +9,9 @@ export function EncontreiroMontagemTableSkeleton() {
           <Skeleton className="h-4 w-40" />
         </TableCell>
         <TableCell>
+          <Skeleton className="h-4 w-16" />
+        </TableCell>
+        <TableCell>
           <Skeleton className="h-4 w-12" />
         </TableCell>
         <TableCell>
