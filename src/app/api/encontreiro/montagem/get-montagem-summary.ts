@@ -308,7 +308,7 @@ function transformToEncontreiroSummaryData(
       id: encontreiro.id,
       slug: encontreiro.slug,
       avatarUrl: encontreiro.avatarUrl,
-      nome: `${encontreiro.nome} ${encontreiro.sobrenome}`,
+      nome: [encontreiro.nome, encontreiro.sobrenome].filter(Boolean).join(' '),
       encontro:
         encontreiro.encontreiro?.encontro?.numeroEncontro?.toString() ?? '',
       bairro: encontreiro.endereco?.bairro ?? 'N/A',

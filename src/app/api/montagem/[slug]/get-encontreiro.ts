@@ -129,7 +129,7 @@ export async function getEncontreiroMontagem(slug: string) {
 
   const encontreiroMontagemResponse: EncontreiroMontagemData = {
     id: encontreiro.id,
-    nome: encontreiro.nome + ' ' + encontreiro.sobrenome,
+    nome: [encontreiro.nome, encontreiro.sobrenome].filter(Boolean).join(' '),
     instagram: encontreiro.encontreiro && encontreiro.encontreiro.instagram,
     slug: encontreiro.slug,
     apelido: encontreiro.apelido,
