@@ -156,6 +156,14 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.5 — Info encontreiro: data da ficha atualizada
+> Julho 2026
+
+- Campo "Ficha atualizada" adicionado ao card `/info-encontreiro/[slug]`, seguindo o mesmo padrão visual dos demais campos de informações gerais
+- Exibe a data formatada em pt-BR quando disponível, ou `-` quando ainda não há registro
+
+---
+
 ### v5.8.4 — Montagem: data do último preenchimento da ficha
 > Julho 2026
 
