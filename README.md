@@ -155,7 +155,24 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 ---
 
 ## Changelog
- 
+
+### v5.8.0 — Criar/Editar Encontrão
+> Julho 2026
+
+- Página `/admin/dirigente/gerenciar-encontro/criar-encontro` reformulada com formulário completo para abrir ou editar o encontrão atual
+- Modo determinado automaticamente pelo campo `numeroCirculos`: igual a 0 exibe "Abrir Novo Encontrão", maior que 0 exibe "Editar Encontrão"
+- Número do Encontrão preenchido e desabilitado automaticamente a partir do encontrão atual (imutável pelo formulário)
+- Seleção de local com dropdown pré-selecionando o local já vinculado ao encontrão
+- Modal "Novo Local" ao lado do título da seção: cadastra um novo local com busca automática de endereço via CEP (BrasilAPI), exibindo campos desabilitados de confirmação (Rua, Bairro, Cidade, Estado) antes de salvar
+- Ao criar um novo local, ele entra automaticamente na lista e é selecionado
+- Corrigido bug em `edit-encontro.ts` que usava `prisma.encontro.create` ao invés de `prisma.encontro.update`
+- `CardForm` recebe prop opcional `action` para renderizar um elemento ao lado do título da seção
+- Sidebar: "Criar Encontro" renomeado para "Criar/Editar Encontro"
+- Todos os fetches migrados para `axios` (`api`) seguindo o padrão do projeto
+- Componentes do design system aplicados: `CardForm`, `TextInput`, `Input`, `SelectGroupInput`, `DisabledInput`, `Button`, `FormProvider` com `zodResolver`
+
+---
+
 ### v5.7.0 — Export de ficha do carro
 > Maio 2026
  

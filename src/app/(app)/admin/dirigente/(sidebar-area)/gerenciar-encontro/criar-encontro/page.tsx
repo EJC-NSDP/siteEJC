@@ -1,30 +1,48 @@
+import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { prisma } from '@/lib/prisma'
+
+import { EncontroForm, type EncontroFormData, type LocalOption } from './EncontroForm'
+
+async function getLocais(): Promise<LocalOption[]> {
+  return prisma.local.findMany({
+    select: {
+      id: true,
+      nomeLocal: true,
+      numeroLocal: true,
+      enderecoCep: true,
+      endereco: {
+        select: {
+          rua: true,
+          bairro: true,
+          cidade: true,
+          estado: true,
+        },
+      },
+    },
+  })
+}
+
+function toDateStr(d: Date): string {
+  if (d.getFullYear() <= 1970) return ''
+  return d.toISOString().split('T')[0]
+}
+
 export default async function DirigentesCriarEncontro() {
-  // const locais = await getLocais()
+  const [locais, currentEncontro] = await Promise.all([
+    getLocais(),
+    getCurrentEncontro(),
+  ])
 
-  // const actions: EncontraoActions = await fetch(
-  //   `${process.env.NEXTAUTH_URL}/api/encontro/atual/1/get-encontrao-actions`,
-  //   {
-  //     cache: 'no-store',
-  //   },
-  // ).then(async (res) => await res.json())
+  const data: EncontroFormData | undefined = currentEncontro
+    ? {
+        id: currentEncontro.id,
+        numeroEncontro: currentEncontro.numeroEncontro,
+        idLocal: currentEncontro.idLocal,
+        numeroCirculos: currentEncontro.numeroCirculos,
+        dataInicio: toDateStr(currentEncontro.dataInicio),
+        dataTema: toDateStr(currentEncontro.dataTema),
+      }
+    : undefined
 
-  return (
-    <div className="w-ful h-full">
-      <div className="pb-4">
-        <div className="flex items-center justify-between pb-8">
-          <div className="">
-            <h1 className="text-tertiary text-2xl font-bold">
-              Criar Novo Encontrão
-            </h1>
-            <span className="text-base font-normal text-zinc-500">
-              Preencha as informações abaixo para criar um novo encontrão.
-              Lembre-se de revisar os dados antes de salvar.
-            </span>
-          </div>
-
-          {/* <EncontroForm locais={locais} /> */}
-        </div>
-      </div>
-    </div>
-  )
+  return <EncontroForm locais={locais} data={data} />
 }

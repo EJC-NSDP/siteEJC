@@ -60,7 +60,7 @@ export function MainNavigation() {
       >
         <Link href="/admin/dirigente/gerenciar-encontro/criar-encontro">
           <NavItem
-            title="Criar Encontro"
+            title="Criar/Editar Encontro"
             icon={DoorOpen}
             active={
               path === '/admin/dirigente/gerenciar-encontro/criar-encontro'

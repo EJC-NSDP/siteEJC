@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { stringToDate } from '@/utils/string-to-date'
 
 export type EncontroProps = {
+  id: string
   numeroEncontro: number
   dataInicio: string
   dataTema: string
@@ -10,6 +11,7 @@ export type EncontroProps = {
 }
 
 export async function editEncontro({
+  id,
   numeroEncontro,
   dataInicio,
   dataTema,
@@ -19,7 +21,8 @@ export async function editEncontro({
   const dataInicioDate = stringToDate(dataInicio)
   const dataTemaDate = stringToDate(dataTema)
 
-  const encontro = await prisma.encontro.create({
+  const encontro = await prisma.encontro.update({
+    where: { id },
     data: {
       numeroEncontro,
       dataInicio: dataInicioDate,
