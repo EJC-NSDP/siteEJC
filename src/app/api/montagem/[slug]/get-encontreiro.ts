@@ -13,6 +13,7 @@ export type EncontreiroMontagemData = {
   corCirculo?: string
   obsBanda?: string
   disponibilidade?: string
+  fichaAtualizadaEm?: Date | null
   obs?: string
   preferencias: { posicao: number; equipe: string }[] | []
   equipeEncontro:
@@ -39,6 +40,7 @@ export async function getEncontreiroMontagem(slug: string) {
         select: {
           instagram: true,
           disponibilidade: true,
+          fichaAtualizadaEm: true,
           obsBanda: true,
           observacoes: true,
           statusMontagem: true,
@@ -151,6 +153,7 @@ export async function getEncontreiroMontagem(slug: string) {
       encontreiro.encontreiro && encontreiro.encontreiro.obsBanda
         ? encontreiro.encontreiro.obsBanda
         : undefined,
+    fichaAtualizadaEm: encontreiro.encontreiro?.fichaAtualizadaEm ?? null,
     preferencias: preferenciasOrdenadas,
     equipeEncontro: equipeEncontroOrdenado,
     statusMontagem:

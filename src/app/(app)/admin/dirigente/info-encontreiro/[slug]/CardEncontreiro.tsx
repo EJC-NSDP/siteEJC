@@ -126,6 +126,12 @@ export function CardEncontreiro({
                       ? cleanValueEnum(encontreiro.disponibilidade)
                       : cleanValueEnum('NAO_PREENCHEU')}
                   </span>
+                  {encontreiro.fichaAtualizadaEm && (
+                    <p className="mt-0.5 text-xs text-zinc-400">
+                      Atualizado em{' '}
+                      {new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <h4 className="text-xs text-zinc-400">Observações</h4>
