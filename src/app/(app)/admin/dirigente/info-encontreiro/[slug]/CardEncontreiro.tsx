@@ -126,13 +126,15 @@ export function CardEncontreiro({
                       ? cleanValueEnum(encontreiro.disponibilidade)
                       : cleanValueEnum('NAO_PREENCHEU')}
                   </span>
-                  {encontreiro.fichaAtualizadaEm && (
-                    <p className="mt-0.5 text-xs text-zinc-400">
-                      Atualizado em{' '}
-                      {new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')}
-                    </p>
-                  )}
                 </div>
+                {encontreiro.fichaAtualizadaEm && (
+                  <div>
+                    <h4 className="text-xs text-zinc-400">Atualizado em</h4>
+                    <span className="text-base font-semibold text-zinc-700 lg:text-lg">
+                      {new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')}
+                    </span>
+                  </div>
+                )}
                 <div>
                   <h4 className="text-xs text-zinc-400">Observações</h4>
                   <span className="text-base font-semibold text-zinc-700 lg:text-xl">
