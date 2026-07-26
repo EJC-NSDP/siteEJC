@@ -156,6 +156,14 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.1 — Fix: paginação e bolinha de círculo
+> Julho 2026
+
+- Corrigido bug de paginação na listagem de encontreiros: `getTotal` usava `statusFilter = {}` quando `encontreiroStatus` era `null` (padrão "Ativo"), contando inativos e inflando o total — lógica alinhada com `getEncontreiros` para defaultar a `ATIVO + CONVIDADO_ESPECIAL`
+- Corrigido `shrink-0` faltante na bolinha de cor do círculo na tabela, que a achatava quando o nome do círculo quebrava em múltiplas linhas
+
+---
+
 ### v5.8.0 — Criar/Editar Encontrão
 > Julho 2026
 
@@ -170,14 +178,6 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 - Sidebar: "Criar Encontro" renomeado para "Criar/Editar Encontro"
 - Todos os fetches migrados para `axios` (`api`) seguindo o padrão do projeto
 - Componentes do design system aplicados: `CardForm`, `TextInput`, `Input`, `SelectGroupInput`, `DisabledInput`, `Button`, `FormProvider` com `zodResolver`
-
----
-
-### v5.8.1 — Fix: paginação e bolinha de círculo
-> Julho 2026
-
-- Corrigido bug de paginação na listagem de encontreiros: `getTotal` usava `statusFilter = {}` quando `encontreiroStatus` era `null` (padrão "Ativo"), contando inativos e inflando o total — lógica alinhada com `getEncontreiros` para defaultar a `ATIVO + CONVIDADO_ESPECIAL`
-- Corrigido `shrink-0` faltante na bolinha de cor do círculo na tabela, que a achatava quando o nome do círculo quebrava em múltiplas linhas
 
 ---
 
