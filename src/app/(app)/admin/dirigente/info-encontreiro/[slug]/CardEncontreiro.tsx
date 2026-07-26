@@ -83,7 +83,7 @@ export function CardEncontreiro({
                 )}
               </div>
               {!sheet && (
-                <Link href={`/admin/dirigente/montagem`}>
+                <Link href={`/admin/dirigente/gerenciar-encontro/montagem`}>
                   <Button
                     variant="outline"
                     className="border-primary/80 flex items-center gap-2"
@@ -163,7 +163,7 @@ export function CardEncontreiro({
           </div>
         </ScrollArea>
 
-        <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-88 lg:w-1/2">
+        <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-88 lg:w-1/4">
           <div className="w-full p-8">
             <h4 className="mb-4 text-xl leading-none font-bold lg:text-2xl">
               Últimas equipes
@@ -182,6 +182,24 @@ export function CardEncontreiro({
               ))
             ) : (
               <span className="text-sm text-zinc-500">Nunca trabalhou</span>
+            )}
+          </div>
+        </ScrollArea>
+
+        <ScrollArea className="h-40 w-full rounded-md bg-zinc-100 lg:h-88 lg:w-1/4">
+          <div className="w-full p-8">
+            <h4 className="mb-4 text-xl leading-none font-bold lg:text-2xl">
+              Nunca foi
+            </h4>
+            {encontreiro.nuncaFoi.length > 0 ? (
+              encontreiro.nuncaFoi.map((equipe) => (
+                <div key={equipe}>
+                  <div className="text-sm">{equipe}</div>
+                  <Separator className="my-2" />
+                </div>
+              ))
+            ) : (
+              <span className="text-sm text-zinc-500">Já foi em todas</span>
             )}
           </div>
         </ScrollArea>

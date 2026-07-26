@@ -19,6 +19,7 @@ export type EncontreiroMontagemData = {
   equipeEncontro:
     | { encontro: number; equipe: string; coordenou: boolean }[]
     | []
+  nuncaFoi: string[]
   statusMontagem: StatusEncontreiro | null
 }
 
@@ -62,6 +63,7 @@ export async function getEncontreiroMontagem(slug: string) {
           },
           equipeEncontro: {
             select: {
+              idEquipe: true,
               encontro: {
                 select: {
                   numeroEncontro: true,
@@ -129,6 +131,39 @@ export async function getEncontreiroMontagem(slug: string) {
     (a, b) => b.encontro - a.encontro,
   )
 
+  const TIO_EQUIPES = new Set(['tio_circulo', 'tio_secreto', 'tio_aparente'])
+
+  const NON_ENCOUNTER_EQUIPES = new Set([
+    'nao_participara',
+    '0',
+    'tio_externa',
+    'palestrante',
+    'pastoral',
+    'bom_pastor',
+    'dirigente',
+    ...TIO_EQUIPES,
+  ])
+
+  const todasEquipes = await prisma.domainEquipes.findMany({
+    select: { equipeValue: true, equipeLabel: true },
+    where: { equipeValue: { notIn: [...NON_ENCOUNTER_EQUIPES] } },
+  })
+
+  const equipesParticipadas = new Set(
+    encontreiro.encontreiro?.equipeEncontro.map((e) => e.idEquipe) ?? [],
+  )
+
+  const nuncaFoi = todasEquipes
+    .filter((e) => !equipesParticipadas.has(e.equipeValue))
+    .map((e) => e.equipeLabel)
+
+  const foiTio = [...TIO_EQUIPES].some((v) => equipesParticipadas.has(v))
+  if (!foiTio) {
+    nuncaFoi.push('Tio de Círculo')
+  }
+
+  nuncaFoi.sort((a, b) => a.localeCompare(b, 'pt-BR'))
+
   const encontreiroMontagemResponse: EncontreiroMontagemData = {
     id: encontreiro.id,
     nome: [encontreiro.nome, encontreiro.sobrenome].filter(Boolean).join(' '),
@@ -156,6 +191,7 @@ export async function getEncontreiroMontagem(slug: string) {
     fichaAtualizadaEm: encontreiro.encontreiro?.fichaAtualizadaEm ?? null,
     preferencias: preferenciasOrdenadas,
     equipeEncontro: equipeEncontroOrdenado,
+    nuncaFoi,
     statusMontagem:
       encontreiro.encontreiro && encontreiro.encontreiro.statusMontagem,
   }

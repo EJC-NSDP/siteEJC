@@ -156,6 +156,17 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.6 — Info encontreiro: card "Nunca foi"
+> Julho 2026
+
+- Adicionado terceiro card "Nunca foi" na página `/info-encontreiro/[slug]`, ao lado de "Últimas equipes"
+- Lista todas as equipes de encontro em que a pessoa nunca participou, em ordem alfabética
+- Equipes não pertencentes ao encontro (Não irá participar, Tios de Externa, Palestrantes, Pastorais, Bons Pastores, Dirigente) são excluídas da listagem
+- Tio de Círculo, Tio Secreto e Tio Aparente são tratados como grupo: se a pessoa foi qualquer um dos três, a opção não aparece; se nunca foi nenhum, exibe apenas "Tio de Círculo"
+- Layout ajustado para três cards: o primeiro (Informações gerais + Lista de preferência) ocupa `w-1/2`, os outros dois `w-1/4` cada
+
+---
+
 ### v5.8.5 — Info encontreiro: data da ficha atualizada
 > Julho 2026
 
