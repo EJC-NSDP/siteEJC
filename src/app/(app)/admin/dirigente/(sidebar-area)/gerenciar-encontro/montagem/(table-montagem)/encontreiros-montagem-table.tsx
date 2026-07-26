@@ -145,7 +145,14 @@ export function EncontreirosMontagemTable() {
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
-                <TableHead className="w-[100px]">Apelido</TableHead>
+                <SortableTableHead
+                  label="Apelido"
+                  value="apelido"
+                  classname="w-[100px]"
+                  orderByField={orderByField}
+                  orderByDirection={orderByDirection}
+                  handleFn={handleOrder}
+                />
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"

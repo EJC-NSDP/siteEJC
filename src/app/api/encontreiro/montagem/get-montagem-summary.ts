@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 export const validOrderFields = [
   'numeroEncontro',
   'nome',
+  'apelido',
   'bairro',
   'equipe',
   'disponibilidade',
