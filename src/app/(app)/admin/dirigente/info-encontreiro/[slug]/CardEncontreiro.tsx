@@ -127,14 +127,14 @@ export function CardEncontreiro({
                       : cleanValueEnum('NAO_PREENCHEU')}
                   </span>
                 </div>
-                {encontreiro.fichaAtualizadaEm && (
-                  <div>
-                    <h4 className="text-xs text-zinc-400">Ficha atualizada</h4>
-                    <span className="text-base font-semibold text-zinc-700 lg:text-lg">
-                      {new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')}
-                    </span>
-                  </div>
-                )}
+                <div>
+                  <h4 className="text-xs text-zinc-400">Ficha atualizada</h4>
+                  <span className="text-base font-semibold text-zinc-700 lg:text-lg">
+                    {encontreiro.fichaAtualizadaEm
+                      ? new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString('pt-BR')
+                      : '-'}
+                  </span>
+                </div>
                 <div>
                   <h4 className="text-xs text-zinc-400">Observações</h4>
                   <span className="text-base font-semibold text-zinc-700 lg:text-xl">
