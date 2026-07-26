@@ -119,6 +119,22 @@ export async function getEquipe(
     where: { valueEquipe: value },
   })
 
+  const ultimosEncontros = await prisma.encontro.findMany({
+    orderBy: { numeroEncontro: 'desc' },
+    take: 2,
+    select: { id: true },
+  })
+  const idEncontroAnterior = ultimosEncontros[1]?.id ?? null
+
+  const totalEncontristas = idEncontroAnterior
+    ? await prisma.equipeMontagem.count({
+        where: {
+          valueEquipe: value,
+          encontreiro: { idEncontro: idEncontroAnterior },
+        },
+      })
+    : 0
+
   const tropa = total - totalCoords
   const label = labelMap[value] ?? value
 
@@ -127,6 +143,10 @@ export async function getEquipe(
     label,
     total,
     coordDone: totalCoords >= 2,
-    content: [`Coordenadores: ${totalCoords}`, `Tropa: ${tropa}`],
+    content: [
+      `Coordenadores: ${totalCoords}`,
+      `Tropa: ${tropa}`,
+      `Encontristas: ${totalEncontristas}`,
+    ],
   }
 }

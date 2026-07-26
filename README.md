@@ -156,6 +156,13 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.2 — Montagem: contagem de encontristas por equipe
+> Julho 2026
+
+- Cards de equipe na página de montagem exibem agora a contagem de encontristas: pessoas da equipe cujo `idEncontro` corresponde ao encontro anterior (penúltimo encontrão cadastrado)
+
+---
+
 ### v5.8.1 — Fix: paginação e bolinha de círculo
 > Julho 2026
 
