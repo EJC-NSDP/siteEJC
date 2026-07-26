@@ -97,6 +97,7 @@ model Encontreiro {
   statusMontagem          StatusEncontreiro?
   dataNasc                DateTime               @map("data_nasc")
   idDisponibilidade       Value_Disponibilidade  @default(NAO_PREENCHEU) @map("id_disponibilidade")
+  fichaAtualizadaEm       DateTime?              @map("ficha_atualizada_em")
   responsavelCarroExterna CarroEncontro[]        @relation("PessoaResponsavelExterna")
   circulo                 Circulo?               @relation(fields: [idCirculo], references: [id])
   disponibilidade         DomainDisponibilidade? @relation(fields: [idDisponibilidade], references: [id])

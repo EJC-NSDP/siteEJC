@@ -109,9 +109,20 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
       </TableCell>
       <TableCell>{encontreiro.bairro}</TableCell>
       <TableCell>
-        {encontreiro.disponibilidade === ''
-          ? 'Não preencheu'
-          : encontreiro.disponibilidade}
+        <div className="flex flex-col gap-0.5">
+          <span>
+            {encontreiro.disponibilidade === ''
+              ? 'Não preencheu'
+              : encontreiro.disponibilidade}
+          </span>
+          {encontreiro.fichaAtualizadaEm && (
+            <span className="text-[10px] text-zinc-400">
+              {new Date(encontreiro.fichaAtualizadaEm).toLocaleDateString(
+                'pt-BR',
+              )}
+            </span>
+          )}
+        </div>
       </TableCell>
       <TableCell>
         <div className="flex flex-col items-center gap-2 text-left">

@@ -156,6 +156,15 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.4 — Montagem: data do último preenchimento da ficha
+> Julho 2026
+
+- Adicionado campo `fichaAtualizadaEm` ao model `Encontreiro` (migration aplicada)
+- Gravado automaticamente a cada vez que a ficha de cadastro é salva
+- Na tabela de montagem, exibe a data em formato pequeno abaixo da disponibilidade, indicando quando a pessoa preencheu suas preferências e disponibilidade pela última vez
+
+---
+
 ### v5.8.3 — Montagem: upload de foto na tabela
 > Julho 2026
 

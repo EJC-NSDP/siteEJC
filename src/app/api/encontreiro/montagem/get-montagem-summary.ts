@@ -36,6 +36,7 @@ export interface EncontreiroMontagemSummaryData {
   encontro: string
   bairro: string
   disponibilidade: string
+  fichaAtualizadaEm: Date | null
   preferencias: string[]
   equipe: {
     value: string
@@ -104,6 +105,7 @@ const pessoaSelect = {
           },
         },
       },
+      fichaAtualizadaEm: true,
       equipeMontagem: {
         select: {
           valueEquipe: true,
@@ -315,6 +317,7 @@ function transformToEncontreiroSummaryData(
       disponibilidade:
         encontreiro.encontreiro?.disponibilidade?.disponibilidade ??
         'Não prencheu',
+      fichaAtualizadaEm: encontreiro.encontreiro?.fichaAtualizadaEm ?? null,
       preferencias: listaPreferencias.map(
         (p) => `${p.posicao}ª - ${p.equipe.equipeLabel}`,
       ),

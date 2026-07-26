@@ -54,6 +54,7 @@ export async function updateCadastro(data: EditCadastroFormDataInput) {
           idTamanhoCamisa: data.tamanhoCamisa,
           restricaoAlimentar: data.restricaoAlimentar,
           idDisponibilidade: data.disponibilidade,
+          fichaAtualizadaEm: new Date(),
           obsBanda: data.obsBanda,
           observacoes: data.observacoes,
         },
