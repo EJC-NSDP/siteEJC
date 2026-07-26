@@ -186,15 +186,14 @@ async function getTotal({
       }
     : {}
 
-  const statusFilter: Prisma.EncontreiroWhereInput = encontreiroStatus
-    ? encontreiroStatus === 'ATIVO'
-      ? {
+  const statusFilter: Prisma.EncontreiroWhereInput =
+    encontreiroStatus === 'INATIVO'
+      ? { statusMontagem: 'INATIVO' }
+      : {
           statusMontagem: {
             in: ['ATIVO', 'CONVIDADO_ESPECIAL'],
           },
         }
-      : { statusMontagem: 'INATIVO' }
-    : {}
 
   return await prisma.pessoa.count({
     where: {
