@@ -33,6 +33,7 @@ export interface EncontreiroMontagemSummaryData {
   slug: string
   avatarUrl: string | null
   nome: string
+  apelido: string | null
   encontro: string
   bairro: string
   disponibilidade: string
@@ -81,6 +82,7 @@ const pessoaSelect = {
   avatarUrl: true,
   nome: true,
   sobrenome: true,
+  apelido: true,
   slug: true,
   endereco: {
     select: {
@@ -153,6 +155,7 @@ async function getEncontreirosMontagem({
         OR: nameParts.flatMap((part) => [
           { nome: { contains: part, mode: 'insensitive' } },
           { sobrenome: { contains: part, mode: 'insensitive' } },
+          { apelido: { contains: part, mode: 'insensitive' } },
         ]),
       }
     : {}
@@ -245,6 +248,7 @@ async function getTotalMontagem({
         OR: nameParts.flatMap((part) => [
           { nome: { contains: part, mode: 'insensitive' } },
           { sobrenome: { contains: part, mode: 'insensitive' } },
+          { apelido: { contains: part, mode: 'insensitive' } },
         ]),
       }
     : {}
@@ -311,6 +315,7 @@ function transformToEncontreiroSummaryData(
       slug: encontreiro.slug,
       avatarUrl: encontreiro.avatarUrl,
       nome: [encontreiro.nome, encontreiro.sobrenome].filter(Boolean).join(' '),
+      apelido: encontreiro.apelido,
       encontro:
         encontreiro.encontreiro?.encontro?.numeroEncontro?.toString() ?? '',
       bairro: encontreiro.endereco?.bairro ?? 'N/A',

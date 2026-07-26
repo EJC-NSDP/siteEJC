@@ -145,6 +145,7 @@ export function EncontreirosMontagemTable() {
                   orderByDirection={orderByDirection}
                   handleFn={handleOrder}
                 />
+                <TableHead className="w-[100px]">Apelido</TableHead>
                 <SortableTableHead
                   label="Bairro"
                   value="bairro"
@@ -190,20 +191,20 @@ export function EncontreirosMontagemTable() {
                 })}
               {result && result.encontreiros.length === 0 && (
                 <EmptyTableRow
-                  colspan={7}
+                  colspan={8}
                   content="Sem encontreiros cadastrados"
                 />
               )}
             </TableBody>
             <TableFooter>
-              {isLoadingEncontreiro && <PaginationSkeleton totalCol={7} />}
+              {isLoadingEncontreiro && <PaginationSkeleton totalCol={8} />}
               {result && (
                 <Pagination
                   pageIndex={result.pageIndex}
                   totalCount={result.totalCount}
                   perPage={result.perPage}
                   onPageChange={handlePaginate}
-                  totalCol={7}
+                  totalCol={8}
                 />
               )}
             </TableFooter>

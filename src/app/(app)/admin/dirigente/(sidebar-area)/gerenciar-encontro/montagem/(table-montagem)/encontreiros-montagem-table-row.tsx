@@ -107,6 +107,7 @@ export function EncontreiroTableRow({ encontreiro }: EncontreiroTableRowProps) {
         </div>
         <span className="text-zinc-800">{encontreiro.nome}</span>
       </TableCell>
+      <TableCell>{encontreiro.apelido ?? '-'}</TableCell>
       <TableCell>{encontreiro.bairro}</TableCell>
       <TableCell>
         <div className="flex flex-col gap-0.5">
