@@ -12,7 +12,8 @@
       "Bash(xargs grep -l \"ficha.*preenchida\\\\|fichaPreenchida\")",
       "Bash(git *)",
       "Bash(echo \"EXIT:$?\")",
-      "Bash(pnpm list *)"
+      "Bash(pnpm list *)",
+      "Bash(grep -v \"^--$\")"
     ]
   }
 }

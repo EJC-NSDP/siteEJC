@@ -43,9 +43,8 @@ export function EncontroCard({ currentEncontro }: EncontroCardProps) {
             <Skeleton className="h-5 w-36" />
           ) : (
             <span className="text-zinc-700">
-              {dayjs(dataInicioStr).format('DD')} de{' '}
-              {getMonthBR(dataInicioStr)} de{' '}
-              {dayjs(dataInicioStr).format('YYYY')}
+              {dayjs(dataInicioStr).format('DD')} de {getMonthBR(dataInicioStr)}{' '}
+              de {dayjs(dataInicioStr).format('YYYY')}
             </span>
           )}
         </div>

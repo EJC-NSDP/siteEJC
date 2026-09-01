@@ -21,9 +21,7 @@ export async function editEncontro({
   const dataTemaDate = new Date(dataTema)
 
   const ordemCirculos =
-    numeroCirculos > 0
-      ? parseInt('12345'.substring(0, numeroCirculos))
-      : 0
+    numeroCirculos > 0 ? parseInt('12345'.substring(0, numeroCirculos)) : 0
 
   const encontro = await prisma.encontro.update({
     where: { id },
