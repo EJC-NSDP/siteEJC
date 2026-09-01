@@ -9,7 +9,9 @@
       "Bash(xargs grep -l \"ListaPreferencia\\\\|preferencia\")",
       "Bash(xargs grep -l \"preferencia\\\\|ListaPreferencia\")",
       "Bash(xargs grep -l \"idDisponibilidade\\\\|Disponibilidade\")",
-      "Bash(xargs grep -l \"ficha.*preenchida\\\\|fichaPreenchida\")"
+      "Bash(xargs grep -l \"ficha.*preenchida\\\\|fichaPreenchida\")",
+      "Bash(git *)",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }
