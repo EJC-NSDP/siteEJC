@@ -152,11 +152,7 @@ export function EncontristaTableFilters() {
                       value="all"
                       text="Todos Responsáveis"
                     />
-                    <SelectItem
-                      key="any"
-                      value="any"
-                      text="Com Responsável"
-                    />
+                    <SelectItem key="any" value="any" text="Com Responsável" />
                     <SelectItem
                       key="none"
                       value="none"

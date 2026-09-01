@@ -11,7 +11,8 @@
       "Bash(xargs grep -l \"idDisponibilidade\\\\|Disponibilidade\")",
       "Bash(xargs grep -l \"ficha.*preenchida\\\\|fichaPreenchida\")",
       "Bash(git *)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(pnpm list *)"
     ]
   }
 }
