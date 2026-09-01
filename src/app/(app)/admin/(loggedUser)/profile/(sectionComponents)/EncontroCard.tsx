@@ -12,7 +12,9 @@ interface EncontroCardProps {
 }
 
 export function EncontroCard({ currentEncontro }: EncontroCardProps) {
-  const temaNaoRevelado = `${dayjs(currentEncontro.dataTema).format('DD')} de ${getMonthBR(currentEncontro.dataInicio)} de ${dayjs(currentEncontro.dataInicio).format('YYYY')}`
+  const dataInicioStr = String(currentEncontro.dataInicio).split('T')[0]
+  const dataTemaStr = String(currentEncontro.dataTema).split('T')[0]
+  const temaNaoRevelado = `${dayjs(dataTemaStr).format('DD')} de ${getMonthBR(dataInicioStr)} de ${dayjs(dataInicioStr).format('YYYY')}`
 
   const temaEspiritual = currentEncontro.temaEspiritual
     ? currentEncontro.temaEspiritual
@@ -41,9 +43,9 @@ export function EncontroCard({ currentEncontro }: EncontroCardProps) {
             <Skeleton className="h-5 w-36" />
           ) : (
             <span className="text-zinc-700">
-              {dayjs(currentEncontro.dataInicio).format('DD')} de{' '}
-              {getMonthBR(currentEncontro.dataInicio)} de{' '}
-              {dayjs(currentEncontro.dataInicio).format('YYYY')}
+              {dayjs(dataInicioStr).format('DD')} de{' '}
+              {getMonthBR(dataInicioStr)} de{' '}
+              {dayjs(dataInicioStr).format('YYYY')}
             </span>
           )}
         </div>

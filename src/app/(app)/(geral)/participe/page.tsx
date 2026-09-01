@@ -1,13 +1,18 @@
 import { Suspense } from 'react'
 
+import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { CardLoading } from '@/components/CardLoading'
 import { CreateEncontristaContextProvider } from '@/context/CreateEncontristaContext'
-import { getCurrentEncontroDate } from '@/utils/fetch-this-encontro'
 
 import { ParticipeForm } from './(form)/ParticipeForm'
 
 export default async function ParticipePage() {
-  const dataEncontro = await getCurrentEncontroDate()
+  const encontro = await getCurrentEncontro()
+
+  const dataInicio: string | null =
+    encontro && encontro.numeroCirculos > 0
+      ? encontro.dataInicio.toISOString().split('T')[0]
+      : null
 
   return (
     <Suspense
@@ -20,7 +25,7 @@ export default async function ParticipePage() {
       }
     >
       <CreateEncontristaContextProvider>
-        <ParticipeForm dataInicio={dataEncontro} />
+        <ParticipeForm dataInicio={dataInicio} />
       </CreateEncontristaContextProvider>
     </Suspense>
   )

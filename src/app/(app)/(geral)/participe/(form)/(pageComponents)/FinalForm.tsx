@@ -17,7 +17,7 @@ import 'dayjs/locale/pt-br'
 dayjs.locale('pt-br')
 
 interface FinalFormProps {
-  dataEncontro: Date | null
+  dataEncontro: string | null
 }
 function SuccessCreation({ dataEncontro }: FinalFormProps) {
   const friday = dayjs(dataEncontro)

@@ -13,7 +13,7 @@ import { OtherDetails } from './(pageComponents)/OtherDetails'
 import { PersonalDetails } from './(pageComponents)/PersonalDetails'
 
 interface ParticipeFormProps {
-  dataInicio: Date | null
+  dataInicio: string | null
 }
 
 export function ParticipeForm({ dataInicio }: ParticipeFormProps) {

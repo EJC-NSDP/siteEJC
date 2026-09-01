@@ -15,7 +15,7 @@ import 'dayjs/locale/pt-br'
 dayjs.locale('pt-br')
 
 interface CardWithEncontroProps {
-  date: Date
+  date: string
 }
 
 function CardWithEncontro({ date }: CardWithEncontroProps) {
@@ -79,7 +79,7 @@ function CardWithoutEncontro() {
 }
 
 interface InitialFormProps {
-  dataEncontro: Date | null
+  dataEncontro: string | null
 }
 
 export function InitialForm({ dataEncontro }: InitialFormProps) {

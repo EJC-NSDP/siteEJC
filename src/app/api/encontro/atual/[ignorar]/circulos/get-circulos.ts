@@ -82,6 +82,23 @@ export async function getCirculos() {
     }
   })
 
+  if (infoCirculos.length === 0 && encontro.ordemCirculos > 0) {
+    const digits = encontro.ordemCirculos
+      .toString()
+      .split('')
+      .map(Number)
+      .filter((n) => n >= 1 && n <= 5)
+
+    const virtualCirculos: CirculoEncontro[] = digits.map((n) => ({
+      id: String(n),
+      idCorCirculo: n,
+      tioAparente: undefined,
+      tioSecreto: undefined,
+    }))
+
+    return { order: encontro.ordemCirculos, circulos: virtualCirculos }
+  }
+
   const response: CirculosResponse = {
     order: encontro.ordemCirculos,
     circulos: infoCirculos,

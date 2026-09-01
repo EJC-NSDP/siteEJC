@@ -156,6 +156,24 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.8 — Fixes de datas e lógica de círculos da apresentação
+> Setembro 2026
+
+**Fixes de datas (timezone)**
+- `/participe`: server component agora busca o encontro via Prisma direto (sem HTTP call para a própria API), eliminando falha com Turbopack; data do encontro é passada como string `YYYY-MM-DD` evitando conversão de timezone incorreta
+- `EncontroCard` no perfil: corrigido exibição da data do encontro que mostrava o dia anterior em fusos UTC-3 por interpretar UTC midnight como hora local
+- `getMonthBR`: atualizado para aceitar `Date | string`
+
+**Lógica de círculos — `/apresentacao/circulos`**
+- `editEncontro`: ao salvar `numeroCirculos`, o campo `ordemCirculos` é inicializado automaticamente com os N primeiros círculos em ordem padrão (ex: 4 → `1234`)
+- `getCirculos`: quando ainda não há registros de círculo no banco, gera uma lista virtual a partir de `ordemCirculos` para que o apresentador já veja o estado inicial
+- `atualizarCirculos`: lógica completa de criação e deleção — círculos ativos são criados no banco se não existirem; círculos movidos para "Fora do encontro" são deletados com cascade (encontreiros são desvinculados do círculo, tios aparente/secreto são removidos)
+
+**Outros**
+- Removida função `deletePastoral` não utilizada em `pastorais-secre-table-row.tsx`
+
+---
+
 ### v5.8.7 — Filtro "Com Responsável" e unificação do package manager
 > Setembro 2026
 
