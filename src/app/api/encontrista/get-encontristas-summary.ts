@@ -112,7 +112,9 @@ async function getEncontristas({
     responsavelExterna
       ? responsavelExterna === 'none'
         ? { responsavelExterna: null }
-        : { responsavelExterna: { idExterna: responsavelExterna } }
+        : responsavelExterna === 'any'
+          ? { responsavelExterna: { isNot: null } }
+          : { responsavelExterna: { idExterna: responsavelExterna } }
       : {}
 
   const orderBy: Prisma.PessoaOrderByWithRelationInput[] = []
@@ -204,7 +206,9 @@ async function getTotal({
     responsavelExterna
       ? responsavelExterna === 'none'
         ? { responsavelExterna: { is: null } }
-        : { responsavelExterna: { is: { idExterna: responsavelExterna } } }
+        : responsavelExterna === 'any'
+          ? { responsavelExterna: { isNot: null } }
+          : { responsavelExterna: { is: { idExterna: responsavelExterna } } }
       : {}
 
   // filtro de status

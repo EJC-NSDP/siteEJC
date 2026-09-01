@@ -156,6 +156,16 @@ Este projeto segue o padrão **Semantic Versioning (semver)**: `MAJOR.MINOR.PATC
 
 ## Changelog
 
+### v5.8.7 — Filtro "Com Responsável" e unificação do package manager
+> Setembro 2026
+
+- Adicionado filtro **"Com Responsável"** no dropdown de responsáveis da tabela de encontristas da externa — lista todos os encontristas que já foram alocados para algum membro da equipe
+- Padronizado o package manager para **pnpm@10.30.2**: adicionado campo `packageManager` no `package.json` (Corepack bloqueia `npm install` acidental)
+- `overrides` movido do nível raiz do `package.json` para dentro do bloco `pnpm.overrides`
+- `.gitignore` limpo: removidos vestígios de yarn (`.yarn/`, `yarn-debug.log*`, `yarn-error.log*`), adicionado `package-lock.json`
+
+---
+
 ### v5.8.6 — Info encontreiro: card "Nunca foi"
 > Julho 2026
 
