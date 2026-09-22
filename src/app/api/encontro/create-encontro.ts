@@ -29,23 +29,25 @@ export async function createEncontro() {
     },
   })
 
-  encontristas.map(async (encontrista) => {
-    const slug = createSlugForEncontrista(encontrista.email, numeroEncontro)
+  await Promise.all(
+    encontristas.map(async (encontrista) => {
+      const slug = createSlugForEncontrista(encontrista.email, numeroEncontro)
 
-    await prisma.pessoa.update({
-      data: {
-        encontreiro: {
-          update: {
-            idEncontro: newEncontro.id,
+      await prisma.pessoa.update({
+        data: {
+          encontreiro: {
+            update: {
+              idEncontro: newEncontro.id,
+            },
           },
+          slug,
         },
-        slug,
-      },
-      where: {
-        id: encontrista.id,
-      },
-    })
-  })
+        where: {
+          id: encontrista.id,
+        },
+      })
+    }),
+  )
 
   return newEncontro
 }
