@@ -19,18 +19,18 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import type { CirculosResponse } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
+import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/axios'
-import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
 import { getTiosCirculoFromEncontro } from '@/utils/fetch-encontros'
-import { useQuery } from '@tanstack/react-query'
 
 import { CardCirculo, CardCirculoBase } from './card-circulo'
 import {
