@@ -26,7 +26,11 @@ import { toast } from 'sonner'
 import type { CirculosResponse } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/axios'
+import type { SelectArray } from '@/components/Form/SelectInput/SelectItem'
+import { getTiosCirculoFromEncontro } from '@/utils/fetch-encontros'
+import { useQuery } from '@tanstack/react-query'
 
 import { CardCirculo, CardCirculoBase } from './card-circulo'
 import {
@@ -58,14 +62,17 @@ function buildLists(response: CirculosResponse): {
 
   const ativos: CirculoItem[] = orderDigits
     .filter((digit) => circuloById[digit])
-    .map((digit) => ({
-      id: circuloById[digit].id,
-      idCorCirculo: circuloById[digit].idCorCirculo,
-      cor: COR_POR_ID[digit] ?? '',
-      tioAparente: '',
-      tioSecreto: '',
-      ativo: true,
-    }))
+    .map((digit) => {
+      const c = circuloById[digit]
+      return {
+        id: c.id,
+        idCorCirculo: c.idCorCirculo,
+        cor: COR_POR_ID[digit] ?? '',
+        tioAparente: c.tioAparente?.id ?? '',
+        tioSecreto: c.tioSecreto?.id ?? '',
+        ativo: true,
+      }
+    })
 
   const idsAtivos = new Set(orderDigits)
 
@@ -75,8 +82,8 @@ function buildLists(response: CirculosResponse): {
       id: c.id,
       idCorCirculo: c.idCorCirculo,
       cor: COR_POR_ID[c.idCorCirculo] ?? '',
-      tioAparente: '',
-      tioSecreto: '',
+      tioAparente: c.tioAparente?.id ?? '',
+      tioSecreto: c.tioSecreto?.id ?? '',
       ativo: false,
     }))
 
@@ -114,6 +121,16 @@ export function SortCirculos({
   const [isUpdating, setIsUpdating] = useState(false)
 
   const initial = buildLists(circulosEncontro)
+
+  const hasTiosConfigured = [...initial.ativos, ...initial.inativos].some(
+    (c) => c.tioAparente || c.tioSecreto,
+  )
+
+  const { isLoading: isLoadingTios } = useQuery<SelectArray[]>({
+    queryKey: ['tiosCirculo', idEncontro],
+    queryFn: () => getTiosCirculoFromEncontro(idEncontro),
+    enabled: !!idEncontro,
+  })
   const [ativos, setAtivos] = useState<CirculoItem[]>(initial.ativos)
   const [inativos, setInativos] = useState<CirculoItem[]>(initial.inativos)
   const [order, setOrder] = useState<number>(initial.order)
@@ -249,32 +266,40 @@ export function SortCirculos({
               </span>
             </div>
 
-            <DroppableZone id={DROPPABLE_ATIVOS}>
-              <SortableContext
-                items={ativos.map((c) => c.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="flex flex-col gap-3">
-                  {ativos.length === 0 && (
-                    <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
-                      Nenhum círculo neste encontro.
-                    </Card>
-                  )}
-                  {ativos.map((circulo, index) => (
-                    <CardCirculo
-                      key={circulo.id}
-                      id={circulo.id}
-                      circulo={circulo}
-                      index={index}
-                      localIndex={index}
-                      isAtivo
-                      idEncontro={idEncontro}
-                      control={form.control}
-                    />
-                  ))}
-                </div>
-              </SortableContext>
-            </DroppableZone>
+            {hasTiosConfigured && isLoadingTios ? (
+              <div className="flex flex-col gap-3">
+                {ativos.map((c) => (
+                  <Skeleton key={c.id} className="h-32 w-full bg-zinc-200" />
+                ))}
+              </div>
+            ) : (
+              <DroppableZone id={DROPPABLE_ATIVOS}>
+                <SortableContext
+                  items={ativos.map((c) => c.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="flex flex-col gap-3">
+                    {ativos.length === 0 && (
+                      <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
+                        Nenhum círculo neste encontro.
+                      </Card>
+                    )}
+                    {ativos.map((circulo, index) => (
+                      <CardCirculo
+                        key={circulo.id}
+                        id={circulo.id}
+                        circulo={circulo}
+                        index={index}
+                        localIndex={index}
+                        isAtivo
+                        idEncontro={idEncontro}
+                        control={form.control}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DroppableZone>
+            )}
           </section>
 
           {/* ── Fora deste Encontro ── */}
@@ -288,35 +313,43 @@ export function SortCirculos({
               </span>
             </div>
 
-            <DroppableZone id={DROPPABLE_INATIVOS}>
-              <SortableContext
-                items={inativos.map((c) => c.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="flex flex-col gap-3">
-                  {inativos.length === 0 && (
-                    <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
-                      Todos os círculos estão neste encontro.
-                    </Card>
-                  )}
-                  {inativos.map((circulo, index) => {
-                    const globalIndex = ativos.length + index
-                    return (
-                      <CardCirculo
-                        key={circulo.id}
-                        id={circulo.id}
-                        circulo={circulo}
-                        index={globalIndex}
-                        localIndex={index}
-                        isAtivo={false}
-                        idEncontro={idEncontro}
-                        control={form.control}
-                      />
-                    )
-                  })}
-                </div>
-              </SortableContext>
-            </DroppableZone>
+            {hasTiosConfigured && isLoadingTios ? (
+              <div className="flex flex-col gap-3">
+                {inativos.map((c) => (
+                  <Skeleton key={c.id} className="h-32 w-full bg-zinc-200" />
+                ))}
+              </div>
+            ) : (
+              <DroppableZone id={DROPPABLE_INATIVOS}>
+                <SortableContext
+                  items={inativos.map((c) => c.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="flex flex-col gap-3">
+                    {inativos.length === 0 && (
+                      <Card className="flex items-center justify-center p-6 text-sm text-zinc-400">
+                        Todos os círculos estão neste encontro.
+                      </Card>
+                    )}
+                    {inativos.map((circulo, index) => {
+                      const globalIndex = ativos.length + index
+                      return (
+                        <CardCirculo
+                          key={circulo.id}
+                          id={circulo.id}
+                          circulo={circulo}
+                          index={globalIndex}
+                          localIndex={index}
+                          isAtivo={false}
+                          idEncontro={idEncontro}
+                          control={form.control}
+                        />
+                      )
+                    })}
+                  </div>
+                </SortableContext>
+              </DroppableZone>
+            )}
           </section>
 
           {/* ── DragOverlay — card completo ── */}

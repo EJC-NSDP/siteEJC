@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getCurrentEncontro } from '../get-current-encontro/get-current-encontro'
 
 export interface TioCirculoType {
+  id: string
   nome: string
   dataNasc: Date
   tipo: 'Aparente' | 'Secreto'
@@ -31,6 +32,7 @@ export async function getCirculos() {
       idCorCirculo: true,
       tioAparente: {
         select: {
+          id: true,
           nome: true,
           apelido: true,
           encontreiro: {
@@ -42,6 +44,7 @@ export async function getCirculos() {
       },
       tioSecreto: {
         select: {
+          id: true,
           nome: true,
           apelido: true,
           encontreiro: {
@@ -63,6 +66,7 @@ export async function getCirculos() {
       idCorCirculo: circulo.idCorCirculo,
       tioAparente: circulo.tioAparente
         ? {
+            id: circulo.tioAparente.id,
             nome: circulo.tioAparente.apelido
               ? circulo.tioAparente.apelido
               : circulo.tioAparente.nome,
@@ -72,6 +76,7 @@ export async function getCirculos() {
         : undefined,
       tioSecreto: circulo.tioSecreto
         ? {
+            id: circulo.tioSecreto.id,
             nome: circulo.tioSecreto.apelido
               ? circulo.tioSecreto.apelido
               : circulo.tioSecreto.nome,

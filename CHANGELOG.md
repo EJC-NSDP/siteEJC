@@ -1,5 +1,18 @@
 # Changelog
 
+### v5.8.10 — Fix: círculos da apresentação não pré-populavam tios salvos
+> Outubro 2026
+
+**Fix: `/admin/apresentacao/circulos`**
+- `getCirculos`: adicionado `id` ao select do Prisma para `tioAparente` e `tioSecreto`, e campo `id` incluído na interface `TioCirculoType` — o ID da Pessoa não estava sendo retornado pela API
+- `buildLists` (`sort-circulos.tsx`): corrigido inicialização de `tioAparente` e `tioSecreto` que sempre usava `''`; agora usa `c.tioAparente?.id` e `c.tioSecreto?.id`, pré-populando os selects corretamente ao carregar a página
+
+**Skeleton de carregamento — `/admin/apresentacao/circulos`**
+- Adicionado skeleton na `page.tsx` enquanto os dados do encontro e dos círculos carregam
+- Adicionado skeleton nos cards dentro de `sort-circulos.tsx` enquanto a lista de tios carrega — exibido apenas quando já há tios configurados, evitando flash de selects vazios
+
+---
+
 ### v5.8.9 — Fix: encontristas não vinculados ao encontro ao criar novo encontrão
 > Setembro 2026
 

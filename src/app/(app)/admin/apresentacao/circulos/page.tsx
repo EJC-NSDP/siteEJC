@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import type { CirculosResponse } from '@/app/api/encontro/atual/[ignorar]/circulos/get-circulos'
 import type { CurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/axios'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
 import { ordenarCirculos } from '@/utils/ordenar-circulos'
@@ -36,15 +37,17 @@ async function getCirculos() {
 }
 
 export default function Temas() {
-  const { data: circulosEncontrao } = useQuery<CirculosResponse>({
-    queryKey: ['circulos'],
-    queryFn: () => getCirculos(),
-  })
+  const { data: circulosEncontrao, isLoading: isLoadingCirculos } =
+    useQuery<CirculosResponse>({
+      queryKey: ['circulos'],
+      queryFn: () => getCirculos(),
+    })
 
-  const { data: encontroAtual } = useQuery<CurrentEncontro | null>({
-    queryKey: ['encontro-atual'],
-    queryFn: () => getCurrentEncontro(),
-  })
+  const { data: encontroAtual, isLoading: isLoadingEncontro } =
+    useQuery<CurrentEncontro | null>({
+      queryKey: ['encontro-atual'],
+      queryFn: () => getCurrentEncontro(),
+    })
 
   return (
     <div className="w-ful h-full">
@@ -61,11 +64,39 @@ export default function Temas() {
             </span>
           </div>
         </div>
-        {circulosEncontrao && encontroAtual?.id && (
-          <SortCirculos
-            circulosEncontro={circulosEncontrao}
-            idEncontro={encontroAtual.id}
-          />
+        {isLoadingCirculos || isLoadingEncontro ? (
+          <div className="space-y-8">
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-28 bg-zinc-200" />
+                <Skeleton className="h-5 w-6 rounded-full bg-zinc-200" />
+              </div>
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} className="h-32 w-full bg-zinc-200" />
+                ))}
+              </div>
+            </section>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-36 bg-zinc-200" />
+                <Skeleton className="h-5 w-6 rounded-full bg-zinc-200" />
+              </div>
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-32 w-full bg-zinc-200" />
+                ))}
+              </div>
+            </section>
+          </div>
+        ) : (
+          circulosEncontrao &&
+          encontroAtual?.id && (
+            <SortCirculos
+              circulosEncontro={circulosEncontrao}
+              idEncontro={encontroAtual.id}
+            />
+          )
         )}
       </div>
     </div>
