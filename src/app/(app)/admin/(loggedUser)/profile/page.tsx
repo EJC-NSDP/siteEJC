@@ -9,6 +9,7 @@ import {
   Edit,
   FolderOpen,
   HelpingHand,
+  Speech,
   Theater,
   Users,
 } from 'lucide-react'
@@ -247,6 +248,17 @@ export default function Profile() {
                         label="Pasta Virtual"
                         icon={FolderOpen}
                         link={profileData.pastaURL}
+                      />
+                    )}
+                    {hasRole(profileData.roles, [
+                      'RECEPCAO',
+                      'DIRIGENTE',
+                      'ADMIN',
+                    ]) && (
+                      <ButtonLabel
+                        label="Recepção"
+                        icon={Speech}
+                        link="/admin/recepcao/palestrantes"
                       />
                     )}
                     {hasRole(profileData.roles, [

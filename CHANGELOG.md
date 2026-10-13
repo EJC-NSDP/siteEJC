@@ -1,5 +1,27 @@
 # Changelog
 
+### v5.9.0 — Nova área Recepção e zona "Fora do Rio" na alocação de carros
+> Outubro 2026
+
+**Zona "Fora do Rio" — `/admin/externa/alocacao-carros`**
+- Encontristas com `zona === null` (bairro não mapeado no banco) ou `zona === 'nenhuma'` agora aparecem em um funil "Fora do Rio" no card "Encontristas sem Carro", em vez de ficarem invisíveis na lista
+
+**Nova role `RECEPCAO` e área `/admin/recepcao`**
+- Adicionada role `RECEPCAO` ao enum `Role` do Prisma e ao `roleHierarchy` de permissões
+- Nova área protegida em `/admin/recepcao` com sidebar próprio (padrão idêntico ao Apresentação)
+- Botão de acesso "Recepção" adicionado na página de perfil para quem tiver a role
+
+**Palestrantes — responsabilidade migrada para Recepção**
+- `/admin/recepcao/palestrantes`: formulário completo de adicionar, editar, reordenar e remover palestrantes
+- `/admin/secretaria/palestrantes`: convertido para leitura; exibe tabela com ordem, nome da palestra e palestrante; texto indica que alterações são feitas pela recepção
+
+**Lista de encontristas — `/admin/recepcao/encontristas`**
+- Tabela paginada (25/página) seguindo o padrão da secretaria: filtros por nome e círculo, ordenação por nome e cor
+- Colunas: Nome completo, Círculo, Família Confirmada (badge Sim/Não), Contato 1 (nome + tel), Contato 2 (nome + tel), Tios de Externa (formato "Fulano e Ciclano" usando apelido quando disponível — padrão das cartas)
+- Botão "Exportar lista" gera `.xlsx` com as mesmas colunas menos os telefones dos contatos, acrescido de coluna `✓` para marcação manual
+
+---
+
 ### v5.8.10 — Fix: círculos da apresentação não pré-populavam tios salvos
 > Outubro 2026
 

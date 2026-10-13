@@ -41,35 +41,42 @@ export function ListaConfirmadosSemCarro({
   const encontristasCentro = encontristasWithoutCarro.filter(
     (encontrista) => encontrista.content.zona === 'central',
   )
-  const encontristasNaoDefinido = encontristasWithoutCarro.filter(
-    (encontrista) => encontrista.content.zona === 'nenhuma',
+  const encontristasForaDoRio = encontristasWithoutCarro.filter(
+    (encontrista) =>
+      encontrista.content.zona === null ||
+      encontrista.content.zona === 'nenhuma',
   )
 
   const encontristasPorZona = [
     {
       zona: 'Sul',
+      label: 'Zona Sul',
       bg: 'bg-red-500/20',
       encontristas: encontristasSul,
     },
     {
       zona: 'Norte',
+      label: 'Zona Norte',
       bg: 'bg-emerald-500/20',
       encontristas: encontristasNorte,
     },
     {
       zona: 'Oeste',
+      label: 'Zona Oeste',
       bg: 'bg-yellow-500/20',
       encontristas: encontristasOeste,
     },
     {
       zona: 'Centro',
+      label: 'Zona Centro',
       bg: 'bg-blue-500/20',
       encontristas: encontristasCentro,
     },
     {
-      zona: '?',
+      zona: 'fora_do_rio',
+      label: 'Fora do Rio',
       bg: 'bg-zinc-500/20',
-      encontristas: encontristasNaoDefinido,
+      encontristas: encontristasForaDoRio,
     },
   ]
 
@@ -107,7 +114,7 @@ export function ListaConfirmadosSemCarro({
                     )}
                   >
                     <span className="text-xl font-bold">
-                      Zona {encontristasZona.zona}
+                      {encontristasZona.label}
                     </span>
                     <span>{encontristasZona.encontristas.length}</span>
                   </div>

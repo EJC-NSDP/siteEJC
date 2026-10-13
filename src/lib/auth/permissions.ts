@@ -8,6 +8,7 @@ const roleHierarchy: Record<string, Role[]> = {
   coordenador_area: ['ADMIN', 'DIRIGENTE', 'COORDENADOR'],
   secretaria_area: ['ADMIN', 'DIRIGENTE', 'SECRETARIA'],
   bp_area: ['ADMIN', 'DIRIGENTE', 'BP'],
+  recepcao_area: ['ADMIN', 'DIRIGENTE', 'RECEPCAO'],
 }
 
 export function hasRole(userRoles: Role[], required: Role | Role[]): boolean {
