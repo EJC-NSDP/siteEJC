@@ -167,17 +167,30 @@ async function ajustarRoles() {
     }),
   )
 
-  const [apresentacao, secretaria, externa, recepcao, coordenador, tiosSecretos] =
-    await Promise.all([
-      prisma.pessoa.count({ where: { roles: { has: 'APRESENTACAO' } } }),
-      prisma.pessoa.count({ where: { roles: { has: 'SECRETARIA' } } }),
-      prisma.pessoa.count({ where: { roles: { has: 'EXTERNA' } } }),
-      prisma.pessoa.count({ where: { roles: { has: 'RECEPCAO' } } }),
-      prisma.pessoa.count({ where: { roles: { has: 'COORDENADOR' } } }),
-      prisma.pessoa.count({ where: { roles: { has: 'TIOSECRETO' } } }),
-    ])
+  const [
+    apresentacao,
+    secretaria,
+    externa,
+    recepcao,
+    coordenador,
+    tiosSecretos,
+  ] = await Promise.all([
+    prisma.pessoa.count({ where: { roles: { has: 'APRESENTACAO' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'SECRETARIA' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'EXTERNA' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'RECEPCAO' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'COORDENADOR' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'TIOSECRETO' } } }),
+  ])
 
-  return { apresentacao, secretaria, externa, recepcao, tiosSecretos, coordenador }
+  return {
+    apresentacao,
+    secretaria,
+    externa,
+    recepcao,
+    tiosSecretos,
+    coordenador,
+  }
 }
 
 export async function divulgarMontagem(): Promise<DivulgarMontagem> {
