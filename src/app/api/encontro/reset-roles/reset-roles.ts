@@ -6,6 +6,7 @@ const ROLES_RESETAVEIS = [
   'SECRETARIA',
   'APRESENTACAO',
   'TIOSECRETO',
+  'RECEPCAO',
 ] as const
 type RoleResetavel = (typeof ROLES_RESETAVEIS)[number]
 

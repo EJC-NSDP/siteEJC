@@ -6,7 +6,11 @@ import * as XLSX from 'xlsx'
 
 import type { EncontristaRecepcaoData } from '@/app/api/recepcao/encontristas/get-encontristas-recepcao'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 const HEADERS = [
   '✓',
@@ -46,13 +50,13 @@ export function PrintEncontristasRecepcaoXls() {
 
       // Largura das colunas
       ws['!cols'] = [
-        { wch: 4 },   // ✓
-        { wch: 35 },  // Nome
-        { wch: 12 },  // Círculo
-        { wch: 10 },  // Família
-        { wch: 28 },  // Contato 1
-        { wch: 28 },  // Contato 2
-        { wch: 30 },  // Tios
+        { wch: 4 }, // ✓
+        { wch: 35 }, // Nome
+        { wch: 12 }, // Círculo
+        { wch: 10 }, // Família
+        { wch: 28 }, // Contato 1
+        { wch: 28 }, // Contato 2
+        { wch: 30 }, // Tios
       ]
 
       const wb = XLSX.utils.book_new()

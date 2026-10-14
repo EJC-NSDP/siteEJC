@@ -1,5 +1,15 @@
 # Changelog
 
+### v5.9.1 — Atribuição automática da role RECEPCAO
+> Outubro 2026
+
+**Role `RECEPCAO` — atribuição e remoção automáticas**
+- `divulgarMontagem`: membros da equipe `recepcao` recebem automaticamente a role `RECEPCAO` ao divulgar a montagem (coordenadores também recebem `COORDENADOR`)
+- `resetRoles`: role `RECEPCAO` incluída na lista de roles resetáveis — removida automaticamente ao iniciar novo encontrão
+- Toast de confirmação da divulgação agora exibe o count de pessoas com role Recepção
+
+---
+
 ### v5.9.0 — Nova área Recepção e zona "Fora do Rio" na alocação de carros
 > Outubro 2026
 

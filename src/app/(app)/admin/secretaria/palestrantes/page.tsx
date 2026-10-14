@@ -1,5 +1,5 @@
-import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 import type { Palestra } from '@/app/api/domains/palestras/get-palestra'
+import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 
 import { PalestraReadOnly } from './(pageComponents)/PalestraReadOnly'
 

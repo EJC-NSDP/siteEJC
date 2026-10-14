@@ -68,6 +68,7 @@ export function AlertDialogAplicarContent({
                   <div className="flex flex-col gap-1">
                     <span>Apresentacao: {result.roles.apresentacao}</span>
                     <span>Externa: {result.roles.externa}</span>
+                    <span>Recepção: {result.roles.recepcao}</span>
                     <span>Secretaria: {result.roles.secretaria}</span>
                     <span>Tios Secretos: {result.roles.tiosSecretos}</span>
                     <span>Coordenadores: {result.roles.coordenadores}</span>

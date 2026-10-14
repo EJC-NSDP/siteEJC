@@ -96,7 +96,11 @@ export function EncontristasRecepcaoTableFilters() {
               <Search className="mr-2 h-4 w-4" />
               Buscar
             </Button>
-            <Button onClick={handleClearFilters} type="button" variant="destructive">
+            <Button
+              onClick={handleClearFilters}
+              type="button"
+              variant="destructive"
+            >
               <SearchX className="mr-2 h-4 w-4" />
               Limpar
             </Button>

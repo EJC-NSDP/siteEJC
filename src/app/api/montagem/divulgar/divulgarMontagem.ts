@@ -11,6 +11,7 @@ export interface DivulgarMontagem {
     apresentacao: number
     secretaria: number
     externa: number
+    recepcao: number
     tiosSecretos: number
     coordenadores: number
   }
@@ -22,6 +23,7 @@ const ROLES_AJUSTAVEIS = [
   'SECRETARIA',
   'APRESENTACAO',
   'TIOSECRETO',
+  'RECEPCAO',
 ] as const
 type RoleAjustavel = (typeof ROLES_AJUSTAVEIS)[number]
 
@@ -144,6 +146,10 @@ async function ajustarRoles() {
         novosRolesAjustaveis = ['SECRETARIA', 'COORDENADOR']
       } else if (equipe.idEquipe === 'externa') {
         novosRolesAjustaveis = ['EXTERNA', 'COORDENADOR']
+      } else if (equipe.idEquipe === 'recepcao') {
+        novosRolesAjustaveis = equipe.coordenou
+          ? ['RECEPCAO', 'COORDENADOR']
+          : ['RECEPCAO']
       } else if (equipe.idEquipe === 'tio_secreto') {
         novosRolesAjustaveis = ['TIOSECRETO']
       } else if (equipe.coordenou) {
@@ -161,16 +167,17 @@ async function ajustarRoles() {
     }),
   )
 
-  const [apresentacao, secretaria, externa, coordenador, tiosSecretos] =
+  const [apresentacao, secretaria, externa, recepcao, coordenador, tiosSecretos] =
     await Promise.all([
       prisma.pessoa.count({ where: { roles: { has: 'APRESENTACAO' } } }),
       prisma.pessoa.count({ where: { roles: { has: 'SECRETARIA' } } }),
       prisma.pessoa.count({ where: { roles: { has: 'EXTERNA' } } }),
+      prisma.pessoa.count({ where: { roles: { has: 'RECEPCAO' } } }),
       prisma.pessoa.count({ where: { roles: { has: 'COORDENADOR' } } }),
       prisma.pessoa.count({ where: { roles: { has: 'TIOSECRETO' } } }),
     ])
 
-  return { apresentacao, secretaria, externa, tiosSecretos, coordenador }
+  return { apresentacao, secretaria, externa, recepcao, tiosSecretos, coordenador }
 }
 
 export async function divulgarMontagem(): Promise<DivulgarMontagem> {
@@ -186,6 +193,7 @@ export async function divulgarMontagem(): Promise<DivulgarMontagem> {
       apresentacao: resultadoRoles?.apresentacao || 0,
       secretaria: resultadoRoles?.secretaria || 0,
       externa: resultadoRoles?.externa || 0,
+      recepcao: resultadoRoles?.recepcao || 0,
       tiosSecretos: resultadoRoles?.tiosSecretos || 0,
       coordenadores: resultadoRoles?.coordenador || 0,
     },

@@ -71,7 +71,13 @@ export function EncontristasRecepcaoTable() {
   const { data: result, isLoading } = useQuery<EncontristaRecepcaoSummary>({
     queryKey: [
       'recepcao-encontristas',
-      { pageIndex, encontreiroName, corCirculo, orderByField, orderByDirection },
+      {
+        pageIndex,
+        encontreiroName,
+        corCirculo,
+        orderByField,
+        orderByDirection,
+      },
     ],
     queryFn: () =>
       fetchEncontristas({

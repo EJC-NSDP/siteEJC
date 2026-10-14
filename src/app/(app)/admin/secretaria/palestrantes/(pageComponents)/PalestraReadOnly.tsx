@@ -1,5 +1,5 @@
-import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 import type { Palestra } from '@/app/api/domains/palestras/get-palestra'
+import type { PalestraEncontro } from '@/app/api/encontro/atual/[ignorar]/palestrantes/get-palestrantes'
 import { Card } from '@/components/ui/card'
 
 interface PalestraReadOnlyProps {
@@ -7,7 +7,10 @@ interface PalestraReadOnlyProps {
   dominios: Palestra[]
 }
 
-export function PalestraReadOnly({ palestras, dominios }: PalestraReadOnlyProps) {
+export function PalestraReadOnly({
+  palestras,
+  dominios,
+}: PalestraReadOnlyProps) {
   if (palestras.length === 0) {
     return (
       <Card className="flex w-full items-center justify-center gap-4 p-4 text-center text-zinc-500">
