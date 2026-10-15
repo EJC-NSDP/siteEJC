@@ -1,5 +1,13 @@
 # Changelog
 
+### v5.9.3 — Exibição de cidade e estado para encontristas fora do Rio
+> Outubro 2026
+
+**Alocação de carros — bairro substituído por cidade (UF) fora do Rio**
+- `getConfirmadosCard`: encontristas com cidade diferente de "Rio de Janeiro" exibem `Cidade (UF)` no campo bairro (ex: "Niterói (RJ)") em vez do nome do bairro, que não tem contexto sem a cidade
+
+---
+
 ### v5.9.2 — Zona "Fora do Rio" por cidade
 > Outubro 2026
 

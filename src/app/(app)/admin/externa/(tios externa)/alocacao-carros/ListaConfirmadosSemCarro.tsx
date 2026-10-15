@@ -44,7 +44,8 @@ export function ListaConfirmadosSemCarro({
   const encontristasForaDoRio = encontristasWithoutCarro.filter(
     (encontrista) =>
       encontrista.content.zona === null ||
-      encontrista.content.zona === 'nenhuma',
+      encontrista.content.zona === 'nenhuma' ||
+      encontrista.content.zona === 'fora do rio',
   )
 
   const encontristasPorZona = [

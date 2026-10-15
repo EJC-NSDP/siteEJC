@@ -54,6 +54,7 @@ export async function getConfirmadosCard() {
               bairro: true,
               rua: true,
               cidade: true,
+              estado: true,
             },
           },
           endNumEncontro: true,
@@ -88,9 +89,11 @@ export async function getConfirmadosCard() {
     encontristas.map(async (encontrista) => {
       const endereco = encontrista.encontrista?.enderecoEncontro
       let zona: string | null = null
+      let bairro = endereco?.bairro || 'N/A'
       if (endereco) {
         if (endereco.cidade.trim().toLowerCase() !== 'rio de janeiro') {
           zona = 'fora do rio'
+          bairro = `${endereco.cidade} (${endereco.estado})`
         } else {
           const fetchedZona: BairroResponse | null = await getZona(
             endereco.bairro,
@@ -103,7 +106,7 @@ export async function getConfirmadosCard() {
         id: encontrista.id,
         nome: `${encontrista.nome} ${encontrista.sobrenome}`,
         dataNasc: encontrista.encontreiro!.dataNasc,
-        bairro: encontrista.encontrista?.enderecoEncontro?.bairro || 'N/A',
+        bairro,
         zona,
         rua: encontrista.encontrista?.enderecoEncontro?.rua || 'N/A',
         endNumero: encontrista.encontrista!.endNumEncontro,
