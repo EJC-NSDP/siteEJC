@@ -53,6 +53,7 @@ export async function getConfirmadosCard() {
             select: {
               bairro: true,
               rua: true,
+              cidade: true,
             },
           },
           endNumEncontro: true,
@@ -85,17 +86,25 @@ export async function getConfirmadosCard() {
 
   const response: CardEncontristaResponse[] = await Promise.all(
     encontristas.map(async (encontrista) => {
-      const fetchedZona: BairroResponse | null =
-        encontrista.encontrista && encontrista.encontrista.enderecoEncontro
-          ? await getZona(encontrista.encontrista.enderecoEncontro.bairro)
-          : null
+      const endereco = encontrista.encontrista?.enderecoEncontro
+      let zona: string | null = null
+      if (endereco) {
+        if (endereco.cidade.trim().toLowerCase() !== 'rio de janeiro') {
+          zona = 'fora do rio'
+        } else {
+          const fetchedZona: BairroResponse | null = await getZona(
+            endereco.bairro,
+          )
+          zona = fetchedZona ? fetchedZona.zona : null
+        }
+      }
 
       return {
         id: encontrista.id,
         nome: `${encontrista.nome} ${encontrista.sobrenome}`,
         dataNasc: encontrista.encontreiro!.dataNasc,
         bairro: encontrista.encontrista?.enderecoEncontro?.bairro || 'N/A',
-        zona: fetchedZona ? fetchedZona.zona : null,
+        zona,
         rua: encontrista.encontrista?.enderecoEncontro?.rua || 'N/A',
         endNumero: encontrista.encontrista!.endNumEncontro,
         endComplemento: encontrista.encontrista!.endComplementoEncontro,

@@ -1,5 +1,13 @@
 # Changelog
 
+### v5.9.2 — Zona "Fora do Rio" por cidade
+> Outubro 2026
+
+**Alocação de carros — detecção por cidade**
+- `getConfirmadosCard`: encontristas com cidade diferente de "Rio de Janeiro" recebem `zona = 'fora do rio'` diretamente, sem consultar o banco de bairros — evitava que bairros homônimos de outras cidades fossem alocados na zona errada
+
+---
+
 ### v5.9.1 — Atribuição automática da role RECEPCAO
 > Outubro 2026
 
