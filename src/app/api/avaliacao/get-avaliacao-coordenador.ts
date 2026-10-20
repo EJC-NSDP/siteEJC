@@ -1,8 +1,13 @@
 import { prisma } from '@/lib/prisma'
 
 const EQUIPES_EXCLUIDAS = [
-  'bom_pastor', 'dirigente', 'nao_participara',
-  'palestrante', 'pastoral', 'tio_externa', '0',
+  'bom_pastor',
+  'dirigente',
+  'nao_participara',
+  'palestrante',
+  'pastoral',
+  'tio_externa',
+  '0',
 ]
 
 export async function getEncontroParaAvaliacao() {
@@ -20,13 +25,21 @@ export async function getEquipesParaIndicacao() {
   })
 }
 
-export async function getAvaliacaoExistente(idEncontro: string, idAutor: string) {
+export async function getAvaliacaoExistente(
+  idEncontro: string,
+  idAutor: string,
+) {
   return prisma.avaliacaoEncontro.findUnique({
     where: { idEncontro_idAutor: { idEncontro, idAutor } },
     select: {
       createdAt: true,
       respostas: {
-        select: { idPergunta: true, resposta: true, fileUrl: true, fileName: true },
+        select: {
+          idPergunta: true,
+          resposta: true,
+          fileUrl: true,
+          fileName: true,
+        },
       },
       indicacoes: {
         select: {
@@ -35,7 +48,14 @@ export async function getAvaliacaoExistente(idEncontro: string, idAutor: string)
           avaliacao: true,
           encontreiro: {
             select: {
-              pessoa: { select: { nome: true, sobrenome: true, apelido: true, avatarUrl: true } },
+              pessoa: {
+                select: {
+                  nome: true,
+                  sobrenome: true,
+                  apelido: true,
+                  avatarUrl: true,
+                },
+              },
             },
           },
         },

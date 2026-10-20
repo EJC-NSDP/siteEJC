@@ -11,6 +11,7 @@ import {
   CollapsibleTrigger,
 } from '../../ui/collapsible'
 import { FooterNavigation } from '../FooterNavigation'
+
 import { MainNavigation } from './MainNavigation'
 
 export function CoordenadorSidebar() {

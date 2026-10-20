@@ -21,7 +21,10 @@ interface EncontroSelectorProps {
   encontroSelecionadoId: string
 }
 
-export function EncontroSelector({ encontros, encontroSelecionadoId }: EncontroSelectorProps) {
+export function EncontroSelector({
+  encontros,
+  encontroSelecionadoId,
+}: EncontroSelectorProps) {
   const router = useRouter()
 
   return (

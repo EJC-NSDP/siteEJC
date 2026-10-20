@@ -1,11 +1,11 @@
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
 
-import { authOptions } from '@/lib/auth/auth-options'
-import { Button } from '@/components/ui/button'
 import { NovaPerguntaForm } from '@/components/Avaliacao/NovaPerguntaForm'
+import { Button } from '@/components/ui/button'
+import { authOptions } from '@/lib/auth/auth-options'
 
 export default async function NovaPerguntaPage() {
   const session = await getServerSession(authOptions)

@@ -1,6 +1,5 @@
 'use client'
 
-import { useRef, useState } from 'react'
 import {
   CheckCircle2,
   Lightbulb,
@@ -13,16 +12,18 @@ import {
   Users,
   X,
 } from 'lucide-react'
-import { toast } from 'sonner'
+import { useRef, useState } from 'react'
 import type { ElementType } from 'react'
+import { toast } from 'sonner'
 
-import { api } from '@/lib/axios'
 import { CardForm } from '@/components/Form/CardForm'
 import { Nav } from '@/components/Nav/Nav'
 import { NavItem } from '@/components/Nav/NavItem'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
+import { api } from '@/lib/axios'
+
 import { IndicacaoInput, type IndicacaoItem } from './IndicacaoInput'
 
 type CategoriaAvaliacao =
@@ -75,13 +76,16 @@ interface AvaliacaoFormProps {
   indicacoesIniciais?: IndicacaoInicial[]
 }
 
-const CATEGORIA_META: Record<CategoriaAvaliacao, { titulo: string; icon: ElementType }> = {
-  SUA_EQUIPE:    { titulo: 'Sua Equipe',     icon: Users },
-  CANDIDATOS:    { titulo: 'Candidatos',     icon: UserCheck },
-  O_ENCONTRAO:   { titulo: 'O Encontrão',    icon: Star },
-  PARA_O_FUTURO: { titulo: 'Para o Futuro',  icon: Lightbulb },
-  DIRIGENCIA:    { titulo: 'Dirigência',     icon: MessageCircle },
-  OUTROS:        { titulo: 'Outros',         icon: ThumbsUp },
+const CATEGORIA_META: Record<
+  CategoriaAvaliacao,
+  { titulo: string; icon: ElementType }
+> = {
+  SUA_EQUIPE: { titulo: 'Sua Equipe', icon: Users },
+  CANDIDATOS: { titulo: 'Candidatos', icon: UserCheck },
+  O_ENCONTRAO: { titulo: 'O Encontrão', icon: Star },
+  PARA_O_FUTURO: { titulo: 'Para o Futuro', icon: Lightbulb },
+  DIRIGENCIA: { titulo: 'Dirigência', icon: MessageCircle },
+  OUTROS: { titulo: 'Outros', icon: ThumbsUp },
 }
 
 const CATEGORIA_ORDER: CategoriaAvaliacao[] = [
@@ -125,32 +129,42 @@ export function AvaliacaoForm({
     })),
   )
 
-  const [arquivo, setArquivo] = useState<{ file: File; perguntaId: string } | null>(null)
+  const [arquivo, setArquivo] = useState<{
+    file: File
+    perguntaId: string
+  } | null>(null)
   const [urlParaDeletar, setUrlParaDeletar] = useState<string | null>(null)
-  const [arquivoExistente, setArquivoExistente] = useState<{ url: string; nome: string } | null>(() => {
+  const [arquivoExistente, setArquivoExistente] = useState<{
+    url: string
+    nome: string
+  } | null>(() => {
     if (!perguntaArquivo) return null
-    const found = respostasIniciais?.find((r) => r.idPergunta === perguntaArquivo.id && r.fileUrl)
-    return found ? { url: found.fileUrl!, nome: found.fileName ?? 'arquivo' } : null
+    const found = respostasIniciais?.find(
+      (r) => r.idPergunta === perguntaArquivo.id && r.fileUrl,
+    )
+    return found
+      ? { url: found.fileUrl!, nome: found.fileName ?? 'arquivo' }
+      : null
   })
 
   const [submitting, setSubmitting] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const categoriasAtivas = CATEGORIA_ORDER
-    .map((cat) => ({
-      cat,
-      ...CATEGORIA_META[cat],
-      perguntas: perguntas
-        .filter((p) => p.categoria === cat)
-        .sort((a, b) => a.ordem - b.ordem),
-    }))
-    .filter((c) => c.perguntas.length > 0)
+  const categoriasAtivas = CATEGORIA_ORDER.map((cat) => ({
+    cat,
+    ...CATEGORIA_META[cat],
+    perguntas: perguntas
+      .filter((p) => p.categoria === cat)
+      .sort((a, b) => a.ordem - b.ordem),
+  })).filter((c) => c.perguntas.length > 0)
 
   function setResposta(id: string, valor: string) {
     setRespostas((prev) => ({ ...prev, [id]: valor }))
   }
 
-  async function uploadArquivo(file: File): Promise<{ url: string; nome: string }> {
+  async function uploadArquivo(
+    file: File,
+  ): Promise<{ url: string; nome: string }> {
     const timestamp = Math.floor(Date.now() / 1000)
     const publicId = `${slugAutor}-${equipeAutor}-${numeroEncontro}`
     const signRes = await api.post('cloudinary/sign-upload', {
@@ -186,7 +200,11 @@ export function AvaliacaoForm({
       return
     }
 
-    if (indicacoes.some((i) => !i.idEncontreiro || !i.equipeIndicada || !i.avaliacao.trim())) {
+    if (
+      indicacoes.some(
+        (i) => !i.idEncontreiro || !i.equipeIndicada || !i.avaliacao.trim(),
+      )
+    ) {
       toast.error('Complete todas as indicações ou remova as incompletas.')
       return
     }
@@ -205,7 +223,11 @@ export function AvaliacaoForm({
       if (perguntaArquivo) {
         if (arquivo) {
           const { url, nome } = await uploadArquivo(arquivo.file)
-          respostasPayload.push({ idPergunta: perguntaArquivo.id, fileUrl: url, fileName: nome })
+          respostasPayload.push({
+            idPergunta: perguntaArquivo.id,
+            fileUrl: url,
+            fileName: nome,
+          })
         } else if (urlParaDeletar) {
           await api.post('cloudinary/delete', { fileUrl: urlParaDeletar })
           respostasPayload.push({ idPergunta: perguntaArquivo.id })
@@ -230,7 +252,11 @@ export function AvaliacaoForm({
         })),
       })
 
-      toast.success(jaEnviouEm ? 'Avaliação atualizada com sucesso!' : 'Avaliação enviada com sucesso!')
+      toast.success(
+        jaEnviouEm
+          ? 'Avaliação atualizada com sucesso!'
+          : 'Avaliação enviada com sucesso!',
+      )
       window.location.reload()
     } catch {
       toast.error('Erro ao enviar avaliação. Tente novamente.')
@@ -242,7 +268,9 @@ export function AvaliacaoForm({
   function renderPergunta(pergunta: Pergunta) {
     return (
       <div key={pergunta.id} className="flex flex-col gap-2 pt-4 first:pt-0">
-        <p className="text-base font-semibold text-zinc-700">{pergunta.texto}</p>
+        <p className="text-base font-semibold text-zinc-700">
+          {pergunta.texto}
+        </p>
         {pergunta.descricao && (
           <p className="text-sm text-zinc-500">{pergunta.descricao}</p>
         )}
@@ -253,13 +281,17 @@ export function AvaliacaoForm({
             placeholder="Sua resposta..."
             value={respostas[pergunta.id] ?? ''}
             onChange={(e) => setResposta(pergunta.id, e.target.value)}
-            className="resize-y mt-1"
+            className="mt-1 resize-y"
           />
         )}
 
         {pergunta.tipo === 'INDICACOES' && (
           <div className="mt-1">
-            <IndicacaoInput equipes={equipes} value={indicacoes} onChange={setIndicacoes} />
+            <IndicacaoInput
+              equipes={equipes}
+              value={indicacoes}
+              onChange={setIndicacoes}
+            />
           </div>
         )}
 
@@ -271,7 +303,9 @@ export function AvaliacaoForm({
               onClick={() => fileInputRef.current?.click()}
             >
               <Paperclip className="mr-2 h-4 w-4" />
-              {arquivo || arquivoExistente ? 'Trocar arquivo' : 'Selecionar arquivo'}
+              {arquivo || arquivoExistente
+                ? 'Trocar arquivo'
+                : 'Selecionar arquivo'}
             </Button>
             {arquivo ? (
               <div className="flex items-center gap-2 text-sm text-zinc-600">
@@ -297,9 +331,9 @@ export function AvaliacaoForm({
                 <button
                   type="button"
                   onClick={() => {
-                      setUrlParaDeletar(arquivoExistente.url)
-                      setArquivoExistente(null)
-                    }}
+                    setUrlParaDeletar(arquivoExistente.url)
+                    setArquivoExistente(null)
+                  }}
                   className="text-red-500 hover:text-red-700"
                 >
                   <X className="h-4 w-4" />
@@ -338,7 +372,12 @@ export function AvaliacaoForm({
       <div className="grid grid-cols-12 gap-8">
         <Nav>
           {categoriasAtivas.map(({ cat, titulo, icon: Icon }) => (
-            <NavItem key={cat} title={titulo} icon={Icon} link={`#cat-${cat}`} />
+            <NavItem
+              key={cat}
+              title={titulo}
+              icon={Icon}
+              link={`#cat-${cat}`}
+            />
           ))}
           <NavItem title="Enviar" icon={Send} link="#enviar-section" />
         </Nav>
@@ -353,19 +392,31 @@ export function AvaliacaoForm({
               </CardForm>
             ))}
 
-            <Card id="enviar-section" className="w-full px-3 pt-8 text-zinc-700">
+            <Card
+              id="enviar-section"
+              className="w-full px-3 pt-8 text-zinc-700"
+            >
               <CardContent className="flex w-full flex-col gap-3">
                 <span className="text-2xl font-bold">
                   {jaEnviouEm ? 'Atualizar Avaliação' : 'Enviar Avaliação'}
                 </span>
                 <p className="text-sm text-zinc-500">
-                  Suas respostas são confidenciais e ficam registradas somente para a dirigência.
+                  Suas respostas são confidenciais e ficam registradas somente
+                  para a dirigência.
                 </p>
                 <div className="flex items-center gap-5 py-5">
-                  <Button type="submit" disabled={submitting} className="h-10 w-40">
+                  <Button
+                    type="submit"
+                    disabled={submitting}
+                    className="h-10 w-40"
+                  >
                     {submitting
-                      ? jaEnviouEm ? 'Atualizando...' : 'Enviando...'
-                      : jaEnviouEm ? 'Atualizar' : 'Enviar'}
+                      ? jaEnviouEm
+                        ? 'Atualizando...'
+                        : 'Enviando...'
+                      : jaEnviouEm
+                        ? 'Atualizar'
+                        : 'Enviar'}
                   </Button>
                 </div>
               </CardContent>

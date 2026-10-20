@@ -8,7 +8,8 @@ const DIAS_APOS_INICIO = 3
 
 export async function GET() {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const encontro = await prisma.encontro.findFirst({
     orderBy: { numeroEncontro: 'desc' },
@@ -16,7 +17,10 @@ export async function GET() {
   })
 
   if (!encontro) {
-    return NextResponse.json({ disponivel: false, motivo: 'Nenhum encontro configurado.' })
+    return NextResponse.json({
+      disponivel: false,
+      motivo: 'Nenhum encontro configurado.',
+    })
   }
 
   const liberadoEm = new Date(encontro.dataInicio)
@@ -43,6 +47,8 @@ export async function GET() {
   return NextResponse.json({
     disponivel: true,
     encontro: { id: encontro.id, numeroEncontro: encontro.numeroEncontro },
-    jaEnviou: jaEnviou ? { id: jaEnviou.id, createdAt: jaEnviou.createdAt } : null,
+    jaEnviou: jaEnviou
+      ? { id: jaEnviou.id, createdAt: jaEnviou.createdAt }
+      : null,
   })
 }

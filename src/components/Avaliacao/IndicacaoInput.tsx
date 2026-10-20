@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { Plus, Trash2, User } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
-import { api } from '@/lib/axios'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,10 +14,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { api } from '@/lib/axios'
 
 interface EncontreiroResult {
   idPessoa: string
-  pessoa: { nome: string; sobrenome: string; apelido: string | null; avatarUrl: string | null }
+  pessoa: {
+    nome: string
+    sobrenome: string
+    apelido: string | null
+    avatarUrl: string | null
+  }
 }
 
 interface Equipe {
@@ -41,7 +46,11 @@ interface IndicacaoInputProps {
   onChange: (indicacoes: IndicacaoItem[]) => void
 }
 
-export function IndicacaoInput({ equipes, value, onChange }: IndicacaoInputProps) {
+export function IndicacaoInput({
+  equipes,
+  value,
+  onChange,
+}: IndicacaoInputProps) {
   return (
     <div className="flex flex-col gap-4">
       {value.map((item) => (
@@ -98,11 +107,16 @@ function IndicacaoRow({
 
   useEffect(() => {
     if (item.idEncontreiro) return
-    if (query.length < 2) { setResults([]); return }
+    if (query.length < 2) {
+      setResults([])
+      return
+    }
 
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(async () => {
-      const res = await api.get<EncontreiroResult[]>(`encontreiro/search?q=${encodeURIComponent(query)}`)
+      const res = await api.get<EncontreiroResult[]>(
+        `encontreiro/search?q=${encodeURIComponent(query)}`,
+      )
       setResults(res.data)
       setOpen(true)
     }, 300)
@@ -110,7 +124,12 @@ function IndicacaoRow({
 
   function selectEncontreiro(e: EncontreiroResult) {
     const nome = `${e.pessoa.nome} ${e.pessoa.sobrenome}${e.pessoa.apelido ? ` (${e.pessoa.apelido})` : ''}`
-    onChange({ ...item, idEncontreiro: e.idPessoa, nomeDisplay: nome, avatarUrl: e.pessoa.avatarUrl })
+    onChange({
+      ...item,
+      idEncontreiro: e.idPessoa,
+      nomeDisplay: nome,
+      avatarUrl: e.pessoa.avatarUrl,
+    })
     setQuery(nome)
     setResults([])
     setOpen(false)
@@ -131,7 +150,9 @@ function IndicacaoRow({
             {item.idEncontreiro && (
               <Avatar className="h-8 w-8 shrink-0">
                 <AvatarImage src={item.avatarUrl ?? ''} />
-                <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
+                <AvatarFallback>
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
               </Avatar>
             )}
             <Input
@@ -159,7 +180,9 @@ function IndicacaoRow({
                   <span className="text-sm">
                     {e.pessoa.nome} {e.pessoa.sobrenome}
                     {e.pessoa.apelido && (
-                      <span className="ml-1 text-zinc-400">({e.pessoa.apelido})</span>
+                      <span className="ml-1 text-zinc-400">
+                        ({e.pessoa.apelido})
+                      </span>
                     )}
                   </span>
                 </li>
@@ -185,7 +208,13 @@ function IndicacaoRow({
           </SelectContent>
         </Select>
 
-        <Button type="button" variant="ghost" size="icon" onClick={onRemove} className="shrink-0">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={onRemove}
+          className="shrink-0"
+        >
           <Trash2 className="h-4 w-4 text-red-500" />
         </Button>
       </div>

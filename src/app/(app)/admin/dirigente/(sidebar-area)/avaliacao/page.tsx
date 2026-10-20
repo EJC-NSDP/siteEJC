@@ -1,12 +1,15 @@
+import { Settings } from 'lucide-react'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
-import Link from 'next/link'
-import { Settings } from 'lucide-react'
 
-import { authOptions } from '@/lib/auth/auth-options'
-import { getUltimoEncontro, getAvaliacoesByEncontro } from '@/app/api/avaliacao/get-avaliacoes-dirigente'
-import { Button } from '@/components/ui/button'
+import {
+  getUltimoEncontro,
+  getAvaliacoesByEncontro,
+} from '@/app/api/avaliacao/get-avaliacoes-dirigente'
 import { AvaliacaoList } from '@/components/Avaliacao/AvaliacaoList'
+import { Button } from '@/components/ui/button'
+import { authOptions } from '@/lib/auth/auth-options'
 
 export default async function DirigenteAvaliacaoPage() {
   const session = await getServerSession(authOptions)
@@ -33,7 +36,8 @@ export default async function DirigenteAvaliacaoPage() {
             Avaliações — {encontro.numeroEncontro}º EJC
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
-            {avaliacoes.length} resposta{avaliacoes.length !== 1 ? 's' : ''} recebida
+            {avaliacoes.length} resposta{avaliacoes.length !== 1 ? 's' : ''}{' '}
+            recebida
             {avaliacoes.length !== 1 ? 's' : ''}
           </p>
         </div>

@@ -50,7 +50,9 @@ export default function Profile() {
     queryKey: ['currentEnconto'],
   })
 
-  const avaliacaoDisponivel = currentEncontro ? isAvaliacaoDisponivel(currentEncontro.dataInicio) : false
+  const avaliacaoDisponivel = currentEncontro
+    ? isAvaliacaoDisponivel(currentEncontro.dataInicio)
+    : false
 
   const router = useRouter()
 
@@ -232,13 +234,18 @@ export default function Profile() {
                         link="/admin/externa"
                       />
                     )}
-                    {hasRole(profileData.roles, ['COORDENADOR', 'ADMIN', 'DIRIGENTE']) && avaliacaoDisponivel && (
-                      <ButtonLabel
-                        label="Avaliação"
-                        icon={Star}
-                        link="/admin/coordenador/avaliacao"
-                      />
-                    )}
+                    {hasRole(profileData.roles, [
+                      'COORDENADOR',
+                      'ADMIN',
+                      'DIRIGENTE',
+                    ]) &&
+                      avaliacaoDisponivel && (
+                        <ButtonLabel
+                          label="Avaliação"
+                          icon={Star}
+                          link="/admin/coordenador/avaliacao"
+                        />
+                      )}
                     {profileData && (
                       <ButtonLabel
                         label="Ficha de Cadastro"

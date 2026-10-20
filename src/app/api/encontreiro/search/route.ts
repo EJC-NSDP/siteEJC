@@ -6,7 +6,8 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const q = searchParams.get('q')?.trim() ?? ''

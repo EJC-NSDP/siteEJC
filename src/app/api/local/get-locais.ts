@@ -1,19 +1,6 @@
 import { prisma } from '@/lib/prisma'
 
-export interface LocalOption {
-  id: string
-  nomeLocal: string
-  numeroLocal: string
-  enderecoCep: string
-  endereco?: {
-    rua: string
-    bairro: string
-    cidade: string
-    estado: string
-  }
-}
-
-export async function getLocais(): Promise<LocalOption[]> {
+export async function getLocais() {
   return prisma.local.findMany({
     select: {
       id: true,

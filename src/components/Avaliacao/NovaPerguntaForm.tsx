@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { api } from '@/lib/axios'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -17,6 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { api } from '@/lib/axios'
 
 type Categoria =
   | 'SUA_EQUIPE'
@@ -84,9 +84,11 @@ export function NovaPerguntaForm() {
               value={form.chave}
               onChange={(e) => set('chave', e.target.value)}
               placeholder="ex: avaliacao_geral"
-              className="text-sm font-mono"
+              className="font-mono text-sm"
             />
-            <p className="text-xs text-zinc-400">Identificador interno, sem espaços, único no sistema.</p>
+            <p className="text-xs text-zinc-400">
+              Identificador interno, sem espaços, único no sistema.
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -101,7 +103,9 @@ export function NovaPerguntaForm() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <Label className="text-xs text-zinc-500">Descrição / subtexto</Label>
+            <Label className="text-xs text-zinc-500">
+              Descrição / subtexto
+            </Label>
             <Input
               value={form.descricao}
               onChange={(e) => set('descricao', e.target.value)}
@@ -112,13 +116,18 @@ export function NovaPerguntaForm() {
 
           <div className="flex flex-col gap-1">
             <Label className="text-xs text-zinc-500">Categoria</Label>
-            <Select value={form.categoria} onValueChange={(v) => set('categoria', v)}>
+            <Select
+              value={form.categoria}
+              onValueChange={(v) => set('categoria', v)}
+            >
               <SelectTrigger className="text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {CATEGORIAS.map((c) => (
-                  <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+                  <SelectItem key={c.value} value={c.value}>
+                    {c.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>

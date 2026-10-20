@@ -1,10 +1,7 @@
 import { Clock } from 'lucide-react'
-import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { isAvaliacaoDisponivel } from '@/utils/avaliacao'
+import { getServerSession } from 'next-auth'
 
-import { AvaliacaoForm } from '@/components/Avaliacao/AvaliacaoForm'
-import { authOptions } from '@/lib/auth/auth-options'
 import {
   getEncontroParaAvaliacao,
   getEquipesParaIndicacao,
@@ -12,7 +9,10 @@ import {
   getAutorAvaliacao,
 } from '@/app/api/avaliacao/get-avaliacao-coordenador'
 import { getPerguntasAtivas } from '@/app/api/avaliacao/get-perguntas'
+import { AvaliacaoForm } from '@/components/Avaliacao/AvaliacaoForm'
 import { Card, CardContent } from '@/components/ui/card'
+import { authOptions } from '@/lib/auth/auth-options'
+import { isAvaliacaoDisponivel } from '@/utils/avaliacao'
 
 export default async function CoordenadorAvaliacaoPage() {
   const session = await getServerSession(authOptions)
@@ -26,7 +26,7 @@ export default async function CoordenadorAvaliacaoPage() {
 
   if (!encontro) {
     return (
-      <div className="flex flex-col items-center gap-4 py-4 w-full">
+      <div className="flex w-full flex-col items-center gap-4 py-4">
         <span className="text-4xl font-bold text-white">Avaliação</span>
         <Card className="lg:w-card w-11/12">
           <CardContent className="pt-6 text-zinc-600">
@@ -43,7 +43,7 @@ export default async function CoordenadorAvaliacaoPage() {
 
   if (!disponivel) {
     return (
-      <div className="flex flex-col items-center gap-4 py-4 w-full">
+      <div className="flex w-full flex-col items-center gap-4 py-4">
         <span className="text-4xl font-bold text-white">
           Avaliação — {encontro.numeroEncontro}º EJC
         </span>
@@ -66,7 +66,7 @@ export default async function CoordenadorAvaliacaoPage() {
   ])
 
   return (
-    <div className="flex flex-col items-center gap-4 py-4 w-full">
+    <div className="flex w-full flex-col items-center gap-4 py-4">
       <span className="text-4xl font-bold text-white">
         Avaliação — {encontro.numeroEncontro}º EJC
       </span>
@@ -79,17 +79,25 @@ export default async function CoordenadorAvaliacaoPage() {
         perguntas={perguntas.map((p) => ({
           ...p,
           tipo: p.tipo as 'TEXTO_LONGO' | 'INDICACOES' | 'ARQUIVO',
-          categoria: p.categoria as 'SUA_EQUIPE' | 'CANDIDATOS' | 'O_ENCONTRAO' | 'PARA_O_FUTURO' | 'DIRIGENCIA' | 'OUTROS',
+          categoria: p.categoria as
+            | 'SUA_EQUIPE'
+            | 'CANDIDATOS'
+            | 'O_ENCONTRAO'
+            | 'PARA_O_FUTURO'
+            | 'DIRIGENCIA'
+            | 'OUTROS',
         }))}
         equipes={equipes}
         respostasIniciais={jaEnviou?.respostas ?? []}
-        indicacoesIniciais={jaEnviou?.indicacoes.map((i) => ({
-          idEncontreiro: i.idEncontreiro,
-          equipeIndicada: i.equipeIndicada,
-          avaliacao: i.avaliacao,
-          nomeDisplay: `${i.encontreiro.pessoa.nome} ${i.encontreiro.pessoa.sobrenome}${i.encontreiro.pessoa.apelido ? ` (${i.encontreiro.pessoa.apelido})` : ''}`,
-          avatarUrl: i.encontreiro.pessoa.avatarUrl,
-        })) ?? []}
+        indicacoesIniciais={
+          jaEnviou?.indicacoes.map((i) => ({
+            idEncontreiro: i.idEncontreiro,
+            equipeIndicada: i.equipeIndicada,
+            avaliacao: i.avaliacao,
+            nomeDisplay: `${i.encontreiro.pessoa.nome} ${i.encontreiro.pessoa.sobrenome}${i.encontreiro.pessoa.apelido ? ` (${i.encontreiro.pessoa.apelido})` : ''}`,
+            avatarUrl: i.encontreiro.pessoa.avatarUrl,
+          })) ?? []
+        }
       />
     </div>
   )

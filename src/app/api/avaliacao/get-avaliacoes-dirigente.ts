@@ -13,17 +13,25 @@ export async function getAvaliacoesByEncontro(idEncontro: string) {
     include: {
       autor: {
         select: {
-          id: true, nome: true, sobrenome: true, apelido: true, avatarUrl: true,
+          id: true,
+          nome: true,
+          sobrenome: true,
+          apelido: true,
+          avatarUrl: true,
           encontreiro: {
             select: {
-              equipeMontagem: { select: { equipe: { select: { equipeLabel: true } } } },
+              equipeMontagem: {
+                select: { equipe: { select: { equipeLabel: true } } },
+              },
             },
           },
         },
       },
       respostas: {
         include: {
-          pergunta: { select: { chave: true, texto: true, tipo: true, ordem: true } },
+          pergunta: {
+            select: { chave: true, texto: true, tipo: true, ordem: true },
+          },
         },
         orderBy: { pergunta: { ordem: 'asc' } },
       },
@@ -32,7 +40,14 @@ export async function getAvaliacoesByEncontro(idEncontro: string) {
           encontreiro: {
             select: {
               idPessoa: true,
-              pessoa: { select: { nome: true, sobrenome: true, apelido: true, avatarUrl: true } },
+              pessoa: {
+                select: {
+                  nome: true,
+                  sobrenome: true,
+                  apelido: true,
+                  avatarUrl: true,
+                },
+              },
             },
           },
           equipe: { select: { equipeLabel: true, equipeValue: true } },

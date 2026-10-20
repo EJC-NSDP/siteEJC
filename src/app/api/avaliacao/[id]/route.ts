@@ -12,9 +12,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 })
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE'])) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -25,10 +29,26 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     where: { id },
     include: {
       autor: {
-        select: { id: true, nome: true, sobrenome: true, apelido: true, avatarUrl: true },
+        select: {
+          id: true,
+          nome: true,
+          sobrenome: true,
+          apelido: true,
+          avatarUrl: true,
+        },
       },
       respostas: {
-        include: { pergunta: { select: { chave: true, texto: true, descricao: true, tipo: true, ordem: true } } },
+        include: {
+          pergunta: {
+            select: {
+              chave: true,
+              texto: true,
+              descricao: true,
+              tipo: true,
+              ordem: true,
+            },
+          },
+        },
         orderBy: { pergunta: { ordem: 'asc' } },
       },
       indicacoes: {
@@ -36,7 +56,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
           encontreiro: {
             select: {
               idPessoa: true,
-              pessoa: { select: { nome: true, sobrenome: true, apelido: true, avatarUrl: true } },
+              pessoa: {
+                select: {
+                  nome: true,
+                  sobrenome: true,
+                  apelido: true,
+                  avatarUrl: true,
+                },
+              },
             },
           },
           equipe: { select: { equipeLabel: true, equipeValue: true } },
@@ -45,14 +72,19 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     },
   })
 
-  if (!avaliacao) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (!avaliacao)
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   return NextResponse.json(avaliacao)
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE'])) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }

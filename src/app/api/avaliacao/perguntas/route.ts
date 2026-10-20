@@ -15,17 +15,24 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE'])) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
   const { chave, texto, descricao, tipo, categoria } = await request.json()
   if (!chave || !texto || !tipo || !categoria) {
-    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Missing required fields' },
+      { status: 400 },
+    )
   }
 
-  const last = await prisma.perguntaAvaliacao.findFirst({ orderBy: { ordem: 'desc' }, select: { ordem: true } })
+  const last = await prisma.perguntaAvaliacao.findFirst({
+    orderBy: { ordem: 'desc' },
+    select: { ordem: true },
+  })
   const ordem = (last?.ordem ?? 0) + 1
 
   const pergunta = await prisma.perguntaAvaliacao.create({
@@ -47,7 +54,8 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!session)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE'])) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }

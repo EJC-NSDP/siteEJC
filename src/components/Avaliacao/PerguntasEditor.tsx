@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { FileText, List, Lock, Upload } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { api } from '@/lib/axios'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { api } from '@/lib/axios'
 
 type CategoriaAvaliacao =
   | 'SUA_EQUIPE'
@@ -29,12 +29,12 @@ type CategoriaAvaliacao =
   | 'OUTROS'
 
 const CATEGORIAS: { value: CategoriaAvaliacao; label: string }[] = [
-  { value: 'SUA_EQUIPE',    label: 'Sua Equipe' },
-  { value: 'CANDIDATOS',    label: 'Candidatos' },
-  { value: 'O_ENCONTRAO',   label: 'O Encontrão' },
+  { value: 'SUA_EQUIPE', label: 'Sua Equipe' },
+  { value: 'CANDIDATOS', label: 'Candidatos' },
+  { value: 'O_ENCONTRAO', label: 'O Encontrão' },
   { value: 'PARA_O_FUTURO', label: 'Para o Futuro' },
-  { value: 'DIRIGENCIA',    label: 'Dirigência' },
-  { value: 'OUTROS',        label: 'Outros' },
+  { value: 'DIRIGENCIA', label: 'Dirigência' },
+  { value: 'OUTROS', label: 'Outros' },
 ]
 
 interface Pergunta {
@@ -49,13 +49,20 @@ interface Pergunta {
   ativo: boolean
 }
 
-const tipoLabel: Record<Pergunta['tipo'], { label: string; icon: React.ElementType }> = {
+const tipoLabel: Record<
+  Pergunta['tipo'],
+  { label: string; icon: React.ElementType }
+> = {
   TEXTO_LONGO: { label: 'Texto longo', icon: FileText },
   INDICACOES: { label: 'Indicações com busca', icon: List },
   ARQUIVO: { label: 'Upload de arquivo', icon: Upload },
 }
 
-export function PerguntasEditor({ perguntas: initial }: { perguntas: Pergunta[] }) {
+export function PerguntasEditor({
+  perguntas: initial,
+}: {
+  perguntas: Pergunta[]
+}) {
   const [perguntas, setPerguntas] = useState(initial)
   const [saving, setSaving] = useState<string | null>(null)
 
@@ -93,13 +100,18 @@ export function PerguntasEditor({ perguntas: initial }: { perguntas: Pergunta[] 
               {/* Header da pergunta */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-zinc-400">#{pergunta.ordem}</span>
+                  <span className="text-xs font-medium text-zinc-400">
+                    #{pergunta.ordem}
+                  </span>
                   <Badge variant="outline" className="flex items-center gap-1">
                     <Icon className="h-3 w-3" />
                     {label}
                   </Badge>
                   {!pergunta.removivel && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       <Lock className="h-3 w-3" />
                       Funcionalidade fixa
                     </Badge>
@@ -114,7 +126,7 @@ export function PerguntasEditor({ perguntas: initial }: { perguntas: Pergunta[] 
                   />
                   <Label
                     htmlFor={`ativo-${pergunta.id}`}
-                    className="text-sm text-zinc-500 cursor-pointer"
+                    className="cursor-pointer text-sm text-zinc-500"
                   >
                     Ativa
                   </Label>
@@ -123,7 +135,9 @@ export function PerguntasEditor({ perguntas: initial }: { perguntas: Pergunta[] 
 
               {/* Texto da pergunta */}
               <div className="flex flex-col gap-1">
-                <Label className="text-xs text-zinc-500">Texto da pergunta</Label>
+                <Label className="text-xs text-zinc-500">
+                  Texto da pergunta
+                </Label>
                 <Textarea
                   value={pergunta.texto}
                   rows={2}
@@ -134,10 +148,14 @@ export function PerguntasEditor({ perguntas: initial }: { perguntas: Pergunta[] 
 
               {/* Descrição */}
               <div className="flex flex-col gap-1">
-                <Label className="text-xs text-zinc-500">Descrição / subtexto</Label>
+                <Label className="text-xs text-zinc-500">
+                  Descrição / subtexto
+                </Label>
                 <Input
                   value={pergunta.descricao ?? ''}
-                  onChange={(e) => update(pergunta.id, 'descricao', e.target.value)}
+                  onChange={(e) =>
+                    update(pergunta.id, 'descricao', e.target.value)
+                  }
                   placeholder="Opcional"
                   className="text-sm"
                 />
