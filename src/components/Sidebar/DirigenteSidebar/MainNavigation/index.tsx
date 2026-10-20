@@ -8,6 +8,7 @@ import {
   Shirt,
   SquareChartGantt,
   SquareUserRound,
+  Star,
   Users,
 } from 'lucide-react'
 import Link from 'next/link'
@@ -43,14 +44,13 @@ export function MainNavigation() {
             active={path === '/admin/dirigente/historico/circulo'}
           />
         </Link>
-
-        {/* <Link href="/admin/dirigente/historico/encontroes">
+        <Link href="/admin/dirigente/historico/avaliacoes">
           <NavItem
-            title="Encontrões"
-            icon={CalendarHeart}
-            active={path === '/admin/dirigente/historico/encontroes'}
+            title="Avaliações"
+            icon={Star}
+            active={path === '/admin/dirigente/historico/avaliacoes'}
           />
-        </Link> */}
+        </Link>
       </NavItemGroup>
 
       <NavItemGroup
@@ -81,6 +81,14 @@ export function MainNavigation() {
             title="Equipes"
             icon={Users}
             active={path === '/admin/dirigente/gerenciar-encontro/equipes'}
+          />
+        </Link>
+
+        <Link href="/admin/dirigente/avaliacao">
+          <NavItem
+            title="Avaliações"
+            icon={Star}
+            active={path.startsWith('/admin/dirigente/avaliacao')}
           />
         </Link>
 

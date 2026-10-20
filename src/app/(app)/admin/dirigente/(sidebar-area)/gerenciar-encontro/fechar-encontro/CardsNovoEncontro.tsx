@@ -97,7 +97,8 @@ export function CardsNovoEncontro({
     <div className="space-y-4">
       <CardAcao
         title="Tirar acessos do último Encontro"
-        description="Retire o acesso dos coordenadores aos sistemas exclusivos do site. Essa ação não afetará os acessos normais, apenas aqueles que tem relação com o encontro passado."
+        description="Retire o acesso dos coordenadores aos sistemas exclusivos do site. Essa ação não afetará os acessos normais, apenas aqueles que têm relação com o encontro passado."
+        warning="Ao remover os acessos, o formulário de avaliação ficará inacessível para os coordenadores. Realize esta ação somente após o período de avaliação encerrar."
         status={acessoUltimoEncontro}
       >
         <BotaoAcao

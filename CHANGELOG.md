@@ -1,5 +1,46 @@
 # Changelog
 
+## v5.10.0 — 2026-10-20
+
+### Sistema de Avaliação Pós-Encontrão
+
+**Formulário de avaliação — `/admin/coordenador/avaliacao`**
+- Formulário por categorias (Sua Equipe, Candidatos, O Encontrão, Para o Futuro, Dirigência, Outros)
+- Suporte a perguntas de texto longo, indicações de candidatos e upload de arquivo PDF/DOCX via Cloudinary
+- Reedição da avaliação após o primeiro envio
+- Liberação automática 3 dias após o início do encontro; exibe data de liberação enquanto indisponível
+
+**Painel de avaliações — `/admin/dirigente/avaliacao`**
+- Listagem de todas as avaliações recebidas com expansão por card
+- Badge de equipe do autor e apelido
+- Hover na foto dos indicados exibe imagem ampliada via `HoverCard`
+- Exclusão de avaliação com remoção automática do arquivo no Cloudinary
+
+**Gerenciamento de perguntas — `/admin/dirigente/avaliacao/perguntas`**
+- Edição de texto, descrição e categoria; toggle ativa/inativa com `Switch`
+- Perguntas com funcionalidade fixa bloqueiam edição de categoria e desativação
+- Criação de novas perguntas de texto longo em `/perguntas/nova`
+
+**Histórico de avaliações — `/admin/dirigente/historico/avaliacoes`**
+- Listagem de avaliações de encontros anteriores com seletor de encontro (`EncontroSelector`)
+- Seletor exibe número do encontro e total de respostas; persiste seleção via `?encontroId=` na URL
+- Reutiliza `AvaliacaoList` e `getAvaliacoesByEncontro`
+
+**Sidebar — reorganização**
+- "Avaliações" movido para dentro do grupo "Gerenciar Encontro", logo acima de "Fechar Encontro"
+- "Avaliações" adicionado ao grupo "Histórico" apontando para a nova página de histórico
+- Ícone das avaliações alterado para `Star` (mesmo que na página de perfil)
+
+**Outras melhorias**
+- Botão "Avaliação" na página de perfil visível para `COORDENADOR`, `ADMIN` e `DIRIGENTE` apenas quando a avaliação está aberta
+- `isAvaliacaoDisponivel()` em `src/utils/avaliacao.ts` centraliza a regra de liberação
+- Nenhuma `page.tsx` chama o Prisma diretamente — toda lógica de banco extraída para funções dedicadas em `src/app/api/`
+- `overflow-y: scroll` no `html` elimina layout shift ao expandir cards com scrollbar
+- Botões de ação padronizados com `Card` + `CardFooter` + `Button className="h-10 w-40"`
+- Card "Tirar acessos do último Encontro" em fechar-encontro exibe aviso em destaque alertando que o formulário de avaliação ficará inacessível após essa ação
+
+---
+
 ### v5.9.3 — Exibição de cidade e estado para encontristas fora do Rio
 > Outubro 2026
 

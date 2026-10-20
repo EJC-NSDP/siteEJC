@@ -10,6 +10,7 @@ import {
   FolderOpen,
   HelpingHand,
   Speech,
+  Star,
   Theater,
   Users,
 } from 'lucide-react'
@@ -27,6 +28,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { hasRole } from '@/lib/auth/permissions'
 import { cn } from '@/lib/utils'
+import { isAvaliacaoDisponivel } from '@/utils/avaliacao'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
 import { getProfile } from '@/utils/fetch-profile'
 import { getCurrentEncontro } from '@/utils/fetch-this-encontro'
@@ -47,6 +49,8 @@ export default function Profile() {
     queryFn: async () => await getCurrentEncontro(),
     queryKey: ['currentEnconto'],
   })
+
+  const avaliacaoDisponivel = currentEncontro ? isAvaliacaoDisponivel(currentEncontro.dataInicio) : false
 
   const router = useRouter()
 
@@ -226,6 +230,13 @@ export default function Profile() {
                         label="Externa"
                         icon={CarFront}
                         link="/admin/externa"
+                      />
+                    )}
+                    {hasRole(profileData.roles, ['COORDENADOR', 'ADMIN', 'DIRIGENTE']) && avaliacaoDisponivel && (
+                      <ButtonLabel
+                        label="Avaliação"
+                        icon={Star}
+                        link="/admin/coordenador/avaliacao"
                       />
                     )}
                     {profileData && (

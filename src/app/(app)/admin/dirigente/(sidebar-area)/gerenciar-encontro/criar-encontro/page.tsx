@@ -1,30 +1,11 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
-import { prisma } from '@/lib/prisma'
+import { getLocais } from '@/app/api/local/get-locais'
 
 import {
   EncontroForm,
   type EncontroFormData,
   type LocalOption,
 } from './EncontroForm'
-
-async function getLocais(): Promise<LocalOption[]> {
-  return prisma.local.findMany({
-    select: {
-      id: true,
-      nomeLocal: true,
-      numeroLocal: true,
-      enderecoCep: true,
-      endereco: {
-        select: {
-          rua: true,
-          bairro: true,
-          cidade: true,
-          estado: true,
-        },
-      },
-    },
-  })
-}
 
 function toDateStr(d: Date): string {
   if (d.getFullYear() <= 1970) return ''

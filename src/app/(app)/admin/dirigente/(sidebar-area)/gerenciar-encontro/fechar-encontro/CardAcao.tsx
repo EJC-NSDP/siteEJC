@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { Check, TriangleAlert } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
@@ -7,6 +7,7 @@ export interface CardAcaoProps {
   title: string
   description: string
   status: boolean
+  warning?: string
   children: ReactNode
 }
 
@@ -15,6 +16,7 @@ export function CardAcao({
   description,
   children,
   status,
+  warning,
 }: CardAcaoProps) {
   return (
     <Card className="p-8">
@@ -30,8 +32,14 @@ export function CardAcao({
         )}
         <span>{title}</span>
       </CardTitle>
-      <CardContent className="px-0 py-8 text-left text-zinc-800">
-        {description}
+      <CardContent className="flex flex-col gap-4 px-0 py-8 text-left text-zinc-800">
+        <p>{description}</p>
+        {warning && (
+          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800">
+            <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0" />
+            <p className="text-sm">{warning}</p>
+          </div>
+        )}
       </CardContent>
       <CardFooter className="w-full justify-end p-0">{children}</CardFooter>
     </Card>

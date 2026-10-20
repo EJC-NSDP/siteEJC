@@ -1,6 +1,6 @@
 {
   "name": "siteejc_v4",
-  "version": "v5.9.3",
+  "version": "v5.10.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "next start -p 3003",
     "lint": "eslint src --fix",
     "seed": "tsx prisma/seed.ts",
+    "seed:perguntas": "tsx prisma/seed-perguntas.ts",
     "postinstall": "prisma generate",
     "studio": "prisma studio",
     "lint:check": "eslint src"

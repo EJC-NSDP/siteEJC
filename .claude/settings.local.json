@@ -22,7 +22,15 @@
       "Bash(node scripts/check-fora-do-rio.mjs)",
       "Bash(mv \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\scripts\\\\check-fora-do-rio.mjs\" \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\scripts\\\\check-fora-do-rio.ts\")",
       "Bash(node_modules/.bin/tsx scripts/check-fora-do-rio.ts)",
-      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\"])"
+      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\"])",
+      "Bash(xargs grep -l \"Avaliacao\\\\|Avaliação\\\\|avaliacao\")",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\" -Recurse -Directory | Select-Object -First 30 | ForEach-Object { $_.FullName })",
+      "Bash(npx tsx *)",
+      "Bash(pnpm seed:perguntas)",
+      "Bash(pnpm studio *)",
+      "Bash(curl *)",
+      "Bash(Select-String -Pattern \"CHANGELOG|changelog\")",
+      "Bash(Test-Path *)"
     ]
   }
 }

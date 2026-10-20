@@ -59,6 +59,10 @@
 }
 
 @layer base {
+  html {
+    overflow-y: scroll;
+  }
+
   * {
     border-color: theme(colors.zinc.200);
   }

@@ -35,6 +35,7 @@ model Pessoa {
   endereco           Endereco     @relation(fields: [enderecoCep], references: [cep])
   sessions           Session[]
   lider              Lideranca[]
+  avaliacoes         AvaliacaoEncontro[]
 
   @@map("pessoas")
 }
@@ -108,6 +109,7 @@ model Encontreiro {
   equipeMontagem          EquipeMontagem?
   listaPreferencias       ListaPreferencia[]
   responsavelExterna      ResponsavelExterna[]
+  indicacoes              IndicacaoEncontro[]
 
   @@map("encontreiros")
 }
@@ -132,6 +134,7 @@ model Encontro {
   EquipeEncontro     EquipeEncontro[]
   palestrantes       Palestrantes[]
   ResponsavelExterna ResponsavelExterna[]
+  avaliacoes         AvaliacaoEncontro[]
 
   @@map("encontros")
 }
@@ -411,6 +414,7 @@ model DomainEquipes {
   EquipeEncontro   EquipeEncontro[]
   EquipeMontagem   EquipeMontagem[]
   ListaPreferencia ListaPreferencia[]
+  indicacoes       IndicacaoEncontro[]
 
   @@map("@equipes")
 }
@@ -460,6 +464,85 @@ model Session {
   user         Pessoa   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model PerguntaAvaliacao {
+  id          String                 @id @default(uuid())
+  ordem       Int
+  chave       String                 @unique
+  texto       String                 @db.Text
+  descricao   String?                @db.Text
+  tipo        TipoPerguntaAvaliacao  @default(TEXTO_LONGO)
+  categoria   CategoriaAvaliacao     @default(OUTROS)
+  removivel   Boolean                @default(true)
+  ativo       Boolean                @default(true)
+  updatedAt   DateTime               @updatedAt @map("updated_at")
+  updatedById String?                @map("updated_by_id")
+  respostas   RespostaAvaliacao[]
+
+  @@map("perguntas_avaliacao")
+}
+
+model AvaliacaoEncontro {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now()) @map("created_at")
+  idEncontro String   @map("id_encontro")
+  idAutor    String   @map("id_autor")
+
+  encontro   Encontro            @relation(fields: [idEncontro], references: [id])
+  autor      Pessoa              @relation(fields: [idAutor], references: [id])
+  respostas  RespostaAvaliacao[]
+  indicacoes IndicacaoEncontro[]
+
+  @@unique([idEncontro, idAutor])
+  @@map("avaliacoes_encontro")
+}
+
+model RespostaAvaliacao {
+  id          String   @id @default(uuid())
+  idAvaliacao String   @map("id_avaliacao")
+  idPergunta  String   @map("id_pergunta")
+  resposta    String?  @db.Text
+  fileUrl     String?  @map("file_url")
+  fileName    String?  @map("file_name")
+
+  avaliacao AvaliacaoEncontro @relation(fields: [idAvaliacao], references: [id], onDelete: Cascade)
+  pergunta  PerguntaAvaliacao @relation(fields: [idPergunta], references: [id])
+
+  @@unique([idAvaliacao, idPergunta])
+  @@map("respostas_avaliacao")
+}
+
+model IndicacaoEncontro {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now()) @map("created_at")
+  idAvaliacao         String   @map("id_avaliacao")
+  idEncontreiro       String   @map("id_encontreiro")
+  equipeIndicada      String   @map("equipe_indicada")
+  avaliacao           String   @db.Text
+  observacaoDirigente String?  @db.Text @map("observacao_dirigente")
+  idObservadoPor      String?  @map("id_observado_por")
+
+  avaliacaoEncontro AvaliacaoEncontro @relation(fields: [idAvaliacao], references: [id], onDelete: Cascade)
+  encontreiro       Encontreiro       @relation(fields: [idEncontreiro], references: [idPessoa])
+  equipe            DomainEquipes     @relation(fields: [equipeIndicada], references: [equipeValue])
+
+  @@map("indicacoes_encontro")
+}
+
+enum TipoPerguntaAvaliacao {
+  TEXTO_LONGO
+  INDICACOES
+  ARQUIVO
+}
+
+enum CategoriaAvaliacao {
+  SUA_EQUIPE
+  CANDIDATOS
+  O_ENCONTRAO
+  PARA_O_FUTURO
+  DIRIGENCIA
+  OUTROS
 }
 
 enum Value_Quadrante {
