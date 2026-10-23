@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import {
   Album,
+  Beef,
   BookUser,
   CarFront,
   ClipboardList,
@@ -27,6 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { hasRole } from '@/lib/auth/permissions'
+import { api } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { isAvaliacaoDisponivel } from '@/utils/avaliacao'
 import { isBirthdayInCurrentWeek } from '@/utils/birthday'
@@ -49,6 +51,19 @@ export default function Profile() {
     queryFn: async () => await getCurrentEncontro(),
     queryKey: ['currentEnconto'],
   })
+
+  const { data: daData } = useQuery<{ da: { aberto: boolean } | null }>({
+    queryKey: ['da'],
+    queryFn: async () => (await api.get('/da')).data,
+    enabled: hasRole(profileData?.roles ?? [], [
+      'ENCONTREIRO',
+      'BP',
+      'DIRIGENTE',
+      'ADMIN',
+    ]),
+  })
+
+  const daAberto = daData?.da?.aberto ?? false
 
   const avaliacaoDisponivel = currentEncontro
     ? isAvaliacaoDisponivel(currentEncontro.dataInicio)
@@ -192,7 +207,7 @@ export default function Profile() {
                   <h4 className="text-xl font-bold lg:text-2xl">
                     Seus acessos
                   </h4>
-                  <div className="flex flex-col gap-8 lg:flex-row">
+                  <div className="flex flex-col gap-8 lg:flex-row lg:flex-wrap">
                     {hasRole(profileData.roles, [
                       'APRESENTACAO',
                       'DIRIGENTE',
@@ -205,6 +220,18 @@ export default function Profile() {
                       />
                     )}
                     {hasRole(profileData.roles, [
+                      'COORDENADOR',
+                      'ADMIN',
+                      'DIRIGENTE',
+                    ]) &&
+                      avaliacaoDisponivel && (
+                        <ButtonLabel
+                          label="Avaliação"
+                          icon={Star}
+                          link="/admin/coordenador/avaliacao"
+                        />
+                      )}
+                    {hasRole(profileData.roles, [
                       'ADMIN',
                       'BP',
                       'DIRIGENTE',
@@ -215,7 +242,19 @@ export default function Profile() {
                         link="/admin/bp"
                       />
                     )}
-
+                    {daAberto &&
+                      hasRole(profileData.roles, [
+                        'ENCONTREIRO',
+                        'BP',
+                        'DIRIGENTE',
+                        'ADMIN',
+                      ]) && (
+                        <ButtonLabel
+                          label="Dia da Amizade"
+                          icon={Beef}
+                          link="/admin/da"
+                        />
+                      )}
                     {hasRole(profileData.roles, ['DIRIGENTE', 'ADMIN']) && (
                       <ButtonLabel
                         label="Dirigencia"
@@ -234,18 +273,6 @@ export default function Profile() {
                         link="/admin/externa"
                       />
                     )}
-                    {hasRole(profileData.roles, [
-                      'COORDENADOR',
-                      'ADMIN',
-                      'DIRIGENTE',
-                    ]) &&
-                      avaliacaoDisponivel && (
-                        <ButtonLabel
-                          label="Avaliação"
-                          icon={Star}
-                          link="/admin/coordenador/avaliacao"
-                        />
-                      )}
                     {profileData && (
                       <ButtonLabel
                         label="Ficha de Cadastro"

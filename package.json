@@ -1,6 +1,6 @@
 {
   "name": "siteejc_v4",
-  "version": "v5.10.0",
+  "version": "v5.11.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -39,7 +39,11 @@
     "@radix-ui/react-switch": "^1.2.4",
     "@radix-ui/react-tabs": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.6",
+    "@tailwindcss/typography": "^0.5.20",
     "@tanstack/react-query": "^5.90.21",
+    "@tiptap/extension-placeholder": "^3.32.0",
+    "@tiptap/react": "^3.32.0",
+    "@tiptap/starter-kit": "^3.32.0",
     "@types/file-saver": "^2.0.7",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",

@@ -13,7 +13,12 @@ const EQUIPES_EXCLUIDAS = [
 export async function getEncontroParaAvaliacao() {
   return prisma.encontro.findFirst({
     orderBy: { numeroEncontro: 'desc' },
-    select: { id: true, numeroEncontro: true, dataInicio: true },
+    select: {
+      id: true,
+      numeroEncontro: true,
+      dataInicio: true,
+      isReceivingAvaliacoes: true,
+    },
   })
 }
 

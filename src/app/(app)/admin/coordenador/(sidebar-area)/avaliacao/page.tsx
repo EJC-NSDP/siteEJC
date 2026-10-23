@@ -37,6 +37,25 @@ export default async function CoordenadorAvaliacaoPage() {
     )
   }
 
+  if (!encontro.isReceivingAvaliacoes) {
+    return (
+      <div className="flex w-full flex-col items-center gap-4 py-4">
+        <span className="text-4xl font-bold text-white">
+          Avaliação — {encontro.numeroEncontro}º EJC
+        </span>
+        <Card className="lg:w-card w-11/12">
+          <CardContent className="flex items-center gap-3 pt-6 text-zinc-500">
+            <Clock className="h-5 w-5 shrink-0" />
+            <p className="text-sm">
+              As avaliações ainda não estão abertas. Aguarde a liberação pelos
+              dirigentes.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   const disponivel = isAvaliacaoDisponivel(encontro.dataInicio)
   const dataLiberacao = new Date(encontro.dataInicio)
   dataLiberacao.setDate(dataLiberacao.getDate() + 3)

@@ -19,11 +19,13 @@ export function Pagination({
   totalCol,
 }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / perPage) || 1
-  const firstOnPage = (pageIndex - 1) * perPage + 1
+  const firstOnPage = totalCount === 0 ? 0 : (pageIndex - 1) * perPage + 1
   const lastOnPage =
-    pageIndex - 1 === totalPages - 1
-      ? firstOnPage - 1 + (totalCount % perPage || perPage)
-      : firstOnPage - 1 + perPage
+    totalCount === 0
+      ? 0
+      : pageIndex - 1 === totalPages - 1
+        ? firstOnPage - 1 + (totalCount % perPage || perPage)
+        : firstOnPage - 1 + perPage
 
   const spanLeft = totalCol / 2
   const spanRight = totalCol / 2 + (totalCol % 2)

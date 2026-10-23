@@ -1,8 +1,9 @@
-import { HeartHandshake } from 'lucide-react'
+import { Beef, Bus, CalendarHeart, HeartHandshake, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { NavItem } from '../../NavItem'
+import { NavItemGroup } from '../../NavItemGroup'
 
 export function MainNavigation() {
   const path = usePathname()
@@ -16,13 +17,40 @@ export function MainNavigation() {
           active={path === '/admin/bp'}
         />
       </Link>
-      {/* <Link href="/admin/bps/circulos">
-        <NavItem
-          title="Ordenação dos círculos"
-          icon={Circle}
-          active={path === '/admin/bps/circulos'}
-        />
-      </Link> */}
+      <NavItemGroup
+        title="Dia da Amizade"
+        value="dia-amizade"
+        icon={CalendarHeart}
+      >
+        <Link href="/admin/bp/da">
+          <NavItem
+            title="Gerenciar DA"
+            icon={CalendarHeart}
+            active={path === '/admin/bp/da'}
+          />
+        </Link>
+        <Link href="/admin/bp/da/inscritos">
+          <NavItem
+            title="Inscritos"
+            icon={Users}
+            active={path === '/admin/bp/da/inscritos'}
+          />
+        </Link>
+        <Link href="/admin/bp/da/itens">
+          <NavItem
+            title="O que levar"
+            icon={Beef}
+            active={path === '/admin/bp/da/itens'}
+          />
+        </Link>
+        <Link href="/admin/bp/da/transporte">
+          <NavItem
+            title="Transporte"
+            icon={Bus}
+            active={path === '/admin/bp/da/transporte'}
+          />
+        </Link>
+      </NavItemGroup>
     </nav>
   )
 }

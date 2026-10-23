@@ -1,5 +1,77 @@
 # Changelog
 
+## v5.11.0 — 2026-10-23
+
+### Dia da Amizade (DA)
+
+**Formulário de inscrição — `/admin/da`**
+- Formulário em 3 etapas: mensagem inicial → como vai → o que vai levar
+- Opções de transporte: Dirigindo (cria `CarroDA` com modelo/placa/vagas), De carona, De ônibus/van
+- Carro pré-preenchido a partir do cadastro do encontrão anterior
+- Alocação automática em ônibus disponível ao selecionar "De ônibus/van"
+- Campo de descrição para itens da categoria Sobremesa ("Qual sobremesa você vai levar?"), obrigatório quando selecionado
+- Card de confirmação redesenhado: mini-cards de item (com descrição da sobremesa) e transporte com ícones; mensagem "Te esperamos no DA dia XX!"
+
+**Painel de inscritos — `/admin/bp/da/inscritos`**
+- Tabela paginada (25/página) com filtros por nome, item e BP responsável na mesma linha
+- Coluna "O que vai levar" exibe "Pudim (Sobremesa)" quando há descrição de sobremesa
+- Edição de item por inscrição; remoção de inscrição com limpeza do `CarroDA` se motorista
+- Select inline de BP responsável com avatar
+
+**Painel de itens — `/admin/bp/da/itens`**
+- Contagem de inscrições por item: exibe `X/Y` (quantidade usada / vagas) ou `X/∞` para itens ilimitados
+- Modo de edição exibe `X/[input]` mostrando o ocupado ao lado do campo editável
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Drag & drop de pessoas entre carros, ônibus e sem-veículo (`@dnd-kit`)
+- Cards de carro: motorista exibido em seção dedicada (não arrastável); vagas contam apenas passageiros
+- Edição inline de nome e vagas do ônibus/van
+- Botão para converter carona (sem veículo) em motorista, pré-preenchendo dados do carro anterior
+- Ao deletar carro, motorista e passageiros viram caronas em sem-veículo automaticamente
+- Cards mostram número do EJC (cinza, menor) e nome do BP responsável com ícone `UserCheck`
+
+**APIs novas — `/api/da/`**
+- `POST /inscricao` — inscrição com alocação automática em ônibus
+- `PATCH /inscricoes/[idPessoa]` — atualização parcial (item, transporte, BP, sobremesa)
+- `DELETE /inscricoes/[idPessoa]` — remoção com limpeza do carro se motorista
+- `GET|POST /carros` — criação e listagem de carros do DA
+- `PATCH|DELETE /carros/[id]` — edição e exclusão de carro (exclusão limpa ocupantes)
+- `GET|POST /onibus` — criação e listagem de ônibus
+- `PATCH /onibus/[id]` — edição de nome e vagas
+- `GET /transporte` — snapshot de carros, ônibus e sem-veículo para o painel
+- `GET /itens` — itens com contagem de inscrições
+- `GET /bps` — BPs disponíveis para atribuição
+- `GET /carro-anterior` — dados do carro cadastrado no encontrão anterior
+
+**Schema — `InscricaoDA`**
+- Adicionado campo `descricao_item` (opcional) para descrição de sobremesas
+
+---
+
+### Avaliações — melhorias
+
+**Toggle de abertura — `/admin/dirigente/avaliacao`**
+- Botão "Avaliações abertas?" (Switch) controla `isReceivingAvaliacoes` no `Encontro`
+- Formulário do coordenador bloqueado com mensagem clara quando avaliações estão fechadas
+
+**Busca e contagem**
+- Campo de busca por nome do encontreiro com filtro aplicado em `AvaliacaoList`
+- Contagem de respostas recebidas exibida acima da lista
+
+**Página convertida para client component** com `useQuery` + `useMutation` (was server component)
+
+**Schema — `Encontro`**
+- Adicionado campo `is_receiving_avaliacoes` (boolean, default false)
+
+---
+
+### Refatorações
+
+- `da/layout.tsx`: extraído para `getDAAberto()` em `src/app/api/da/get-da-aberto.ts`; nenhuma página chama Prisma diretamente
+- `Pagination`: corrige exibição "1-25 de 0" quando não há resultados (`firstOnPage = lastOnPage = 0`)
+
+---
+
 ## v5.10.0 — 2026-10-20
 
 ### Sistema de Avaliação Pós-Encontrão

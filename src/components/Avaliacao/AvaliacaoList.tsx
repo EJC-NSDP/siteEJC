@@ -67,26 +67,40 @@ interface Avaliacao {
 
 interface AvaliacaoListProps {
   avaliacoes: Avaliacao[]
+  busca?: string
 }
 
-export function AvaliacaoList({ avaliacoes: initial }: AvaliacaoListProps) {
+export function AvaliacaoList({
+  avaliacoes: initial,
+  busca = '',
+}: AvaliacaoListProps) {
   const [avaliacoes, setAvaliacoes] = useState(initial)
 
   function handleDeleted(id: string) {
     setAvaliacoes((prev) => prev.filter((a) => a.id !== id))
   }
 
-  if (avaliacoes.length === 0) {
+  const filtradas = busca
+    ? avaliacoes.filter((a) =>
+        `${a.autor.nome} ${a.autor.sobrenome} ${a.autor.apelido ?? ''}`
+          .toLowerCase()
+          .includes(busca.toLowerCase()),
+      )
+    : avaliacoes
+
+  if (filtradas.length === 0) {
     return (
       <p className="rounded-lg border border-zinc-200 bg-white p-8 text-center text-sm text-zinc-400">
-        Nenhuma avaliação recebida ainda.
+        {busca
+          ? 'Nenhuma avaliação encontrada para esta busca.'
+          : 'Nenhuma avaliação recebida ainda.'}
       </p>
     )
   }
 
   return (
     <div className="flex flex-col gap-4">
-      {avaliacoes.map((a) => (
+      {filtradas.map((a) => (
         <AvaliacaoCard key={a.id} avaliacao={a} onDeleted={handleDeleted} />
       ))}
     </div>

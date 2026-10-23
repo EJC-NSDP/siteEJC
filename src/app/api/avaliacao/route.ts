@@ -35,6 +35,13 @@ export async function GET(request: NextRequest) {
           sobrenome: true,
           apelido: true,
           avatarUrl: true,
+          encontreiro: {
+            select: {
+              equipeMontagem: {
+                select: { equipe: { select: { equipeLabel: true } } },
+              },
+            },
+          },
         },
       },
       respostas: {

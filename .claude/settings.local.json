@@ -30,7 +30,29 @@
       "Bash(pnpm studio *)",
       "Bash(curl *)",
       "Bash(Select-String -Pattern \"CHANGELOG|changelog\")",
-      "Bash(Test-Path *)"
+      "Bash(Test-Path *)",
+      "Bash(xargs grep -l \"^export.*enum\\\\|^enum\")",
+      "Bash(mkdir -p \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\\\\itens\\\\[id]\")",
+      "Bash(mkdir -p \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\\\\inscricoes\\\\[idPessoa]\")",
+      "Bash(node -e \"const l = require\\('./node_modules/lucide-react'\\); console.log\\('CalendarHeart:', !!l.CalendarHeart\\); console.log\\('Calendar:', !!l.Calendar\\); console.log\\('UtensilsCrossed:', !!l.UtensilsCrossed\\); console.log\\('Flame:', !!l.Flame\\);\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/lucide-react/package.json'\\); console.log\\(pkg.version\\);\")",
+      "Bash(cat src/lib/axios.ts)",
+      "Bash(cat src/lib/axios/index.ts)",
+      "Bash(cat src/lib/prisma.ts)",
+      "Bash(cat src/lib/prisma/index.ts)",
+      "Bash(npm install *)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm exec *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\" -Recurse -Directory -Filter \"*admin*\")",
+      "Bash(Select-Object -First 20)",
+      "Bash(Format-List FullName)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\\" -Recurse -Directory | Where-Object {$_.Name -match \"da|externa\"} | Select-Object FullName)",
+      "Bash(pnpm prisma *)",
+      "Bash(pnpm tsc *)",
+      "Bash(not exist *)",
+      "Bash(New-Item -ItemType Directory -Force \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\\\\carro-anterior\")",
+      "Bash(Out-Null)",
+      "Bash(dir \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\CHANGE*\")"
     ]
   }
 }

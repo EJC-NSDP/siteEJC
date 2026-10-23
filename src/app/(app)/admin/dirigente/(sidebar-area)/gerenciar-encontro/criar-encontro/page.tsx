@@ -1,11 +1,7 @@
 import { getCurrentEncontro } from '@/app/api/encontro/atual/[ignorar]/get-current-encontro/get-current-encontro'
 import { getLocais } from '@/app/api/local/get-locais'
 
-import {
-  EncontroForm,
-  type EncontroFormData,
-  type LocalOption,
-} from './EncontroForm'
+import { EncontroForm, type EncontroFormData } from './EncontroForm'
 
 function toDateStr(d: Date): string {
   if (d.getFullYear() <= 1970) return ''

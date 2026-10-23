@@ -6,10 +6,14 @@ import { cn } from '@/lib/utils'
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prefix?: string
   hidable?: boolean
+  wrapperClassName?: string
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ prefix, className, type, hidable = false, ...props }, ref) => {
+  (
+    { prefix, className, wrapperClassName, type, hidable = false, ...props },
+    ref,
+  ) => {
     const [isHidden, setIsHidden] = useState(hidable)
 
     function toggleHidden() {
@@ -21,6 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         aria-disabled={props.readOnly || props.disabled}
         className={cn(
           'flex w-full items-center gap-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400',
+          wrapperClassName,
           'aria-invalid:border-red-400',
           'aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
           'focus-within:border-amber-300 focus-within:ring-4 focus-within:ring-amber-100',
@@ -36,6 +41,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             'dark:text-zinc-100 dark:placeholder-zinc-400',
             'read-only:cursor-not-allowed',
             'disabled:cursor-not-allowed',
+            type === 'number' &&
+              '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
             className,
           )}
           ref={ref}

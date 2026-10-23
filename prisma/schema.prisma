@@ -36,6 +36,9 @@ model Pessoa {
   sessions           Session[]
   lider              Lideranca[]
   avaliacoes         AvaliacaoEncontro[]
+  inscricoesDA          InscricaoDA[]
+  inscricoesDaResponsavel InscricaoDA[] @relation("ResponsavelBPInscricaoDA")
+  carrosDAMotorista     CarroDA[]    @relation("MotoristaCarroDA")
 
   @@map("pessoas")
 }
@@ -126,7 +129,8 @@ model Encontro {
   createdAt          DateTime             @default(now()) @map("created_at")
   modifiedAt         DateTime             @updatedAt @map("modified_at")
   ordemCirculos      Int                  @default(12345) @map("ordem_circulos")
-  isReceivingCartas  Boolean              @default(false) @map("is_receiving_cartas")
+  isReceivingCartas      Boolean              @default(false) @map("is_receiving_cartas")
+  isReceivingAvaliacoes  Boolean              @default(false) @map("is_receiving_avaliacoes")
   carroEncontro      CarroEncontro[]
   circulo            Circulo[]
   encontreiro        Encontreiro[]
@@ -135,6 +139,7 @@ model Encontro {
   palestrantes       Palestrantes[]
   ResponsavelExterna ResponsavelExterna[]
   avaliacoes         AvaliacaoEncontro[]
+  diaAmizade         DiaAmizade?
 
   @@map("encontros")
 }
@@ -528,6 +533,114 @@ model IndicacaoEncontro {
   equipe            DomainEquipes     @relation(fields: [equipeIndicada], references: [equipeValue])
 
   @@map("indicacoes_encontro")
+}
+
+model DiaAmizade {
+  id              String        @id @default(uuid())
+  idEncontro      String        @unique @map("id_encontro")
+  mensagemInicial String?       @map("mensagem_inicial") @db.Text
+  dataDA          DateTime?     @map("data_da")
+  aberto          Boolean       @default(false)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  modifiedAt      DateTime      @updatedAt @map("modified_at")
+
+  encontro        Encontro      @relation(fields: [idEncontro], references: [id])
+  itens           ItemDA[]
+  inscricoes      InscricaoDA[]
+  carros          CarroDA[]
+  onibus          OnibusDA[]
+
+  @@map("dia_amizade")
+}
+
+model Item {
+  id        String          @id @default(uuid())
+  nome      String
+  categoria CategoriaItemDA
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  itensDA   ItemDA[]
+
+  @@map("itens")
+}
+
+model ItemDA {
+  idItem    String     @map("id_item")
+  idDA      String     @map("id_da")
+  quantidade Int?
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  item      Item       @relation(fields: [idItem], references: [id])
+  da        DiaAmizade @relation(fields: [idDA], references: [id], onDelete: Cascade)
+  inscricoes InscricaoDA[]
+
+  @@id([idItem, idDA])
+  @@map("itens_da")
+}
+
+model InscricaoDA {
+  idPessoa        String     @map("id_pessoa")
+  idDA            String     @map("id_da")
+  idItem          String     @map("id_item")
+  comoVai         ComoVaiDA? @map("como_vai")
+  pagouOnibus     Boolean    @default(false) @map("pagou_onibus")
+  idCarroDA       String?    @map("id_carro_da")
+  idOnibusDA      String?    @map("id_onibus_da")
+  idResponsavelBP String?    @map("id_responsavel_bp")
+  descricaoItem   String?    @map("descricao_item")
+  createdAt       DateTime   @default(now()) @map("created_at")
+
+  pessoa        Pessoa     @relation(fields: [idPessoa], references: [id])
+  da            DiaAmizade @relation(fields: [idDA], references: [id], onDelete: Cascade)
+  itemDA        ItemDA     @relation(fields: [idItem, idDA], references: [idItem, idDA])
+  carroDa       CarroDA?   @relation(fields: [idCarroDA], references: [id])
+  onibusDA      OnibusDA?  @relation(fields: [idOnibusDA], references: [id])
+  responsavelBP Pessoa?    @relation("ResponsavelBPInscricaoDA", fields: [idResponsavelBP], references: [id])
+
+  @@id([idPessoa, idDA])
+  @@map("inscricoes_da")
+}
+
+model CarroDA {
+  id          String       @id @default(uuid())
+  idDA        String       @map("id_da")
+  idMotorista String       @map("id_motorista")
+  modelo      String?
+  placa       String?
+  vagas       Int
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  da          DiaAmizade   @relation(fields: [idDA], references: [id], onDelete: Cascade)
+  motorista   Pessoa       @relation("MotoristaCarroDA", fields: [idMotorista], references: [id])
+  passageiros InscricaoDA[]
+
+  @@map("carros_da")
+}
+
+model OnibusDA {
+  id          String       @id @default(uuid())
+  idDA        String       @map("id_da")
+  nome        String
+  vagas       Int?
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  da          DiaAmizade   @relation(fields: [idDA], references: [id], onDelete: Cascade)
+  passageiros InscricaoDA[]
+
+  @@map("onibus_da")
+}
+
+enum CategoriaItemDA {
+  CARNE
+  SOBREMESA
+  ACOMPANHAMENTO
+  VEGETARIANA
+}
+
+enum ComoVaiDA {
+  DIRIGINDO
+  CARONA
+  ONIBUS
 }
 
 enum TipoPerguntaAvaliacao {
