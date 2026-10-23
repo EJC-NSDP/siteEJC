@@ -17,7 +17,16 @@ export default async function CoordenadorLayout({
 
   if (!session) redirect('/login')
 
-  if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'COORDENADOR'])) {
+  if (
+    !hasRole(session.user.roles, [
+      'ADMIN',
+      'DIRIGENTE',
+      'COORDENADOR',
+      'TIOSECRETO',
+      'TIOAPARENTE',
+      'BV',
+    ])
+  ) {
     redirect('/admin/profile')
   }
 

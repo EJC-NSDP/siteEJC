@@ -13,6 +13,7 @@ export interface CurrentEncontro {
   modifiedAt: Date
   ordemCirculos: number
   isReceivingCartas: boolean
+  isReceivingAvaliacoes: boolean
   local: {
     id: string
     enderecoCep: string

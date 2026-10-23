@@ -1,5 +1,13 @@
 # Changelog
 
+## v5.11.1 — 2026-10-23
+
+### Correções
+
+- `divulgarMontagem`: corrige valor da equipe Boa Vontade de `'bv'` para `'boa_vontade'`; role `BV` agora é atribuído corretamente ao divulgar a montagem
+
+---
+
 ## v5.11.0 — 2026-10-23
 
 ### Dia da Amizade (DA)

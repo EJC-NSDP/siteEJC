@@ -13,6 +13,8 @@ export interface DivulgarMontagem {
     externa: number
     recepcao: number
     tiosSecretos: number
+    tiosAparentes: number
+    bvs: number
     coordenadores: number
   }
 }
@@ -23,7 +25,9 @@ const ROLES_AJUSTAVEIS = [
   'SECRETARIA',
   'APRESENTACAO',
   'TIOSECRETO',
+  'TIOAPARENTE',
   'RECEPCAO',
+  'BV',
 ] as const
 type RoleAjustavel = (typeof ROLES_AJUSTAVEIS)[number]
 
@@ -117,7 +121,7 @@ async function aplicarEquipeMontagem() {
   }
 }
 
-async function ajustarRoles() {
+export async function ajustarRoles() {
   const currentEncontro = await getCurrentEncontro()
   if (!currentEncontro) return null
 
@@ -152,6 +156,10 @@ async function ajustarRoles() {
           : ['RECEPCAO']
       } else if (equipe.idEquipe === 'tio_secreto') {
         novosRolesAjustaveis = ['TIOSECRETO']
+      } else if (equipe.idEquipe === 'tio_aparente') {
+        novosRolesAjustaveis = ['TIOAPARENTE']
+      } else if (equipe.idEquipe === 'boa_vontade') {
+        novosRolesAjustaveis = equipe.coordenou ? ['BV', 'COORDENADOR'] : ['BV']
       } else if (equipe.coordenou) {
         novosRolesAjustaveis = ['COORDENADOR']
       }
@@ -174,6 +182,8 @@ async function ajustarRoles() {
     recepcao,
     coordenador,
     tiosSecretos,
+    tiosAparentes,
+    bvs,
   ] = await Promise.all([
     prisma.pessoa.count({ where: { roles: { has: 'APRESENTACAO' } } }),
     prisma.pessoa.count({ where: { roles: { has: 'SECRETARIA' } } }),
@@ -181,6 +191,8 @@ async function ajustarRoles() {
     prisma.pessoa.count({ where: { roles: { has: 'RECEPCAO' } } }),
     prisma.pessoa.count({ where: { roles: { has: 'COORDENADOR' } } }),
     prisma.pessoa.count({ where: { roles: { has: 'TIOSECRETO' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'TIOAPARENTE' } } }),
+    prisma.pessoa.count({ where: { roles: { has: 'BV' } } }),
   ])
 
   return {
@@ -189,6 +201,8 @@ async function ajustarRoles() {
     externa,
     recepcao,
     tiosSecretos,
+    tiosAparentes,
+    bvs,
     coordenador,
   }
 }
@@ -208,6 +222,8 @@ export async function divulgarMontagem(): Promise<DivulgarMontagem> {
       externa: resultadoRoles?.externa || 0,
       recepcao: resultadoRoles?.recepcao || 0,
       tiosSecretos: resultadoRoles?.tiosSecretos || 0,
+      tiosAparentes: resultadoRoles?.tiosAparentes || 0,
+      bvs: resultadoRoles?.bvs || 0,
       coordenadores: resultadoRoles?.coordenador || 0,
     },
   }

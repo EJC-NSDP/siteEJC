@@ -733,7 +733,9 @@ enum Role {
   ENCONTRISTA
   TIOEXTERNA
   TIOSECRETO
+  TIOAPARENTE
   RECEPCAO
+  BV
 }
 
 enum Value_Disponibilidade {

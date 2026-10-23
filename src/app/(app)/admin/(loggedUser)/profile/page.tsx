@@ -66,7 +66,8 @@ export default function Profile() {
   const daAberto = daData?.da?.aberto ?? false
 
   const avaliacaoDisponivel = currentEncontro
-    ? isAvaliacaoDisponivel(currentEncontro.dataInicio)
+    ? isAvaliacaoDisponivel(currentEncontro.dataInicio) &&
+      currentEncontro.isReceivingAvaliacoes
     : false
 
   const router = useRouter()
@@ -221,6 +222,9 @@ export default function Profile() {
                     )}
                     {hasRole(profileData.roles, [
                       'COORDENADOR',
+                      'TIOSECRETO',
+                      'TIOAPARENTE',
+                      'BV',
                       'ADMIN',
                       'DIRIGENTE',
                     ]) &&

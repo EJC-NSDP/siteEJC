@@ -71,6 +71,8 @@ export function AlertDialogAplicarContent({
                     <span>Recepção: {result.roles.recepcao}</span>
                     <span>Secretaria: {result.roles.secretaria}</span>
                     <span>Tios Secretos: {result.roles.tiosSecretos}</span>
+                    <span>Tios Aparentes: {result.roles.tiosAparentes}</span>
+                    <span>BVs: {result.roles.bvs}</span>
                     <span>Coordenadores: {result.roles.coordenadores}</span>
                   </div>,
                 )
