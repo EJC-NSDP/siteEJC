@@ -1,5 +1,32 @@
 # Changelog
 
+## v5.12.0 — 2026-10-25
+
+### Dia da Amizade (DA)
+
+**Formulário de inscrição — `/admin/da`**
+- Formulário expandido para 4 etapas: mensagem inicial → confirmar dados pessoais → como vai → o que vai levar
+- Nova etapa de confirmação de dados: nome, sobrenome, celular e "Como gosta de ser chamado?" (apelido), com salvamento antes de avançar
+- Botão de voltar (chevron) em todas as etapas com destino anterior
+- Admins podem acessar e preencher o formulário mesmo com o DA fechado (layout e API)
+
+**Painel de itens — `/admin/bp/da/itens`**
+- Card "Informações" colapsável no topo com ícone `BarChart4`
+- Barra horizontal empilhada com proporção por categoria (Carne, Sobremesa, Acompanhamento, Vegetariana)
+- Cards por categoria exibindo contagem absoluta e percentual do total
+- Dados calculados a partir dos itens marcados como presentes no DA atual
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- UI otimista na criação de ônibus: dialog fecha imediatamente, item aparece na lista com ID temporário e sincroniza com o servidor ao concluir; restaura estado em caso de erro
+- UI otimista na exclusão de ônibus: card removido imediatamente com passageiros movidos para sem-veículo; restaura estado em caso de erro
+
+**APIs novas/alteradas — `/api/da/`**
+- `PATCH /da/pessoa` — novo endpoint para atualizar nome, sobrenome, celular e apelido do usuário logado
+- `GET /da` — passa a incluir `pessoa: { nome, sobrenome, celular, apelido }` no retorno
+- `POST /da/inscricao` — admins podem inscrever mesmo com `aberto = false`
+
+---
+
 ## v5.11.1 — 2026-10-23
 
 ### Correções

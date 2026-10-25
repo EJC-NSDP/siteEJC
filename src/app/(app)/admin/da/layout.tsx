@@ -19,7 +19,7 @@ export default async function DALayout({ children }: { children: ReactNode }) {
   }
 
   const aberto = await getDAAberto()
-  if (!aberto) redirect('/admin/profile')
+  if (!aberto && !hasRole(session.user.roles, 'ADMIN')) redirect('/admin/profile')
 
   return (
     <div className="bg-primary z-50 min-h-screen w-auto">

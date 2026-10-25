@@ -68,6 +68,11 @@ export async function GET() {
     },
   })
 
+  const pessoa = await prisma.pessoa.findUnique({
+    where: { id: session.user.id },
+    select: { nome: true, sobrenome: true, celular: true, apelido: true },
+  })
+
   const daMapped = da
     ? {
         ...da,
@@ -86,6 +91,7 @@ export async function GET() {
     da: daMapped,
     mensagemAnterior: daAnterior?.mensagemInicial ?? null,
     carroAnterior: carroAnterior ?? null,
+    pessoa: pessoa ?? null,
   })
 }
 

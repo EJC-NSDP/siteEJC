@@ -52,7 +52,8 @@
       "Bash(not exist *)",
       "Bash(New-Item -ItemType Directory -Force \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\\\\carro-anterior\")",
       "Bash(Out-Null)",
-      "Bash(dir \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\CHANGE*\")"
+      "Bash(dir \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\CHANGE*\")",
+      "Bash(xargs grep -l \"celular\\\\|apelido\\\\|sobrenome\")"
     ]
   }
 }

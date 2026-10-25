@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  BarChart4,
   Check,
   Infinity as InfinityIcon,
   Pencil,
@@ -16,6 +17,12 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import {
   AlertDialog,
@@ -304,6 +311,26 @@ export default function ItensDAPage() {
 
   const podecriar = !!novoNome.trim() && !!novaCategoria
 
+  const CATEGORIA_BAR: Record<CategoriaItemDA, string> = {
+    CARNE: 'bg-red-400',
+    SOBREMESA: 'bg-pink-400',
+    ACOMPANHAMENTO: 'bg-green-400',
+    VEGETARIANA: 'bg-lime-400',
+  }
+
+  const itensNoDA = (itens ?? []).filter((i) => i.noDAAtual)
+  const totalInscricoes = itensNoDA.reduce((s, i) => s + i.inscricoesCount, 0)
+  const statsPorCategoria = CATEGORIAS.map((cat) => {
+    const count = itensNoDA
+      .filter((i) => i.categoria === cat.value)
+      .reduce((s, i) => s + i.inscricoesCount, 0)
+    return {
+      ...cat,
+      count,
+      pct: totalInscricoes > 0 ? (count / totalInscricoes) * 100 : 0,
+    }
+  })
+
   return (
     <div className="h-full w-full">
       <div className="flex items-center justify-between pb-8">
@@ -391,6 +418,68 @@ export default function ItensDAPage() {
           </Dialog>
         </div>
       </div>
+
+      {/* Gráficos */}
+      {itens && (
+        <Accordion type="single" collapsible defaultValue="graficos">
+          <AccordionItem
+            value="graficos"
+            className="rounded-xl border-none bg-white px-4"
+          >
+            <AccordionTrigger>
+              <div className="flex items-center gap-4">
+                <BarChart4 className="h-6 w-6 text-zinc-700" />
+                <span className="font-bold text-zinc-700">Informações</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              {totalInscricoes === 0 ? (
+                <p className="text-sm text-zinc-400">
+                  Nenhuma inscrição registrada ainda.
+                </p>
+              ) : (
+                <div className="flex flex-col gap-4 pb-2">
+                  <div className="flex h-5 w-full overflow-hidden rounded-full">
+                    {statsPorCategoria
+                      .filter((c) => c.pct > 0)
+                      .map((cat) => (
+                        <div
+                          key={cat.value}
+                          className={`${CATEGORIA_BAR[cat.value]} transition-all`}
+                          style={{ width: `${cat.pct}%` }}
+                          title={`${cat.label}: ${cat.count} (${cat.pct.toFixed(1)}%)`}
+                        />
+                      ))}
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    {statsPorCategoria.map((cat) => (
+                      <div
+                        key={cat.value}
+                        className="flex flex-col gap-1 rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`size-2.5 rounded-full ${CATEGORIA_BAR[cat.value]}`}
+                          />
+                          <span className="text-xs font-medium text-zinc-500">
+                            {cat.label}
+                          </span>
+                        </div>
+                        <span className="text-xl font-bold text-zinc-700">
+                          {cat.count}
+                        </span>
+                        <span className="text-xs text-zinc-400">
+                          {cat.pct.toFixed(1)}% do total
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
 
       {/* Filtros */}
       <div className="flex flex-col gap-2 py-4 lg:flex-row lg:items-center">

@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
   if (!da)
     return NextResponse.json({ error: 'DA não encontrado.' }, { status: 404 })
-  if (!da.aberto)
+  if (!da.aberto && !hasRole(session.user.roles, 'ADMIN'))
     return NextResponse.json(
       { error: 'O formulário do DA está fechado.' },
       { status: 403 },

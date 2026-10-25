@@ -1,6 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
 import {
   Beef,
   Bus,
@@ -11,13 +12,14 @@ import {
   Lock,
   Users,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { hasRole } from '@/lib/auth/permissions'
 import { api } from '@/lib/axios'
 
 type ComoVai = 'DIRIGINDO' | 'CARONA' | 'ONIBUS'
@@ -55,18 +57,34 @@ interface CarroAnterior {
   lugaresCarro: number
 }
 
+interface PessoaInfo {
+  nome: string
+  sobrenome: string
+  celular: string
+  apelido: string | null
+}
+
 interface DAResponse {
   encontro: { id: string; numeroEncontro: number }
   da: DiaAmizade | null
   carroAnterior: CarroAnterior | null
+  pessoa: PessoaInfo | null
 }
 
 export default function DAEncontreiroPage() {
   const queryClient = useQueryClient()
-  const [step, setStep] = useState<1 | 2 | 3>(1)
+  const { data: session } = useSession()
+  const isAdmin = hasRole(session?.user?.roles ?? [], 'ADMIN')
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
   const [comoVai, setComoVai] = useState<ComoVai | null>(null)
   const [itemSelecionado, setItemSelecionado] = useState<string | null>(null)
   const [descricaoItem, setDescricaoItem] = useState('')
+
+  // pessoa fields
+  const [nome, setNome] = useState('')
+  const [sobrenome, setSobrenome] = useState('')
+  const [celular, setCelular] = useState('')
+  const [apelido, setApelido] = useState('')
 
   // Car form state
   const [usarCarroAnterior, setUsarCarroAnterior] = useState<boolean | null>(
@@ -79,6 +97,21 @@ export default function DAEncontreiroPage() {
   const { data, isLoading } = useQuery<DAResponse>({
     queryKey: ['da'],
     queryFn: async () => (await api.get('/da')).data,
+  })
+
+  const updatePessoa = useMutation({
+    mutationFn: () =>
+      api.patch('/da/pessoa', {
+        nome,
+        sobrenome,
+        celular,
+        apelido: apelido || null,
+      }),
+    onError: (err: unknown) =>
+      toast.error(
+        (err as { response?: { data?: { error?: string } } })?.response?.data
+          ?.error ?? 'Erro ao salvar dados.',
+      ),
   })
 
   const criarCarro = useMutation({
@@ -124,6 +157,21 @@ export default function DAEncontreiroPage() {
   const carroAnterior = data?.carroAnterior ?? null
   const jaInscrito = (da?.inscricoes.length ?? 0) > 0
   const inscricaoAtual = da?.inscricoes[0]
+
+  // Initialize pessoa fields once when data loads
+  useEffect(() => {
+    if (data?.pessoa) {
+      setNome(data.pessoa.nome)
+      setSobrenome(data.pessoa.sobrenome)
+      setCelular(data.pessoa.celular)
+      setApelido(data.pessoa.apelido ?? '')
+    }
+  }, [data?.pessoa])
+
+  async function handleConfirmarPessoa() {
+    await updatePessoa.mutateAsync()
+    setStep(3)
+  }
 
   async function handleConfirmar() {
     if (!da) return
@@ -331,7 +379,7 @@ export default function DAEncontreiroPage() {
       )
     }
 
-    if (!da.aberto) {
+    if (!da.aberto && !isAdmin) {
       return (
         <Card className="w-full px-3 py-8 text-center text-zinc-700">
           <CardContent className="flex flex-col items-center gap-4">
@@ -371,8 +419,79 @@ export default function DAEncontreiroPage() {
       )
     }
 
-    // Step 2: como vai
+    // Step 2: confirmar dados pessoais
     if (step === 2) {
+      return (
+        <Card className="w-full px-3 py-6 text-zinc-700">
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <button
+                className="text-zinc-400 hover:text-zinc-600"
+                onClick={() => setStep(1)}
+              >
+                <ChevronLeft className="size-5" />
+              </button>
+              <p className="text-base font-medium">Confirme seus dados</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-xs text-zinc-500">Nome</label>
+                <Input
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder="Seu nome"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-zinc-500">
+                  Sobrenome
+                </label>
+                <Input
+                  value={sobrenome}
+                  onChange={(e) => setSobrenome(e.target.value)}
+                  placeholder="Seu sobrenome"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-zinc-500">
+                  Celular
+                </label>
+                <Input
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                  placeholder="(00) 00000-0000"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-zinc-500">
+                  Como gosta de ser chamado?
+                </label>
+                <Input
+                  value={apelido}
+                  onChange={(e) => setApelido(e.target.value)}
+                  placeholder="Opcional"
+                />
+              </div>
+            </div>
+            <Button
+              className="w-full"
+              disabled={
+                !nome.trim() ||
+                !sobrenome.trim() ||
+                !celular.trim() ||
+                updatePessoa.isPending
+              }
+              onClick={handleConfirmarPessoa}
+            >
+              {updatePessoa.isPending ? 'Salvando...' : 'Continuar'}
+            </Button>
+          </CardContent>
+        </Card>
+      )
+    }
+
+    // Step 3: como vai (was step 2)
+    if (step === 3) {
       const opcoes: {
         value: ComoVai
         label: string
@@ -402,7 +521,15 @@ export default function DAEncontreiroPage() {
       return (
         <Card className="w-full px-3 py-6 text-zinc-700">
           <CardContent className="flex flex-col gap-4">
-            <p className="text-base font-medium">Como você vai ao DA?</p>
+            <div className="flex items-center gap-2">
+              <button
+                className="text-zinc-400 hover:text-zinc-600"
+                onClick={() => setStep(2)}
+              >
+                <ChevronLeft className="size-5" />
+              </button>
+              <p className="text-base font-medium">Como você vai ao DA?</p>
+            </div>
             <div className="grid gap-2">
               {opcoes.map(({ value, label, desc, icon: Icon }) => {
                 const selecionado = comoVai === value
@@ -571,7 +698,7 @@ export default function DAEncontreiroPage() {
             <Button
               className="w-full"
               disabled={!comoVai || !carroFormPreenchido}
-              onClick={() => setStep(3)}
+              onClick={() => setStep(4)}
             >
               Continuar
             </Button>
@@ -580,14 +707,14 @@ export default function DAEncontreiroPage() {
       )
     }
 
-    // Step 3: item selection
+    // Step 4: item selection
     return (
       <Card className="w-full px-3 py-6 text-zinc-700">
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <button
               className="text-zinc-400 hover:text-zinc-600"
-              onClick={() => setStep(2)}
+              onClick={() => setStep(3)}
             >
               <ChevronLeft className="size-5" />
             </button>

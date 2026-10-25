@@ -432,29 +432,71 @@ export default function TransportePage() {
   })
 
   const criarOnibus = useMutation({
-    mutationFn: () =>
-      api.post('/da/onibus', {
-        idDA: da!.id,
-        nome: novoOnibusNome,
-        vagas: Number(novoOnibusVagas),
-      }),
-    onSuccess: () => {
-      invalidar()
+    mutationFn: ({ nome, vagas }: { nome: string; vagas: number | null }) =>
+      api.post('/da/onibus', { idDA: da!.id, nome, vagas }),
+    onMutate: async ({ nome, vagas }) => {
+      await queryClient.cancelQueries({ queryKey: ['da-transporte', da?.id] })
+      const previous = queryClient.getQueryData<TransporteData>([
+        'da-transporte',
+        da?.id,
+      ])
+      if (previous) {
+        queryClient.setQueryData<TransporteData>(['da-transporte', da?.id], {
+          ...previous,
+          onibus: [
+            ...previous.onibus,
+            { id: `temp-${Date.now()}`, nome, vagas, passageiros: [] },
+          ],
+        })
+      }
       setNovoOnibusAberto(false)
       setNovoOnibusNome('')
       setNovoOnibusVagas('')
-      toast.success('Ônibus adicionado.')
+      return { previous }
     },
-    onError: () => toast.error('Erro ao adicionar ônibus.'),
+    onError: (_err, _vars, context) => {
+      if (context?.previous)
+        queryClient.setQueryData(['da-transporte', da?.id], context.previous)
+      toast.error('Erro ao adicionar ônibus.')
+    },
+    onSuccess: () => toast.success('Ônibus adicionado.'),
+    onSettled: () => invalidar(),
   })
 
   const excluirOnibus = useMutation({
     mutationFn: (id: string) => api.delete(`/da/onibus/${id}`),
-    onSuccess: () => {
-      invalidar()
-      toast.success('Ônibus removido.')
+    onMutate: async (id: string) => {
+      await queryClient.cancelQueries({ queryKey: ['da-transporte', da?.id] })
+      const previous = queryClient.getQueryData<TransporteData>([
+        'da-transporte',
+        da?.id,
+      ])
+      if (previous) {
+        const onibus = previous.onibus.find((o) => o.id === id)
+        const passageiros = onibus?.passageiros ?? []
+        queryClient.setQueryData<TransporteData>(['da-transporte', da?.id], {
+          ...previous,
+          onibus: previous.onibus.filter((o) => o.id !== id),
+          semVeiculo: [
+            ...previous.semVeiculo,
+            ...passageiros.map((p) => ({
+              idPessoa: p.idPessoa,
+              pessoa: p.pessoa,
+              comoVai: p.comoVai,
+              nomeBP: p.nomeBP,
+            })),
+          ],
+        })
+      }
+      return { previous }
     },
-    onError: () => toast.error('Erro ao remover ônibus.'),
+    onError: (_err, _id, context) => {
+      if (context?.previous)
+        queryClient.setQueryData(['da-transporte', da?.id], context.previous)
+      toast.error('Erro ao remover ônibus.')
+    },
+    onSuccess: () => toast.success('Ônibus removido.'),
+    onSettled: () => invalidar(),
   })
 
   // ── DnD ──────────────────────────────────────────────────────────────────
@@ -1190,7 +1232,12 @@ export default function TransportePage() {
               Cancelar
             </Button>
             <Button
-              onClick={() => criarOnibus.mutate()}
+              onClick={() =>
+                criarOnibus.mutate({
+                  nome: novoOnibusNome,
+                  vagas: Number(novoOnibusVagas) || null,
+                })
+              }
               disabled={
                 !novoOnibusNome.trim() ||
                 !Number(novoOnibusVagas) ||
