@@ -17,13 +17,13 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { SortableTableHead } from '@/components/Table/SortableTableHead'
 import {
   AlertDialog,
   AlertDialogAction,
