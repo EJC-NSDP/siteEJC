@@ -408,7 +408,7 @@ export function AvaliacaoForm({
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="h-10 w-40"
+                    className="h-10 w-full"
                   >
                     {submitting
                       ? jaEnviouEm

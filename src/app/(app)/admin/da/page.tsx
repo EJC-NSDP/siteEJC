@@ -433,7 +433,7 @@ export default function DAEncontreiroPage() {
               </button>
               <p className="text-base font-medium">Confirme seus dados</p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs text-zinc-500">Nome</label>
                 <Input
@@ -490,7 +490,7 @@ export default function DAEncontreiroPage() {
       )
     }
 
-    // Step 3: como vai (was step 2)
+    // Step 3: como vai
     if (step === 3) {
       const opcoes: {
         value: ComoVai
@@ -520,7 +520,7 @@ export default function DAEncontreiroPage() {
 
       return (
         <Card className="w-full px-3 py-6 text-zinc-700">
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="p-0 flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <button
                 className="text-zinc-400 hover:text-zinc-600"
@@ -582,11 +582,11 @@ export default function DAEncontreiroPage() {
                         {carroAnterior.placaCarro}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col gap-2">
                       <Button
                         size="sm"
-                        variant="outline"
-                        className="flex-1"
+                        variant="tertiary"
+                        className="w-full"
                         onClick={() => {
                           setUsarCarroAnterior(true)
                           setCarroModelo(carroAnterior.modeloCarro)
@@ -598,8 +598,8 @@ export default function DAEncontreiroPage() {
                       </Button>
                       <Button
                         size="sm"
-                        variant="outline"
-                        className="flex-1"
+                        variant="secondary"
+                        className="w-full"
                         onClick={() => setUsarCarroAnterior(false)}
                       >
                         Não, usar outro
@@ -619,7 +619,7 @@ export default function DAEncontreiroPage() {
                         <ChevronLeft className="size-3" /> Usar carro anterior
                       </button>
                     )}
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <div>
                         <label className="mb-1 block text-xs text-zinc-500">
                           Modelo
@@ -708,6 +708,11 @@ export default function DAEncontreiroPage() {
     }
 
     // Step 4: item selection
+    const itemAtual = da.itens.find((i) => i.id === itemSelecionado)
+    const precisaDescricao =
+      itemAtual?.categoria === 'SOBREMESA' &&
+      !itemAtual.nome.toLowerCase().includes('sorvete')
+
     return (
       <Card className="w-full px-3 py-6 text-zinc-700">
         <CardContent className="flex flex-col gap-4">
@@ -774,9 +779,7 @@ export default function DAEncontreiroPage() {
                 )
               })}
           </div>
-          {itemSelecionado &&
-            da.itens.find((i) => i.id === itemSelecionado)?.categoria ===
-              'SOBREMESA' && (
+          {precisaDescricao && (
               <div className="space-y-1">
                 <label className="text-sm font-medium text-zinc-700">
                   Qual sobremesa você vai levar?
@@ -792,9 +795,7 @@ export default function DAEncontreiroPage() {
             className="w-full"
             disabled={
               !itemSelecionado ||
-              (da.itens.find((i) => i.id === itemSelecionado)?.categoria ===
-                'SOBREMESA' &&
-                !descricaoItem.trim()) ||
+              (precisaDescricao && !descricaoItem.trim()) ||
               inscrever.isPending ||
               criarCarro.isPending
             }

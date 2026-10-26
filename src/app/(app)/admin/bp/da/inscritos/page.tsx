@@ -15,6 +15,17 @@ import {
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
 import { Pagination } from '@/components/Table/Pagination'
 import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
@@ -203,7 +214,7 @@ export default function DAInscritosPage() {
 
   return (
     <div className="h-full w-full">
-      <div className="flex items-center justify-between pb-8">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pb-4">
         <div>
           <h1 className="text-tertiary text-2xl font-bold">Inscritos no DA</h1>
           <span className="text-base font-normal text-zinc-500">
@@ -212,20 +223,20 @@ export default function DAInscritosPage() {
           </span>
         </div>
         {!isLoading && inscricoes && (
-          <div className="text-right">
-            <p className="text-2xl font-bold text-zinc-700">
-              {inscricoesFiltradas.length}
-            </p>
-            <p className="text-xs text-zinc-400">
-              {inscricoesFiltradas.length === 1 ? 'inscrito' : 'inscritos'}
+          <div className="w-full rounded-xl bg-white px-4 py-2 shadow-sm sm:w-auto">
+            <p className="text-nowrap font-bold text-zinc-700">
+              <span className="text-2xl">{inscricoesFiltradas.length}</span>{' '}
+              <span className="text-sm font-normal text-zinc-400">
+                {inscricoesFiltradas.length === 1 ? 'inscrito' : 'inscritos'}
+              </span>
             </p>
           </div>
         )}
       </div>
 
       {/* Filtros */}
-      <div className="flex items-center gap-2 py-4">
-        <div className="min-w-0 flex-1">
+      <div className="flex flex-col gap-2 pb-4 sm:flex-row sm:flex-wrap sm:items-center lg:flex-nowrap">
+        <div className="w-full lg:flex-1">
           <SearchInput
             placeholder="Nome do inscrito..."
             value={busca}
@@ -235,7 +246,7 @@ export default function DAInscritosPage() {
         </div>
         {da && da.itens.length > 0 && (
           <Select value={filtroItem} onValueChange={setFiltroItem}>
-            <SelectTrigger className="w-44">
+            <SelectTrigger className="w-full sm:w-44">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -250,7 +261,7 @@ export default function DAInscritosPage() {
         )}
         {!bpsLoading && bps && bps.length > 0 && (
           <Select value={filtroBP} onValueChange={setFiltroBP}>
-            <SelectTrigger className="w-44">
+            <SelectTrigger className="w-full sm:w-44">
               <SelectValue placeholder="Todos os BPs" />
             </SelectTrigger>
             <SelectContent>
@@ -264,12 +275,20 @@ export default function DAInscritosPage() {
             </SelectContent>
           </Select>
         )}
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={handleBuscar}>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button
+            variant="secondary"
+            className="w-full sm:w-auto"
+            onClick={handleBuscar}
+          >
             <Search className="mr-2 h-4 w-4" />
             Buscar
           </Button>
-          <Button variant="destructive" onClick={handleLimpar}>
+          <Button
+            variant="destructive"
+            className="w-full sm:w-auto"
+            onClick={handleLimpar}
+          >
             <SearchX className="mr-2 h-4 w-4" />
             Limpar
           </Button>
@@ -277,14 +296,14 @@ export default function DAInscritosPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-transparent">
-        <Table className="text-xs">
+      <div className="overflow-x-auto bg-transparent">
+        <Table className="min-w-[640px] text-xs">
           <TableHeader>
             <TableRow>
-              <TableHead className="rounded-tl-xl pl-4">Nome</TableHead>
-              <TableHead>O que vai levar</TableHead>
-              <TableHead>Transporte</TableHead>
-              <TableHead>BP Responsável</TableHead>
+              <TableHead className="min-w-[160px] rounded-tl-xl pl-4">Nome</TableHead>
+              <TableHead className="text-nowrap">O que vai levar</TableHead>
+              <TableHead className="text-nowrap">Transporte</TableHead>
+              <TableHead className="text-nowrap">BP Responsável</TableHead>
               <TableHead className="w-20 rounded-tr-xl">Ações</TableHead>
             </TableRow>
           </TableHeader>
@@ -335,7 +354,7 @@ export default function DAInscritosPage() {
                   <TableRow key={ins.idPessoa} className="bg-white">
                     {/* Nome */}
                     <TableCell className="pl-4">
-                      <p className="font-medium text-zinc-700">{nomePessoa}</p>
+                      <p className="text-sm font-medium text-zinc-700">{nomePessoa}</p>
                       {ins.pessoa.numeroEJC && (
                         <p className="text-zinc-400">
                           {ins.pessoa.numeroEJC}º EJC
@@ -484,16 +503,37 @@ export default function DAInscritosPage() {
                             >
                               <Pencil className="size-3.5" />
                             </button>
-                            <button
-                              onClick={() =>
-                                removerInscricao.mutate(ins.idPessoa)
-                              }
-                              disabled={removerInscricao.isPending}
-                              className="text-zinc-400 hover:text-red-500"
-                              title="Remover"
-                            >
-                              <Trash2 className="size-3.5" />
-                            </button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <button
+                                  className="text-zinc-400 hover:text-red-500"
+                                  title="Remover"
+                                >
+                                  <Trash2 className="size-3.5" />
+                                </button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Remover inscrição?
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    {ins.pessoa.nome} será removido do DA e
+                                    desalocado do transporte.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() =>
+                                      removerInscricao.mutate(ins.idPessoa)
+                                    }
+                                  >
+                                    Remover
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </>
                         )}
                       </div>

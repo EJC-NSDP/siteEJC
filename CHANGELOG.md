@@ -1,5 +1,37 @@
 # Changelog
 
+## v5.13.0 — 2026-10-26
+
+### Avaliação
+
+- Botão "Enviar" passa a ocupar toda a largura do card no formulário de avaliação
+
+### Dia da Amizade (DA)
+
+**Formulário de inscrição — `/admin/da`**
+- Responsividade corrigida por completo: campos de dados pessoais (step 2) e campos do carro (step 3) empilham em coluna no mobile e ficam lado a lado em telas ≥ 640px
+- Padding interno do card do step 3 unificado: `CardContent` com `p-0`, eliminando o duplo padding do shadcn que variava visualmente conforme a opção selecionada
+- Botões "Sim, é esse" e "Não, usar outro" empilhados verticalmente no mobile, sem overflow do card
+- Hierarquia visual dos botões: "Sim, é esse" = `tertiary`, "Não, usar outro" = `secondary`
+- Sorvete não abre campo de observação (item com nome contendo "sorvete" é excluído da lógica de `SOBREMESA`)
+
+**Navegação BPs**
+- Menu do sidebar: "Dia da Amizade" movido para o topo; "Pastorais" movido para baixo
+- Botão "Bom Pastor" no perfil aponta diretamente para `/admin/bp/da` (gestão do DA)
+
+**Painel de inscritos — `/admin/bp/da/inscritos`**
+- Filtros (busca, selects, botões) exibidos na mesma linha em `lg` com `flex-nowrap` e `SearchInput` em `flex-1`
+
+**Painel de itens — `/admin/bp/da/itens`**
+- Mesma correção de filtros na mesma linha em `lg`
+- Padding inferior adicionado em "Nenhuma inscrição registrada ainda." dentro do card de informações
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Label "Sem transporte" exibido em desktop e "Sem" em mobile com `text-nowrap`
+- Padding aumentado entre os cards de estatísticas e o botão "Ônibus/van" no mobile
+
+---
+
 ## v5.12.0 — 2026-10-25
 
 ### Dia da Amizade (DA)

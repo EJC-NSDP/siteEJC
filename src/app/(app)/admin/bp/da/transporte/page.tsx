@@ -602,8 +602,8 @@ export default function TransportePage() {
 
   return (
     <div className="space-y-6">
-      {/* Header: title + stats + buttons in one row */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      {/* Header */}
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-tertiary text-2xl font-bold">Transporte</h1>
           <span className="text-base font-normal text-zinc-500">
@@ -611,51 +611,40 @@ export default function TransportePage() {
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
           {isLoading && (
-            <>
+            <div className="flex gap-2">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Skeleton key={i} className="h-12 w-20 rounded-xl" />
+                <Skeleton key={i} className="h-14 flex-1 rounded-xl" />
               ))}
-            </>
+            </div>
           )}
           {!isLoading && stats && (
             <>
-              {[
-                { label: 'Total', value: stats.total, cls: 'text-zinc-600' },
-                {
-                  label: 'Dirigindo',
-                  value: stats.dirigindo,
-                  cls: 'text-blue-600',
-                },
-                {
-                  label: 'Carona',
-                  value: stats.carona,
-                  cls: 'text-orange-600',
-                },
-                {
-                  label: 'Ônibus',
-                  value: stats.onibus,
-                  cls: 'text-purple-600',
-                },
-                {
-                  label: 'Sem transp.',
-                  value: stats.semTransporte,
-                  cls: 'text-zinc-400',
-                },
-              ].map(({ label, value, cls }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center rounded-xl bg-white px-3 py-1.5 shadow-sm"
-                >
-                  <span className={`text-lg font-bold ${cls}`}>{value}</span>
-                  <span className="text-[11px] text-zinc-400">{label}</span>
-                </div>
-              ))}
+              <div className="flex gap-2">
+                {[
+                  { label: 'Total', value: stats.total, cls: 'text-zinc-600' },
+                  { label: 'Dirigindo', value: stats.dirigindo, cls: 'text-blue-600' },
+                  { label: 'Carona', value: stats.carona, cls: 'text-orange-600' },
+                  { label: 'Ônibus', value: stats.onibus, cls: 'text-purple-600' },
+                  { label: 'Sem transporte', shortLabel: 'Sem', value: stats.semTransporte, cls: 'text-zinc-400' },
+                ].map(({ label, shortLabel, value, cls }) => (
+                  <div
+                    key={label}
+                    className="flex flex-1 flex-col items-center rounded-xl bg-white px-2.5 py-1.5 shadow-sm"
+                  >
+                    <span className={`text-lg font-bold ${cls}`}>{value}</span>
+                    <span className="text-nowrap text-center text-[11px] text-zinc-400">
+                      <span className="hidden lg:inline">{label}</span>
+                      <span className="lg:hidden">{shortLabel ?? label}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
               {da && (
                 <>
-                  <div className="h-8 w-px bg-zinc-200" />
-                  <Button onClick={() => setNovoOnibusAberto(true)}>
+                  <div className="hidden h-8 w-px bg-zinc-200 sm:block" />
+                  <Button className="w-full sm:w-auto" onClick={() => setNovoOnibusAberto(true)}>
                     <Plus className="mr-1 size-4" />
                     <Bus className="mr-1 size-4" />
                     Ônibus/van
@@ -800,7 +789,6 @@ export default function TransportePage() {
                               <AlertDialogCancel>Cancelar</AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => excluirOnibus.mutate(onibus.id)}
-                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                               >
                                 Remover
                               </AlertDialogAction>
@@ -814,7 +802,7 @@ export default function TransportePage() {
                     <CardContent>
                       <Droppable
                         id={`onibus-${onibus.id}`}
-                        className="grid grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5"
+                        className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                       >
                         {pessoasOnibus.length === 0 && (
                           <div className="col-span-full flex min-h-12 items-center justify-center rounded-lg border border-dashed border-purple-300 bg-purple-50/50 text-sm text-purple-400">
@@ -1006,7 +994,6 @@ export default function TransportePage() {
                                         onClick={() =>
                                           excluirCarro.mutate(carro.id)
                                         }
-                                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                       >
                                         Remover
                                       </AlertDialogAction>

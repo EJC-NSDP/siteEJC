@@ -53,9 +53,9 @@ export function CardPessoa({
           isOverlay && 'ring-primary cursor-grabbing shadow-lg ring-2',
         )}
       >
-        <div className="flex items-center justify-between px-2 py-1.5">
-          <div className="min-w-0">
-            <span className="truncate text-xs font-medium text-zinc-700">
+        <div className="flex items-center gap-1 px-2 py-1.5">
+          <div className="min-w-0 flex-1">
+            <span className="block truncate text-xs font-medium text-zinc-700">
               {pessoa.content.nome}
             </span>
             {pessoa.content.numEncontro && (
@@ -65,7 +65,7 @@ export function CardPessoa({
             )}
           </div>
           <button
-            className="ml-1 shrink-0 cursor-grab touch-none text-zinc-300 hover:text-zinc-500"
+            className="shrink-0 cursor-grab touch-none text-zinc-300 hover:text-zinc-500"
             {...attributes}
             {...listeners}
           >
@@ -73,12 +73,12 @@ export function CardPessoa({
           </button>
         </div>
         <Separator />
-        <div className="flex items-center justify-between px-2 py-1">
-          <span className="flex items-center gap-1 text-[11px] text-zinc-400">
-            <UserCheck className="size-3" />
+        <div className="flex items-center justify-between gap-1 px-2 py-1">
+          <span className="flex min-w-0 items-center gap-1 truncate text-[11px] text-zinc-400">
+            <UserCheck className="size-3 shrink-0" />
             {pessoa.content.nomeBP ?? '-'}
           </span>
-          {actions}
+          <div className="shrink-0">{actions}</div>
         </div>
       </Card>
     )
@@ -92,9 +92,9 @@ export function CardPessoa({
         isOverlay && 'ring-primary cursor-grabbing shadow-lg ring-2',
       )}
     >
-      <div className="flex items-center justify-between px-3 py-3">
-        <div>
-          <span className="font-medium text-zinc-700">
+      <div className="flex items-center gap-2 px-3 py-3">
+        <div className="min-w-0 flex-1">
+          <span className="block truncate font-medium text-zinc-700">
             {pessoa.content.nome}
           </span>
           {pessoa.content.numEncontro && (
@@ -104,7 +104,7 @@ export function CardPessoa({
           )}
         </div>
         <button
-          className="cursor-grab touch-none text-zinc-300 hover:text-zinc-500"
+          className="shrink-0 cursor-grab touch-none text-zinc-300 hover:text-zinc-500"
           {...attributes}
           {...listeners}
         >
@@ -112,12 +112,12 @@ export function CardPessoa({
         </button>
       </div>
       <Separator />
-      <div className="flex items-center justify-between px-3 py-2">
-        <span className="flex items-center gap-1 text-sm text-zinc-400">
-          <UserCheck className="size-3.5" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2">
+        <span className="flex min-w-0 items-center gap-1 truncate text-sm text-zinc-400">
+          <UserCheck className="size-3.5 shrink-0" />
           {pessoa.content.nomeBP ?? '-'}
         </span>
-        {actions}
+        <div className="shrink-0">{actions}</div>
       </div>
     </Card>
   )

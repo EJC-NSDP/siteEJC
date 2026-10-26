@@ -116,9 +116,11 @@ export async function GET(request: NextRequest) {
   const stats = {
     total: inscricoes.length,
     dirigindo: inscricoes.filter((i) => i.comoVai === 'DIRIGINDO').length,
-    carona: inscricoes.filter((i) => i.comoVai === 'CARONA').length,
-    onibus: inscricoes.filter((i) => i.comoVai === 'ONIBUS').length,
-    semTransporte: inscricoes.filter((i) => !i.comoVai).length,
+    carona: inscricoes.filter((i) => !!i.idCarroDA).length,
+    onibus: inscricoes.filter((i) => !!i.idOnibusDA).length,
+    semTransporte: inscricoes.filter(
+      (i) => !i.idCarroDA && !i.idOnibusDA && i.comoVai !== 'DIRIGINDO',
+    ).length,
   }
 
   return NextResponse.json({

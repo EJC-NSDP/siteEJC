@@ -79,14 +79,14 @@ export default function DirigenteAvaliacaoPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between gap-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-zinc-800">Avaliações</h1>
           <p className="mt-1 text-sm text-zinc-500">
             Respostas enviadas pelos encontreiros após o encontrão
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm text-zinc-600">Avaliações abertas?</span>
             {statusLoading ? (

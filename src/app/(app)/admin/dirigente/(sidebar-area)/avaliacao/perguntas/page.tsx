@@ -16,7 +16,7 @@ export default async function PerguntasAvaliacaoPage() {
 
   return (
     <div className="space-y-4 text-zinc-700">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-zinc-800">
             Perguntas da Avaliação

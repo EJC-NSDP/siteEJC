@@ -243,7 +243,7 @@ export default function Profile() {
                       <ButtonLabel
                         label="Bom Pastor"
                         icon={HelpingHand}
-                        link="/admin/bp"
+                        link="/admin/bp/da"
                       />
                     )}
                     {daAberto &&

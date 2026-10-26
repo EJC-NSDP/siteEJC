@@ -98,8 +98,8 @@ export function PerguntasEditor({
           <Card key={pergunta.id} className="w-full text-zinc-700">
             <CardContent className="flex flex-col gap-4 p-5">
               {/* Header da pergunta */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs font-medium text-zinc-400">
                     #{pergunta.ordem}
                   </span>

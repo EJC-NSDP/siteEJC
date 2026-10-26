@@ -143,7 +143,7 @@ function IndicacaoRow({
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4">
-      <div className="flex items-start gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
         {/* Typeahead */}
         <div className="relative flex-1">
           <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ function IndicacaoRow({
           value={item.equipeIndicada}
           onValueChange={(v) => onChange({ ...item, equipeIndicada: v })}
         >
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-full sm:w-44">
             <SelectValue placeholder="Equipe" />
           </SelectTrigger>
           <SelectContent>

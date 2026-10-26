@@ -75,9 +75,9 @@ const CATEGORIAS: { value: CategoriaItemDA; label: string }[] = [
 
 const CATEGORIA_STYLE: Record<CategoriaItemDA, string> = {
   CARNE: 'bg-red-100 text-red-700',
-  SOBREMESA: 'bg-pink-100 text-pink-700',
-  ACOMPANHAMENTO: 'bg-green-100 text-green-700',
-  VEGETARIANA: 'bg-lime-100 text-lime-700',
+  SOBREMESA: 'bg-yellow-100 text-yellow-700',
+  ACOMPANHAMENTO: 'bg-blue-100 text-blue-700',
+  VEGETARIANA: 'bg-green-100 text-green-700',
 }
 
 function CategoriaBadge({ categoria }: { categoria: CategoriaItemDA }) {
@@ -313,9 +313,9 @@ export default function ItensDAPage() {
 
   const CATEGORIA_BAR: Record<CategoriaItemDA, string> = {
     CARNE: 'bg-red-400',
-    SOBREMESA: 'bg-pink-400',
-    ACOMPANHAMENTO: 'bg-green-400',
-    VEGETARIANA: 'bg-lime-400',
+    SOBREMESA: 'bg-yellow-400',
+    ACOMPANHAMENTO: 'bg-blue-400',
+    VEGETARIANA: 'bg-green-400',
   }
 
   const itensNoDA = (itens ?? []).filter((i) => i.noDAAtual)
@@ -333,7 +333,7 @@ export default function ItensDAPage() {
 
   return (
     <div className="h-full w-full">
-      <div className="flex items-center justify-between pb-8">
+      <div className="flex flex-wrap items-start justify-between gap-3 pb-8">
         <div>
           <h1 className="text-tertiary text-2xl font-bold">O que levar</h1>
           <span className="text-base font-normal text-zinc-500">
@@ -341,15 +341,13 @@ export default function ItensDAPage() {
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           {da && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" disabled={replicar.isPending}>
-                  <div className="flex items-center justify-center gap-2">
-                    <RefreshCw className="h-4 w-4" />
-                    <span className="hidden lg:flex">Replicar último DA</span>
-                  </div>
+                <Button variant="outline" className="w-full sm:w-auto" disabled={replicar.isPending}>
+                  <RefreshCw className="mr-1.5 h-4 w-4" />
+                  Replicar último DA
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -374,11 +372,9 @@ export default function ItensDAPage() {
 
           <Dialog open={dialogAberto} onOpenChange={setDialogAberto}>
             <DialogTrigger asChild>
-              <Button>
-                <div className="flex items-center justify-center gap-2 lg:w-36">
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden lg:flex">Novo Item</span>
-                </div>
+              <Button className="w-full sm:w-auto">
+                <Plus className="mr-1.5 h-4 w-4" />
+                Novo Item
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -434,7 +430,7 @@ export default function ItensDAPage() {
             </AccordionTrigger>
             <AccordionContent>
               {totalInscricoes === 0 ? (
-                <p className="text-sm text-zinc-400">
+                <p className="pb-2 text-sm text-zinc-400">
                   Nenhuma inscrição registrada ainda.
                 </p>
               ) : (
@@ -482,16 +478,17 @@ export default function ItensDAPage() {
       )}
 
       {/* Filtros */}
-      <div className="flex flex-col gap-2 py-4 lg:flex-row lg:items-center">
-        <SearchInput
-          placeholder="Nome do item..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleBuscar()}
-          className="lg:max-w-xs"
-        />
+      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:flex-wrap sm:items-center lg:flex-nowrap">
+        <div className="w-full lg:flex-1">
+          <SearchInput
+            placeholder="Nome do item..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleBuscar()}
+          />
+        </div>
         <Select value={filtroCategoria} onValueChange={setFiltroCategoria}>
-          <SelectTrigger className="w-48 text-nowrap">
+          <SelectTrigger className="w-full text-nowrap sm:w-48">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -504,7 +501,7 @@ export default function ItensDAPage() {
           </SelectContent>
         </Select>
         <Select value={filtroDA} onValueChange={setFiltroDA}>
-          <SelectTrigger className="w-44 text-nowrap">
+          <SelectTrigger className="w-full text-nowrap sm:w-44">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -513,12 +510,20 @@ export default function ItensDAPage() {
             <SelectItem value="fora_da">Fora do DA</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={handleBuscar}>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button
+            variant="secondary"
+            className="w-full sm:w-auto"
+            onClick={handleBuscar}
+          >
             <Search className="mr-2 h-4 w-4" />
             Buscar
           </Button>
-          <Button variant="destructive" onClick={handleLimpar}>
+          <Button
+            variant="destructive"
+            className="w-full sm:w-auto"
+            onClick={handleLimpar}
+          >
             <SearchX className="mr-2 h-4 w-4" />
             Limpar
           </Button>
@@ -526,7 +531,7 @@ export default function ItensDAPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-transparent">
+      <div className="overflow-x-auto bg-transparent">
         <Table className="text-xs">
           <TableHeader>
             <TableRow>

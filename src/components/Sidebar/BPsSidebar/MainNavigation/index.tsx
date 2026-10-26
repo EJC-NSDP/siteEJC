@@ -10,13 +10,6 @@ export function MainNavigation() {
 
   return (
     <nav className="flex flex-col gap-4 space-y-0.5">
-      <Link href="/admin/bp">
-        <NavItem
-          title="Pastorais"
-          icon={HeartHandshake}
-          active={path === '/admin/bp'}
-        />
-      </Link>
       <NavItemGroup
         title="Dia da Amizade"
         value="dia-amizade"
@@ -51,6 +44,13 @@ export function MainNavigation() {
           />
         </Link>
       </NavItemGroup>
+      <Link href="/admin/bp">
+        <NavItem
+          title="Pastorais"
+          icon={HeartHandshake}
+          active={path === '/admin/bp'}
+        />
+      </Link>
     </nav>
   )
 }

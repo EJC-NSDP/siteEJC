@@ -126,7 +126,7 @@ export default function DABPPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="text-tertiary text-2xl font-bold">
             {encontro && dataFormatada
@@ -137,12 +137,10 @@ export default function DABPPage() {
             Configure as informações e controle a abertura do formulário
           </span>
         </div>
-        <Link href="/admin/da">
-          <Button>
-            <div className="flex items-center justify-center gap-2 lg:w-40">
-              <ClipboardList className="h-4 w-4" />
-              <span className="hidden lg:flex">Formulário DA</span>
-            </div>
+        <Link href="/admin/da" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">
+            <ClipboardList className="mr-1.5 h-4 w-4" />
+            Formulário do encontreiro
           </Button>
         </Link>
       </div>
@@ -171,7 +169,7 @@ export default function DABPPage() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base">Status do formulário</CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center gap-4">
+            <CardContent className="flex flex-wrap items-center gap-4">
               <Switch
                 checked={da.aberto}
                 onCheckedChange={(v) => toggleStatus.mutate(v)}
