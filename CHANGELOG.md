@@ -1,5 +1,11 @@
 # Changelog
 
+## v5.13.1 — 2026-10-26
+
+### Dia da Amizade (DA)
+
+- Formulário de inscrição liberado para o role BP mesmo com o DA fechado (igual ao ADMIN)
+
 ## v5.13.0 — 2026-10-26
 
 ### Avaliação

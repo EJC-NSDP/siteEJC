@@ -75,6 +75,7 @@ export default function DAEncontreiroPage() {
   const queryClient = useQueryClient()
   const { data: session } = useSession()
   const isAdmin = hasRole(session?.user?.roles ?? [], 'ADMIN')
+  const isBP = hasRole(session?.user?.roles ?? [], 'BP')
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
   const [comoVai, setComoVai] = useState<ComoVai | null>(null)
   const [itemSelecionado, setItemSelecionado] = useState<string | null>(null)
@@ -379,7 +380,7 @@ export default function DAEncontreiroPage() {
       )
     }
 
-    if (!da.aberto && !isAdmin) {
+    if (!da.aberto && !isAdmin && !isBP) {
       return (
         <Card className="w-full px-3 py-8 text-center text-zinc-700">
           <CardContent className="flex flex-col items-center gap-4">
