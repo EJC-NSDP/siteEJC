@@ -51,6 +51,17 @@ export async function GET(request: NextRequest) {
           avatarUrl: true,
         },
       },
+      grupoCarne: {
+        include: {
+          membros: {
+            include: {
+              pessoa: {
+                select: { id: true, nome: true, sobrenome: true, apelido: true },
+              },
+            },
+          },
+        },
+      },
     },
     orderBy: { createdAt: 'asc' },
   })
@@ -75,6 +86,7 @@ export async function GET(request: NextRequest) {
       quantidade: ins.itemDA.quantidade,
     },
     descricaoItem: ins.descricaoItem,
+    observacao: ins.observacao,
     veiculo: ins.carroDa
       ? {
           tipo: 'carro' as const,
@@ -92,6 +104,11 @@ export async function GET(request: NextRequest) {
           avatarUrl: ins.responsavelBP.avatarUrl,
         }
       : null,
+    companheiros: ins.grupoCarne
+      ? ins.grupoCarne.membros
+          .filter((m) => m.idPessoa !== ins.idPessoa)
+          .map((m) => m.pessoa.apelido ?? `${m.pessoa.nome} ${m.pessoa.sobrenome}`)
+      : [],
   }))
 
   return NextResponse.json(result)

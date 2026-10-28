@@ -98,8 +98,10 @@ interface ItemGlobal {
   categoria: CategoriaItemDA
   noDAAtual: boolean
   quantidade: number | null
+  pessoasPorUnidade: number | null
   inscricoesCount: number
   ultimaQuantidade: number | null
+  ultimaPessoasPorUnidade: number | null
   ultimoDA: { numeroEncontro: number } | null
 }
 
@@ -123,6 +125,7 @@ export default function ItensDAPage() {
   const [editCategoria, setEditCategoria] = useState<CategoriaItemDA | ''>('')
   const [editQtd, setEditQtd] = useState('1')
   const [editIlimitado, setEditIlimitado] = useState(false)
+  const [editPessoasPorUnidade, setEditPessoasPorUnidade] = useState('2')
   const [orderByField, setOrderByField] = useState<string | null>(null)
   const [orderByDirection, setOrderByDirection] = useState<string | null>(null)
 
@@ -231,14 +234,16 @@ export default function ItensDAPage() {
       id,
       noDAAtual,
       quantidade,
+      pessoasPorUnidade,
     }: {
       id: string
       noDAAtual: boolean
       quantidade: number | null
+      pessoasPorUnidade?: number | null
     }) =>
       noDAAtual
         ? api.delete(`/da/itens/${id}/da?idDA=${da!.id}`)
-        : api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade }),
+        : api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade, pessoasPorUnidade }),
     onMutate: async ({ id, noDAAtual }) => {
       await queryClient.cancelQueries({ queryKey: ['da-itens'] })
       const previous = queryClient.getQueryData<ItemGlobal[]>(['da-itens'])
@@ -266,15 +271,21 @@ export default function ItensDAPage() {
     mutationFn: ({
       id,
       quantidade,
+      pessoasPorUnidade,
     }: {
       id: string
       quantidade: number | null
-    }) => api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade }),
-    onMutate: async ({ id, quantidade }) => {
+      pessoasPorUnidade?: number | null
+    }) => api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade, pessoasPorUnidade }),
+    onMutate: async ({ id, quantidade, pessoasPorUnidade }) => {
       await queryClient.cancelQueries({ queryKey: ['da-itens'] })
       const previous = queryClient.getQueryData<ItemGlobal[]>(['da-itens'])
       queryClient.setQueryData<ItemGlobal[]>(['da-itens'], (old) =>
-        old?.map((item) => (item.id === id ? { ...item, quantidade } : item)),
+        old?.map((item) =>
+          item.id === id
+            ? { ...item, quantidade, ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }) }
+            : item,
+        ),
       )
       return { previous }
     },
@@ -318,7 +329,7 @@ export default function ItensDAPage() {
     VEGETARIANA: 'bg-green-400',
   }
 
-  const itensNoDA = (itens ?? []).filter((i) => i.noDAAtual)
+  const itensNoDA = (itens ?? []).filter((i) => i.noDAAtual || i.inscricoesCount > 0)
   const totalInscricoes = itensNoDA.reduce((s, i) => s + i.inscricoesCount, 0)
   const statsPorCategoria = CATEGORIAS.map((cat) => {
     const count = itensNoDA
@@ -553,6 +564,7 @@ export default function ItensDAPage() {
               />
               <TableHead className="w-24 text-center">Neste DA</TableHead>
               <TableHead className="w-28">Quantidade</TableHead>
+              <TableHead className="w-28">Pessoas/peça</TableHead>
               <TableHead className="w-28">Último DA</TableHead>
               <TableHead className="w-20 rounded-tr-xl">Ações</TableHead>
             </TableRow>
@@ -577,13 +589,16 @@ export default function ItensDAPage() {
                     <Skeleton className="h-4 w-16" />
                   </TableCell>
                   <TableCell>
+                    <Skeleton className="h-4 w-16" />
+                  </TableCell>
+                  <TableCell>
                     <Skeleton className="h-4 w-12" />
                   </TableCell>
                 </TableRow>
               ))}
 
             {!isLoading && itensFiltrados.length === 0 && (
-              <EmptyTableRow colspan={6} content="Nenhum item encontrado." />
+              <EmptyTableRow colspan={7} content="Nenhum item encontrado." />
             )}
 
             {!isLoading &&
@@ -644,6 +659,7 @@ export default function ItensDAPage() {
                               id: item.id,
                               noDAAtual: item.noDAAtual,
                               quantidade: item.ultimaQuantidade,
+                              pessoasPorUnidade: item.ultimaPessoasPorUnidade,
                             })
                           }
                         />
@@ -692,6 +708,35 @@ export default function ItensDAPage() {
                             <InfinityIcon className="inline size-3.5 text-zinc-500" />
                           )}
                         </span>
+                      ) : item.inscricoesCount > 0 && da ? (
+                        <span className="text-zinc-400">
+                          {item.inscricoesCount}/
+                          {item.quantidade ?? (
+                            <InfinityIcon className="inline size-3.5" />
+                          )}
+                        </span>
+                      ) : (
+                        <span className="text-zinc-400">—</span>
+                      )}
+                    </TableCell>
+
+                    <TableCell>
+                      {editando && item.noDAAtual && da && item.categoria === 'CARNE' ? (
+                        <Input
+                          type="number"
+                          min={1}
+                          max={20}
+                          value={editPessoasPorUnidade}
+                          onChange={(e) => setEditPessoasPorUnidade(e.target.value)}
+                          wrapperClassName="h-9 w-16"
+                          className="text-xs"
+                        />
+                      ) : item.noDAAtual && da && item.categoria === 'CARNE' ? (
+                        <span className="text-zinc-700">
+                          {item.pessoasPorUnidade && item.pessoasPorUnidade > 1
+                            ? item.pessoasPorUnidade
+                            : <span className="text-zinc-400">—</span>}
+                        </span>
                       ) : (
                         <span className="text-zinc-400">—</span>
                       )}
@@ -718,10 +763,14 @@ export default function ItensDAPage() {
                                   const novaQtd = editIlimitado
                                     ? null
                                     : parseInt(editQtd, 10)
-                                  if (novaQtd !== item.quantidade)
+                                  const novaPpu = item.categoria === 'CARNE'
+                                    ? (parseInt(editPessoasPorUnidade, 10) || null)
+                                    : undefined
+                                  if (novaQtd !== item.quantidade || novaPpu !== item.pessoasPorUnidade)
                                     atualizarQtd.mutate({
                                       id: item.id,
                                       quantidade: novaQtd,
+                                      pessoasPorUnidade: novaPpu,
                                     })
                                 }
                               }}
@@ -758,20 +807,51 @@ export default function ItensDAPage() {
                                       1,
                                   ),
                                 )
+                                setEditPessoasPorUnidade(
+                                  String(
+                                    item.pessoasPorUnidade ??
+                                      item.ultimaPessoasPorUnidade ??
+                                      1,
+                                  ),
+                                )
                               }}
                               className="text-zinc-400 hover:text-zinc-600"
                               title="Editar"
                             >
                               <Pencil className="size-3.5" />
                             </button>
-                            <button
-                              onClick={() => deletarItem.mutate(item.id)}
-                              disabled={deletarItem.isPending}
-                              className="text-zinc-400 hover:text-red-500"
-                              title="Remover"
-                            >
-                              <Trash2 className="size-3.5" />
-                            </button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <button
+                                  disabled={deletarItem.isPending}
+                                  className="text-zinc-400 hover:text-red-500"
+                                  title="Remover"
+                                >
+                                  <Trash2 className="size-3.5" />
+                                </button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Remover item</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Tem certeza que deseja remover{' '}
+                                    <span className="font-medium text-zinc-700">
+                                      {item.nome}
+                                    </span>
+                                    ? Esta ação não pode ser desfeita.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => deletarItem.mutate(item.id)}
+                                    className="bg-red-500 text-white hover:bg-red-600"
+                                  >
+                                    Remover
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </>
                         )}
                       </div>

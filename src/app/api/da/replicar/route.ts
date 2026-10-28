@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const daAnterior = await prisma.diaAmizade.findFirst({
     where: { id: { not: idDA } },
     orderBy: { encontro: { numeroEncontro: 'desc' } },
-    include: { itens: { select: { idItem: true, quantidade: true } } },
+    include: { itens: { select: { idItem: true, quantidade: true, pessoasPorUnidade: true } } },
   })
 
   if (!daAnterior || daAnterior.itens.length === 0)
@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
       idItem: i.idItem,
       idDA,
       quantidade: i.quantidade,
+      pessoasPorUnidade: i.pessoasPorUnidade,
     })),
     skipDuplicates: true,
   })

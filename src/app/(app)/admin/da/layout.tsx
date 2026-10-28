@@ -19,7 +19,7 @@ export default async function DALayout({ children }: { children: ReactNode }) {
   }
 
   const aberto = await getDAAberto()
-  if (!aberto && !hasRole(session.user.roles, 'ADMIN'))
+  if (!aberto && !hasRole(session.user.roles, ['ADMIN', 'BP']))
     redirect('/admin/profile')
 
   return (

@@ -50,16 +50,24 @@ export async function GET() {
         (a, b) => b.da.encontro.numeroEncontro - a.da.encontro.numeroEncontro,
       )[0]
 
-    const ultimaQuantidade = ultimoItemDA ? ultimoItemDA.quantidade : 1
+    const itemInvisivel = emDAAtual && !emDAAtual.visivel
+    const ultimaQuantidade = itemInvisivel
+      ? emDAAtual.quantidade
+      : (ultimoItemDA ? ultimoItemDA.quantidade : 1)
+    const ultimaPessoasPorUnidade = itemInvisivel
+      ? emDAAtual.pessoasPorUnidade
+      : (ultimoItemDA?.pessoasPorUnidade ?? null)
 
     return {
       id: item.id,
       nome: item.nome,
       categoria: item.categoria,
-      noDAAtual: !!emDAAtual,
+      noDAAtual: !!emDAAtual && emDAAtual.visivel,
       quantidade: emDAAtual?.quantidade ?? null,
+      pessoasPorUnidade: emDAAtual?.pessoasPorUnidade ?? null,
       inscricoesCount: emDAAtual?._count.inscricoes ?? 0,
       ultimaQuantidade,
+      ultimaPessoasPorUnidade,
       ultimoDA: ultimoItemDA
         ? { numeroEncontro: ultimoItemDA.da.encontro.numeroEncontro }
         : null,

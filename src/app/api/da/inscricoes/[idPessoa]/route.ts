@@ -25,6 +25,7 @@ export async function PATCH(
     pagouOnibus?: boolean
     idResponsavelBP?: string | null
     descricaoItem?: string | null
+    observacao?: string | null
   }
   const { idDA } = body
 
@@ -72,6 +73,8 @@ export async function PATCH(
     updateData.idResponsavelBP = body.idResponsavelBP
   if (body.descricaoItem !== undefined)
     updateData.descricaoItem = body.descricaoItem
+  if (body.observacao !== undefined)
+    updateData.observacao = body.observacao?.trim() || null
 
   const inscricao = await prisma.inscricaoDA.update({
     where: { idPessoa_idDA: { idPessoa, idDA } },
@@ -109,6 +112,12 @@ export async function DELETE(
   })
 
   await prisma.$transaction(async (tx) => {
+    await tx.conviteVeiculoDA.deleteMany({
+      where: { idDA, OR: [{ idConvidado: idPessoa }, { idMotorista: idPessoa }] },
+    })
+    await tx.conviteCarneDA.deleteMany({
+      where: { idConvidado: idPessoa, grupoCarne: { idDA } },
+    })
     if (carroDaMotorista) {
       await tx.inscricaoDA.updateMany({
         where: { idCarroDA: carroDaMotorista.id },

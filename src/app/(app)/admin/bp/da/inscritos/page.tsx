@@ -4,13 +4,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Bus,
   Car,
-  Check,
+  MessageCircle,
   Pencil,
   Search,
   SearchX,
   Trash2,
   Users,
-  X,
 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -31,7 +30,14 @@ import { Pagination } from '@/components/Table/Pagination'
 import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { SearchInput } from '@/components/ui/search-input'
+import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -76,8 +82,10 @@ interface InscricaoDA {
   }
   item: { id: string; nome: string; quantidade: number | null }
   descricaoItem: string | null
+  observacao: string | null
   veiculo: { tipo: 'carro' | 'onibus'; nome: string } | null
   responsavelBP: { id: string; nome: string; avatarUrl: string | null } | null
+  companheiros: string[]
 }
 
 interface DAResponse {
@@ -85,6 +93,7 @@ interface DAResponse {
   da: {
     id: string
     dataDA: string | null
+    organizarTransporte: boolean
     itens: {
       id: string
       nome: string
@@ -112,8 +121,9 @@ export default function DAInscritosPage() {
   const [filtroBP, setFiltroBP] = useState('todos')
   const [pageIndex, setPageIndex] = useState(1)
   const perPage = 25
-  const [editandoPessoa, setEditandoPessoa] = useState<string | null>(null)
-  const [editItemId, setEditItemId] = useState('')
+  const [modalEdicao, setModalEdicao] = useState<InscricaoDA | null>(null)
+  const [modalItemId, setModalItemId] = useState('')
+  const [modalObservacao, setModalObservacao] = useState('')
 
   const { data: daData, isLoading: daLoading } = useQuery<DAResponse>({
     queryKey: ['da'],
@@ -137,18 +147,18 @@ export default function DAInscritosPage() {
     enabled: !!da,
   })
 
-  const alterarItem = useMutation({
-    mutationFn: ({ idPessoa, idItem }: { idPessoa: string; idItem: string }) =>
-      api.patch(`/da/inscricoes/${idPessoa}`, { idDA: da!.id, idItem }),
+  const salvarEdicao = useMutation({
+    mutationFn: ({ idPessoa, idItem, observacao }: { idPessoa: string; idItem: string; observacao: string }) =>
+      api.patch(`/da/inscricoes/${idPessoa}`, { idDA: da!.id, idItem, observacao: observacao.trim() || null }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['da-inscricoes', da?.id] })
-      setEditandoPessoa(null)
-      toast.success('Item atualizado.')
+      setModalEdicao(null)
+      toast.success('Inscrição atualizada.')
     },
     onError: (err: unknown) =>
       toast.error(
         (err as { response?: { data?: { error?: string } } })?.response?.data
-          ?.error ?? 'Erro ao atualizar o item.',
+          ?.error ?? 'Erro ao atualizar.',
       ),
   })
 
@@ -343,7 +353,6 @@ export default function DAInscritosPage() {
             {!isLoading &&
               da &&
               inscricoesPaginadas.map((ins) => {
-                const editando = editandoPessoa === ins.idPessoa
                 const nomePessoa = ins.pessoa.apelido
                   ? `${ins.pessoa.apelido} (${ins.pessoa.nome})`
                   : `${ins.pessoa.nome} ${ins.pessoa.sobrenome}`
@@ -364,33 +373,28 @@ export default function DAInscritosPage() {
 
                     {/* Item */}
                     <TableCell className="text-zinc-600">
-                      {editando ? (
-                        <Select
-                          value={editItemId}
-                          onValueChange={setEditItemId}
-                          disabled={alterarItem.isPending}
-                        >
-                          <SelectTrigger className="h-8 w-full text-xs">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {da.itens.map((item) => (
-                              <SelectItem key={item.id} value={item.id}>
-                                {item.nome}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : ins.descricaoItem ? (
-                        `${ins.descricaoItem} (${ins.item.nome})`
-                      ) : (
-                        ins.item.nome
-                      )}
+                      <div>
+                        <span className="text-zinc-600">
+                          {ins.descricaoItem
+                            ? `${ins.descricaoItem} (${ins.item.nome})`
+                            : ins.item.nome}
+                        </span>
+                        {ins.companheiros.length > 0 && (
+                          <p className="mt-0.5 text-[11px] text-zinc-400">
+                            com {ins.companheiros.join(', ')}
+                          </p>
+                        )}
+                      </div>
                     </TableCell>
 
                     {/* Transporte */}
                     <TableCell>
-                      {ins.veiculo && comoVaiCfg ? (
+                      {!da.organizarTransporte && (ins.comoVai === 'DIRIGINDO' || ins.comoVai === 'CARONA') ? (
+                        <p className="flex items-center gap-1 text-zinc-400">
+                          <Car className="size-3" />
+                          Carro
+                        </p>
+                      ) : ins.veiculo && comoVaiCfg ? (
                         <div>
                           <p className="font-medium text-zinc-700">
                             {ins.veiculo.nome}
@@ -414,9 +418,16 @@ export default function DAInscritosPage() {
                     <TableCell className="w-44">
                       {bpsLoading ? (
                         <Skeleton className="h-8 w-36" />
-                      ) : (
+                      ) : (() => {
+                        const selfBP = (bps ?? []).find((bp) => bp.id === ins.idPessoa)
+                        const isBP = !!selfBP
+                        const displayBP = isBP
+                          ? { id: selfBP.id, nome: selfBP.nome, avatarUrl: selfBP.avatarUrl }
+                          : ins.responsavelBP
+                        return (
                         <Select
-                          value={ins.responsavelBP?.id ?? 'none'}
+                          value={displayBP?.id ?? 'none'}
+                          disabled={isBP}
                           onValueChange={(val) =>
                             alterarBP.mutate({
                               idPessoa: ins.idPessoa,
@@ -426,17 +437,17 @@ export default function DAInscritosPage() {
                         >
                           <SelectTrigger className="h-8 text-xs">
                             <SelectValue>
-                              {ins.responsavelBP ? (
+                              {displayBP ? (
                                 <span className="flex items-center gap-2">
                                   <Avatar className="size-5">
                                     <AvatarImage
-                                      src={ins.responsavelBP.avatarUrl ?? ''}
+                                      src={displayBP.avatarUrl ?? ''}
                                     />
                                     <AvatarFallback className="text-[10px]">
-                                      {ins.responsavelBP.nome[0]}
+                                      {displayBP.nome[0]}
                                     </AvatarFallback>
                                   </Avatar>
-                                  {ins.responsavelBP.nome}
+                                  {displayBP.nome}
                                 </span>
                               ) : (
                                 <span className="text-zinc-400">Selecione</span>
@@ -462,80 +473,59 @@ export default function DAInscritosPage() {
                             ))}
                           </SelectContent>
                         </Select>
-                      )}
+                        )
+                      })()}
                     </TableCell>
 
                     {/* Ações */}
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {editando ? (
-                          <>
+                        <button
+                          onClick={() => {
+                            setModalEdicao(ins)
+                            setModalItemId(ins.idItem)
+                            setModalObservacao(ins.observacao ?? '')
+                          }}
+                          title={ins.observacao ? 'Ver observação' : 'Sem observação'}
+                          className={ins.observacao ? 'text-amber-500 hover:text-amber-600' : 'text-zinc-200 hover:text-zinc-400'}
+                        >
+                          <MessageCircle className="size-3.5" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setModalEdicao(ins)
+                            setModalItemId(ins.idItem)
+                            setModalObservacao(ins.observacao ?? '')
+                          }}
+                          className="text-zinc-400 hover:text-zinc-600"
+                          title="Editar"
+                        >
+                          <Pencil className="size-3.5" />
+                        </button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
                             <button
-                              onClick={() =>
-                                alterarItem.mutate({
-                                  idPessoa: ins.idPessoa,
-                                  idItem: editItemId,
-                                })
-                              }
-                              disabled={alterarItem.isPending || !editItemId}
-                              className="text-green-600 hover:text-green-700 disabled:opacity-40"
-                              title="Salvar"
+                              className="text-zinc-400 hover:text-red-500"
+                              title="Remover"
                             >
-                              <Check className="size-3.5" />
+                              <Trash2 className="size-3.5" />
                             </button>
-                            <button
-                              onClick={() => setEditandoPessoa(null)}
-                              className="text-zinc-400 hover:text-zinc-600"
-                              title="Cancelar"
-                            >
-                              <X className="size-3.5" />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => {
-                                setEditandoPessoa(ins.idPessoa)
-                                setEditItemId(ins.idItem)
-                              }}
-                              className="text-zinc-400 hover:text-zinc-600"
-                              title="Editar item"
-                            >
-                              <Pencil className="size-3.5" />
-                            </button>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <button
-                                  className="text-zinc-400 hover:text-red-500"
-                                  title="Remover"
-                                >
-                                  <Trash2 className="size-3.5" />
-                                </button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    Remover inscrição?
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    {ins.pessoa.nome} será removido do DA e
-                                    desalocado do transporte.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() =>
-                                      removerInscricao.mutate(ins.idPessoa)
-                                    }
-                                  >
-                                    Remover
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </>
-                        )}
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Remover inscrição?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                {ins.pessoa.nome} será removido do DA e desalocado do transporte.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => removerInscricao.mutate(ins.idPessoa)}>
+                                Remover
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -556,6 +546,62 @@ export default function DAInscritosPage() {
           </TableFooter>
         </Table>
       </div>
+
+      {/* Modal de edição */}
+      <Dialog open={!!modalEdicao} onOpenChange={(open) => { if (!open) setModalEdicao(null) }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {modalEdicao
+                ? (modalEdicao.pessoa.apelido
+                    ? `${modalEdicao.pessoa.apelido} (${modalEdicao.pessoa.nome})`
+                    : `${modalEdicao.pessoa.nome} ${modalEdicao.pessoa.sobrenome}`)
+                : ''}
+            </DialogTitle>
+          </DialogHeader>
+          {modalEdicao && da && (
+            <div className="flex flex-col gap-4 pt-1">
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-zinc-500">O que vai levar</label>
+                <Select value={modalItemId} onValueChange={setModalItemId}>
+                  <SelectTrigger className="text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {da.itens.map((item) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.nome}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-zinc-500">Observação</label>
+                <Textarea
+                  value={modalObservacao}
+                  onChange={(e) => setModalObservacao(e.target.value)}
+                  placeholder="Nenhuma observação..."
+                  className="resize-none text-sm"
+                  rows={3}
+                />
+              </div>
+              <Button
+                onClick={() =>
+                  salvarEdicao.mutate({
+                    idPessoa: modalEdicao.idPessoa,
+                    idItem: modalItemId,
+                    observacao: modalObservacao,
+                  })
+                }
+                disabled={salvarEdicao.isPending || !modalItemId}
+              >
+                {salvarEdicao.isPending ? 'Salvando...' : 'Salvar'}
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

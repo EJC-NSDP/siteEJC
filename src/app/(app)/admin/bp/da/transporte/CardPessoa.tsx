@@ -1,7 +1,7 @@
 'use client'
 
 import { useDraggable, type UniqueIdentifier } from '@dnd-kit/core'
-import { GripVertical, UserCheck } from 'lucide-react'
+import { Clock, GripVertical, Send, UserCheck } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { Card } from '@/components/ui/card'
@@ -17,6 +17,8 @@ export interface SortablePessoa {
     pagouOnibus: boolean
     numEncontro: number | null
     nomeBP: string | null
+    conviteMotorista: string | null
+    conviteStatus: 'PENDENTE' | 'ACEITO' | 'RECUSADO' | null
   }
 }
 
@@ -29,6 +31,7 @@ interface CardPessoaProps {
   pessoa: SortablePessoa
   isOverlay?: boolean
   compact?: boolean
+  disabled?: boolean
   actions?: ReactNode
 }
 
@@ -36,12 +39,14 @@ export function CardPessoa({
   pessoa,
   isOverlay,
   compact,
+  disabled,
   actions,
 }: CardPessoaProps) {
   const { setNodeRef, attributes, listeners, isDragging } = useDraggable({
     id: pessoa.id,
     data: { type: 'Pessoa', pessoa } satisfies PessoaDragData,
     attributes: { roleDescription: 'Pessoa' },
+    disabled,
   })
 
   if (compact) {
@@ -77,8 +82,20 @@ export function CardPessoa({
           <span className="flex min-w-0 items-center gap-1 truncate text-[11px] text-zinc-400">
             <UserCheck className="size-3 shrink-0" />
             {pessoa.content.nomeBP ?? '-'}
+            {pessoa.content.conviteMotorista && (
+              <>
+                <span className="mx-0.5">|</span>
+                <Send className="size-3 shrink-0" />
+                <span className="truncate">{pessoa.content.conviteMotorista}</span>
+              </>
+            )}
           </span>
-          <div className="shrink-0">{actions}</div>
+          <div className="flex shrink-0 items-center gap-1">
+            {pessoa.content.conviteStatus === 'PENDENTE' && (
+              <Clock className="size-3 shrink-0 text-amber-400" aria-label="Convite pendente" />
+            )}
+            {actions}
+          </div>
         </div>
       </Card>
     )
@@ -116,8 +133,20 @@ export function CardPessoa({
         <span className="flex min-w-0 items-center gap-1 truncate text-sm text-zinc-400">
           <UserCheck className="size-3.5 shrink-0" />
           {pessoa.content.nomeBP ?? '-'}
+          {pessoa.content.conviteMotorista && (
+            <>
+              <span className="mx-0.5">|</span>
+              <Send className="size-3.5 shrink-0" />
+              <span className="truncate">{pessoa.content.conviteMotorista}</span>
+            </>
+          )}
         </span>
-        <div className="shrink-0">{actions}</div>
+        <div className="flex shrink-0 items-center gap-1">
+          {pessoa.content.conviteStatus === 'PENDENTE' && (
+            <Clock className="size-3.5 shrink-0 text-amber-400" aria-label="Convite pendente" />
+          )}
+          {actions}
+        </div>
       </div>
     </Card>
   )

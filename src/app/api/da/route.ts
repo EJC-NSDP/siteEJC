@@ -42,13 +42,144 @@ export async function GET() {
           pagouOnibus: true,
           idCarroDA: true,
           idOnibusDA: true,
+          idGrupoCarne: true,
           descricaoItem: true,
-          carroDa: { select: { modelo: true, placa: true, vagas: true } },
+          observacao: true,
+          carroDa: {
+            select: {
+              modelo: true,
+              placa: true,
+              vagas: true,
+              motorista: {
+                select: {
+                  id: true,
+                  nome: true,
+                  sobrenome: true,
+                  apelido: true,
+                  avatarUrl: true,
+                },
+              },
+              passageiros: {
+                where: { comoVai: 'CARONA' },
+                include: {
+                  pessoa: {
+                    select: {
+                      id: true,
+                      nome: true,
+                      sobrenome: true,
+                      apelido: true,
+                      avatarUrl: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
           onibusDA: { select: { nome: true } },
+          grupoCarne: {
+            select: {
+              id: true,
+              capacidade: true,
+              convites: {
+                include: {
+                  convidado: {
+                    select: {
+                      id: true,
+                      nome: true,
+                      sobrenome: true,
+                      apelido: true,
+                      avatarUrl: true,
+                    },
+                  },
+                },
+              },
+              membros: {
+                include: {
+                  pessoa: {
+                    select: {
+                      id: true,
+                      nome: true,
+                      sobrenome: true,
+                      apelido: true,
+                      avatarUrl: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
   })
+
+  const pessoaSelect = {
+    id: true,
+    nome: true,
+    sobrenome: true,
+    apelido: true,
+    avatarUrl: true,
+  }
+
+  const [convitesVeiculo, convitesMotorista, convitesCarne] = da
+    ? await Promise.all([
+        prisma.conviteVeiculoDA.findMany({
+          where: {
+            idDA: da.id,
+            idConvidado: session.user.id,
+            status: 'PENDENTE',
+          },
+          include: {
+            motorista: { select: pessoaSelect },
+            carroDa: { select: { id: true, modelo: true, placa: true, vagas: true } },
+          },
+        }),
+        prisma.conviteVeiculoDA.findMany({
+          where: {
+            idDA: da.id,
+            idMotorista: session.user.id,
+            iniciador: 'CARONA',
+            status: 'PENDENTE',
+          },
+          include: {
+            convidado: { select: pessoaSelect },
+          },
+        }),
+        prisma.conviteCarneDA.findMany({
+          where: {
+            idConvidado: session.user.id,
+            status: 'PENDENTE',
+            grupoCarne: { idDA: da.id },
+          },
+          include: {
+            grupoCarne: {
+              include: {
+                itemDA: {
+                  include: { item: { select: { nome: true, categoria: true } } },
+                },
+                membros: {
+                  include: { pessoa: { select: pessoaSelect } },
+                  orderBy: { createdAt: 'asc' as const },
+                  take: 1,
+                },
+              },
+            },
+          },
+        }),
+      ])
+    : [[], [], []]
+
+  const convitesEnviados = da
+    ? await prisma.conviteVeiculoDA.findMany({
+        where: {
+          idDA: da.id,
+          idMotorista: session.user.id,
+          iniciador: 'MOTORISTA',
+          status: { not: 'RECUSADO' },
+        },
+        include: { convidado: { select: pessoaSelect } },
+      })
+    : []
 
   const daAnterior = !da
     ? await prisma.diaAmizade.findFirst({
@@ -76,13 +207,16 @@ export async function GET() {
   const daMapped = da
     ? {
         ...da,
-        itens: da.itens.map((i) => ({
-          id: i.idItem,
-          nome: i.item.nome,
-          categoria: i.item.categoria,
-          quantidade: i.quantidade,
-          _count: i._count,
-        })),
+        itens: da.itens
+          .filter((i) => i.visivel)
+          .map((i) => ({
+            id: i.idItem,
+            nome: i.item.nome,
+            categoria: i.item.categoria,
+            quantidade: i.quantidade,
+            pessoasPorUnidade: i.pessoasPorUnidade,
+            _count: i._count,
+          })),
       }
     : null
 
@@ -92,6 +226,10 @@ export async function GET() {
     mensagemAnterior: daAnterior?.mensagemInicial ?? null,
     carroAnterior: carroAnterior ?? null,
     pessoa: pessoa ?? null,
+    convitesVeiculo,
+    convitesMotorista,
+    convitesCarne,
+    convitesEnviados,
   })
 }
 

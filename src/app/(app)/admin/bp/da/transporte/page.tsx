@@ -21,6 +21,7 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  Clock,
   Loader2,
   Pencil,
   Plus,
@@ -41,6 +42,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
@@ -79,6 +81,7 @@ interface PassageiroCarro {
   pessoa: Pessoa
   comoVai: ComoVai | null
   nomeBP: string | null
+  conviteStatus: 'PENDENTE' | 'ACEITO' | 'RECUSADO' | null
 }
 
 interface PassageiroOnibus {
@@ -112,6 +115,7 @@ interface PessoaSemVeiculo {
   pessoa: Pessoa
   comoVai: ComoVai | null
   nomeBP: string | null
+  conviteMotorista: string | null
 }
 
 interface TransporteData {
@@ -129,7 +133,7 @@ interface TransporteData {
 
 interface DAResponse {
   encontro: { id: string; numeroEncontro: number }
-  da: { id: string } | null
+  da: { id: string; organizarTransporte: boolean } | null
 }
 
 function nomePessoa(p: Pessoa) {
@@ -148,6 +152,8 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
         pagouOnibus: false,
         numEncontro: p.pessoa.numEncontro,
         nomeBP: p.nomeBP,
+        conviteMotorista: p.conviteMotorista,
+        conviteStatus: null,
       },
     })
   }
@@ -163,6 +169,8 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
           pagouOnibus: false,
           numEncontro: p.pessoa.numEncontro,
           nomeBP: p.nomeBP,
+          conviteMotorista: null,
+          conviteStatus: p.conviteStatus,
         },
       })
     }
@@ -178,6 +186,8 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
           pagouOnibus: p.pagouOnibus,
           numEncontro: p.pessoa.numEncontro,
           nomeBP: p.nomeBP,
+          conviteMotorista: null,
+          conviteStatus: null,
         },
       })
     }
@@ -463,6 +473,16 @@ export default function TransportePage() {
     onSettled: () => invalidar(),
   })
 
+  const excluirInscricao = useMutation({
+    mutationFn: (idPessoa: string) =>
+      api.delete(`/da/inscricao?idPessoa=${idPessoa}&idDA=${da!.id}`),
+    onSuccess: () => {
+      invalidar()
+      toast.success('Inscrição removida.')
+    },
+    onError: () => toast.error('Erro ao remover inscrição.'),
+  })
+
   const excluirOnibus = useMutation({
     mutationFn: (id: string) => api.delete(`/da/onibus/${id}`),
     onMutate: async (id: string) => {
@@ -484,6 +504,7 @@ export default function TransportePage() {
               pessoa: p.pessoa,
               comoVai: p.comoVai,
               nomeBP: p.nomeBP,
+              conviteMotorista: null,
             })),
           ],
         })
@@ -569,6 +590,17 @@ export default function TransportePage() {
     setActivePessoa(null)
     setOriginalVehicleId(null)
 
+    const isPendente =
+      pessoas.find((p) => String(p.id) === pessoaId)?.content.conviteStatus === 'PENDENTE'
+    if (isPendente) {
+      setPessoas((prev) =>
+        prev.map((p) =>
+          String(p.id) === pessoaId ? { ...p, vehicleId: prevId ?? 'sem-veiculo' } : p,
+        ),
+      )
+      return
+    }
+
     if (!over) {
       setPessoas((prev) =>
         prev.map((p) =>
@@ -598,6 +630,173 @@ export default function TransportePage() {
 
   const stats = transporte?.stats
 
+  const buildOnibusCards = (passengerCols: string) => (transporte?.onibus ?? []).map((onibus) => {
+    const pessoasOnibus = pessoas.filter(
+      (p) => p.vehicleId === `onibus-${onibus.id}`,
+    )
+    const ocupados = pessoasOnibus.length
+    const vagasLivres =
+      onibus.vagas !== null ? onibus.vagas - ocupados : null
+    const isCollapsed = collapsed.has(`onibus-${onibus.id}`)
+    return (
+      <Card
+        key={onibus.id}
+        className={cn(
+          'flex flex-col gap-4 shadow-lg',
+          isCollapsed && 'self-start',
+        )}
+      >
+        <CardTitle className="rounded-t-lg bg-purple-500/20">
+          <div className="flex items-center justify-between px-4 py-3">
+            {editandoOnibus === onibus.id ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <Input
+                  placeholder="Nome"
+                  value={editOnibusNome}
+                  onChange={(e) => setEditOnibusNome(e.target.value)}
+                  wrapperClassName="w-36"
+                  className="h-7 text-xs"
+                />
+                <div className="flex items-center gap-1">
+                  <Input
+                    type="number"
+                    min={1}
+                    placeholder="0"
+                    value={editOnibusVagas}
+                    onChange={(e) => setEditOnibusVagas(e.target.value)}
+                    wrapperClassName="w-16"
+                    className="h-7 text-xs"
+                  />
+                  <span className="text-xs text-zinc-500">lugares</span>
+                </div>
+                <button
+                  onClick={() => editarOnibus.mutate(onibus.id)}
+                  disabled={editarOnibus.isPending || !editOnibusNome.trim()}
+                  className="text-green-600 hover:text-green-700 disabled:opacity-40"
+                >
+                  <Check className="size-4" />
+                </button>
+                <button
+                  onClick={() => setEditandoOnibus(null)}
+                  className="text-zinc-500 hover:text-zinc-700"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-xl font-bold text-zinc-700">{onibus.nome}</h2>
+                <p className="text-sm text-zinc-500">
+                  {ocupados} {ocupados !== 1 ? 'pessoas' : 'pessoa'}
+                  {vagasLivres !== null &&
+                    ` · ${vagasLivres} livre${vagasLivres !== 1 ? 's' : ''}`}
+                </p>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => toggleCollapse(`onibus-${onibus.id}`)}
+                className="text-zinc-400 hover:text-zinc-600"
+              >
+                {isCollapsed ? (
+                  <ChevronDown className="size-4" />
+                ) : (
+                  <ChevronUp className="size-4" />
+                )}
+              </button>
+              {editandoOnibus !== onibus.id && (
+                <button
+                  onClick={() => {
+                    setEditandoOnibus(onibus.id)
+                    setEditOnibusNome(onibus.nome)
+                    setEditOnibusVagas(onibus.vagas ? String(onibus.vagas) : '')
+                  }}
+                  className="text-zinc-400 hover:text-zinc-600"
+                >
+                  <Pencil className="size-4" />
+                </button>
+              )}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className="text-zinc-400 hover:text-red-500">
+                    <Trash2 className="size-4" />
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Remover {onibus.nome}?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Os passageiros serão desalocados mas continuarão inscritos no DA.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => excluirOnibus.mutate(onibus.id)}>
+                      Remover
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
+        </CardTitle>
+        {!isCollapsed && (
+          <CardContent>
+            <Droppable
+              id={`onibus-${onibus.id}`}
+              className={passengerCols}
+            >
+              {pessoasOnibus.length === 0 && (
+                <div className="col-span-full flex min-h-12 items-center justify-center rounded-lg border border-dashed border-purple-300 bg-purple-50/50 text-sm text-purple-400">
+                  Arraste aqui
+                </div>
+              )}
+              {pessoasOnibus.map((p) => (
+                <CardPessoa
+                  key={String(p.id)}
+                  pessoa={p}
+                  compact
+                  actions={
+                    <button
+                      onClick={() =>
+                        togglePagamento.mutate({
+                          idPessoa: String(p.id),
+                          pagouOnibus: !p.content.pagouOnibus,
+                        })
+                      }
+                      title={
+                        p.content.pagouOnibus
+                          ? 'Marcar como não pago'
+                          : 'Marcar como pago'
+                      }
+                    >
+                      <Badge
+                        className={cn(
+                          'cursor-pointer text-xs',
+                          p.content.pagouOnibus
+                            ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                            : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
+                        )}
+                      >
+                        {p.content.pagouOnibus ? (
+                          <span className="flex items-center gap-1">
+                            <Check className="size-3" /> Pago
+                          </span>
+                        ) : (
+                          'Não pago'
+                        )}
+                      </Badge>
+                    </button>
+                  }
+                />
+              ))}
+            </Droppable>
+          </CardContent>
+        )}
+      </Card>
+    )
+  })
+
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
@@ -622,13 +821,21 @@ export default function TransportePage() {
           {!isLoading && stats && (
             <>
               <div className="flex gap-2">
-                {[
-                  { label: 'Total', value: stats.total, cls: 'text-zinc-600' },
-                  { label: 'Dirigindo', value: stats.dirigindo, cls: 'text-blue-600' },
-                  { label: 'Carona', value: stats.carona, cls: 'text-orange-600' },
-                  { label: 'Ônibus', value: stats.onibus, cls: 'text-purple-600' },
-                  { label: 'Sem transporte', shortLabel: 'Sem', value: stats.semTransporte, cls: 'text-zinc-400' },
-                ].map(({ label, shortLabel, value, cls }) => (
+                {(da?.organizarTransporte ?? true
+                  ? [
+                      { label: 'Total', value: stats.total, cls: 'text-zinc-600' },
+                      { label: 'Dirigindo', value: stats.dirigindo, cls: 'text-blue-600' },
+                      { label: 'Carona', value: stats.carona, cls: 'text-orange-600' },
+                      { label: 'Ônibus', value: stats.onibus, cls: 'text-purple-600' },
+                      { label: 'Sem transporte', shortLabel: 'Sem', value: stats.semTransporte, cls: 'text-zinc-400' },
+                    ]
+                  : [
+                      { label: 'Total', value: stats.total, cls: 'text-zinc-600' },
+                      { label: 'Carro', value: stats.dirigindo + stats.carona, cls: 'text-blue-600' },
+                      { label: 'Ônibus', value: stats.onibus, cls: 'text-purple-600' },
+                      { label: 'Sem transporte', shortLabel: 'Sem', value: stats.semTransporte, cls: 'text-zinc-400' },
+                    ]
+                ).map(({ label, shortLabel, value, cls }) => (
                   <div
                     key={label}
                     className="flex flex-1 flex-col items-center rounded-xl bg-white px-2.5 py-1.5 shadow-sm"
@@ -670,190 +877,12 @@ export default function TransportePage() {
           onDragCancel={onDragCancel}
         >
           <div className="space-y-4">
-            {/* ÔNIBUS — full width, topo */}
-            {transporte.onibus.map((onibus) => {
-              const pessoasOnibus = pessoas.filter(
-                (p) => p.vehicleId === `onibus-${onibus.id}`,
-              )
-              const ocupados = pessoasOnibus.length
-              const vagasLivres =
-                onibus.vagas !== null ? onibus.vagas - ocupados : null
-
-              const isCollapsed = collapsed.has(`onibus-${onibus.id}`)
-
-              return (
-                <Card
-                  key={onibus.id}
-                  className={cn(
-                    'flex flex-col gap-4 shadow-lg',
-                    isCollapsed && 'self-start',
-                  )}
-                >
-                  <CardTitle className="rounded-t-lg bg-purple-500/20">
-                    <div className="flex items-center justify-between px-4 py-3">
-                      {editandoOnibus === onibus.id ? (
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Input
-                            placeholder="Nome"
-                            value={editOnibusNome}
-                            onChange={(e) => setEditOnibusNome(e.target.value)}
-                            wrapperClassName="w-36"
-                            className="h-7 text-xs"
-                          />
-                          <div className="flex items-center gap-1">
-                            <Input
-                              type="number"
-                              min={1}
-                              placeholder="0"
-                              value={editOnibusVagas}
-                              onChange={(e) =>
-                                setEditOnibusVagas(e.target.value)
-                              }
-                              wrapperClassName="w-16"
-                              className="h-7 text-xs"
-                            />
-                            <span className="text-xs text-zinc-500">
-                              lugares
-                            </span>
-                          </div>
-                          <button
-                            onClick={() => editarOnibus.mutate(onibus.id)}
-                            disabled={
-                              editarOnibus.isPending || !editOnibusNome.trim()
-                            }
-                            className="text-green-600 hover:text-green-700 disabled:opacity-40"
-                          >
-                            <Check className="size-4" />
-                          </button>
-                          <button
-                            onClick={() => setEditandoOnibus(null)}
-                            className="text-zinc-500 hover:text-zinc-700"
-                          >
-                            <X className="size-4" />
-                          </button>
-                        </div>
-                      ) : (
-                        <div>
-                          <h2 className="text-xl font-bold text-zinc-700">
-                            {onibus.nome}
-                          </h2>
-                          <p className="text-sm text-zinc-500">
-                            {ocupados} {ocupados !== 1 ? 'pessoas' : 'pessoa'}
-                            {vagasLivres !== null &&
-                              ` · ${vagasLivres} livre${vagasLivres !== 1 ? 's' : ''}`}
-                          </p>
-                        </div>
-                      )}
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => toggleCollapse(`onibus-${onibus.id}`)}
-                          className="text-zinc-400 hover:text-zinc-600"
-                        >
-                          {isCollapsed ? (
-                            <ChevronDown className="size-4" />
-                          ) : (
-                            <ChevronUp className="size-4" />
-                          )}
-                        </button>
-                        {editandoOnibus !== onibus.id && (
-                          <button
-                            onClick={() => {
-                              setEditandoOnibus(onibus.id)
-                              setEditOnibusNome(onibus.nome)
-                              setEditOnibusVagas(
-                                onibus.vagas ? String(onibus.vagas) : '',
-                              )
-                            }}
-                            className="text-zinc-400 hover:text-zinc-600"
-                          >
-                            <Pencil className="size-4" />
-                          </button>
-                        )}
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <button className="text-zinc-400 hover:text-red-500">
-                              <Trash2 className="size-4" />
-                            </button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Remover {onibus.nome}?
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Os passageiros serão desalocados mas continuarão
-                                inscritos no DA.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => excluirOnibus.mutate(onibus.id)}
-                              >
-                                Remover
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </div>
-                  </CardTitle>
-                  {!isCollapsed && (
-                    <CardContent>
-                      <Droppable
-                        id={`onibus-${onibus.id}`}
-                        className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                      >
-                        {pessoasOnibus.length === 0 && (
-                          <div className="col-span-full flex min-h-12 items-center justify-center rounded-lg border border-dashed border-purple-300 bg-purple-50/50 text-sm text-purple-400">
-                            Arraste aqui
-                          </div>
-                        )}
-                        {pessoasOnibus.map((p) => (
-                          <CardPessoa
-                            key={String(p.id)}
-                            pessoa={p}
-                            compact
-                            actions={
-                              <button
-                                onClick={() =>
-                                  togglePagamento.mutate({
-                                    idPessoa: String(p.id),
-                                    pagouOnibus: !p.content.pagouOnibus,
-                                  })
-                                }
-                                title={
-                                  p.content.pagouOnibus
-                                    ? 'Marcar como não pago'
-                                    : 'Marcar como pago'
-                                }
-                              >
-                                <Badge
-                                  className={cn(
-                                    'cursor-pointer text-xs',
-                                    p.content.pagouOnibus
-                                      ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                                      : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
-                                  )}
-                                >
-                                  {p.content.pagouOnibus ? (
-                                    <span className="flex items-center gap-1">
-                                      <Check className="size-3" /> Pago
-                                    </span>
-                                  ) : (
-                                    'Não pago'
-                                  )}
-                                </Badge>
-                              </button>
-                            }
-                          />
-                        ))}
-                      </Droppable>
-                    </CardContent>
-                  )}
-                </Card>
-              )
-            })}
+            {/* ÔNIBUS — full width, topo (só quando organizarTransporte) */}
+            {da.organizarTransporte && transporte.onibus.length > 0 && (
+              <div className="space-y-4">
+                {buildOnibusCards('grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5')}
+              </div>
+            )}
 
             {/* CARROS + SEM VEÍCULO — 3 colunas: carros nas 2 primeiras, sem veículo na 3ª */}
             {transporte.carros.length === 0 &&
@@ -863,10 +892,16 @@ export default function TransportePage() {
                 </p>
               )}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-              <div className="grid grid-cols-1 gap-4 lg:col-span-2 lg:grid-cols-2">
-                {transporte.carros.map((carro) => {
+              <div className={`grid grid-cols-1 gap-4 lg:col-span-2${da.organizarTransporte ? ' lg:grid-cols-2' : ''}`}>
+                {da.organizarTransporte ? transporte.carros.map((carro) => {
                   const pessoasCarro = pessoas.filter(
                     (p) => p.vehicleId === `carro-${carro.id}`,
+                  )
+                  const pessoasCarroConfirmadas = pessoasCarro.filter(
+                    (p) => p.content.comoVai !== 'DIRIGINDO' && p.content.conviteStatus !== 'PENDENTE',
+                  )
+                  const pendentesOriginal = carro.passageiros.filter(
+                    (p) => p.conviteStatus === 'PENDENTE',
                   )
                   const editando = editandoCarro === carro.id
                   const titulo =
@@ -1012,17 +1047,17 @@ export default function TransportePage() {
                           <MotoristaSection motorista={carro.motorista} />
 
                           {/* Passageiros droppable */}
-                          <div className="mt-4 flex flex-col gap-4">
+                          <div className="mt-4 flex flex-col gap-2">
                             <Droppable
                               id={`carro-${carro.id}`}
-                              className="flex flex-col gap-4"
+                              className="flex flex-col gap-2"
                             >
-                              {pessoasCarro.length === 0 && (
+                              {pessoasCarroConfirmadas.length === 0 && (
                                 <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-blue-300 bg-blue-50/50 text-sm text-blue-400">
                                   Arraste aqui
                                 </div>
                               )}
-                              {pessoasCarro.map((p) => (
+                              {pessoasCarroConfirmadas.map((p) => (
                                 <CardPessoa
                                   key={String(p.id)}
                                   pessoa={p}
@@ -1030,15 +1065,35 @@ export default function TransportePage() {
                                 />
                               ))}
                             </Droppable>
+
+                            {pendentesOriginal.length > 0 && (
+                              <div className="mt-1 space-y-1 border-t border-zinc-100 pt-2">
+                                {pendentesOriginal.map((p) => (
+                                  <div key={p.idPessoa} className="flex items-center gap-2 px-1 py-0.5">
+                                    <Avatar className="size-6 shrink-0">
+                                      <AvatarImage src={p.pessoa.avatarUrl ?? ''} />
+                                      <AvatarFallback className="text-[10px]">
+                                        {p.pessoa.nome[0]}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <span className="min-w-0 flex-1 truncate text-xs text-zinc-500">
+                                      {p.pessoa.nome} {p.pessoa.sobrenome}
+                                      {p.pessoa.apelido && ` (${p.pessoa.apelido})`}
+                                    </span>
+                                    <Clock className="size-3.5 shrink-0 text-amber-400" />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </CardContent>
                       )}
                     </Card>
                   )
-                })}
+                }) : buildOnibusCards('grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4')}
               </div>
 
-              {/* SEM VEÍCULO — 3ª coluna */}
+              {/* SEM VEÍCULO — last coluna */}
               <Card className="flex flex-col gap-4 shadow-lg">
                 <CardTitle className="rounded-t-lg bg-zinc-200/60">
                   <div className="flex items-center justify-between px-4 py-3">
@@ -1080,26 +1135,58 @@ export default function TransportePage() {
                           key={String(p.id)}
                           pessoa={p}
                           actions={
-                            <button
-                              title="Converter em motorista"
-                              className="text-zinc-400 hover:text-blue-500"
-                              onClick={async () => {
-                                const { data } = await api.get(
-                                  `/da/carro-anterior?idPessoa=${String(p.id)}`,
-                                )
-                                setMotoristaModelo(data?.modeloCarro ?? '')
-                                setMotoristaPlaca(data?.placaCarro ?? '')
-                                setMotoristaVagas(
-                                  data ? String(data.lugaresCarro - 1) : '3',
-                                )
-                                setConvertendoMotorista({
-                                  idPessoa: String(p.id),
-                                  nome: p.content.nome,
-                                })
-                              }}
-                            >
-                              <Car className="size-3.5" />
-                            </button>
+                            <div className="flex gap-1">
+                              <button
+                                title="Converter em motorista"
+                                className="text-zinc-400 hover:text-blue-500"
+                                onClick={async () => {
+                                  const { data } = await api.get(
+                                    `/da/carro-anterior?idPessoa=${String(p.id)}`,
+                                  )
+                                  setMotoristaModelo(data?.modeloCarro ?? '')
+                                  setMotoristaPlaca(data?.placaCarro ?? '')
+                                  setMotoristaVagas(
+                                    data ? String(data.lugaresCarro - 1) : '3',
+                                  )
+                                  setConvertendoMotorista({
+                                    idPessoa: String(p.id),
+                                    nome: p.content.nome,
+                                  })
+                                }}
+                              >
+                                <Car className="size-3.5" />
+                              </button>
+                              {p.content.conviteMotorista && (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <button
+                                      title="Remover inscrição"
+                                      className="text-zinc-400 hover:text-red-500"
+                                    >
+                                      <Trash2 className="size-3.5" />
+                                    </button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>
+                                        Remover inscrição de {p.content.nome}?
+                                      </AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        A inscrição e todos os convites criados por esta pessoa serão removidos.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => excluirInscricao.mutate(String(p.id))}
+                                      >
+                                        Remover
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
+                            </div>
                           }
                         />
                       ))}

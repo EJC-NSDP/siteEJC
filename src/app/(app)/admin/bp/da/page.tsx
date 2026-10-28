@@ -30,6 +30,7 @@ interface DiaAmizade {
   mensagemInicial: string | null
   dataDA: string | null
   aberto: boolean
+  organizarTransporte: boolean
   inscricoes: { idItem: string; createdAt: string }[]
 }
 
@@ -101,6 +102,13 @@ export default function DABPPage() {
     onError: () => toast.error('Erro ao salvar a mensagem.'),
   })
 
+  const toggleOrganizarTransporte = useMutation({
+    mutationFn: (organizarTransporte: boolean) =>
+      api.patch('/da/organizar-transporte', { idDA: da!.id, organizarTransporte }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['da'] }),
+    onError: () => toast.error('Erro ao alterar a configuração de transporte.'),
+  })
+
   const salvarData = useMutation({
     mutationFn: () =>
       api.patch('/da/data', {
@@ -164,41 +172,67 @@ export default function DABPPage() {
 
       {!isLoading && da && (
         <div className="space-y-6">
-          {/* Status */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Status do formulário</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-wrap items-center gap-4">
-              <Switch
-                checked={da.aberto}
-                onCheckedChange={(v) => toggleStatus.mutate(v)}
-                disabled={toggleStatus.isPending}
-              />
-              <Badge
-                className={
-                  da.aberto
-                    ? 'border-primary/30 bg-primary/10 text-primary hover:bg-primary/15'
-                    : 'border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100'
-                }
-              >
-                {da.aberto ? (
-                  <span className="flex items-center gap-1.5">
-                    <LockOpen className="size-3" /> Aberto
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-1.5">
-                    <Lock className="size-3" /> Fechado
-                  </span>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Status */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Status do formulário</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap items-center gap-4">
+                <Switch
+                  checked={da.aberto}
+                  onCheckedChange={(v) => toggleStatus.mutate(v)}
+                  disabled={toggleStatus.isPending}
+                />
+                <Badge
+                  className={
+                    da.aberto
+                      ? 'border-primary/30 bg-primary/10 text-primary hover:bg-primary/15'
+                      : 'border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100'
+                  }
+                >
+                  {da.aberto ? (
+                    <span className="flex items-center gap-1.5">
+                      <LockOpen className="size-3" /> Aberto
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1.5">
+                      <Lock className="size-3" /> Fechado
+                    </span>
+                  )}
+                </Badge>
+                {!da.aberto && (
+                  <p className="text-xs text-zinc-400">
+                    Precisa de data, mensagem e pelo menos 1 item para abrir.
+                  </p>
                 )}
-              </Badge>
-              {!da.aberto && (
-                <p className="text-xs text-zinc-400">
-                  Precisa de data, mensagem e pelo menos 1 item para abrir.
-                </p>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+
+            {/* Organizar transporte */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Organização de transporte</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap items-center gap-4">
+                <Switch
+                  checked={da.organizarTransporte}
+                  onCheckedChange={(v) => toggleOrganizarTransporte.mutate(v)}
+                  disabled={toggleOrganizarTransporte.isPending}
+                />
+                <div>
+                  <p className="text-sm font-medium text-zinc-700">
+                    {da.organizarTransporte ? 'Ativo' : 'Inativo'}
+                  </p>
+                  <p className="text-xs text-zinc-400">
+                    {da.organizarTransporte
+                      ? 'BPs veem carros, motoristas e caronas na aba de transporte.'
+                      : 'BPs veem apenas ônibus e sem veículo. Carros ficam ocultos.'}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Data */}
           <Card>

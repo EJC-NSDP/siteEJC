@@ -55,7 +55,8 @@
       "Bash(dir \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\CHANGE*\")",
       "Bash(xargs grep -l \"celular\\\\|apelido\\\\|sobrenome\")",
       "Bash(npx next *)",
-      "Bash(findstr \"next-auth\")"
+      "Bash(findstr \"next-auth\")",
+      "Bash(Get-ChildItem -Path \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\" -Recurse -Filter \"*.ts\")"
     ]
   }
 }

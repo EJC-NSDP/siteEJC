@@ -17,9 +17,10 @@ export async function POST(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { id: idItem } = await params
-  const { idDA, quantidade } = (await request.json()) as {
+  const { idDA, quantidade, pessoasPorUnidade } = (await request.json()) as {
     idDA: string
     quantidade: number | null
+    pessoasPorUnidade?: number | null
   }
 
   if (quantidade !== null && quantidade !== undefined && quantidade < 1)
@@ -28,10 +29,16 @@ export async function POST(
       { status: 400 },
     )
 
+  if (pessoasPorUnidade !== null && pessoasPorUnidade !== undefined && pessoasPorUnidade < 1)
+    return NextResponse.json(
+      { error: 'Pessoas por unidade mínimo é 1.' },
+      { status: 400 },
+    )
+
   const itemDA = await prisma.itemDA.upsert({
     where: { idItem_idDA: { idItem, idDA } },
-    create: { idItem, idDA, quantidade },
-    update: { quantidade },
+    create: { idItem, idDA, quantidade, pessoasPorUnidade: pessoasPorUnidade ?? null, visivel: true },
+    update: { quantidade, ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }), visivel: true },
   })
 
   return NextResponse.json(itemDA, { status: 201 })
@@ -58,14 +65,14 @@ export async function DELETE(
   const inscricoes = await prisma.inscricaoDA.count({
     where: { idItem, idDA },
   })
-  if (inscricoes > 0)
-    return NextResponse.json(
-      {
-        error:
-          'Não é possível remover um item que já possui inscritos neste DA.',
-      },
-      { status: 409 },
-    )
+
+  if (inscricoes > 0) {
+    await prisma.itemDA.update({
+      where: { idItem_idDA: { idItem, idDA } },
+      data: { visivel: false },
+    })
+    return new NextResponse(null, { status: 204 })
+  }
 
   await prisma.itemDA.delete({ where: { idItem_idDA: { idItem, idDA } } })
 

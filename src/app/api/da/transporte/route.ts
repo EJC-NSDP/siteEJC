@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     encontreiro: { select: { encontro: { select: { numeroEncontro: true } } } },
   }
 
-  const [carros, onibus, inscricoes] = await Promise.all([
+  const [carros, onibus, inscricoes, convitesCarona] = await Promise.all([
     prisma.carroDA.findMany({
       where: { idDA },
       include: {
@@ -59,6 +59,17 @@ export async function GET(request: NextRequest) {
         responsavelBP: { select: { nome: true } },
       },
     }),
+    prisma.conviteVeiculoDA.findMany({
+      where: { idDA },
+      select: {
+        id: true,
+        idConvidado: true,
+        idCarroDA: true,
+        status: true,
+        motorista: { select: { nome: true, sobrenome: true, apelido: true } },
+        convidado: { select: pessoaSelect },
+      },
+    }),
   ])
 
   type PessoaRaw = (typeof carros)[0]['motorista']
@@ -73,21 +84,46 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const carrosMapped = carros.map((c) => ({
-    id: c.id,
-    modelo: c.modelo,
-    placa: c.placa,
-    vagas: c.vagas,
-    motorista: mapPessoa(c.motorista),
-    passageiros: c.passageiros.map((p) => ({
+  const carrosMapped = carros.map((c) => {
+    const passageirosConfirmados = c.passageiros.map((p) => ({
       idPessoa: p.idPessoa,
       pessoa: mapPessoa(p.pessoa),
       comoVai: p.comoVai,
       nomeBP: p.responsavelBP?.nome ?? null,
-    })),
-    vagasOcupadas: c.passageiros.length,
-    vagasLivres: c.vagas - c.passageiros.length,
-  }))
+      conviteStatus: convitesCarona.find(
+        (cv) => cv.idConvidado === p.idPessoa && cv.idCarroDA === c.id,
+      )?.status ?? null,
+    }))
+
+    const pendentes = convitesCarona.filter(
+      (cv) =>
+        cv.idCarroDA === c.id &&
+        cv.status === 'PENDENTE' &&
+        !c.passageiros.some((p) => p.idPessoa === cv.idConvidado),
+    )
+
+    const passageiros = [
+      ...passageirosConfirmados,
+      ...pendentes.map((cv) => ({
+        idPessoa: cv.idConvidado,
+        pessoa: mapPessoa(cv.convidado),
+        comoVai: 'CARONA' as const,
+        nomeBP: null,
+        conviteStatus: 'PENDENTE' as const,
+      })),
+    ]
+
+    return {
+      id: c.id,
+      modelo: c.modelo,
+      placa: c.placa,
+      vagas: c.vagas,
+      motorista: mapPessoa(c.motorista),
+      passageiros,
+      vagasOcupadas: passageirosConfirmados.length + pendentes.length,
+      vagasLivres: c.vagas - passageirosConfirmados.length - pendentes.length,
+    }
+  })
 
   const onibusMapped = onibus.map((o) => ({
     id: o.id,
@@ -106,17 +142,32 @@ export async function GET(request: NextRequest) {
     .filter(
       (ins) => !ins.idCarroDA && !ins.idOnibusDA && ins.comoVai !== 'DIRIGINDO',
     )
-    .map((ins) => ({
-      idPessoa: ins.idPessoa,
-      pessoa: mapPessoa(ins.pessoa),
-      comoVai: ins.comoVai,
-      nomeBP: ins.responsavelBP?.nome ?? null,
-    }))
+    .map((ins) => {
+      const convite = convitesCarona.find(
+        (c) => c.idConvidado === ins.idPessoa && c.status !== 'RECUSADO',
+      )
+      const nomeMotorista = convite
+        ? (convite.motorista.apelido ?? `${convite.motorista.nome} ${convite.motorista.sobrenome}`)
+        : null
+      return {
+        idPessoa: ins.idPessoa,
+        pessoa: mapPessoa(ins.pessoa),
+        comoVai: ins.comoVai,
+        nomeBP: ins.responsavelBP?.nome ?? null,
+        conviteMotorista: nomeMotorista,
+      }
+    })
+
+  const pendentesSemInscricao = convitesCarona.filter(
+    (cv) =>
+      cv.status === 'PENDENTE' &&
+      !inscricoes.some((i) => i.idPessoa === cv.idConvidado),
+  )
 
   const stats = {
-    total: inscricoes.length,
+    total: inscricoes.length + pendentesSemInscricao.length,
     dirigindo: inscricoes.filter((i) => i.comoVai === 'DIRIGINDO').length,
-    carona: inscricoes.filter((i) => !!i.idCarroDA).length,
+    carona: inscricoes.filter((i) => i.comoVai === 'CARONA').length + pendentesSemInscricao.length,
     onibus: inscricoes.filter((i) => !!i.idOnibusDA).length,
     semTransporte: inscricoes.filter(
       (i) => !i.idCarroDA && !i.idOnibusDA && i.comoVai !== 'DIRIGINDO',

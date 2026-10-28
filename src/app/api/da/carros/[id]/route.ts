@@ -47,6 +47,9 @@ export async function DELETE(
   const { id } = await params
 
   await prisma.$transaction([
+    prisma.conviteVeiculoDA.deleteMany({
+      where: { idCarroDA: id, status: 'PENDENTE' },
+    }),
     prisma.inscricaoDA.updateMany({
       where: { idCarroDA: id },
       data: { idCarroDA: null, comoVai: 'CARONA' },

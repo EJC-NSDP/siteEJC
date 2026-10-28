@@ -56,13 +56,14 @@ export async function POST(request: NextRequest) {
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'BP', 'ENCONTREIRO']))
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const { idDA, idMotorista, modelo, placa, vagas } =
+  const { idDA, idMotorista, modelo, placa, vagas, convidados } =
     (await request.json()) as {
       idDA: string
       idMotorista?: string
       modelo?: string
       placa?: string
       vagas: number
+      convidados?: string[]
     }
 
   if (!vagas || vagas < 1)
@@ -83,20 +84,98 @@ export async function POST(request: NextRequest) {
   if (!da)
     return NextResponse.json({ error: 'DA não encontrado.' }, { status: 404 })
 
-  const carro = await prisma.carroDA.create({
-    data: {
+  const carroExistente = await prisma.carroDA.findFirst({
+    where: { idDA, idMotorista: motoristId },
+  })
+
+  const carro = carroExistente
+    ? await prisma.carroDA.update({
+        where: { id: carroExistente.id },
+        data: {
+          modelo: modelo || carroExistente.modelo || null,
+          placa: placa || null,
+          vagas,
+        },
+      })
+    : await prisma.carroDA.create({
+        data: {
+          idDA,
+          idMotorista: motoristId,
+          modelo: modelo || null,
+          placa: placa || null,
+          vagas,
+        },
+      })
+
+  // Vincula convites reversos pré-aceitos (carona convidou este motorista antes dele criar o carro)
+  const preAceitos = await prisma.conviteVeiculoDA.findMany({
+    where: {
       idDA,
       idMotorista: motoristId,
-      modelo: modelo || null,
-      placa: placa || null,
-      vagas,
+      idCarroDA: null,
+      status: 'ACEITO',
+      iniciador: 'CARONA',
     },
+    select: { id: true, idConvidado: true },
+  })
+
+  if (preAceitos.length > 0) {
+    await prisma.conviteVeiculoDA.updateMany({
+      where: { id: { in: preAceitos.map((c) => c.id) } },
+      data: { idCarroDA: carro.id },
+    })
+    await prisma.inscricaoDA.updateMany({
+      where: {
+        idDA,
+        idPessoa: { in: preAceitos.map((c) => c.idConvidado) },
+        idCarroDA: null,
+        comoVai: 'CARONA',
+      },
+      data: { idCarroDA: carro.id },
+    })
+  }
+
+  // Cria convites para os passageiros convidados pelo motorista
+  if (convidados && convidados.length > 0) {
+    const novosConvidados = convidados.filter(
+      (id) => id !== motoristId,
+    )
+    if (novosConvidados.length > 0) {
+      await prisma.conviteVeiculoDA.createMany({
+        data: novosConvidados.map((idConvidado) => ({
+          idDA,
+          idMotorista: motoristId,
+          idCarroDA: carro.id,
+          idConvidado,
+          iniciador: 'MOTORISTA' as const,
+          status: 'PENDENTE' as const,
+        })),
+      })
+    }
+  }
+
+  const carroComConvites = await prisma.carroDA.findUnique({
+    where: { id: carro.id },
     include: {
       motorista: {
         select: { id: true, nome: true, sobrenome: true, apelido: true },
       },
+      convites: {
+        where: { status: { not: 'RECUSADO' } },
+        include: {
+          convidado: {
+            select: {
+              id: true,
+              nome: true,
+              sobrenome: true,
+              apelido: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      },
     },
   })
 
-  return NextResponse.json(carro, { status: 201 })
+  return NextResponse.json(carroComConvites, { status: 201 })
 }

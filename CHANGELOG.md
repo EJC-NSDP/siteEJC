@@ -1,5 +1,62 @@
 # Changelog
 
+## v5.14.0 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**Gestão do DA — `/admin/bp/da`**
+- Novo booleano `organizarTransporte` adicionado ao modelo `DiaAmizade` (padrão `true`)
+- Card "Organização de transporte" adicionado à página de gestão com toggle Switch; exibido lado a lado com "Status do formulário" em telas `lg+`
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Quando `organizarTransporte = false`: stats simplificadas (Total, Carro, Ônibus, Sem transporte — sem distinção Dirigindo/Carona); cards de carro ocultos; ônibus ocupam a largura de 2 veículos com 4 passageiros por linha; card "Sem veículo" mantido na coluna direita
+- Quando `organizarTransporte = true`: ônibus exibidos em até 2 por linha no topo com 5 passageiros por linha (estrutura existente de carros preservada)
+
+**Inscritos — `/admin/bp/da/inscritos`**
+- Quando `organizarTransporte = false`: coluna Transporte exibe apenas `🚗 Carro` para DIRIGINDO e CARONA, sem nome do veículo
+
+## v5.13.5 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**O que levar — `/admin/bp/da/itens`**
+- Itens com inscrições existentes não podem mais ser deletados do DA via toggle — ao desativar, ficam ocultos do formulário (`visivel = false`) preservando as inscrições
+- Reativar o toggle restaura o item no formulário com a quantidade original
+- Coluna Quantidade exibe o contador (`X/Y`) mesmo para itens desativados que já possuem inscritos
+- Gráfico de Informações contabiliza inscrições de itens desativados nas estatísticas por categoria
+- Nova coluna `visivel` adicionada ao modelo `ItemDA` no banco de dados
+
+## v5.13.4 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**Formulário de inscrição — `/admin/da`**
+- Tela de confirmação de inscrição reorganizada em 2 cards verticais: "O que vai levar" (com grupo de carne abaixo) e "Como vai" (com lista do carro abaixo)
+- Borda dos cards de confirmação escurecida para `zinc-200`
+
+## v5.13.3 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**Inscritos — `/admin/bp/da/inscritos`**
+- Companheiros de item (grupo de carne) exibidos abaixo do item na tabela
+- BP inscrito no DA é automaticamente responsável por si mesmo; select desabilitado para essas linhas
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Convites pendentes (motorista-iniciados e carona-iniciados) exibidos como lista simples abaixo dos passageiros confirmados no card do carro
+- Passageiros pendentes só viram card draggable após confirmar a inscrição
+- Ao deletar um carro, convites pendentes são removidos; apenas passageiros com inscrição real voltam para sem veículo
+
+## v5.13.2 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**Formulário de inscrição — `/admin/da`**
+- Convites de carona recebidos exibidos sempre no topo da etapa de transporte, com aceite/recusa diferidos até o envio final
+- Aceitar convite preenche automaticamente o campo de motorista na opção "Já tem carona?"
+- Trocar para outra opção de transporte após aceitar um convite marca-o automaticamente como recusado
+- Corrigido: aviso falso de "motorista já inscrito" não aparece mais ao aceitar um convite e confirmar a inscrição
+
 ## v5.13.1 — 2026-10-26
 
 ### Dia da Amizade (DA)
