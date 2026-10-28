@@ -1,5 +1,12 @@
 # Changelog
 
+## v5.14.1 — 2026-10-28
+
+### Dia da Amizade (DA)
+
+**Gestão do DA — `/admin/bp/da`**
+- Skeleton de carregamento atualizado para refletir o layout atual: grid 2 colunas com os cards "Status do formulário" e "Organização de transporte" no topo
+
 ## v5.14.0 — 2026-10-28
 
 ### Dia da Amizade (DA)

@@ -14,6 +14,9 @@ import {
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
+import { Pagination } from '@/components/Table/Pagination'
+import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,9 +28,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
-import { Pagination } from '@/components/Table/Pagination'
-import { PaginationSkeleton } from '@/components/Table/PaginationSkeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -37,7 +37,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { SearchInput } from '@/components/ui/search-input'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -55,6 +54,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/lib/axios'
 
 type ComoVai = 'DIRIGINDO' | 'CARONA' | 'ONIBUS'
@@ -148,8 +148,20 @@ export default function DAInscritosPage() {
   })
 
   const salvarEdicao = useMutation({
-    mutationFn: ({ idPessoa, idItem, observacao }: { idPessoa: string; idItem: string; observacao: string }) =>
-      api.patch(`/da/inscricoes/${idPessoa}`, { idDA: da!.id, idItem, observacao: observacao.trim() || null }),
+    mutationFn: ({
+      idPessoa,
+      idItem,
+      observacao,
+    }: {
+      idPessoa: string
+      idItem: string
+      observacao: string
+    }) =>
+      api.patch(`/da/inscricoes/${idPessoa}`, {
+        idDA: da!.id,
+        idItem,
+        observacao: observacao.trim() || null,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['da-inscricoes', da?.id] })
       setModalEdicao(null)
@@ -234,7 +246,7 @@ export default function DAInscritosPage() {
         </div>
         {!isLoading && inscricoes && (
           <div className="w-full rounded-xl bg-white px-4 py-2 shadow-sm sm:w-auto">
-            <p className="text-nowrap font-bold text-zinc-700">
+            <p className="font-bold text-nowrap text-zinc-700">
               <span className="text-2xl">{inscricoesFiltradas.length}</span>{' '}
               <span className="text-sm font-normal text-zinc-400">
                 {inscricoesFiltradas.length === 1 ? 'inscrito' : 'inscritos'}
@@ -310,7 +322,9 @@ export default function DAInscritosPage() {
         <Table className="min-w-[640px] text-xs">
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[160px] rounded-tl-xl pl-4">Nome</TableHead>
+              <TableHead className="min-w-[160px] rounded-tl-xl pl-4">
+                Nome
+              </TableHead>
               <TableHead className="text-nowrap">O que vai levar</TableHead>
               <TableHead className="text-nowrap">Transporte</TableHead>
               <TableHead className="text-nowrap">BP Responsável</TableHead>
@@ -363,7 +377,9 @@ export default function DAInscritosPage() {
                   <TableRow key={ins.idPessoa} className="bg-white">
                     {/* Nome */}
                     <TableCell className="pl-4">
-                      <p className="text-sm font-medium text-zinc-700">{nomePessoa}</p>
+                      <p className="text-sm font-medium text-zinc-700">
+                        {nomePessoa}
+                      </p>
                       {ins.pessoa.numeroEJC && (
                         <p className="text-zinc-400">
                           {ins.pessoa.numeroEJC}º EJC
@@ -389,7 +405,9 @@ export default function DAInscritosPage() {
 
                     {/* Transporte */}
                     <TableCell>
-                      {!da.organizarTransporte && (ins.comoVai === 'DIRIGINDO' || ins.comoVai === 'CARONA') ? (
+                      {!da.organizarTransporte &&
+                      (ins.comoVai === 'DIRIGINDO' ||
+                        ins.comoVai === 'CARONA') ? (
                         <p className="flex items-center gap-1 text-zinc-400">
                           <Car className="size-3" />
                           Carro
@@ -418,63 +436,73 @@ export default function DAInscritosPage() {
                     <TableCell className="w-44">
                       {bpsLoading ? (
                         <Skeleton className="h-8 w-36" />
-                      ) : (() => {
-                        const selfBP = (bps ?? []).find((bp) => bp.id === ins.idPessoa)
-                        const isBP = !!selfBP
-                        const displayBP = isBP
-                          ? { id: selfBP.id, nome: selfBP.nome, avatarUrl: selfBP.avatarUrl }
-                          : ins.responsavelBP
-                        return (
-                        <Select
-                          value={displayBP?.id ?? 'none'}
-                          disabled={isBP}
-                          onValueChange={(val) =>
-                            alterarBP.mutate({
-                              idPessoa: ins.idPessoa,
-                              idResponsavelBP: val === 'none' ? null : val,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="h-8 text-xs">
-                            <SelectValue>
-                              {displayBP ? (
-                                <span className="flex items-center gap-2">
-                                  <Avatar className="size-5">
-                                    <AvatarImage
-                                      src={displayBP.avatarUrl ?? ''}
-                                    />
-                                    <AvatarFallback className="text-[10px]">
-                                      {displayBP.nome[0]}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  {displayBP.nome}
-                                </span>
-                              ) : (
-                                <span className="text-zinc-400">Selecione</span>
-                              )}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="none">
-                              <span className="text-zinc-400">Nenhum</span>
-                            </SelectItem>
-                            {(bps ?? []).map((bp) => (
-                              <SelectItem key={bp.id} value={bp.id}>
-                                <span className="flex items-center gap-2">
-                                  <Avatar className="size-5">
-                                    <AvatarImage src={bp.avatarUrl ?? ''} />
-                                    <AvatarFallback className="text-[10px]">
-                                      {bp.nome[0]}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  {bp.nome}
-                                </span>
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        )
-                      })()}
+                      ) : (
+                        (() => {
+                          const selfBP = (bps ?? []).find(
+                            (bp) => bp.id === ins.idPessoa,
+                          )
+                          const isBP = !!selfBP
+                          const displayBP = isBP
+                            ? {
+                                id: selfBP.id,
+                                nome: selfBP.nome,
+                                avatarUrl: selfBP.avatarUrl,
+                              }
+                            : ins.responsavelBP
+                          return (
+                            <Select
+                              value={displayBP?.id ?? 'none'}
+                              disabled={isBP}
+                              onValueChange={(val) =>
+                                alterarBP.mutate({
+                                  idPessoa: ins.idPessoa,
+                                  idResponsavelBP: val === 'none' ? null : val,
+                                })
+                              }
+                            >
+                              <SelectTrigger className="h-8 text-xs">
+                                <SelectValue>
+                                  {displayBP ? (
+                                    <span className="flex items-center gap-2">
+                                      <Avatar className="size-5">
+                                        <AvatarImage
+                                          src={displayBP.avatarUrl ?? ''}
+                                        />
+                                        <AvatarFallback className="text-[10px]">
+                                          {displayBP.nome[0]}
+                                        </AvatarFallback>
+                                      </Avatar>
+                                      {displayBP.nome}
+                                    </span>
+                                  ) : (
+                                    <span className="text-zinc-400">
+                                      Selecione
+                                    </span>
+                                  )}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="none">
+                                  <span className="text-zinc-400">Nenhum</span>
+                                </SelectItem>
+                                {(bps ?? []).map((bp) => (
+                                  <SelectItem key={bp.id} value={bp.id}>
+                                    <span className="flex items-center gap-2">
+                                      <Avatar className="size-5">
+                                        <AvatarImage src={bp.avatarUrl ?? ''} />
+                                        <AvatarFallback className="text-[10px]">
+                                          {bp.nome[0]}
+                                        </AvatarFallback>
+                                      </Avatar>
+                                      {bp.nome}
+                                    </span>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )
+                        })()
+                      )}
                     </TableCell>
 
                     {/* Ações */}
@@ -486,8 +514,14 @@ export default function DAInscritosPage() {
                             setModalItemId(ins.idItem)
                             setModalObservacao(ins.observacao ?? '')
                           }}
-                          title={ins.observacao ? 'Ver observação' : 'Sem observação'}
-                          className={ins.observacao ? 'text-amber-500 hover:text-amber-600' : 'text-zinc-200 hover:text-zinc-400'}
+                          title={
+                            ins.observacao ? 'Ver observação' : 'Sem observação'
+                          }
+                          className={
+                            ins.observacao
+                              ? 'text-amber-500 hover:text-amber-600'
+                              : 'text-zinc-200 hover:text-zinc-400'
+                          }
                         >
                           <MessageCircle className="size-3.5" />
                         </button>
@@ -513,14 +547,21 @@ export default function DAInscritosPage() {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Remover inscrição?</AlertDialogTitle>
+                              <AlertDialogTitle>
+                                Remover inscrição?
+                              </AlertDialogTitle>
                               <AlertDialogDescription>
-                                {ins.pessoa.nome} será removido do DA e desalocado do transporte.
+                                {ins.pessoa.nome} será removido do DA e
+                                desalocado do transporte.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => removerInscricao.mutate(ins.idPessoa)}>
+                              <AlertDialogAction
+                                onClick={() =>
+                                  removerInscricao.mutate(ins.idPessoa)
+                                }
+                              >
                                 Remover
                               </AlertDialogAction>
                             </AlertDialogFooter>
@@ -548,14 +589,19 @@ export default function DAInscritosPage() {
       </div>
 
       {/* Modal de edição */}
-      <Dialog open={!!modalEdicao} onOpenChange={(open) => { if (!open) setModalEdicao(null) }}>
+      <Dialog
+        open={!!modalEdicao}
+        onOpenChange={(open) => {
+          if (!open) setModalEdicao(null)
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
               {modalEdicao
-                ? (modalEdicao.pessoa.apelido
-                    ? `${modalEdicao.pessoa.apelido} (${modalEdicao.pessoa.nome})`
-                    : `${modalEdicao.pessoa.nome} ${modalEdicao.pessoa.sobrenome}`)
+                ? modalEdicao.pessoa.apelido
+                  ? `${modalEdicao.pessoa.apelido} (${modalEdicao.pessoa.nome})`
+                  : `${modalEdicao.pessoa.nome} ${modalEdicao.pessoa.sobrenome}`
                 : ''}
             </DialogTitle>
           </DialogHeader>

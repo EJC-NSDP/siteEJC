@@ -113,7 +113,10 @@ export async function DELETE(
 
   await prisma.$transaction(async (tx) => {
     await tx.conviteVeiculoDA.deleteMany({
-      where: { idDA, OR: [{ idConvidado: idPessoa }, { idMotorista: idPessoa }] },
+      where: {
+        idDA,
+        OR: [{ idConvidado: idPessoa }, { idMotorista: idPessoa }],
+      },
     })
     await tx.conviteCarneDA.deleteMany({
       where: { idConvidado: idPessoa, grupoCarne: { idDA } },

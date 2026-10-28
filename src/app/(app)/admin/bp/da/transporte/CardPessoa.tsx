@@ -86,13 +86,18 @@ export function CardPessoa({
               <>
                 <span className="mx-0.5">|</span>
                 <Send className="size-3 shrink-0" />
-                <span className="truncate">{pessoa.content.conviteMotorista}</span>
+                <span className="truncate">
+                  {pessoa.content.conviteMotorista}
+                </span>
               </>
             )}
           </span>
           <div className="flex shrink-0 items-center gap-1">
             {pessoa.content.conviteStatus === 'PENDENTE' && (
-              <Clock className="size-3 shrink-0 text-amber-400" aria-label="Convite pendente" />
+              <Clock
+                className="size-3 shrink-0 text-amber-400"
+                aria-label="Convite pendente"
+              />
             )}
             {actions}
           </div>
@@ -137,13 +142,18 @@ export function CardPessoa({
             <>
               <span className="mx-0.5">|</span>
               <Send className="size-3.5 shrink-0" />
-              <span className="truncate">{pessoa.content.conviteMotorista}</span>
+              <span className="truncate">
+                {pessoa.content.conviteMotorista}
+              </span>
             </>
           )}
         </span>
         <div className="flex shrink-0 items-center gap-1">
           {pessoa.content.conviteStatus === 'PENDENTE' && (
-            <Clock className="size-3.5 shrink-0 text-amber-400" aria-label="Convite pendente" />
+            <Clock
+              className="size-3.5 shrink-0 text-amber-400"
+              aria-label="Convite pendente"
+            />
           )}
           {actions}
         </div>

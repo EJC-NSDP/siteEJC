@@ -4,16 +4,31 @@ import { Skeleton } from '@/components/ui/skeleton'
 export function DAGestaoSkeleton() {
   return (
     <div className="space-y-6">
-      {/* Status */}
-      <Card>
-        <CardHeader className="pb-3">
-          <Skeleton className="h-4 w-40" />
-        </CardHeader>
-        <CardContent className="flex items-center gap-4">
-          <Skeleton className="h-6 w-11 rounded-full" />
-          <Skeleton className="h-6 w-20 rounded-full" />
-        </CardContent>
-      </Card>
+      {/* Status + Organizar transporte — grid 2-col */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-3">
+            <Skeleton className="h-4 w-40" />
+          </CardHeader>
+          <CardContent className="flex items-center gap-4">
+            <Skeleton className="h-6 w-11 rounded-full" />
+            <Skeleton className="h-6 w-20 rounded-full" />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <Skeleton className="h-4 w-48" />
+          </CardHeader>
+          <CardContent className="flex items-center gap-4">
+            <Skeleton className="h-6 w-11 rounded-full" />
+            <div className="space-y-1.5">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-3 w-56" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Data */}
       <Card>

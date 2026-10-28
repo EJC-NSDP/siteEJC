@@ -17,16 +17,16 @@ import { useSession } from 'next-auth/react'
 import { Fragment, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
+import {
+  PessoaSearchInput,
+  type PessoaSelecionada,
+} from '@/components/DA/PessoaSearchInput'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  PessoaSearchInput,
-  type PessoaSelecionada,
-} from '@/components/DA/PessoaSearchInput'
 import { hasRole } from '@/lib/auth/permissions'
 import { api } from '@/lib/axios'
 
@@ -56,7 +56,12 @@ interface ConviteVeiculoInfo {
   idCarroDA: string | null
   convidado?: ConvitePessoa
   motorista?: ConvitePessoa
-  carroDa?: { id: string; modelo: string | null; placa: string | null; vagas: number } | null
+  carroDa?: {
+    id: string
+    modelo: string | null
+    placa: string | null
+    vagas: number
+  } | null
 }
 
 interface GrupoCarnePessoa {
@@ -86,7 +91,10 @@ interface ConviteCarneInfo {
     idItem: string
     capacidade: number
     itemDA: {
-      item: { nome: string; categoria: 'CARNE' | 'SOBREMESA' | 'ACOMPANHAMENTO' | 'VEGETARIANA' }
+      item: {
+        nome: string
+        categoria: 'CARNE' | 'SOBREMESA' | 'ACOMPANHAMENTO' | 'VEGETARIANA'
+      }
     }
     membros: {
       pessoa: {
@@ -177,15 +185,32 @@ export default function DAEncontreiroPage() {
   const [carroPlaca, setCarroPlaca] = useState('')
   const [carroVagas, setCarroVagas] = useState('3')
   const [convidados, setConvidados] = useState<(PessoaSelecionada | null)[]>([])
-  const [aceitarConviteVeiculoId, setAceitarConviteVeiculoId] = useState<string | null>(null)
-  const [motoristaSelecionado, setMotoristaSelecionado] = useState<PessoaSelecionada | null>(null)
-  const [avisoMotoristaInscrito, setAvisoMotoristaInscrito] = useState<string | null>(null)
-  const [conviteVeiculoRejeitados, setConviteVeiculoRejeitados] = useState<string[]>([])
-  const [conviteMotoristaAceitos, setConviteMotoristaAceitos] = useState<string[]>([])
-  const [conviteMotoristaRecusados, setConviteMotoristaRecusados] = useState<string[]>([])
-  const [aceitarConviteCarneId, setAceitarConviteCarneId] = useState<string | null>(null)
-  const [convidadosCarne, setConvidadosCarne] = useState<(PessoaSelecionada | null)[]>([])
-  const [conviteCarneRejeitados, setConviteCarneRejeitados] = useState<string[]>([])
+  const [aceitarConviteVeiculoId, setAceitarConviteVeiculoId] = useState<
+    string | null
+  >(null)
+  const [motoristaSelecionado, setMotoristaSelecionado] =
+    useState<PessoaSelecionada | null>(null)
+  const [avisoMotoristaInscrito, setAvisoMotoristaInscrito] = useState<
+    string | null
+  >(null)
+  const [conviteVeiculoRejeitados, setConviteVeiculoRejeitados] = useState<
+    string[]
+  >([])
+  const [conviteMotoristaAceitos, setConviteMotoristaAceitos] = useState<
+    string[]
+  >([])
+  const [conviteMotoristaRecusados, setConviteMotoristaRecusados] = useState<
+    string[]
+  >([])
+  const [aceitarConviteCarneId, setAceitarConviteCarneId] = useState<
+    string | null
+  >(null)
+  const [convidadosCarne, setConvidadosCarne] = useState<
+    (PessoaSelecionada | null)[]
+  >([])
+  const [conviteCarneRejeitados, setConviteCarneRejeitados] = useState<
+    string[]
+  >([])
 
   const { data, isLoading } = useQuery<DAResponse>({
     queryKey: ['da'],
@@ -208,7 +233,13 @@ export default function DAEncontreiroPage() {
   })
 
   const criarCarro = useMutation({
-    mutationFn: ({ idDA, excludeConvidadoIds = [] }: { idDA: string; excludeConvidadoIds?: string[] }) =>
+    mutationFn: ({
+      idDA,
+      excludeConvidadoIds = [],
+    }: {
+      idDA: string
+      excludeConvidadoIds?: string[]
+    }) =>
       api
         .post('/da/carros', {
           idDA,
@@ -328,11 +359,20 @@ export default function DAEncontreiroPage() {
     if (!da) return
     if (comoVai === 'DIRIGINDO') {
       const acceptedCaronaIds = conviteMotoristaAceitos
-        .map((id) => data?.convitesMotorista.find((c) => c.id === id)?.convidado?.id)
+        .map(
+          (id) =>
+            data?.convitesMotorista.find((c) => c.id === id)?.convidado?.id,
+        )
         .filter((id): id is string => !!id)
-      const carro = await criarCarro.mutateAsync({ idDA: da.id, excludeConvidadoIds: acceptedCaronaIds })
+      const carro = await criarCarro.mutateAsync({
+        idDA: da.id,
+        excludeConvidadoIds: acceptedCaronaIds,
+      })
       for (const conviteId of conviteMotoristaAceitos) {
-        await responderConviteVeiculo.mutateAsync({ id: conviteId, status: 'ACEITO' })
+        await responderConviteVeiculo.mutateAsync({
+          id: conviteId,
+          status: 'ACEITO',
+        })
       }
       await inscrever.mutateAsync({
         idDA: da.id,
@@ -343,16 +383,25 @@ export default function DAEncontreiroPage() {
     } else {
       await inscrever.mutateAsync({
         idDA: da.id,
-        aceitarConviteVeiculoId: comoVai === 'CARONA' ? (aceitarConviteVeiculoId ?? undefined) : undefined,
+        aceitarConviteVeiculoId:
+          comoVai === 'CARONA'
+            ? (aceitarConviteVeiculoId ?? undefined)
+            : undefined,
         aceitarConviteCarneId: aceitarConviteCarneId ?? undefined,
         convidadosCarne: carneIds.length > 0 ? carneIds : undefined,
       })
     }
     for (const conviteId of conviteVeiculoRejeitados) {
-      await responderConviteVeiculo.mutateAsync({ id: conviteId, status: 'RECUSADO' })
+      await responderConviteVeiculo.mutateAsync({
+        id: conviteId,
+        status: 'RECUSADO',
+      })
     }
     for (const conviteId of conviteMotoristaRecusados) {
-      await responderConviteVeiculo.mutateAsync({ id: conviteId, status: 'RECUSADO' })
+      await responderConviteVeiculo.mutateAsync({
+        id: conviteId,
+        status: 'RECUSADO',
+      })
     }
     for (const conviteId of conviteCarneRejeitados) {
       await responderConviteCarne.mutateAsync({ id: conviteId })
@@ -363,7 +412,10 @@ export default function DAEncontreiroPage() {
     setComoVai(opcao)
     if (opcao !== 'CARONA') {
       if (aceitarConviteVeiculoId) {
-        setConviteVeiculoRejeitados((prev) => [...prev.filter((id) => id !== aceitarConviteVeiculoId), aceitarConviteVeiculoId])
+        setConviteVeiculoRejeitados((prev) => [
+          ...prev.filter((id) => id !== aceitarConviteVeiculoId),
+          aceitarConviteVeiculoId,
+        ])
       }
       setAceitarConviteVeiculoId(null)
       setMotoristaSelecionado(null)
@@ -377,7 +429,11 @@ export default function DAEncontreiroPage() {
 
   async function handleContinuarStep3() {
     if (!da || !comoVai) return
-    if (comoVai === 'CARONA' && motoristaSelecionado && !aceitarConviteVeiculoId) {
+    if (
+      comoVai === 'CARONA' &&
+      motoristaSelecionado &&
+      !aceitarConviteVeiculoId
+    ) {
       try {
         await criarConviteVeiculo.mutateAsync({
           idDA: da.id,
@@ -395,7 +451,9 @@ export default function DAEncontreiroPage() {
           return
         }
         if (errData?.error !== 'CONVITE_DUPLICADO') {
-          toast.error(errData?.mensagem ?? errData?.error ?? 'Erro ao enviar convite.')
+          toast.error(
+            errData?.mensagem ?? errData?.error ?? 'Erro ao enviar convite.',
+          )
           return
         }
         // convite já existe — segue para o próximo passo normalmente
@@ -529,10 +587,14 @@ export default function DAEncontreiroPage() {
                       O que vai levar
                     </p>
                     <p className="text-sm font-semibold text-zinc-700">
-                      {inscricaoAtual.descricaoItem ?? itemDaInscricao?.nome ?? '—'}
+                      {inscricaoAtual.descricaoItem ??
+                        itemDaInscricao?.nome ??
+                        '—'}
                     </p>
                     {inscricaoAtual.descricaoItem && (
-                      <p className="text-xs text-zinc-400">{itemDaInscricao?.nome}</p>
+                      <p className="text-xs text-zinc-400">
+                        {itemDaInscricao?.nome}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -547,12 +609,19 @@ export default function DAEncontreiroPage() {
                       {inscricaoAtual.grupoCarne.membros.map((m) => {
                         const nomeMembro = `${m.pessoa.nome} ${m.pessoa.sobrenome}${m.pessoa.apelido ? ` (${m.pessoa.apelido})` : ''}`
                         return (
-                          <div key={m.pessoa.id} className="flex items-center gap-3">
+                          <div
+                            key={m.pessoa.id}
+                            className="flex items-center gap-3"
+                          >
                             <Avatar className="h-7 w-7 shrink-0">
                               <AvatarImage src={m.pessoa.avatarUrl ?? ''} />
-                              <AvatarFallback className="text-xs">{m.pessoa.nome[0]}</AvatarFallback>
+                              <AvatarFallback className="text-xs">
+                                {m.pessoa.nome[0]}
+                              </AvatarFallback>
                             </Avatar>
-                            <span className="flex-1 text-sm text-zinc-700">{nomeMembro}</span>
+                            <span className="flex-1 text-sm text-zinc-700">
+                              {nomeMembro}
+                            </span>
                             <Check className="size-4 shrink-0 text-green-500" />
                           </div>
                         )
@@ -564,10 +633,16 @@ export default function DAEncontreiroPage() {
                           return (
                             <div key={c.id} className="flex items-center gap-3">
                               <Avatar className="h-7 w-7 shrink-0">
-                                <AvatarImage src={c.convidado.avatarUrl ?? ''} />
-                                <AvatarFallback className="text-xs">{c.convidado.nome[0]}</AvatarFallback>
+                                <AvatarImage
+                                  src={c.convidado.avatarUrl ?? ''}
+                                />
+                                <AvatarFallback className="text-xs">
+                                  {c.convidado.nome[0]}
+                                </AvatarFallback>
                               </Avatar>
-                              <span className="flex-1 text-sm text-zinc-700">{nomeConvidado}</span>
+                              <span className="flex-1 text-sm text-zinc-700">
+                                {nomeConvidado}
+                              </span>
                               <Clock className="size-4 shrink-0 text-amber-400" />
                             </div>
                           )
@@ -581,8 +656,12 @@ export default function DAEncontreiroPage() {
               {transporteCfg && (
                 <div className="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-4">
                   <div className="flex items-center gap-3">
-                    <div className={`flex size-9 shrink-0 items-center justify-center rounded-full ${transporteCfg.iconBg}`}>
-                      <transporteCfg.icon className={`size-4 ${transporteCfg.iconColor}`} />
+                    <div
+                      className={`flex size-9 shrink-0 items-center justify-center rounded-full ${transporteCfg.iconBg}`}
+                    >
+                      <transporteCfg.icon
+                        className={`size-4 ${transporteCfg.iconColor}`}
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
@@ -592,7 +671,9 @@ export default function DAEncontreiroPage() {
                         {transporteCfg.detalhe ?? transporteCfg.label}
                       </p>
                       {transporteCfg.detalhe && (
-                        <p className="text-xs text-zinc-400">{transporteCfg.label}</p>
+                        <p className="text-xs text-zinc-400">
+                          {transporteCfg.label}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -608,8 +689,16 @@ export default function DAEncontreiroPage() {
                         <div className="space-y-2">
                           {[...data!.convitesEnviados]
                             .sort((a, b) => {
-                              if (a.status === 'ACEITO' && b.status !== 'ACEITO') return -1
-                              if (a.status !== 'ACEITO' && b.status === 'ACEITO') return 1
+                              if (
+                                a.status === 'ACEITO' &&
+                                b.status !== 'ACEITO'
+                              )
+                                return -1
+                              if (
+                                a.status !== 'ACEITO' &&
+                                b.status === 'ACEITO'
+                              )
+                                return 1
                               return 0
                             })
                             .map((c) => {
@@ -617,12 +706,21 @@ export default function DAEncontreiroPage() {
                                 ? `${c.convidado.nome} ${c.convidado.sobrenome}${c.convidado.apelido ? ` (${c.convidado.apelido})` : ''}`
                                 : '—'
                               return (
-                                <div key={c.id} className="flex items-center gap-3">
+                                <div
+                                  key={c.id}
+                                  className="flex items-center gap-3"
+                                >
                                   <Avatar className="h-7 w-7 shrink-0">
-                                    <AvatarImage src={c.convidado?.avatarUrl ?? ''} />
-                                    <AvatarFallback className="text-xs">{c.convidado?.nome?.[0] ?? '?'}</AvatarFallback>
+                                    <AvatarImage
+                                      src={c.convidado?.avatarUrl ?? ''}
+                                    />
+                                    <AvatarFallback className="text-xs">
+                                      {c.convidado?.nome?.[0] ?? '?'}
+                                    </AvatarFallback>
                                   </Avatar>
-                                  <span className="flex-1 text-sm text-zinc-700">{nome}</span>
+                                  <span className="flex-1 text-sm text-zinc-700">
+                                    {nome}
+                                  </span>
                                   {c.status === 'PENDENTE' ? (
                                     <Clock className="size-4 shrink-0 text-amber-400" />
                                   ) : (
@@ -636,45 +734,59 @@ export default function DAEncontreiroPage() {
                     )}
 
                   {/* Carro do carona */}
-                  {inscricaoAtual.comoVai === 'CARONA' && inscricaoAtual.carroDa && (
-                    <>
-                      <div className="my-3 border-t border-zinc-200" />
-                      <p className="mb-2 text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
-                        Seu carro
-                      </p>
-                      <div className="space-y-2">
-                        {(() => {
-                          const m = inscricaoAtual.carroDa.motorista
-                          const nomeM = `${m.nome} ${m.sobrenome}${m.apelido ? ` (${m.apelido})` : ''}`
-                          return (
-                            <div className="flex items-center gap-3">
-                              <Avatar className="h-7 w-7 shrink-0">
-                                <AvatarImage src={m.avatarUrl ?? ''} />
-                                <AvatarFallback className="text-xs">{m.nome[0]}</AvatarFallback>
-                              </Avatar>
-                              <span className="flex-1 text-sm font-medium text-zinc-700">{nomeM}</span>
-                              <Car className="size-4 shrink-0 text-blue-400" />
-                            </div>
-                          )
-                        })()}
-                        {inscricaoAtual.carroDa.passageiros
-                          .filter((p) => p.pessoa.id !== session?.user?.id)
-                          .map((p) => {
-                            const nomeP = `${p.pessoa.nome} ${p.pessoa.sobrenome}${p.pessoa.apelido ? ` (${p.pessoa.apelido})` : ''}`
+                  {inscricaoAtual.comoVai === 'CARONA' &&
+                    inscricaoAtual.carroDa && (
+                      <>
+                        <div className="my-3 border-t border-zinc-200" />
+                        <p className="mb-2 text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
+                          Seu carro
+                        </p>
+                        <div className="space-y-2">
+                          {(() => {
+                            const m = inscricaoAtual.carroDa.motorista
+                            const nomeM = `${m.nome} ${m.sobrenome}${m.apelido ? ` (${m.apelido})` : ''}`
                             return (
-                              <div key={p.pessoa.id} className="flex items-center gap-3">
+                              <div className="flex items-center gap-3">
                                 <Avatar className="h-7 w-7 shrink-0">
-                                  <AvatarImage src={p.pessoa.avatarUrl ?? ''} />
-                                  <AvatarFallback className="text-xs">{p.pessoa.nome[0]}</AvatarFallback>
+                                  <AvatarImage src={m.avatarUrl ?? ''} />
+                                  <AvatarFallback className="text-xs">
+                                    {m.nome[0]}
+                                  </AvatarFallback>
                                 </Avatar>
-                                <span className="flex-1 text-sm text-zinc-700">{nomeP}</span>
-                                <Check className="size-4 shrink-0 text-green-500" />
+                                <span className="flex-1 text-sm font-medium text-zinc-700">
+                                  {nomeM}
+                                </span>
+                                <Car className="size-4 shrink-0 text-blue-400" />
                               </div>
                             )
-                          })}
-                      </div>
-                    </>
-                  )}
+                          })()}
+                          {inscricaoAtual.carroDa.passageiros
+                            .filter((p) => p.pessoa.id !== session?.user?.id)
+                            .map((p) => {
+                              const nomeP = `${p.pessoa.nome} ${p.pessoa.sobrenome}${p.pessoa.apelido ? ` (${p.pessoa.apelido})` : ''}`
+                              return (
+                                <div
+                                  key={p.pessoa.id}
+                                  className="flex items-center gap-3"
+                                >
+                                  <Avatar className="h-7 w-7 shrink-0">
+                                    <AvatarImage
+                                      src={p.pessoa.avatarUrl ?? ''}
+                                    />
+                                    <AvatarFallback className="text-xs">
+                                      {p.pessoa.nome[0]}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <span className="flex-1 text-sm text-zinc-700">
+                                    {nomeP}
+                                  </span>
+                                  <Check className="size-4 shrink-0 text-green-500" />
+                                </div>
+                              )
+                            })}
+                        </div>
+                      </>
+                    )}
                 </div>
               )}
               {inscricaoAtual.observacao && (
@@ -687,7 +799,9 @@ export default function DAEncontreiroPage() {
                       <p className="text-[11px] font-medium tracking-wide text-zinc-400 uppercase">
                         Observação
                       </p>
-                      <p className="text-sm text-zinc-700">{inscricaoAtual.observacao}</p>
+                      <p className="text-sm text-zinc-700">
+                        {inscricaoAtual.observacao}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -865,7 +979,7 @@ export default function DAEncontreiroPage() {
 
       return (
         <Card className="w-full px-3 py-6 text-zinc-700">
-          <CardContent className="p-0 flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-4 p-0">
             <div className="flex items-center gap-2">
               <button
                 className="text-zinc-400 hover:text-zinc-600"
@@ -905,8 +1019,13 @@ export default function DAEncontreiroPage() {
                             variant={isAceito ? 'default' : 'outline'}
                             onClick={() => {
                               if (conviteMotoristaAceitos.includes(c.id)) return
-                              setConviteMotoristaAceitos((prev) => [...prev, c.id])
-                              setConviteMotoristaRecusados((prev) => prev.filter((id) => id !== c.id))
+                              setConviteMotoristaAceitos((prev) => [
+                                ...prev,
+                                c.id,
+                              ])
+                              setConviteMotoristaRecusados((prev) =>
+                                prev.filter((id) => id !== c.id),
+                              )
                               if (c.convidado) {
                                 const nomeConvidado = `${c.convidado.nome} ${c.convidado.sobrenome}${c.convidado.apelido ? ` (${c.convidado.apelido})` : ''}`
                                 const pessoaSelecionada: PessoaSelecionada = {
@@ -915,15 +1034,26 @@ export default function DAEncontreiroPage() {
                                   avatarUrl: c.convidado.avatarUrl ?? null,
                                 }
                                 setConvidados((prev) => {
-                                  if (prev.some((p) => p?.idPessoa === c.convidado!.id)) return prev
+                                  if (
+                                    prev.some(
+                                      (p) => p?.idPessoa === c.convidado!.id,
+                                    )
+                                  )
+                                    return prev
                                   const next = [...prev]
-                                  const firstEmpty = next.findIndex((x) => x === null || x === undefined)
-                                  if (firstEmpty >= 0) next[firstEmpty] = pessoaSelecionada
+                                  const firstEmpty = next.findIndex(
+                                    (x) => x === null || x === undefined,
+                                  )
+                                  if (firstEmpty >= 0)
+                                    next[firstEmpty] = pessoaSelecionada
                                   else next.push(pessoaSelecionada)
                                   return next
                                 })
                               }
-                              if (conviteMotoristaAceitos.length === 0 && comoVai !== 'DIRIGINDO') {
+                              if (
+                                conviteMotoristaAceitos.length === 0 &&
+                                comoVai !== 'DIRIGINDO'
+                              ) {
                                 setComoVai('DIRIGINDO')
                                 if (carroAnterior) setUsarCarroAnterior(null)
                               }
@@ -934,13 +1064,27 @@ export default function DAEncontreiroPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            className={isRecusado ? 'border-red-500 bg-red-500 text-white hover:bg-red-500/90' : ''}
+                            className={
+                              isRecusado
+                                ? 'border-red-500 bg-red-500 text-white hover:bg-red-500/90'
+                                : ''
+                            }
                             onClick={() => {
-                              const wasAccepted = conviteMotoristaAceitos.includes(c.id)
-                              setConviteMotoristaRecusados((prev) => [...prev.filter((id) => id !== c.id), c.id])
-                              setConviteMotoristaAceitos((prev) => prev.filter((id) => id !== c.id))
+                              const wasAccepted =
+                                conviteMotoristaAceitos.includes(c.id)
+                              setConviteMotoristaRecusados((prev) => [
+                                ...prev.filter((id) => id !== c.id),
+                                c.id,
+                              ])
+                              setConviteMotoristaAceitos((prev) =>
+                                prev.filter((id) => id !== c.id),
+                              )
                               if (wasAccepted && c.convidado) {
-                                setConvidados((prev) => prev.map((p) => (p?.idPessoa === c.convidado!.id ? null : p)))
+                                setConvidados((prev) =>
+                                  prev.map((p) =>
+                                    p?.idPessoa === c.convidado!.id ? null : p,
+                                  ),
+                                )
                               }
                             }}
                           >
@@ -955,7 +1099,9 @@ export default function DAEncontreiroPage() {
             )}
             {veiculoInvites.length > 0 && (
               <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-                <p className="text-sm font-medium text-zinc-700">Convites de carona</p>
+                <p className="text-sm font-medium text-zinc-700">
+                  Convites de carona
+                </p>
                 <div className="space-y-2">
                   {veiculoInvites.map((c) => {
                     const isAceito = aceitarConviteVeiculoId === c.id
@@ -967,13 +1113,23 @@ export default function DAEncontreiroPage() {
                       <div key={c.id} className="flex items-center gap-3">
                         <Avatar className="h-8 w-8 shrink-0">
                           <AvatarImage src={c.motorista?.avatarUrl ?? ''} />
-                          <AvatarFallback>{c.motorista?.nome?.[0] ?? '?'}</AvatarFallback>
+                          <AvatarFallback>
+                            {c.motorista?.nome?.[0] ?? '?'}
+                          </AvatarFallback>
                         </Avatar>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-zinc-700">{motoristaNome}</p>
+                          <p className="text-sm font-medium text-zinc-700">
+                            {motoristaNome}
+                          </p>
                           {c.carroDa && (
                             <p className="text-xs text-zinc-500">
-                              {[c.carroDa.modelo, c.carroDa.placa, `${c.carroDa.vagas} vagas`].filter(Boolean).join(' · ')}
+                              {[
+                                c.carroDa.modelo,
+                                c.carroDa.placa,
+                                `${c.carroDa.vagas} vagas`,
+                              ]
+                                .filter(Boolean)
+                                .join(' · ')}
                             </p>
                           )}
                         </div>
@@ -985,10 +1141,16 @@ export default function DAEncontreiroPage() {
                               if (isAceito) return
                               setAceitarConviteVeiculoId(c.id)
                               setComoVai('CARONA')
-                              setConviteVeiculoRejeitados((prev) => prev.filter((id) => id !== c.id))
+                              setConviteVeiculoRejeitados((prev) =>
+                                prev.filter((id) => id !== c.id),
+                              )
                               if (c.motorista) {
                                 const motoristaNomeCompleto = `${c.motorista.nome} ${c.motorista.sobrenome}${c.motorista.apelido ? ` (${c.motorista.apelido})` : ''}`
-                                setMotoristaSelecionado({ idPessoa: c.motorista.id, nome: motoristaNomeCompleto, avatarUrl: c.motorista.avatarUrl })
+                                setMotoristaSelecionado({
+                                  idPessoa: c.motorista.id,
+                                  nome: motoristaNomeCompleto,
+                                  avatarUrl: c.motorista.avatarUrl,
+                                })
                               }
                             }}
                           >
@@ -997,14 +1159,21 @@ export default function DAEncontreiroPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            className={isRecusado ? 'border-red-500 bg-red-500 text-white hover:bg-red-500/90' : ''}
+                            className={
+                              isRecusado
+                                ? 'border-red-500 bg-red-500 text-white hover:bg-red-500/90'
+                                : ''
+                            }
                             onClick={() => {
                               if (isAceito) {
                                 setAceitarConviteVeiculoId(null)
                                 setComoVai(null)
                                 setMotoristaSelecionado(null)
                               }
-                              setConviteVeiculoRejeitados((prev) => [...prev.filter((id) => id !== c.id), c.id])
+                              setConviteVeiculoRejeitados((prev) => [
+                                ...prev.filter((id) => id !== c.id),
+                                c.id,
+                              ])
                             }}
                           >
                             Recusar
@@ -1016,315 +1185,318 @@ export default function DAEncontreiroPage() {
                 </div>
               </div>
             )}
-                <div className="grid gap-2">
-                  {opcoes.map(({ value, label, desc, icon: Icon }) => {
-                    const selecionado = comoVai === value
-                    const bloqueado = conviteMotoristaAceitos.length > 0 && value !== 'DIRIGINDO'
-                    return (
-                      <button
-                        key={value}
-                        type="button"
-                        disabled={bloqueado}
-                        onClick={() => handleComoVaiSelect(value)}
-                        className={[
-                          'flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all',
-                          bloqueado
-                            ? 'cursor-not-allowed border-zinc-200 bg-zinc-50 opacity-40'
-                            : selecionado
-                              ? 'border-primary bg-primary/5 shadow-sm'
-                              : 'cursor-pointer border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50',
-                        ].join(' ')}
+            <div className="grid gap-2">
+              {opcoes.map(({ value, label, desc, icon: Icon }) => {
+                const selecionado = comoVai === value
+                const bloqueado =
+                  conviteMotoristaAceitos.length > 0 && value !== 'DIRIGINDO'
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    disabled={bloqueado}
+                    onClick={() => handleComoVaiSelect(value)}
+                    className={[
+                      'flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all',
+                      bloqueado
+                        ? 'cursor-not-allowed border-zinc-200 bg-zinc-50 opacity-40'
+                        : selecionado
+                          ? 'border-primary bg-primary/5 shadow-sm'
+                          : 'cursor-pointer border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50',
+                    ].join(' ')}
+                  >
+                    <Icon
+                      className={`size-5 shrink-0 ${selecionado ? 'text-primary' : 'text-zinc-400'}`}
+                    />
+                    <div>
+                      <p
+                        className={`text-sm font-medium ${selecionado ? 'text-primary' : 'text-zinc-700'}`}
                       >
-                        <Icon
-                          className={`size-5 shrink-0 ${selecionado ? 'text-primary' : 'text-zinc-400'}`}
-                        />
-                        <div>
-                          <p
-                            className={`text-sm font-medium ${selecionado ? 'text-primary' : 'text-zinc-700'}`}
-                          >
-                            {label}
-                          </p>
-                          <p className="text-xs text-zinc-400">{desc}</p>
-                        </div>
-                        {selecionado && (
-                          <Check className="text-primary ml-auto size-5 shrink-0" />
-                        )}
-                      </button>
-                    )
-                  })}
-                </div>
+                        {label}
+                      </p>
+                      <p className="text-xs text-zinc-400">{desc}</p>
+                    </div>
+                    {selecionado && (
+                      <Check className="text-primary ml-auto size-5 shrink-0" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
 
-                {/* Car form for DIRIGINDO */}
-                {comoVai === 'DIRIGINDO' && (
-                  <div className="mt-1 space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-                    <p className="text-sm font-medium text-zinc-700">
-                      Dados do seu carro
+            {/* Car form for DIRIGINDO */}
+            {comoVai === 'DIRIGINDO' && (
+              <div className="mt-1 space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+                <p className="text-sm font-medium text-zinc-700">
+                  Dados do seu carro
+                </p>
+
+                {carroAnterior && usarCarroAnterior === null && (
+                  <div className="space-y-2">
+                    <p className="text-xs text-zinc-500">
+                      Encontramos seu carro cadastrado anteriormente:
                     </p>
-
-                    {carroAnterior && usarCarroAnterior === null && (
-                      <div className="space-y-2">
-                        <p className="text-xs text-zinc-500">
-                          Encontramos seu carro cadastrado anteriormente:
-                        </p>
-                        <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700">
-                          <p className="font-medium">
-                            {carroAnterior.modeloCarro}
-                          </p>
-                          <p className="text-xs text-zinc-400">
-                            {carroAnterior.placaCarro}
-                          </p>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Button
-                            size="sm"
-                            variant="tertiary"
-                            className="w-full"
-                            onClick={() => {
-                              setUsarCarroAnterior(true)
-                              setCarroModelo(carroAnterior.modeloCarro)
-                              setCarroPlaca(carroAnterior.placaCarro)
-                              setCarroVagas(
-                                String(carroAnterior.lugaresCarro - 1),
-                              )
-                            }}
-                          >
-                            Sim, é esse
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="secondary"
-                            className="w-full"
-                            onClick={() => setUsarCarroAnterior(false)}
-                          >
-                            Não, usar outro
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {(usarCarroAnterior === false ||
-                      (!carroAnterior && comoVai === 'DIRIGINDO')) && (
-                      <div className="space-y-2">
-                        {usarCarroAnterior === false && (
-                          <button
-                            className="mb-1 flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-600"
-                            onClick={() => setUsarCarroAnterior(null)}
-                          >
-                            <ChevronLeft className="size-3" /> Usar carro
-                            anterior
-                          </button>
-                        )}
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                          <div>
-                            <label className="mb-1 block text-xs text-zinc-500">
-                              Modelo
-                            </label>
-                            <Input
-                              placeholder="Ex: Gol, HB20"
-                              value={carroModelo}
-                              onChange={(e) => setCarroModelo(e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <label className="mb-1 block text-xs text-zinc-500">
-                              Placa
-                            </label>
-                            <Input
-                              placeholder="ABC-1234"
-                              value={carroPlaca}
-                              onChange={(e) =>
-                                setCarroPlaca(e.target.value.toUpperCase())
-                              }
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="mb-1 block text-xs text-zinc-500">
-                            Vagas para passageiros
-                          </label>
-                          <Input
-                            type="number"
-                            min={1}
-                            max={9}
-                            value={carroVagas}
-                            onChange={(e) => setCarroVagas(e.target.value)}
-                            wrapperClassName="w-24"
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {usarCarroAnterior === true && carroAnterior && (
-                      <div className="border-primary/20 bg-primary/5 space-y-2 rounded-lg border px-3 py-2">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-primary text-sm font-medium">
-                              {carroAnterior.modeloCarro}
-                            </p>
-                            <p className="text-primary/70 text-xs">
-                              {carroAnterior.placaCarro}
-                            </p>
-                          </div>
-                          <button
-                            className="text-xs text-zinc-400 hover:text-zinc-600"
-                            onClick={() => setUsarCarroAnterior(null)}
-                          >
-                            Alterar
-                          </button>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <label className="text-primary/70 text-xs">
-                            Vagas para passageiros
-                          </label>
-                          <Input
-                            type="number"
-                            min={1}
-                            max={9}
-                            value={carroVagas}
-                            onChange={(e) => setCarroVagas(e.target.value)}
-                            wrapperClassName="w-20"
-                          />
-                        </div>
-                      </div>
-                    )}
+                    <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700">
+                      <p className="font-medium">{carroAnterior.modeloCarro}</p>
+                      <p className="text-xs text-zinc-400">
+                        {carroAnterior.placaCarro}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        size="sm"
+                        variant="tertiary"
+                        className="w-full"
+                        onClick={() => {
+                          setUsarCarroAnterior(true)
+                          setCarroModelo(carroAnterior.modeloCarro)
+                          setCarroPlaca(carroAnterior.placaCarro)
+                          setCarroVagas(String(carroAnterior.lugaresCarro - 1))
+                        }}
+                      >
+                        Sim, é esse
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="w-full"
+                        onClick={() => setUsarCarroAnterior(false)}
+                      >
+                        Não, usar outro
+                      </Button>
+                    </div>
                   </div>
                 )}
 
-                {/* Inputs de passageiros — aparecem após a escolha do carro */}
-                {comoVai === 'DIRIGINDO' &&
-                  (!carroAnterior || usarCarroAnterior !== null) &&
-                  Number(carroVagas) > 0 && (
-                    <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-                      <p className="text-sm font-medium text-zinc-700">
-                        Quem vai no seu carro?{' '}
-                        <span className="font-normal text-zinc-400">
-                          (opcional)
-                        </span>
-                      </p>
-                      <div className="space-y-2">
-                        {Array.from({
-                          length: Math.min(Number(carroVagas) || 0, 9),
-                        }).map((_, i) => (
-                          <PessoaSearchInput
-                            key={i}
-                            value={convidados[i] ?? null}
-                            onChange={(v) => {
-                              const anterior = convidados[i]
-                              setConvidados((prev) => {
-                                const next = [...prev]
-                                next[i] = v
-                                return next
-                              })
-                              if (v === null && anterior) {
-                                const conviteAceito = (data?.convitesMotorista ?? []).find(
-                                  (c) => c.convidado?.id === anterior.idPessoa && conviteMotoristaAceitos.includes(c.id),
-                                )
-                                if (conviteAceito) {
-                                  setConviteMotoristaRecusados((prev) => [...prev.filter((id) => id !== conviteAceito.id), conviteAceito.id])
-                                  setConviteMotoristaAceitos((prev) => prev.filter((id) => id !== conviteAceito.id))
-                                }
-                              }
-                            }}
-                            excluir={[
-                              session?.user?.id ?? '',
-                              ...convidados
-                                .filter(
-                                  (c, j): c is PessoaSelecionada =>
-                                    c !== null && j !== i,
-                                )
-                                .map((c) => c.idPessoa),
-                            ]}
-                            placeholder={`Passageiro ${i + 1}`}
-                          />
-                        ))}
+                {(usarCarroAnterior === false ||
+                  (!carroAnterior && comoVai === 'DIRIGINDO')) && (
+                  <div className="space-y-2">
+                    {usarCarroAnterior === false && (
+                      <button
+                        className="mb-1 flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-600"
+                        onClick={() => setUsarCarroAnterior(null)}
+                      >
+                        <ChevronLeft className="size-3" /> Usar carro anterior
+                      </button>
+                    )}
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      <div>
+                        <label className="mb-1 block text-xs text-zinc-500">
+                          Modelo
+                        </label>
+                        <Input
+                          placeholder="Ex: Gol, HB20"
+                          value={carroModelo}
+                          onChange={(e) => setCarroModelo(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <label className="mb-1 block text-xs text-zinc-500">
+                          Placa
+                        </label>
+                        <Input
+                          placeholder="ABC-1234"
+                          value={carroPlaca}
+                          onChange={(e) =>
+                            setCarroPlaca(e.target.value.toUpperCase())
+                          }
+                        />
                       </div>
                     </div>
-                  )}
-
-                {/* Busca opcional de motorista para CARONA */}
-                {comoVai === 'CARONA' && (
-                  <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-                    <p className="text-sm font-medium text-zinc-700">
-                      Já tem carona?{' '}
-                      <span className="font-normal text-zinc-400">
-                        (opcional)
-                      </span>
-                    </p>
-                    <PessoaSearchInput
-                      value={motoristaSelecionado}
-                      onChange={(v) => {
-                        setMotoristaSelecionado(v)
-                        setAvisoMotoristaInscrito(null)
-                      }}
-                      placeholder="Buscar motorista por nome..."
-                    />
-                    {avisoMotoristaInscrito && (
-                      <div className="space-y-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
-                        <p className="text-sm text-amber-800">
-                          {avisoMotoristaInscrito}
-                        </p>
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="secondary"
-                            className="flex-1"
-                            disabled={criarConviteVeiculo.isPending}
-                            onClick={async () => {
-                              if (!da || !motoristaSelecionado) return
-                              try {
-                                await criarConviteVeiculo.mutateAsync({
-                                  idDA: da.id,
-                                  idMotorista: motoristaSelecionado.idPessoa,
-                                  force: true,
-                                })
-                                setAvisoMotoristaInscrito(null)
-                                setStep(5)
-                              } catch (err: unknown) {
-                                const errData = (
-                                  err as {
-                                    response?: { data?: { error?: string } }
-                                  }
-                                )?.response?.data
-                                toast.error(
-                                  errData?.error ?? 'Erro ao enviar convite.',
-                                )
-                              }
-                            }}
-                          >
-                            Enviar mesmo assim
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="flex-1"
-                            onClick={() => {
-                              setAvisoMotoristaInscrito(null)
-                              setMotoristaSelecionado(null)
-                            }}
-                          >
-                            Cancelar
-                          </Button>
-                        </div>
-                      </div>
-                    )}
+                    <div>
+                      <label className="mb-1 block text-xs text-zinc-500">
+                        Vagas para passageiros
+                      </label>
+                      <Input
+                        type="number"
+                        min={1}
+                        max={9}
+                        value={carroVagas}
+                        onChange={(e) => setCarroVagas(e.target.value)}
+                        wrapperClassName="w-24"
+                      />
+                    </div>
                   </div>
                 )}
 
-                <Button
-                  className="w-full"
-                  disabled={
-                    !comoVai ||
-                    !carroFormPreenchido ||
-                    criarConviteVeiculo.isPending
-                  }
-                  onClick={
-                    comoVai === 'CARONA' && motoristaSelecionado
-                      ? handleContinuarStep3
-                      : () => setStep(5)
-                  }
-                >
-                  {criarConviteVeiculo.isPending ? 'Aguarde...' : 'Continuar'}
-                </Button>
+                {usarCarroAnterior === true && carroAnterior && (
+                  <div className="border-primary/20 bg-primary/5 space-y-2 rounded-lg border px-3 py-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-primary text-sm font-medium">
+                          {carroAnterior.modeloCarro}
+                        </p>
+                        <p className="text-primary/70 text-xs">
+                          {carroAnterior.placaCarro}
+                        </p>
+                      </div>
+                      <button
+                        className="text-xs text-zinc-400 hover:text-zinc-600"
+                        onClick={() => setUsarCarroAnterior(null)}
+                      >
+                        Alterar
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="text-primary/70 text-xs">
+                        Vagas para passageiros
+                      </label>
+                      <Input
+                        type="number"
+                        min={1}
+                        max={9}
+                        value={carroVagas}
+                        onChange={(e) => setCarroVagas(e.target.value)}
+                        wrapperClassName="w-20"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Inputs de passageiros — aparecem após a escolha do carro */}
+            {comoVai === 'DIRIGINDO' &&
+              (!carroAnterior || usarCarroAnterior !== null) &&
+              Number(carroVagas) > 0 && (
+                <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+                  <p className="text-sm font-medium text-zinc-700">
+                    Quem vai no seu carro?{' '}
+                    <span className="font-normal text-zinc-400">
+                      (opcional)
+                    </span>
+                  </p>
+                  <div className="space-y-2">
+                    {Array.from({
+                      length: Math.min(Number(carroVagas) || 0, 9),
+                    }).map((_, i) => (
+                      <PessoaSearchInput
+                        key={i}
+                        value={convidados[i] ?? null}
+                        onChange={(v) => {
+                          const anterior = convidados[i]
+                          setConvidados((prev) => {
+                            const next = [...prev]
+                            next[i] = v
+                            return next
+                          })
+                          if (v === null && anterior) {
+                            const conviteAceito = (
+                              data?.convitesMotorista ?? []
+                            ).find(
+                              (c) =>
+                                c.convidado?.id === anterior.idPessoa &&
+                                conviteMotoristaAceitos.includes(c.id),
+                            )
+                            if (conviteAceito) {
+                              setConviteMotoristaRecusados((prev) => [
+                                ...prev.filter((id) => id !== conviteAceito.id),
+                                conviteAceito.id,
+                              ])
+                              setConviteMotoristaAceitos((prev) =>
+                                prev.filter((id) => id !== conviteAceito.id),
+                              )
+                            }
+                          }
+                        }}
+                        excluir={[
+                          session?.user?.id ?? '',
+                          ...convidados
+                            .filter(
+                              (c, j): c is PessoaSelecionada =>
+                                c !== null && j !== i,
+                            )
+                            .map((c) => c.idPessoa),
+                        ]}
+                        placeholder={`Passageiro ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            {/* Busca opcional de motorista para CARONA */}
+            {comoVai === 'CARONA' && (
+              <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+                <p className="text-sm font-medium text-zinc-700">
+                  Já tem carona?{' '}
+                  <span className="font-normal text-zinc-400">(opcional)</span>
+                </p>
+                <PessoaSearchInput
+                  value={motoristaSelecionado}
+                  onChange={(v) => {
+                    setMotoristaSelecionado(v)
+                    setAvisoMotoristaInscrito(null)
+                  }}
+                  placeholder="Buscar motorista por nome..."
+                />
+                {avisoMotoristaInscrito && (
+                  <div className="space-y-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                    <p className="text-sm text-amber-800">
+                      {avisoMotoristaInscrito}
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="flex-1"
+                        disabled={criarConviteVeiculo.isPending}
+                        onClick={async () => {
+                          if (!da || !motoristaSelecionado) return
+                          try {
+                            await criarConviteVeiculo.mutateAsync({
+                              idDA: da.id,
+                              idMotorista: motoristaSelecionado.idPessoa,
+                              force: true,
+                            })
+                            setAvisoMotoristaInscrito(null)
+                            setStep(5)
+                          } catch (err: unknown) {
+                            const errData = (
+                              err as {
+                                response?: { data?: { error?: string } }
+                              }
+                            )?.response?.data
+                            toast.error(
+                              errData?.error ?? 'Erro ao enviar convite.',
+                            )
+                          }
+                        }}
+                      >
+                        Enviar mesmo assim
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="flex-1"
+                        onClick={() => {
+                          setAvisoMotoristaInscrito(null)
+                          setMotoristaSelecionado(null)
+                        }}
+                      >
+                        Cancelar
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <Button
+              className="w-full"
+              disabled={
+                !comoVai ||
+                !carroFormPreenchido ||
+                criarConviteVeiculo.isPending
+              }
+              onClick={
+                comoVai === 'CARONA' && motoristaSelecionado
+                  ? handleContinuarStep3
+                  : () => setStep(5)
+              }
+            >
+              {criarConviteVeiculo.isPending ? 'Aguarde...' : 'Continuar'}
+            </Button>
           </CardContent>
         </Card>
       )
@@ -1417,15 +1589,21 @@ export default function DAEncontreiroPage() {
                     <div key={c.id} className="flex items-center gap-3">
                       {inviterRaw && (
                         <Avatar className="h-8 w-8 shrink-0">
-                          <AvatarImage src={inviterRaw.avatarUrl ?? undefined} />
+                          <AvatarImage
+                            src={inviterRaw.avatarUrl ?? undefined}
+                          />
                           <AvatarFallback>{inviterRaw.nome[0]}</AvatarFallback>
                         </Avatar>
                       )}
                       <div className="min-w-0 flex-1">
                         <p className="text-sm text-zinc-700">
-                          <span className="font-medium">{inviterRaw?.nome ?? '?'}</span>
+                          <span className="font-medium">
+                            {inviterRaw?.nome ?? '?'}
+                          </span>
                           {' · '}
-                          <span className="text-zinc-500">{c.grupoCarne.itemDA.item.nome}</span>
+                          <span className="text-zinc-500">
+                            {c.grupoCarne.itemDA.item.nome}
+                          </span>
                         </p>
                         <p className="text-xs text-zinc-400">
                           Grupo de {c.grupoCarne.capacidade} pessoas
@@ -1443,11 +1621,13 @@ export default function DAEncontreiroPage() {
                               prev.filter((id) => id !== c.id),
                             )
                             if (inviterRaw) {
-                              setConvidadosCarne([{
-                                idPessoa: inviterRaw.id,
-                                nome: inviterNome!,
-                                avatarUrl: inviterRaw.avatarUrl,
-                              }])
+                              setConvidadosCarne([
+                                {
+                                  idPessoa: inviterRaw.id,
+                                  nome: inviterNome!,
+                                  avatarUrl: inviterRaw.avatarUrl,
+                                },
+                              ])
                             } else {
                               setConvidadosCarne([])
                             }
@@ -1523,17 +1703,25 @@ export default function DAEncontreiroPage() {
                             ])
                           }
                           // Clear accepted invite if selecting a different item
-                          if (aceitarConviteCarneId && newId !== acceptedInviteItemId) {
+                          if (
+                            aceitarConviteCarneId &&
+                            newId !== acceptedInviteItemId
+                          ) {
                             setAceitarConviteCarneId(null)
                             setConvidadosCarne([])
                           }
                           // Auto-accept if sharing person is already set and matches invite
-                          if (!aceitarConviteCarneId || newId === acceptedInviteItemId) {
+                          if (
+                            !aceitarConviteCarneId ||
+                            newId === acceptedInviteItemId
+                          ) {
                             const match = carneInvites.find(
                               (c) =>
                                 c.grupoCarne.idItem === newId &&
                                 convidadosCarne.some(
-                                  (p) => p?.idPessoa === c.grupoCarne.membros[0]?.pessoa.id,
+                                  (p) =>
+                                    p?.idPessoa ===
+                                    c.grupoCarne.membros[0]?.pessoa.id,
                                 ),
                             )
                             if (match) {
@@ -1587,7 +1775,9 @@ export default function DAEncontreiroPage() {
                       <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
                         <p className="text-sm font-medium text-zinc-700">
                           Convidar para compartilhar?{' '}
-                          <span className="font-normal text-zinc-400">(opcional)</span>
+                          <span className="font-normal text-zinc-400">
+                            (opcional)
+                          </span>
                         </p>
                         <div className="space-y-2">
                           {Array.from({ length: vagasConvidar }).map((_, i) => (
@@ -1612,7 +1802,8 @@ export default function DAEncontreiroPage() {
                                   const match = carneInvites.find(
                                     (c) =>
                                       c.grupoCarne.idItem === itemSelecionado &&
-                                      c.grupoCarne.membros[0]?.pessoa.id === v.idPessoa,
+                                      c.grupoCarne.membros[0]?.pessoa.id ===
+                                        v.idPessoa,
                                   )
                                   if (match) {
                                     setAceitarConviteCarneId(match.id)

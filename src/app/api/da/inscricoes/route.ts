@@ -56,7 +56,12 @@ export async function GET(request: NextRequest) {
           membros: {
             include: {
               pessoa: {
-                select: { id: true, nome: true, sobrenome: true, apelido: true },
+                select: {
+                  id: true,
+                  nome: true,
+                  sobrenome: true,
+                  apelido: true,
+                },
               },
             },
           },
@@ -107,7 +112,9 @@ export async function GET(request: NextRequest) {
     companheiros: ins.grupoCarne
       ? ins.grupoCarne.membros
           .filter((m) => m.idPessoa !== ins.idPessoa)
-          .map((m) => m.pessoa.apelido ?? `${m.pessoa.nome} ${m.pessoa.sobrenome}`)
+          .map(
+            (m) => m.pessoa.apelido ?? `${m.pessoa.nome} ${m.pessoa.sobrenome}`,
+          )
       : [],
   }))
 

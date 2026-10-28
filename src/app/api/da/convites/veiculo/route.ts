@@ -59,8 +59,7 @@ export async function POST(request: NextRequest) {
   })
 
   if (inscricaoMotorista?.comoVai === 'DIRIGINDO' && !force) {
-    const nome =
-      motorista.apelido ?? `${motorista.nome} ${motorista.sobrenome}`
+    const nome = motorista.apelido ?? `${motorista.nome} ${motorista.sobrenome}`
     return NextResponse.json(
       {
         error: 'MOTORISTA_JA_INSCRITO',
@@ -82,7 +81,10 @@ export async function POST(request: NextRequest) {
   })
   if (existingConvite)
     return NextResponse.json(
-      { error: 'CONVITE_DUPLICADO', mensagem: 'Você já enviou um convite para este motorista.' },
+      {
+        error: 'CONVITE_DUPLICADO',
+        mensagem: 'Você já enviou um convite para este motorista.',
+      },
       { status: 409 },
     )
 

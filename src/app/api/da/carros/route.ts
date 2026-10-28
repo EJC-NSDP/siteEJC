@@ -137,9 +137,7 @@ export async function POST(request: NextRequest) {
 
   // Cria convites para os passageiros convidados pelo motorista
   if (convidados && convidados.length > 0) {
-    const novosConvidados = convidados.filter(
-      (id) => id !== motoristId,
-    )
+    const novosConvidados = convidados.filter((id) => id !== motoristId)
     if (novosConvidados.length > 0) {
       await prisma.conviteVeiculoDA.createMany({
         data: novosConvidados.map((idConvidado) => ({

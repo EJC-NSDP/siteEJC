@@ -90,9 +90,10 @@ export async function GET(request: NextRequest) {
       pessoa: mapPessoa(p.pessoa),
       comoVai: p.comoVai,
       nomeBP: p.responsavelBP?.nome ?? null,
-      conviteStatus: convitesCarona.find(
-        (cv) => cv.idConvidado === p.idPessoa && cv.idCarroDA === c.id,
-      )?.status ?? null,
+      conviteStatus:
+        convitesCarona.find(
+          (cv) => cv.idConvidado === p.idPessoa && cv.idCarroDA === c.id,
+        )?.status ?? null,
     }))
 
     const pendentes = convitesCarona.filter(
@@ -147,7 +148,8 @@ export async function GET(request: NextRequest) {
         (c) => c.idConvidado === ins.idPessoa && c.status !== 'RECUSADO',
       )
       const nomeMotorista = convite
-        ? (convite.motorista.apelido ?? `${convite.motorista.nome} ${convite.motorista.sobrenome}`)
+        ? (convite.motorista.apelido ??
+          `${convite.motorista.nome} ${convite.motorista.sobrenome}`)
         : null
       return {
         idPessoa: ins.idPessoa,
@@ -167,7 +169,9 @@ export async function GET(request: NextRequest) {
   const stats = {
     total: inscricoes.length + pendentesSemInscricao.length,
     dirigindo: inscricoes.filter((i) => i.comoVai === 'DIRIGINDO').length,
-    carona: inscricoes.filter((i) => i.comoVai === 'CARONA').length + pendentesSemInscricao.length,
+    carona:
+      inscricoes.filter((i) => i.comoVai === 'CARONA').length +
+      pendentesSemInscricao.length,
     onibus: inscricoes.filter((i) => !!i.idOnibusDA).length,
     semTransporte: inscricoes.filter(
       (i) => !i.idCarroDA && !i.idOnibusDA && i.comoVai !== 'DIRIGINDO',

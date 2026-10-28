@@ -131,7 +131,9 @@ export async function GET() {
           },
           include: {
             motorista: { select: pessoaSelect },
-            carroDa: { select: { id: true, modelo: true, placa: true, vagas: true } },
+            carroDa: {
+              select: { id: true, modelo: true, placa: true, vagas: true },
+            },
           },
         }),
         prisma.conviteVeiculoDA.findMany({
@@ -155,7 +157,9 @@ export async function GET() {
             grupoCarne: {
               include: {
                 itemDA: {
-                  include: { item: { select: { nome: true, categoria: true } } },
+                  include: {
+                    item: { select: { nome: true, categoria: true } },
+                  },
                 },
                 membros: {
                   include: { pessoa: { select: pessoaSelect } },

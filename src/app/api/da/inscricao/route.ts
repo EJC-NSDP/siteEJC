@@ -81,7 +81,11 @@ export async function POST(request: NextRequest) {
     if (conviteVeiculo.idCarroDA && conviteVeiculo.carroDa) {
       const [passageiroCount, conviteCount] = await Promise.all([
         prisma.inscricaoDA.count({
-          where: { idDA, idCarroDA: conviteVeiculo.idCarroDA, comoVai: 'CARONA' },
+          where: {
+            idDA,
+            idCarroDA: conviteVeiculo.idCarroDA,
+            comoVai: 'CARONA',
+          },
         }),
         prisma.conviteVeiculoDA.count({
           where: {
@@ -125,7 +129,10 @@ export async function POST(request: NextRequest) {
         { error: 'Este convite não está mais disponível.' },
         { status: 409 },
       )
-    if (conviteCarne.grupoCarne._count.membros >= conviteCarne.grupoCarne.capacidade)
+    if (
+      conviteCarne.grupoCarne._count.membros >=
+      conviteCarne.grupoCarne.capacidade
+    )
       return NextResponse.json(
         { error: 'O grupo de carne está cheio.' },
         { status: 409 },
@@ -229,7 +236,9 @@ export async function POST(request: NextRequest) {
       descricaoItem: descricaoItem ?? null,
       observacao: observacao?.trim() || null,
       idGrupoCarne,
-      idResponsavelBP: hasRole(session.user.roles, 'BP') ? session.user.id : null,
+      idResponsavelBP: hasRole(session.user.roles, 'BP')
+        ? session.user.id
+        : null,
     },
     include: {
       itemDA: { include: { item: { select: { nome: true } } } },
@@ -254,7 +263,12 @@ export async function POST(request: NextRequest) {
   }
 
   // Cria convites de carne para os convidados
-  if (idGrupoCarne && convidadosCarne && convidadosCarne.length > 0 && !aceitarConviteCarneId) {
+  if (
+    idGrupoCarne &&
+    convidadosCarne &&
+    convidadosCarne.length > 0 &&
+    !aceitarConviteCarneId
+  ) {
     const maxConvites = (itemDA.pessoasPorUnidade ?? 1) - 1
     const convidadosFiltrados = convidadosCarne
       .filter((id) => id !== session.user.id)

@@ -87,7 +87,11 @@ export async function PATCH(
     if (carroMotorista) {
       const [passageiroCount, conviteCount] = await Promise.all([
         prisma.inscricaoDA.count({
-          where: { idDA: convite.idDA, idCarroDA: carroMotorista.id, comoVai: 'CARONA' },
+          where: {
+            idDA: convite.idDA,
+            idCarroDA: carroMotorista.id,
+            comoVai: 'CARONA',
+          },
         }),
         prisma.conviteVeiculoDA.count({
           where: {

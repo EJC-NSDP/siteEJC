@@ -104,7 +104,10 @@ export default function DABPPage() {
 
   const toggleOrganizarTransporte = useMutation({
     mutationFn: (organizarTransporte: boolean) =>
-      api.patch('/da/organizar-transporte', { idDA: da!.id, organizarTransporte }),
+      api.patch('/da/organizar-transporte', {
+        idDA: da!.id,
+        organizarTransporte,
+      }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['da'] }),
     onError: () => toast.error('Erro ao alterar a configuração de transporte.'),
   })
@@ -176,7 +179,9 @@ export default function DABPPage() {
             {/* Status */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Status do formulário</CardTitle>
+                <CardTitle className="text-base">
+                  Status do formulário
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap items-center gap-4">
                 <Switch
@@ -212,7 +217,9 @@ export default function DABPPage() {
             {/* Organizar transporte */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Organização de transporte</CardTitle>
+                <CardTitle className="text-base">
+                  Organização de transporte
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap items-center gap-4">
                 <Switch

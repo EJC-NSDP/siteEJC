@@ -53,7 +53,9 @@ export async function GET() {
     const itemInvisivel = emDAAtual && !emDAAtual.visivel
     const ultimaQuantidade = itemInvisivel
       ? emDAAtual.quantidade
-      : (ultimoItemDA ? ultimoItemDA.quantidade : 1)
+      : ultimoItemDA
+        ? ultimoItemDA.quantidade
+        : 1
     const ultimaPessoasPorUnidade = itemInvisivel
       ? emDAAtual.pessoasPorUnidade
       : (ultimoItemDA?.pessoasPorUnidade ?? null)

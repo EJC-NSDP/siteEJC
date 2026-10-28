@@ -243,7 +243,11 @@ export default function ItensDAPage() {
     }) =>
       noDAAtual
         ? api.delete(`/da/itens/${id}/da?idDA=${da!.id}`)
-        : api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade, pessoasPorUnidade }),
+        : api.post(`/da/itens/${id}/da`, {
+            idDA: da!.id,
+            quantidade,
+            pessoasPorUnidade,
+          }),
     onMutate: async ({ id, noDAAtual }) => {
       await queryClient.cancelQueries({ queryKey: ['da-itens'] })
       const previous = queryClient.getQueryData<ItemGlobal[]>(['da-itens'])
@@ -276,14 +280,23 @@ export default function ItensDAPage() {
       id: string
       quantidade: number | null
       pessoasPorUnidade?: number | null
-    }) => api.post(`/da/itens/${id}/da`, { idDA: da!.id, quantidade, pessoasPorUnidade }),
+    }) =>
+      api.post(`/da/itens/${id}/da`, {
+        idDA: da!.id,
+        quantidade,
+        pessoasPorUnidade,
+      }),
     onMutate: async ({ id, quantidade, pessoasPorUnidade }) => {
       await queryClient.cancelQueries({ queryKey: ['da-itens'] })
       const previous = queryClient.getQueryData<ItemGlobal[]>(['da-itens'])
       queryClient.setQueryData<ItemGlobal[]>(['da-itens'], (old) =>
         old?.map((item) =>
           item.id === id
-            ? { ...item, quantidade, ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }) }
+            ? {
+                ...item,
+                quantidade,
+                ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }),
+              }
             : item,
         ),
       )
@@ -329,7 +342,9 @@ export default function ItensDAPage() {
     VEGETARIANA: 'bg-green-400',
   }
 
-  const itensNoDA = (itens ?? []).filter((i) => i.noDAAtual || i.inscricoesCount > 0)
+  const itensNoDA = (itens ?? []).filter(
+    (i) => i.noDAAtual || i.inscricoesCount > 0,
+  )
   const totalInscricoes = itensNoDA.reduce((s, i) => s + i.inscricoesCount, 0)
   const statsPorCategoria = CATEGORIAS.map((cat) => {
     const count = itensNoDA
@@ -356,7 +371,11 @@ export default function ItensDAPage() {
           {da && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="w-full sm:w-auto" disabled={replicar.isPending}>
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                  disabled={replicar.isPending}
+                >
                   <RefreshCw className="mr-1.5 h-4 w-4" />
                   Replicar último DA
                 </Button>
@@ -721,21 +740,29 @@ export default function ItensDAPage() {
                     </TableCell>
 
                     <TableCell>
-                      {editando && item.noDAAtual && da && item.categoria === 'CARNE' ? (
+                      {editando &&
+                      item.noDAAtual &&
+                      da &&
+                      item.categoria === 'CARNE' ? (
                         <Input
                           type="number"
                           min={1}
                           max={20}
                           value={editPessoasPorUnidade}
-                          onChange={(e) => setEditPessoasPorUnidade(e.target.value)}
+                          onChange={(e) =>
+                            setEditPessoasPorUnidade(e.target.value)
+                          }
                           wrapperClassName="h-9 w-16"
                           className="text-xs"
                         />
                       ) : item.noDAAtual && da && item.categoria === 'CARNE' ? (
                         <span className="text-zinc-700">
-                          {item.pessoasPorUnidade && item.pessoasPorUnidade > 1
-                            ? item.pessoasPorUnidade
-                            : <span className="text-zinc-400">—</span>}
+                          {item.pessoasPorUnidade &&
+                          item.pessoasPorUnidade > 1 ? (
+                            item.pessoasPorUnidade
+                          ) : (
+                            <span className="text-zinc-400">—</span>
+                          )}
                         </span>
                       ) : (
                         <span className="text-zinc-400">—</span>
@@ -763,10 +790,15 @@ export default function ItensDAPage() {
                                   const novaQtd = editIlimitado
                                     ? null
                                     : parseInt(editQtd, 10)
-                                  const novaPpu = item.categoria === 'CARNE'
-                                    ? (parseInt(editPessoasPorUnidade, 10) || null)
-                                    : undefined
-                                  if (novaQtd !== item.quantidade || novaPpu !== item.pessoasPorUnidade)
+                                  const novaPpu =
+                                    item.categoria === 'CARNE'
+                                      ? parseInt(editPessoasPorUnidade, 10) ||
+                                        null
+                                      : undefined
+                                  if (
+                                    novaQtd !== item.quantidade ||
+                                    novaPpu !== item.pessoasPorUnidade
+                                  )
                                     atualizarQtd.mutate({
                                       id: item.id,
                                       quantidade: novaQtd,
@@ -832,7 +864,9 @@ export default function ItensDAPage() {
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>Remover item</AlertDialogTitle>
+                                  <AlertDialogTitle>
+                                    Remover item
+                                  </AlertDialogTitle>
                                   <AlertDialogDescription>
                                     Tem certeza que deseja remover{' '}
                                     <span className="font-medium text-zinc-700">
@@ -842,7 +876,9 @@ export default function ItensDAPage() {
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                  <AlertDialogCancel>
+                                    Cancelar
+                                  </AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => deletarItem.mutate(item.id)}
                                     className="bg-red-500 text-white hover:bg-red-600"

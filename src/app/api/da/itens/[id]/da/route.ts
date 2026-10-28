@@ -29,7 +29,11 @@ export async function POST(
       { status: 400 },
     )
 
-  if (pessoasPorUnidade !== null && pessoasPorUnidade !== undefined && pessoasPorUnidade < 1)
+  if (
+    pessoasPorUnidade !== null &&
+    pessoasPorUnidade !== undefined &&
+    pessoasPorUnidade < 1
+  )
     return NextResponse.json(
       { error: 'Pessoas por unidade mínimo é 1.' },
       { status: 400 },
@@ -37,8 +41,18 @@ export async function POST(
 
   const itemDA = await prisma.itemDA.upsert({
     where: { idItem_idDA: { idItem, idDA } },
-    create: { idItem, idDA, quantidade, pessoasPorUnidade: pessoasPorUnidade ?? null, visivel: true },
-    update: { quantidade, ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }), visivel: true },
+    create: {
+      idItem,
+      idDA,
+      quantidade,
+      pessoasPorUnidade: pessoasPorUnidade ?? null,
+      visivel: true,
+    },
+    update: {
+      quantidade,
+      ...(pessoasPorUnidade !== undefined && { pessoasPorUnidade }),
+      visivel: true,
+    },
   })
 
   return NextResponse.json(itemDA, { status: 201 })

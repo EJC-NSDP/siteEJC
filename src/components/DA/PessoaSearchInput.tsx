@@ -41,7 +41,9 @@ export function PessoaSearchInput({
   const [open, setOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const valueRef = useRef(value)
-  useEffect(() => { valueRef.current = value }, [value])
+  useEffect(() => {
+    valueRef.current = value
+  }, [value])
 
   useEffect(() => {
     if (!value) setQuery('')
