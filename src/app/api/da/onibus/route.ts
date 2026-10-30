@@ -47,14 +47,20 @@ export async function POST(request: NextRequest) {
   if (!hasRole(session.user.roles, ['ADMIN', 'DIRIGENTE', 'BP']))
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const { idDA, nome, vagas } = (await request.json()) as {
+  const { idDA, nome, vagas, valorPorPessoa } = (await request.json()) as {
     idDA: string
     nome: string
     vagas?: number | null
+    valorPorPessoa: number
   }
 
   if (!nome?.trim())
     return NextResponse.json({ error: 'Nome é obrigatório.' }, { status: 400 })
+  if (!valorPorPessoa || valorPorPessoa <= 0)
+    return NextResponse.json(
+      { error: 'Valor por pessoa é obrigatório.' },
+      { status: 400 },
+    )
 
   const da = await prisma.diaAmizade.findUnique({
     where: { id: idDA },
@@ -64,7 +70,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'DA não encontrado.' }, { status: 404 })
 
   const onibus = await prisma.onibusDA.create({
-    data: { idDA, nome: nome.trim(), vagas: vagas ?? null },
+    data: { idDA, nome: nome.trim(), vagas: vagas ?? null, valorPorPessoa },
   })
 
   return NextResponse.json(onibus, { status: 201 })

@@ -56,11 +56,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import {
   Table,
   TableBody,
   TableCell,
@@ -68,6 +63,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { api } from '@/lib/axios'
 
 type CategoriaItemDA = 'CARNE' | 'SOBREMESA' | 'ACOMPANHAMENTO' | 'VEGETARIANA'
@@ -479,18 +479,14 @@ export default function ItensDAPage() {
                       e.stopPropagation()
                       setInfoTooltipOpen((v) => !v)
                     }}
-                    onMouseEnter={() =>
-                      !isTouch && setInfoTooltipOpen(true)
-                    }
-                    onMouseLeave={() =>
-                      !isTouch && setInfoTooltipOpen(false)
-                    }
+                    onMouseEnter={() => !isTouch && setInfoTooltipOpen(true)}
+                    onMouseLeave={() => !isTouch && setInfoTooltipOpen(false)}
                   >
                     <CircleHelp className="size-4 cursor-pointer" />
                   </TooltipTrigger>
                   <TooltipContent>
-                    Os números representam quantas pessoas estão levando o
-                    item, não a quantidade de itens.
+                    Os números representam quantas pessoas estão levando o item,
+                    não a quantidade de itens.
                   </TooltipContent>
                 </Tooltip>
               </div>

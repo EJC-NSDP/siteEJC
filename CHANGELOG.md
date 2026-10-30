@@ -1,5 +1,34 @@
 # Changelog
 
+## v5.16.1 — 2026-10-30
+
+### Dia da Amizade (DA)
+
+**Pagamento do ônibus — `/admin/bp/da/pagamentos`**
+- Botão "Zerar histórico" com bordas arredondadas seguindo o padrão do site
+- Contador de registros reduzido para `text-xs`
+- Botão "Zerar histórico" exibido antes do card de total (ordem invertida)
+
+## v5.16.0 — 2026-10-30
+
+### Dia da Amizade (DA)
+
+**Pagamento do ônibus — `/admin/bp/da/pagamentos`**
+- Nova aba "Pagamentos" no menu lateral com ícone de nota fiscal
+- Página de histórico de pagamentos registrados pelos BPs com filtro por nome, ônibus e tipo (entradas/saídas), ordenação clicável por Pessoa, Ônibus e Data (padrão: mais recente primeiro), paginação de 25 registros e total acumulado em destaque
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Campo `valorPorPessoa` adicionado ao modelo `OnibusDA`; editável no card do ônibus (campo R$ ao lado das vagas)
+- Badge de pagamento nos cards de passageiro do ônibus: verde (pago), vermelho (não pago), âmbar com ⚠ (pagamento pendente de confirmação)
+- Log por delta: pagamentos registram a diferença, não o valor total; ao mover pessoa entre ônibus, a confirmação gera dois lançamentos separados (−R$X ônibus_antigo, +R$Y ônibus_novo)
+- Badge desabilitado durante requisições em andamento para evitar lançamentos duplicados
+- Badge "Já pago" (âmbar, ícone de nota fiscal) exibido no card sem-veículo quando a pessoa havia pago e foi removida do ônibus; clique confirma a devolução e loga lançamento negativo
+- Retorno ao mesmo ônibus (sem transação nova) restaura o estado pago automaticamente sem gerar logs
+
+**Schema**
+- Novos campos em `InscricaoDA`: `pagouOnibus`, `valorPago`, `pendentePagamento`, `idOnibusDAAnterior`, `valorPagoAnterior`
+- Novo modelo `PagamentoOnibusDA`: log imutável de cada lançamento (valor, ônibus, pessoa, usuário, data)
+
 ## v5.15.0 — 2026-10-29
 
 ### Dia da Amizade (DA)

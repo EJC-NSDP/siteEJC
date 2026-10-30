@@ -1,4 +1,4 @@
-import { Beef, Bus, CalendarHeart, HeartHandshake, Users } from 'lucide-react'
+import { Banknote, Beef, Bus, CalendarHeart, HeartHandshake, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -41,6 +41,13 @@ export function MainNavigation() {
             title="Transporte"
             icon={Bus}
             active={path === '/admin/bp/da/transporte'}
+          />
+        </Link>
+        <Link href="/admin/bp/da/pagamentos">
+          <NavItem
+            title="Pagamentos"
+            icon={Banknote}
+            active={path === '/admin/bp/da/pagamentos'}
           />
         </Link>
       </NavItemGroup>

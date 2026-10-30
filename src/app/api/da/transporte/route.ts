@@ -123,10 +123,13 @@ export async function GET(request: NextRequest) {
     id: o.id,
     nome: o.nome,
     vagas: o.vagas,
+    valorPorPessoa: Number(o.valorPorPessoa),
     passageiros: o.passageiros.map((p) => ({
       idPessoa: p.idPessoa,
       pessoa: mapPessoa(p.pessoa),
       pagouOnibus: p.pagouOnibus,
+      pendentePagamento: p.pendentePagamento,
+      valorPago: p.valorPago !== null ? Number(p.valorPago) : null,
       comoVai: p.comoVai,
       nomeBP: p.responsavelBP?.nome ?? null,
     })),
@@ -150,6 +153,8 @@ export async function GET(request: NextRequest) {
         comoVai: ins.comoVai,
         nomeBP: ins.responsavelBP?.nome ?? null,
         conviteMotorista: nomeMotorista,
+        pagouOnibus: ins.pagouOnibus,
+        valorPago: ins.valorPago !== null ? Number(ins.valorPago) : null,
       }
     })
 

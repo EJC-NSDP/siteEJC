@@ -17,6 +17,8 @@ export interface SortablePessoa {
     avatarUrl: string | null
     comoVai: string | null
     pagouOnibus: boolean
+    pendentePagamento: boolean
+    valorPago: number | null
     numEncontro: number | null
     nomeBP: string | null
     conviteMotorista: string | null
@@ -88,14 +90,15 @@ export function CardPessoa({
         <Separator />
         <div className="flex items-center justify-between gap-1 px-2 py-1">
           <span className="flex min-w-0 items-center gap-1 truncate text-[11px] text-zinc-400">
-            <span title="BP responsável" className="flex shrink-0 items-center gap-1">
+            <span
+              title="BP responsável"
+              className="flex shrink-0 items-center gap-1"
+            >
               <UserCheck className="size-3" />
               {pessoa.content.nomeBP ?? '-'}
             </span>
           </span>
-          <div className="flex shrink-0 items-center gap-1">
-            {actions}
-          </div>
+          <div className="flex shrink-0 items-center gap-1">{actions}</div>
         </div>
       </Card>
     )
@@ -137,14 +140,15 @@ export function CardPessoa({
       <Separator />
       <div className="flex items-center justify-between gap-2 px-3 py-2">
         <span className="flex min-w-0 items-center gap-1 truncate text-sm text-zinc-400">
-          <span title="BP responsável" className="flex shrink-0 items-center gap-1">
+          <span
+            title="BP responsável"
+            className="flex shrink-0 items-center gap-1"
+          >
             <UserCheck className="size-3.5" />
             {pessoa.content.nomeBP ?? '-'}
           </span>
         </span>
-        <div className="flex shrink-0 items-center gap-1">
-          {actions}
-        </div>
+        <div className="flex shrink-0 items-center gap-1">{actions}</div>
       </div>
     </Card>
   )

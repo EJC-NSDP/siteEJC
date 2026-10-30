@@ -16,6 +16,8 @@ import {
 } from '@dnd-kit/core'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  AlertTriangle,
+  Banknote,
   Bus,
   Car,
   Check,
@@ -89,6 +91,8 @@ interface PassageiroOnibus {
   idPessoa: string
   pessoa: Pessoa
   pagouOnibus: boolean
+  pendentePagamento: boolean
+  valorPago: number | null
   comoVai: ComoVai | null
   nomeBP: string | null
 }
@@ -109,6 +113,7 @@ interface OnibusDA {
   id: string
   nome: string
   vagas: number | null
+  valorPorPessoa: number
   passageiros: PassageiroOnibus[]
 }
 
@@ -118,6 +123,8 @@ interface PessoaSemVeiculo {
   comoVai: ComoVai | null
   nomeBP: string | null
   conviteMotorista: string | null
+  pagouOnibus: boolean
+  valorPago: number | null
 }
 
 interface TransporteData {
@@ -152,7 +159,9 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
         nome: nomePessoa(p.pessoa),
         avatarUrl: p.pessoa.avatarUrl,
         comoVai: p.comoVai,
-        pagouOnibus: false,
+        pagouOnibus: p.pagouOnibus,
+        pendentePagamento: false,
+        valorPago: p.valorPago,
         numEncontro: p.pessoa.numEncontro,
         nomeBP: p.nomeBP,
         conviteMotorista: p.conviteMotorista,
@@ -171,6 +180,8 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
           avatarUrl: p.pessoa.avatarUrl,
           comoVai: p.comoVai,
           pagouOnibus: false,
+          pendentePagamento: false,
+          valorPago: null,
           numEncontro: p.pessoa.numEncontro,
           nomeBP: p.nomeBP,
           conviteMotorista: null,
@@ -189,6 +200,8 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
           avatarUrl: p.pessoa.avatarUrl,
           comoVai: p.comoVai,
           pagouOnibus: p.pagouOnibus,
+          pendentePagamento: p.pendentePagamento,
+          valorPago: p.valorPago,
           numEncontro: p.pessoa.numEncontro,
           nomeBP: p.nomeBP,
           conviteMotorista: null,
@@ -253,10 +266,9 @@ function MotoristaSection({
           )}
         </p>
         {pendente && (
-          <Clock
-            className="size-3.5 shrink-0 text-amber-400"
-            title="Motorista ainda não confirmou"
-          />
+          <span title="Motorista ainda não confirmou">
+            <Clock className="size-3.5 shrink-0 text-amber-400" />
+          </span>
         )}
       </div>
       <Separator className="my-2" />
@@ -285,6 +297,7 @@ export default function TransportePage() {
     null,
   )
   const movePendingRef = useRef(false)
+  const paymentPendingRef = useRef(false)
 
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
 
@@ -300,6 +313,7 @@ export default function TransportePage() {
   const [novoOnibusAberto, setNovoOnibusAberto] = useState(false)
   const [novoOnibusNome, setNovoOnibusNome] = useState('')
   const [novoOnibusVagas, setNovoOnibusVagas] = useState('')
+  const [novoOnibusValor, setNovoOnibusValor] = useState('')
 
   const [editandoCarro, setEditandoCarro] = useState<string | null>(null)
   const [editCarroModelo, setEditCarroModelo] = useState('')
@@ -309,6 +323,7 @@ export default function TransportePage() {
   const [editandoOnibus, setEditandoOnibus] = useState<string | null>(null)
   const [editOnibusNome, setEditOnibusNome] = useState('')
   const [editOnibusVagas, setEditOnibusVagas] = useState('')
+  const [editOnibusValor, setEditOnibusValor] = useState('')
 
   const [convertendoMotorista, setConvertendoMotorista] = useState<{
     idPessoa: string
@@ -337,7 +352,7 @@ export default function TransportePage() {
   const isLoading = daLoading || transporteLoading
 
   useEffect(() => {
-    if (transporte && !activePessoa && !movePendingRef.current)
+    if (transporte && !activePessoa && !movePendingRef.current && !paymentPendingRef.current)
       setPessoas(buildPessoas(transporte))
   }, [transporte, activePessoa])
 
@@ -370,6 +385,9 @@ export default function TransportePage() {
     onMutate: () => {
       movePendingRef.current = true
     },
+    onSuccess: () => {
+      invalidar()
+    },
     onSettled: () => {
       movePendingRef.current = false
     },
@@ -383,23 +401,94 @@ export default function TransportePage() {
     mutationFn: ({
       idPessoa,
       pagouOnibus,
+      valorPorOnibus,
     }: {
       idPessoa: string
       pagouOnibus: boolean
+      valorPorOnibus: number
     }) =>
       api.patch(`/da/inscricoes/${idPessoa}`, { idDA: da!.id, pagouOnibus }),
-    onMutate: ({ idPessoa, pagouOnibus }) => {
+    onMutate: ({ idPessoa, pagouOnibus, valorPorOnibus }) => {
+      paymentPendingRef.current = true
       setPessoas((prev) =>
         prev.map((p) =>
           String(p.id) === idPessoa
-            ? { ...p, content: { ...p.content, pagouOnibus } }
+            ? {
+                ...p,
+                content: {
+                  ...p.content,
+                  pagouOnibus,
+                  pendentePagamento: false,
+                  valorPago: pagouOnibus ? valorPorOnibus : null,
+                },
+              }
             : p,
         ),
       )
     },
+    onSuccess: () => invalidar(),
+    onSettled: () => {
+      paymentPendingRef.current = false
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar pagamento.')
+    },
+  })
+
+  const corrigirPagamento = useMutation({
+    mutationFn: ({
+      idPessoa,
+      valorPorOnibus,
+    }: {
+      idPessoa: string
+      valorPorOnibus: number
+    }) =>
+      api.patch(`/da/inscricoes/${idPessoa}`, {
+        idDA: da!.id,
+        corrigirValorPago: true,
+      }),
+    onMutate: ({ idPessoa, valorPorOnibus }) => {
+      paymentPendingRef.current = true
+      setPessoas((prev) =>
+        prev.map((p) =>
+          String(p.id) === idPessoa
+            ? { ...p, content: { ...p.content, valorPago: valorPorOnibus } }
+            : p,
+        ),
+      )
+    },
+    onSuccess: () => invalidar(),
+    onSettled: () => {
+      paymentPendingRef.current = false
+    },
+    onError: () => {
+      toast.error('Erro ao corrigir pagamento.')
+    },
+  })
+
+  const devolverPagamento = useMutation({
+    mutationFn: ({ idPessoa }: { idPessoa: string }) =>
+      api.patch(`/da/inscricoes/${idPessoa}`, {
+        idDA: da!.id,
+        devolverPagamento: true,
+      }),
+    onMutate: ({ idPessoa }) => {
+      paymentPendingRef.current = true
+      setPessoas((prev) =>
+        prev.map((p) =>
+          String(p.id) === idPessoa
+            ? { ...p, content: { ...p.content, pagouOnibus: false, valorPago: null } }
+            : p,
+        ),
+      )
+    },
+    onSuccess: () => invalidar(),
+    onSettled: () => {
+      paymentPendingRef.current = false
+    },
     onError: () => {
       invalidar()
-      toast.error('Erro ao atualizar pagamento.')
+      toast.error('Erro ao registrar devolução.')
     },
   })
 
@@ -432,6 +521,7 @@ export default function TransportePage() {
       api.patch(`/da/onibus/${id}`, {
         nome: editOnibusNome,
         vagas: editOnibusVagas ? Number(editOnibusVagas) : null,
+        valorPorPessoa: Number(editOnibusValor),
       }),
     onSuccess: () => {
       invalidar()
@@ -468,9 +558,16 @@ export default function TransportePage() {
   })
 
   const criarOnibus = useMutation({
-    mutationFn: ({ nome, vagas }: { nome: string; vagas: number | null }) =>
-      api.post('/da/onibus', { idDA: da!.id, nome, vagas }),
-    onMutate: async ({ nome, vagas }) => {
+    mutationFn: ({
+      nome,
+      vagas,
+      valorPorPessoa,
+    }: {
+      nome: string
+      vagas: number | null
+      valorPorPessoa: number
+    }) => api.post('/da/onibus', { idDA: da!.id, nome, vagas, valorPorPessoa }),
+    onMutate: async ({ nome, vagas, valorPorPessoa }) => {
       await queryClient.cancelQueries({ queryKey: ['da-transporte', da?.id] })
       const previous = queryClient.getQueryData<TransporteData>([
         'da-transporte',
@@ -481,13 +578,20 @@ export default function TransportePage() {
           ...previous,
           onibus: [
             ...previous.onibus,
-            { id: `temp-${Date.now()}`, nome, vagas, passageiros: [] },
+            {
+              id: `temp-${Date.now()}`,
+              nome,
+              vagas,
+              valorPorPessoa,
+              passageiros: [],
+            },
           ],
         })
       }
       setNovoOnibusAberto(false)
       setNovoOnibusNome('')
       setNovoOnibusVagas('')
+      setNovoOnibusValor('')
       return { previous }
     },
     onError: (_err, _vars, context) => {
@@ -521,6 +625,8 @@ export default function TransportePage() {
               comoVai: p.comoVai,
               nomeBP: p.nomeBP,
               conviteMotorista: null,
+              pagouOnibus: p.pagouOnibus,
+              valorPago: p.valorPago,
             })),
           ],
         })
@@ -568,6 +674,7 @@ export default function TransportePage() {
   }
 
   function onDragStart(event: DragStartEvent) {
+    if (paymentPendingRef.current) return
     const data = event.active.data.current as PessoaDragData | undefined
     if (data?.type === 'Pessoa') {
       setActivePessoa(data.pessoa)
@@ -678,9 +785,26 @@ export default function TransportePage() {
                     />
                     <span className="text-xs text-zinc-500">lugares</span>
                   </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-zinc-500">R$</span>
+                    <Input
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      placeholder="0,00"
+                      value={editOnibusValor}
+                      onChange={(e) => setEditOnibusValor(e.target.value)}
+                      wrapperClassName="w-20"
+                      className="h-7 text-xs"
+                    />
+                  </div>
                   <button
                     onClick={() => editarOnibus.mutate(onibus.id)}
-                    disabled={editarOnibus.isPending || !editOnibusNome.trim()}
+                    disabled={
+                      editarOnibus.isPending ||
+                      !editOnibusNome.trim() ||
+                      !Number(editOnibusValor)
+                    }
                     className="text-green-600 hover:text-green-700 disabled:opacity-40"
                   >
                     <Check className="size-4" />
@@ -696,6 +820,12 @@ export default function TransportePage() {
                 <div>
                   <h2 className="text-xl font-bold text-zinc-700">
                     {onibus.nome}
+                    <span className="ml-2 text-sm font-normal text-zinc-400">
+                      {onibus.valorPorPessoa.toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })}
+                    </span>
                   </h2>
                   <p className="text-sm text-zinc-500">
                     {ocupados} {ocupados !== 1 ? 'pessoas' : 'pessoa'}
@@ -723,6 +853,7 @@ export default function TransportePage() {
                       setEditOnibusVagas(
                         onibus.vagas ? String(onibus.vagas) : '',
                       )
+                      setEditOnibusValor(String(onibus.valorPorPessoa))
                     }}
                     className="text-zinc-400 hover:text-zinc-600"
                   >
@@ -766,49 +897,110 @@ export default function TransportePage() {
                     Arraste aqui
                   </div>
                 )}
-                {pessoasOnibus.map((p) => (
-                  <CardPessoa
-                    key={String(p.id)}
-                    pessoa={p}
-                    compact
-                    actions={
-                      <button
-                        onClick={() =>
-                          togglePagamento.mutate({
-                            idPessoa: String(p.id),
-                            pagouOnibus: !p.content.pagouOnibus,
-                          })
-                        }
-                        title={
-                          p.content.pagouOnibus
-                            ? 'Marcar como não pago'
-                            : 'Marcar como pago'
-                        }
-                      >
-                        <Badge
-                          className={cn(
-                            'w-[5.5rem] cursor-pointer justify-center whitespace-nowrap text-xs',
-                            p.content.pagouOnibus
-                              ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                              : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
-                          )}
-                        >
-                          <span className="flex items-center gap-1">
-                            {p.content.pagouOnibus ? (
-                              <>
-                                <Check className="size-3" /> Pago
-                              </>
-                            ) : (
-                              <>
-                                <X className="size-3" /> Não pago
-                              </>
-                            )}
-                          </span>
-                        </Badge>
-                      </button>
-                    }
-                  />
-                ))}
+                {pessoasOnibus.map((p) => {
+                  const divergente =
+                    p.content.pagouOnibus &&
+                    p.content.valorPago !== null &&
+                    p.content.valorPago !== onibus.valorPorPessoa
+                  const formatBRL = (v: number) =>
+                    v.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    })
+                  const isPendente = p.content.pendentePagamento
+                  const isBusy =
+                    mover.isPending ||
+                    togglePagamento.isPending ||
+                    corrigirPagamento.isPending
+                  return (
+                    <CardPessoa
+                      key={String(p.id)}
+                      pessoa={p}
+                      compact
+                      actions={
+                        divergente ? (
+                          <button
+                            disabled={isBusy}
+                            title={`Pago ${formatBRL(p.content.valorPago!)} — ônibus atual: ${formatBRL(onibus.valorPorPessoa)}. Clique para corrigir.`}
+                            onClick={() =>
+                              corrigirPagamento.mutate({
+                                idPessoa: String(p.id),
+                                valorPorOnibus: onibus.valorPorPessoa,
+                              })
+                            }
+                            className="disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-xs text-amber-700 hover:bg-amber-100">
+                              <span className="flex items-center gap-1">
+                                <AlertTriangle className="size-3 shrink-0" />
+                                {formatBRL(p.content.valorPago!)}
+                              </span>
+                            </Badge>
+                          </button>
+                        ) : isPendente ? (
+                          <button
+                            disabled={isBusy}
+                            title={`Mudou de veículo — confirmar pagamento (${formatBRL(onibus.valorPorPessoa)})`}
+                            onClick={() =>
+                              togglePagamento.mutate({
+                                idPessoa: String(p.id),
+                                pagouOnibus: true,
+                                valorPorOnibus: onibus.valorPorPessoa,
+                              })
+                            }
+                            className="disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-xs text-amber-700 hover:bg-amber-100">
+                              <span className="flex items-center gap-1">
+                                <AlertTriangle className="size-3 shrink-0" />
+                                {formatBRL(onibus.valorPorPessoa)}
+                              </span>
+                            </Badge>
+                          </button>
+                        ) : (
+                          <button
+                            disabled={isBusy}
+                            onClick={() =>
+                              togglePagamento.mutate({
+                                idPessoa: String(p.id),
+                                pagouOnibus: !p.content.pagouOnibus,
+                                valorPorOnibus: onibus.valorPorPessoa,
+                              })
+                            }
+                            title={
+                              p.content.pagouOnibus
+                                ? 'Marcar como não pago'
+                                : `Marcar como pago (${formatBRL(onibus.valorPorPessoa)})`
+                            }
+                            className="disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <Badge
+                              className={cn(
+                                'w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap text-xs',
+                                p.content.pagouOnibus
+                                  ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                                  : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
+                              )}
+                            >
+                              <span className="flex items-center gap-1">
+                                {p.content.pagouOnibus ? (
+                                  <>
+                                    <Check className="size-3" />
+                                    {formatBRL(onibus.valorPorPessoa)}
+                                  </>
+                                ) : (
+                                  <>
+                                    <X className="size-3" /> Não pago
+                                  </>
+                                )}
+                              </span>
+                            </Badge>
+                          </button>
+                        )
+                      }
+                    />
+                  )
+                })}
               </Droppable>
             </CardContent>
           )}
@@ -1134,8 +1326,8 @@ export default function TransportePage() {
                                   id={`carro-${carro.id}`}
                                   className="flex flex-col gap-2"
                                 >
-                                  {pessoasCarroInscritas.length === 0 && (
-                                    motoristaPendente ? (
+                                  {pessoasCarroInscritas.length === 0 &&
+                                    (motoristaPendente ? (
                                       <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50 text-sm text-zinc-400">
                                         Aguardando confirmação do motorista
                                       </div>
@@ -1143,8 +1335,7 @@ export default function TransportePage() {
                                       <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-blue-300 bg-blue-50/50 text-sm text-blue-400">
                                         Arraste aqui
                                       </div>
-                                    )
-                                  )}
+                                    ))}
                                   {pessoasCarroInscritas.map((p) => (
                                     <CardPessoa
                                       key={String(p.id)}
@@ -1168,7 +1359,9 @@ export default function TransportePage() {
                                       >
                                         <Avatar className="size-6 shrink-0">
                                           <AvatarImage
-                                            src={cv.pessoa.avatarUrl ?? undefined}
+                                            src={
+                                              cv.pessoa.avatarUrl ?? undefined
+                                            }
                                           />
                                           <AvatarFallback className="text-[10px]">
                                             {cv.pessoa.nome.charAt(0)}
@@ -1230,12 +1423,37 @@ export default function TransportePage() {
                     )}
                     {pessoas
                       .filter((p) => p.vehicleId === 'sem-veiculo')
-                      .map((p) => (
+                      .map((p) => {
+                        const formatBRL = (v: number) =>
+                          v.toLocaleString('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          })
+                        return (
                         <CardPessoa
                           key={String(p.id)}
                           pessoa={p}
                           actions={
-                            <div className="flex gap-1">
+                            <div className="flex items-center gap-1">
+                              {p.content.pagouOnibus && p.content.valorPago !== null && (
+                                <button
+                                  title={`Pagou ${formatBRL(p.content.valorPago)} — clique para confirmar devolução`}
+                                  disabled={devolverPagamento.isPending}
+                                  onClick={() =>
+                                    devolverPagamento.mutate({
+                                      idPessoa: String(p.id),
+                                    })
+                                  }
+                                  className="disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                  <Badge className="cursor-pointer justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-[10px] text-amber-700 hover:bg-amber-100">
+                                    <span className="flex items-center gap-1">
+                                      <Banknote className="size-3 shrink-0" />
+                                      Já pago
+                                    </span>
+                                  </Badge>
+                                </button>
+                              )}
                               <button
                                 title="Converter em motorista"
                                 className="text-zinc-400 hover:text-blue-500"
@@ -1259,7 +1477,8 @@ export default function TransportePage() {
                             </div>
                           }
                         />
-                      ))}
+                        )
+                      })}
                   </Droppable>
                 </CardContent>
               </Card>
@@ -1367,6 +1586,20 @@ export default function TransportePage() {
                 wrapperClassName="w-32"
               />
             </div>
+            <div>
+              <label className="mb-1 block text-sm text-zinc-600">
+                Valor por pessoa (R$)
+              </label>
+              <Input
+                type="number"
+                min={0}
+                step="0.01"
+                placeholder="Ex: 25,00"
+                value={novoOnibusValor}
+                onChange={(e) => setNovoOnibusValor(e.target.value)}
+                wrapperClassName="w-32"
+              />
+            </div>
           </div>
           <DialogFooter>
             <Button
@@ -1380,11 +1613,12 @@ export default function TransportePage() {
                 criarOnibus.mutate({
                   nome: novoOnibusNome,
                   vagas: Number(novoOnibusVagas) || null,
+                  valorPorPessoa: Number(novoOnibusValor),
                 })
               }
               disabled={
                 !novoOnibusNome.trim() ||
-                !Number(novoOnibusVagas) ||
+                !Number(novoOnibusValor) ||
                 criarOnibus.isPending
               }
             >

@@ -16,9 +16,10 @@ export async function PATCH(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { id } = await params
-  const { nome, vagas } = (await request.json()) as {
+  const { nome, vagas, valorPorPessoa } = (await request.json()) as {
     nome?: string
     vagas?: number | null
+    valorPorPessoa?: number
   }
 
   const onibus = await prisma.onibusDA.update({
@@ -26,6 +27,7 @@ export async function PATCH(
     data: {
       ...(nome !== undefined && { nome: nome.trim() }),
       ...(vagas !== undefined && { vagas: vagas ?? null }),
+      ...(valorPorPessoa !== undefined && { valorPorPessoa }),
     },
   })
 
