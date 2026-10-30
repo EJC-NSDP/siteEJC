@@ -103,24 +103,17 @@ export async function GET(request: NextRequest) {
         !c.passageiros.some((p) => p.idPessoa === cv.idConvidado),
     )
 
-    const passageiros = [
-      ...passageirosConfirmados,
-      ...pendentes.map((cv) => ({
-        idPessoa: cv.idConvidado,
-        pessoa: mapPessoa(cv.convidado),
-        comoVai: 'CARONA' as const,
-        nomeBP: null,
-        conviteStatus: 'PENDENTE' as const,
-      })),
-    ]
-
     return {
       id: c.id,
       modelo: c.modelo,
       placa: c.placa,
       vagas: c.vagas,
       motorista: mapPessoa(c.motorista),
-      passageiros,
+      passageiros: passageirosConfirmados,
+      convitesPendentes: pendentes.map((cv) => ({
+        idPessoa: cv.idConvidado,
+        pessoa: mapPessoa(cv.convidado),
+      })),
       vagasOcupadas: passageirosConfirmados.length + pendentes.length,
       vagasLivres: c.vagas - passageirosConfirmados.length - pendentes.length,
     }

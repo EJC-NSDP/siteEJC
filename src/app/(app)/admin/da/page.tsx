@@ -183,7 +183,7 @@ export default function DAEncontreiroPage() {
   )
   const [carroModelo, setCarroModelo] = useState('')
   const [carroPlaca, setCarroPlaca] = useState('')
-  const [carroVagas, setCarroVagas] = useState('3')
+  const [carroVagas, setCarroVagas] = useState('4')
   const [convidados, setConvidados] = useState<(PessoaSelecionada | null)[]>([])
   const [aceitarConviteVeiculoId, setAceitarConviteVeiculoId] = useState<
     string | null
@@ -245,11 +245,11 @@ export default function DAEncontreiroPage() {
           idDA,
           modelo: carroModelo || undefined,
           placa: carroPlaca || undefined,
-          vagas: Number(carroVagas) || 3,
+          vagas: Number(carroVagas) || 4,
           convidados: convidados
             .filter((c): c is PessoaSelecionada => c !== null)
             .filter((c) => !excludeConvidadoIds.includes(c.idPessoa))
-            .slice(0, Number(carroVagas) || 3)
+            .slice(0, Number(carroVagas) || 4)
             .map((c) => c.idPessoa),
         })
         .then((r) => r.data as { id: string }),
@@ -1419,7 +1419,7 @@ export default function DAEncontreiroPage() {
             {comoVai === 'CARONA' && (
               <div className="space-y-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
                 <p className="text-sm font-medium text-zinc-700">
-                  Já tem carona?{' '}
+                  Já tem motorista?{' '}
                   <span className="font-normal text-zinc-400">(opcional)</span>
                 </p>
                 <PessoaSearchInput

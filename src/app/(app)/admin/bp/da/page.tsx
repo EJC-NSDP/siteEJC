@@ -229,12 +229,12 @@ export default function DABPPage() {
                 />
                 <div>
                   <p className="text-sm font-medium text-zinc-700">
-                    {da.organizarTransporte ? 'Ativo' : 'Inativo'}
+                    {da.organizarTransporte ? 'Ativado' : 'Desativado'}
                   </p>
                   <p className="text-xs text-zinc-400">
                     {da.organizarTransporte
-                      ? 'BPs veem carros, motoristas e caronas na aba de transporte.'
-                      : 'BPs veem apenas ônibus e sem veículo. Carros ficam ocultos.'}
+                      ? 'BPs veem carros, motoristas e caronas.'
+                      : 'BPs veem apenas ônibus. Carros ficam ocultos.'}
                   </p>
                 </div>
               </CardContent>

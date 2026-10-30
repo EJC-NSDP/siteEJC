@@ -26,6 +26,7 @@ import {
   Pencil,
   Plus,
   Trash2,
+  UserCheck,
   X,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
@@ -99,6 +100,7 @@ interface CarroDA {
   vagas: number
   motorista: Pessoa
   passageiros: PassageiroCarro[]
+  convitesPendentes: { idPessoa: string; pessoa: Pessoa }[]
   vagasOcupadas: number
   vagasLivres: number
 }
@@ -148,6 +150,7 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
       vehicleId: 'sem-veiculo',
       content: {
         nome: nomePessoa(p.pessoa),
+        avatarUrl: p.pessoa.avatarUrl,
         comoVai: p.comoVai,
         pagouOnibus: false,
         numEncontro: p.pessoa.numEncontro,
@@ -165,6 +168,7 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
         vehicleId: `carro-${carro.id}`,
         content: {
           nome: nomePessoa(p.pessoa),
+          avatarUrl: p.pessoa.avatarUrl,
           comoVai: p.comoVai,
           pagouOnibus: false,
           numEncontro: p.pessoa.numEncontro,
@@ -182,6 +186,7 @@ function buildPessoas(transporte: TransporteData): SortablePessoa[] {
         vehicleId: `onibus-${onibus.id}`,
         content: {
           nome: nomePessoa(p.pessoa),
+          avatarUrl: p.pessoa.avatarUrl,
           comoVai: p.comoVai,
           pagouOnibus: p.pagouOnibus,
           numEncontro: p.pessoa.numEncontro,
@@ -226,22 +231,43 @@ function Droppable({
 
 // ── Motorista (like TioCirculo) ───────────────────────────────────────────────
 
-function MotoristaSection({ motorista }: { motorista: Pessoa }) {
+function MotoristaSection({
+  motorista,
+  nomeBP,
+  pendente,
+}: {
+  motorista: Pessoa
+  nomeBP: string | null
+  pendente: boolean
+}) {
   return (
     <div className="w-full">
-      <p className="px-1 font-medium text-zinc-700">
-        {nomePessoa(motorista)}
-        {motorista.numEncontro && (
-          <span className="font-normal text-zinc-500">
-            {' '}
-            - {motorista.numEncontro}º EJC
-          </span>
+      <div className="flex items-center gap-2 px-1">
+        <p className="min-w-0 flex-1 font-medium text-zinc-700">
+          {nomePessoa(motorista)}
+          {motorista.numEncontro && (
+            <span className="font-normal text-zinc-500">
+              {' '}
+              - {motorista.numEncontro}º EJC
+            </span>
+          )}
+        </p>
+        {pendente && (
+          <Clock
+            className="size-3.5 shrink-0 text-amber-400"
+            title="Motorista ainda não confirmou"
+          />
         )}
-      </p>
+      </div>
       <Separator className="my-2" />
       <div className="flex items-center gap-2 px-1 pb-1 text-sm text-zinc-400">
         <Car className="size-4" />
         <span>Motorista</span>
+        <span className="mx-0.5">|</span>
+        <span title="BP responsável" className="flex items-center gap-1">
+          <UserCheck className="size-3.5" />
+          {nomeBP ?? '-'}
+        </span>
       </div>
     </div>
   )
@@ -290,7 +316,7 @@ export default function TransportePage() {
   } | null>(null)
   const [motoristaModelo, setMotoristaModelo] = useState('')
   const [motoristaPlaca, setMotoristaPlaca] = useState('')
-  const [motoristaVagas, setMotoristaVagas] = useState('3')
+  const [motoristaVagas, setMotoristaVagas] = useState('4')
 
   const { data: daData, isLoading: daLoading } = useQuery<DAResponse>({
     queryKey: ['da'],
@@ -422,7 +448,7 @@ export default function TransportePage() {
         idMotorista: idPessoa,
         modelo: motoristaModelo || undefined,
         placa: motoristaPlaca || undefined,
-        vagas: Number(motoristaVagas) || 3,
+        vagas: Number(motoristaVagas) || 4,
       })
       await api.patch(`/da/inscricoes/${idPessoa}`, {
         idDA: da!.id,
@@ -435,7 +461,7 @@ export default function TransportePage() {
       setConvertendoMotorista(null)
       setMotoristaModelo('')
       setMotoristaPlaca('')
-      setMotoristaVagas('3')
+      setMotoristaVagas('4')
       toast.success('Motorista adicionado.')
     },
     onError: () => toast.error('Erro ao converter em motorista.'),
@@ -471,16 +497,6 @@ export default function TransportePage() {
     },
     onSuccess: () => toast.success('Ônibus adicionado.'),
     onSettled: () => invalidar(),
-  })
-
-  const excluirInscricao = useMutation({
-    mutationFn: (idPessoa: string) =>
-      api.delete(`/da/inscricao?idPessoa=${idPessoa}&idDA=${da!.id}`),
-    onSuccess: () => {
-      invalidar()
-      toast.success('Inscrição removida.')
-    },
-    onError: () => toast.error('Erro ao remover inscrição.'),
   })
 
   const excluirOnibus = useMutation({
@@ -536,7 +552,11 @@ export default function TransportePage() {
     ).length
     if (vehicleId.startsWith('carro-')) {
       const carro = transporte.carros.find((c) => `carro-${c.id}` === vehicleId)
-      return !!carro && count >= carro.vagas
+      if (!carro) return false
+      const pendentesCount = carro.convitesPendentes.filter(
+        (cv) => !snapshot.some((p) => String(p.id) === cv.idPessoa),
+      ).length
+      return count + pendentesCount >= carro.vagas
     }
     if (vehicleId.startsWith('onibus-')) {
       const onibus = transporte.onibus.find(
@@ -589,20 +609,6 @@ export default function TransportePage() {
 
     setActivePessoa(null)
     setOriginalVehicleId(null)
-
-    const isPendente =
-      pessoas.find((p) => String(p.id) === pessoaId)?.content.conviteStatus ===
-      'PENDENTE'
-    if (isPendente) {
-      setPessoas((prev) =>
-        prev.map((p) =>
-          String(p.id) === pessoaId
-            ? { ...p, vehicleId: prevId ?? 'sem-veiculo' }
-            : p,
-        ),
-      )
-      return
-    }
 
     if (!over) {
       setPessoas((prev) =>
@@ -781,19 +787,23 @@ export default function TransportePage() {
                       >
                         <Badge
                           className={cn(
-                            'cursor-pointer text-xs',
+                            'w-[5.5rem] cursor-pointer justify-center whitespace-nowrap text-xs',
                             p.content.pagouOnibus
                               ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                               : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
                           )}
                         >
-                          {p.content.pagouOnibus ? (
-                            <span className="flex items-center gap-1">
-                              <Check className="size-3" /> Pago
-                            </span>
-                          ) : (
-                            'Não pago'
-                          )}
+                          <span className="flex items-center gap-1">
+                            {p.content.pagouOnibus ? (
+                              <>
+                                <Check className="size-3" /> Pago
+                              </>
+                            ) : (
+                              <>
+                                <X className="size-3" /> Não pago
+                              </>
+                            )}
+                          </span>
                         </Badge>
                       </button>
                     }
@@ -945,29 +955,36 @@ export default function TransportePage() {
               )}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <div
-                className={`grid grid-cols-1 gap-4 lg:col-span-2${da.organizarTransporte ? 'lg:grid-cols-2' : ''}`}
+                className={`grid grid-cols-1 gap-4 lg:col-span-2 ${da.organizarTransporte ? 'lg:grid-cols-2' : ''}`}
               >
                 {da.organizarTransporte
                   ? transporte.carros.map((carro) => {
                       const pessoasCarro = pessoas.filter(
                         (p) => p.vehicleId === `carro-${carro.id}`,
                       )
-                      const pessoasCarroConfirmadas = pessoasCarro.filter(
-                        (p) =>
-                          p.content.comoVai !== 'DIRIGINDO' &&
-                          p.content.conviteStatus !== 'PENDENTE',
+                      const pessoasCarroInscritas = pessoasCarro.filter(
+                        (p) => p.content.comoVai !== 'DIRIGINDO',
                       )
-                      const pendentesOriginal = carro.passageiros.filter(
-                        (p) => p.conviteStatus === 'PENDENTE',
+                      const convitesPendentesVisiveis =
+                        carro.convitesPendentes.filter(
+                          (cv) =>
+                            !pessoas.some((p) => String(p.id) === cv.idPessoa),
+                        )
+                      const motoristaPassageiro = carro.passageiros.find(
+                        (p) => p.comoVai === 'DIRIGINDO',
+                      )
+                      const motoristaPendente = !carro.passageiros.some(
+                        (p) => p.comoVai === 'DIRIGINDO',
                       )
                       const editando = editandoCarro === carro.id
                       const titulo =
                         [carro.modelo, carro.placa]
                           .filter(Boolean)
                           .join(' · ') || 'Sem identificação'
-                      const vagasOcupadas = pessoasCarro.filter(
-                        (p) => p.content.comoVai !== 'DIRIGINDO',
-                      ).length
+                      const vagasOcupadas =
+                        pessoasCarro.filter(
+                          (p) => p.content.comoVai !== 'DIRIGINDO',
+                        ).length + convitesPendentesVisiveis.length
                       const vagasLivres = Math.max(
                         0,
                         carro.vagas - vagasOcupadas,
@@ -1105,47 +1122,60 @@ export default function TransportePage() {
                           {!isCollapsed && (
                             <CardContent>
                               {/* Motorista — like TioCirculo */}
-                              <MotoristaSection motorista={carro.motorista} />
+                              <MotoristaSection
+                                motorista={carro.motorista}
+                                nomeBP={motoristaPassageiro?.nomeBP ?? null}
+                                pendente={motoristaPendente}
+                              />
 
-                              {/* Passageiros droppable */}
+                              {/* Passageiros */}
                               <div className="mt-4 flex flex-col gap-2">
                                 <Droppable
                                   id={`carro-${carro.id}`}
                                   className="flex flex-col gap-2"
                                 >
-                                  {pessoasCarroConfirmadas.length === 0 && (
-                                    <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-blue-300 bg-blue-50/50 text-sm text-blue-400">
-                                      Arraste aqui
-                                    </div>
+                                  {pessoasCarroInscritas.length === 0 && (
+                                    motoristaPendente ? (
+                                      <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50 text-sm text-zinc-400">
+                                        Aguardando confirmação do motorista
+                                      </div>
+                                    ) : (
+                                      <div className="flex min-h-12 items-center justify-center rounded-lg border border-dashed border-blue-300 bg-blue-50/50 text-sm text-blue-400">
+                                        Arraste aqui
+                                      </div>
+                                    )
                                   )}
-                                  {pessoasCarroConfirmadas.map((p) => (
+                                  {pessoasCarroInscritas.map((p) => (
                                     <CardPessoa
                                       key={String(p.id)}
                                       pessoa={p}
                                       compact
+                                      actions={
+                                        p.content.conviteStatus === 'ACEITO' ? (
+                                          <Check className="size-3 text-emerald-500" />
+                                        ) : undefined
+                                      }
                                     />
                                   ))}
                                 </Droppable>
 
-                                {pendentesOriginal.length > 0 && (
+                                {convitesPendentesVisiveis.length > 0 && (
                                   <div className="mt-1 space-y-1 border-t border-zinc-100 pt-2">
-                                    {pendentesOriginal.map((p) => (
+                                    {convitesPendentesVisiveis.map((cv) => (
                                       <div
-                                        key={p.idPessoa}
+                                        key={cv.idPessoa}
                                         className="flex items-center gap-2 px-1 py-0.5"
                                       >
                                         <Avatar className="size-6 shrink-0">
                                           <AvatarImage
-                                            src={p.pessoa.avatarUrl ?? ''}
+                                            src={cv.pessoa.avatarUrl ?? undefined}
                                           />
                                           <AvatarFallback className="text-[10px]">
-                                            {p.pessoa.nome[0]}
+                                            {cv.pessoa.nome.charAt(0)}
                                           </AvatarFallback>
                                         </Avatar>
                                         <span className="min-w-0 flex-1 truncate text-xs text-zinc-500">
-                                          {p.pessoa.nome} {p.pessoa.sobrenome}
-                                          {p.pessoa.apelido &&
-                                            ` (${p.pessoa.apelido})`}
+                                          {nomePessoa(cv.pessoa)}
                                         </span>
                                         <Clock className="size-3.5 shrink-0 text-amber-400" />
                                       </div>
@@ -1164,7 +1194,7 @@ export default function TransportePage() {
               </div>
 
               {/* SEM VEÍCULO — last coluna */}
-              <Card className="flex flex-col gap-4 shadow-lg">
+              <Card className="flex flex-col gap-4 shadow-lg lg:col-start-3">
                 <CardTitle className="rounded-t-lg bg-zinc-200/60">
                   <div className="flex items-center justify-between px-4 py-3">
                     <div>
@@ -1216,7 +1246,7 @@ export default function TransportePage() {
                                   setMotoristaModelo(data?.modeloCarro ?? '')
                                   setMotoristaPlaca(data?.placaCarro ?? '')
                                   setMotoristaVagas(
-                                    data ? String(data.lugaresCarro - 1) : '3',
+                                    data ? String(data.lugaresCarro - 1) : '4',
                                   )
                                   setConvertendoMotorista({
                                     idPessoa: String(p.id),
@@ -1226,41 +1256,6 @@ export default function TransportePage() {
                               >
                                 <Car className="size-3.5" />
                               </button>
-                              {p.content.conviteMotorista && (
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <button
-                                      title="Remover inscrição"
-                                      className="text-zinc-400 hover:text-red-500"
-                                    >
-                                      <Trash2 className="size-3.5" />
-                                    </button>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>
-                                        Remover inscrição de {p.content.nome}?
-                                      </AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        A inscrição e todos os convites criados
-                                        por esta pessoa serão removidos.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>
-                                        Cancelar
-                                      </AlertDialogCancel>
-                                      <AlertDialogAction
-                                        onClick={() =>
-                                          excluirInscricao.mutate(String(p.id))
-                                        }
-                                      >
-                                        Remover
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
-                              )}
                             </div>
                           }
                         />

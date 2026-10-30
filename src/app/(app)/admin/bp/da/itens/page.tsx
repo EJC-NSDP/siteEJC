@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   BarChart4,
   Check,
+  CircleHelp,
   Infinity as InfinityIcon,
   Pencil,
   Plus,
@@ -13,7 +14,7 @@ import {
   Trash2,
   X,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { EmptyTableRow } from '@/components/Table/EmptyTableRow'
@@ -54,6 +55,11 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import {
   Table,
   TableBody,
@@ -128,6 +134,12 @@ export default function ItensDAPage() {
   const [editPessoasPorUnidade, setEditPessoasPorUnidade] = useState('2')
   const [orderByField, setOrderByField] = useState<string | null>(null)
   const [orderByDirection, setOrderByDirection] = useState<string | null>(null)
+  const [infoTooltipOpen, setInfoTooltipOpen] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches)
+  }, [])
 
   const { data: daData } = useQuery<DAResponse>({
     queryKey: ['da'],
@@ -456,6 +468,31 @@ export default function ItensDAPage() {
               <div className="flex items-center gap-4">
                 <BarChart4 className="h-6 w-6 text-zinc-700" />
                 <span className="font-bold text-zinc-700">Informações</span>
+                <Tooltip
+                  open={infoTooltipOpen}
+                  onOpenChange={setInfoTooltipOpen}
+                  delayDuration={0}
+                >
+                  <TooltipTrigger
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setInfoTooltipOpen((v) => !v)
+                    }}
+                    onMouseEnter={() =>
+                      !isTouch && setInfoTooltipOpen(true)
+                    }
+                    onMouseLeave={() =>
+                      !isTouch && setInfoTooltipOpen(false)
+                    }
+                  >
+                    <CircleHelp className="size-4 cursor-pointer" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Os números representam quantas pessoas estão levando o
+                    item, não a quantidade de itens.
+                  </TooltipContent>
+                </Tooltip>
               </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -740,10 +777,7 @@ export default function ItensDAPage() {
                     </TableCell>
 
                     <TableCell>
-                      {editando &&
-                      item.noDAAtual &&
-                      da &&
-                      item.categoria === 'CARNE' ? (
+                      {editando && item.noDAAtual && da ? (
                         <Input
                           type="number"
                           min={1}
@@ -755,7 +789,7 @@ export default function ItensDAPage() {
                           wrapperClassName="h-9 w-16"
                           className="text-xs"
                         />
-                      ) : item.noDAAtual && da && item.categoria === 'CARNE' ? (
+                      ) : item.noDAAtual && da ? (
                         <span className="text-zinc-700">
                           {item.pessoasPorUnidade &&
                           item.pessoasPorUnidade > 1 ? (
@@ -791,10 +825,7 @@ export default function ItensDAPage() {
                                     ? null
                                     : parseInt(editQtd, 10)
                                   const novaPpu =
-                                    item.categoria === 'CARNE'
-                                      ? parseInt(editPessoasPorUnidade, 10) ||
-                                        null
-                                      : undefined
+                                    parseInt(editPessoasPorUnidade, 10) || null
                                   if (
                                     novaQtd !== item.quantidade ||
                                     novaPpu !== item.pessoasPorUnidade

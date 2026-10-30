@@ -1,5 +1,33 @@
 # Changelog
 
+## v5.15.0 — 2026-10-29
+
+### Dia da Amizade (DA)
+
+**Gestão de transporte — `/admin/bp/da/transporte`**
+- Cards de passageiros exibem avatar da pessoa
+- Motorista pendente (não inscrito no DA) mostra ícone de relógio âmbar ao lado do nome na seção de motorista
+- BP responsável exibido na seção do motorista, assim como nos cards de passageiros
+- Pessoas convidadas mas não inscritas no DA exibidas como lista simples (avatar + nome + relógio) abaixo dos passageiros draggáveis, sem virar card
+- Vagas livres e cálculo de lotação passaram a incluir convites pendentes de pessoas não inscritas
+- Correção: pessoa inscrita movida para fora do carro não aparecia mais como pendente naquele carro antes do refetch
+- Removido botão "Remover inscrição" dos cards de transporte (disponível apenas na página de inscritos)
+- Removida informação "Convidado por" dos cards
+- Badge Pago/Não pago com largura fixa (`w-[5.5rem]`) e ícone X adicionado ao estado "Não pago" para evitar variação de layout
+- Vagas padrão ao criar carro alterada de 3 para 4 em todos os formulários
+- Card "Sem veículo" sempre fixado na 3ª coluna do grid
+
+**Formulário de inscrição — `/admin/da`**
+- "Já tem carona?" renomeado para "Já tem motorista?"
+
+**O que levar — `/admin/bp/da/itens`**
+- Campo "Pessoas/peça" disponível para todas as categorias de item, não apenas carnes
+- Ícone de informação (CircleHelp) adicionado ao cabeçalho do accordion "Informações" com tooltip controlado (clique para abrir/fechar; hover em desktop)
+
+**Gestão do DA — `/admin/bp/da`**
+- Toggle de organização de transporte renomeado de Ativo/Inativo para Ativado/Desativado
+- Textos do toggle atualizados: ativado exibe "BPs veem carros, motoristas e caronas."; desativado exibe "BPs veem apenas ônibus. Carros ficam ocultos."
+
 ## v5.14.1 — 2026-10-28
 
 ### Dia da Amizade (DA)

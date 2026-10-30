@@ -1,9 +1,10 @@
 'use client'
 
 import { useDraggable, type UniqueIdentifier } from '@dnd-kit/core'
-import { Clock, GripVertical, Send, UserCheck } from 'lucide-react'
+import { GripVertical, UserCheck } from 'lucide-react'
 import type { ReactNode } from 'react'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
@@ -13,6 +14,7 @@ export interface SortablePessoa {
   vehicleId: string
   content: {
     nome: string
+    avatarUrl: string | null
     comoVai: string | null
     pagouOnibus: boolean
     numEncontro: number | null
@@ -59,6 +61,12 @@ export function CardPessoa({
         )}
       >
         <div className="flex items-center gap-1 px-2 py-1.5">
+          <Avatar className="size-6 shrink-0">
+            <AvatarImage src={pessoa.content.avatarUrl ?? undefined} />
+            <AvatarFallback className="text-[9px]">
+              {pessoa.content.nome.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
           <div className="min-w-0 flex-1">
             <span className="block truncate text-xs font-medium text-zinc-700">
               {pessoa.content.nome}
@@ -80,25 +88,12 @@ export function CardPessoa({
         <Separator />
         <div className="flex items-center justify-between gap-1 px-2 py-1">
           <span className="flex min-w-0 items-center gap-1 truncate text-[11px] text-zinc-400">
-            <UserCheck className="size-3 shrink-0" />
-            {pessoa.content.nomeBP ?? '-'}
-            {pessoa.content.conviteMotorista && (
-              <>
-                <span className="mx-0.5">|</span>
-                <Send className="size-3 shrink-0" />
-                <span className="truncate">
-                  {pessoa.content.conviteMotorista}
-                </span>
-              </>
-            )}
+            <span title="BP responsável" className="flex shrink-0 items-center gap-1">
+              <UserCheck className="size-3" />
+              {pessoa.content.nomeBP ?? '-'}
+            </span>
           </span>
           <div className="flex shrink-0 items-center gap-1">
-            {pessoa.content.conviteStatus === 'PENDENTE' && (
-              <Clock
-                className="size-3 shrink-0 text-amber-400"
-                aria-label="Convite pendente"
-              />
-            )}
             {actions}
           </div>
         </div>
@@ -115,6 +110,12 @@ export function CardPessoa({
       )}
     >
       <div className="flex items-center gap-2 px-3 py-3">
+        <Avatar className="size-8 shrink-0">
+          <AvatarImage src={pessoa.content.avatarUrl ?? undefined} />
+          <AvatarFallback className="text-xs">
+            {pessoa.content.nome.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
         <div className="min-w-0 flex-1">
           <span className="block truncate font-medium text-zinc-700">
             {pessoa.content.nome}
@@ -136,25 +137,12 @@ export function CardPessoa({
       <Separator />
       <div className="flex items-center justify-between gap-2 px-3 py-2">
         <span className="flex min-w-0 items-center gap-1 truncate text-sm text-zinc-400">
-          <UserCheck className="size-3.5 shrink-0" />
-          {pessoa.content.nomeBP ?? '-'}
-          {pessoa.content.conviteMotorista && (
-            <>
-              <span className="mx-0.5">|</span>
-              <Send className="size-3.5 shrink-0" />
-              <span className="truncate">
-                {pessoa.content.conviteMotorista}
-              </span>
-            </>
-          )}
+          <span title="BP responsável" className="flex shrink-0 items-center gap-1">
+            <UserCheck className="size-3.5" />
+            {pessoa.content.nomeBP ?? '-'}
+          </span>
         </span>
         <div className="flex shrink-0 items-center gap-1">
-          {pessoa.content.conviteStatus === 'PENDENTE' && (
-            <Clock
-              className="size-3.5 shrink-0 text-amber-400"
-              aria-label="Convite pendente"
-            />
-          )}
           {actions}
         </div>
       </div>
