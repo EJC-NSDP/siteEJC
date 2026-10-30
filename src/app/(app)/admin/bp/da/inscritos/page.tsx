@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Bus,
   Car,
+  Download,
   MessageCircle,
   Pencil,
   Search,
@@ -11,6 +12,7 @@ import {
   Trash2,
   Users,
 } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -244,16 +246,26 @@ export default function DAInscritosPage() {
             participante
           </span>
         </div>
-        {!isLoading && inscricoes && (
-          <div className="w-full rounded-xl bg-white px-4 py-2 shadow-sm sm:w-auto">
-            <p className="font-bold text-nowrap text-zinc-700">
-              <span className="text-2xl">{inscricoesFiltradas.length}</span>{' '}
-              <span className="text-sm font-normal text-zinc-400">
-                {inscricoesFiltradas.length === 1 ? 'inscrito' : 'inscritos'}
-              </span>
-            </p>
-          </div>
-        )}
+        <div className="flex items-center gap-3">
+          {!isLoading && da && (
+            <Link href={`/api/export/da/inscritos-mini?idDA=${da.id}`}>
+              <Button variant="secondary" className="w-full sm:w-auto">
+                <Download className="mr-2 h-4 w-4" />
+                Exportar
+              </Button>
+            </Link>
+          )}
+          {!isLoading && inscricoes && (
+            <div className="w-full rounded-xl bg-white px-4 py-2 shadow-sm sm:w-auto">
+              <p className="font-bold text-nowrap text-zinc-700">
+                <span className="text-2xl">{inscricoesFiltradas.length}</span>{' '}
+                <span className="text-sm font-normal text-zinc-400">
+                  {inscricoesFiltradas.length === 1 ? 'inscrito' : 'inscritos'}
+                </span>
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Filtros */}

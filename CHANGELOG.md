@@ -1,5 +1,15 @@
 # Changelog
 
+## v5.17.0 — 2026-10-30
+
+### Dia da Amizade (DA)
+
+**Exportações Excel**
+- Botão "Exportar ônibus" na aba Transporte: lista de passageiros por ônibus com status de pagamento (pago/pendente/não pago), valor pago, encontro e BP responsável
+- Botão "Exportar carros" na aba Transporte (visível apenas quando a organização de carros está ativa): motorista, modelo, placa, vagas, passageiros confirmados e pendentes com encontro e BP
+- Botão "Exportar" na aba Inscritos: lista completa de inscritos com nome e número de encontro para uso em tabelas do mini
+- Botão "Exportar" na aba Pagamentos: log completo de pagamentos com pessoa, ônibus, valor, quem registrou e data
+
 ## v5.16.1 — 2026-10-30
 
 ### Dia da Amizade (DA)

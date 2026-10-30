@@ -24,6 +24,7 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
+  Download,
   Loader2,
   Pencil,
   Plus,
@@ -31,6 +32,7 @@ import {
   UserCheck,
   X,
 } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -1108,6 +1110,22 @@ export default function TransportePage() {
                     <Bus className="mr-1 size-4" />
                     Ônibus/van
                   </Button>
+                  <Link href={`/api/export/da/onibus?idDA=${da.id}`}>
+                    <Button variant="secondary" className="w-full sm:w-auto">
+                      <Download className="mr-1 size-4" />
+                      <Bus className="mr-1 size-4" />
+                      Exportar ônibus
+                    </Button>
+                  </Link>
+                  {da.organizarTransporte && (
+                    <Link href={`/api/export/da/carros?idDA=${da.id}`}>
+                      <Button variant="secondary" className="w-full sm:w-auto">
+                        <Download className="mr-1 size-4" />
+                        <Car className="mr-1 size-4" />
+                        Exportar carros
+                      </Button>
+                    </Link>
+                  )}
                 </>
               )}
             </>

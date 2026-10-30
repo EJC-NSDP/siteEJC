@@ -3,7 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Search, SearchX, Trash2 } from 'lucide-react'
+import { Download, Search, SearchX, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -192,6 +193,14 @@ export default function PagamentosOnibusPage() {
           </span>
         </div>
         <div className="flex items-center gap-3">
+          {!isLoading && da && (
+            <Link href={`/api/export/da/pagamentos-onibus?idDA=${da.id}`}>
+              <Button variant="secondary" className="w-full sm:w-auto">
+                <Download className="mr-2 h-4 w-4" />
+                Exportar
+              </Button>
+            </Link>
+          )}
           {!isLoading && da && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
