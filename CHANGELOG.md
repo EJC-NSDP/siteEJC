@@ -1,5 +1,12 @@
 # Changelog
 
+## v5.17.1 — 2026-11-02
+
+### Fechar Encontro — `/admin/dirigente/gerenciar-encontro/fechar-encontro`
+
+- Corrigido erro ao clicar em "Alterar encontristas": cartas digitais dos encontristas com status `desistiu` ou `delete` eram bloqueadas por constraint de chave estrangeira ao tentar deletar as pessoas; agora as cartas são removidas antes da deleção
+- Adicionado aviso no card "Transformar encontristas em encontreiros" informando que as cartas digitais serão deletadas ao realizar a ação
+
 ## v5.17.0 — 2026-10-30
 
 ### Dia da Amizade (DA)

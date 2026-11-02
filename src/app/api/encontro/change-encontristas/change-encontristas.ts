@@ -70,6 +70,18 @@ export async function changeEncontristas() {
     })
   })
 
+  await prisma.carta.deleteMany({
+    where: {
+      pessoa: {
+        encontrista: {
+          idStatus: {
+            in: ['delete', 'desistiu'],
+          },
+        },
+      },
+    },
+  })
+
   const deletados = await prisma.pessoa.deleteMany({
     where: {
       encontrista: {

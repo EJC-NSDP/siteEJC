@@ -96,21 +96,21 @@ export function CardsNovoEncontro({
   return (
     <div className="space-y-4">
       <CardAcao
-        title="Tirar acessos do último Encontro"
-        description="Retire o acesso dos coordenadores aos sistemas exclusivos do site. Essa ação não afetará os acessos normais, apenas aqueles que têm relação com o encontro passado."
-        warning="Ao remover os acessos, o formulário de avaliação ficará inacessível para os coordenadores. Realize esta ação somente após o período de avaliação encerrar."
-        status={acessoUltimoEncontro}
+        title="Limpar cartas"
+        description="Remova todas as cartas recebidas no último Encontro"
+        status={limparCartas}
       >
         <BotaoAcao
-          state={acessoUltimoEncontro}
-          content="Remover acessos"
-          altContent="Todos os acessos já removidos"
-          handleAction={handleResetRoles}
+          state={limparCartas}
+          content="Limpar Cartas"
+          altContent="Sem cartas enviadas"
+          handleAction={handleLimparCartas}
         />
       </CardAcao>
       <CardAcao
         title="Transformar encontristas em encontreiros"
         description="Altere os encontristas confirmados e confirmados sem sexta para encontreiros. Essa ação removerá todas as informações que não são mais relevantes das pessoas que já fizeram o último Encontro. Essa ação também exlcuirá quem está com o status desistiu ou foi deletado no último Encontro do banco de dados"
+        warning="Todas as cartas digitais dos encontristas serão deletadas ao realizar esta ação."
         status={mudarEncontristas}
       >
         <BotaoAcao
@@ -121,15 +121,16 @@ export function CardsNovoEncontro({
         />
       </CardAcao>
       <CardAcao
-        title="Limpar cartas"
-        description="Remova todas as cartas recebidas no último Encontro"
-        status={limparCartas}
+        title="Tirar acessos do último Encontro"
+        description="Retire o acesso dos coordenadores aos sistemas exclusivos do site. Essa ação não afetará os acessos normais, apenas aqueles que têm relação com o encontro passado."
+        warning="Ao remover os acessos, o formulário de avaliação ficará inacessível para os coordenadores. Realize esta ação somente após o período de avaliação encerrar."
+        status={acessoUltimoEncontro}
       >
         <BotaoAcao
-          state={limparCartas}
-          content="Limpar Cartas"
-          altContent="Sem cartas enviadas"
-          handleAction={handleLimparCartas}
+          state={acessoUltimoEncontro}
+          content="Remover acessos"
+          altContent="Todos os acessos já removidos"
+          handleAction={handleResetRoles}
         />
       </CardAcao>
       <CardAcao
