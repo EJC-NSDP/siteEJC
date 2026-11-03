@@ -2,7 +2,11 @@ import * as XLSX from 'xlsx'
 
 import { prisma } from '@/lib/prisma'
 
-function nomePessoa(p: { nome: string; sobrenome: string; apelido: string | null }) {
+function nomePessoa(p: {
+  nome: string
+  sobrenome: string
+  apelido: string | null
+}) {
   return p.apelido ?? `${p.nome} ${p.sobrenome}`
 }
 
@@ -22,7 +26,9 @@ export async function generateCSV(idDA: string) {
               },
             },
           },
-          responsavelBP: { select: { nome: true, sobrenome: true, apelido: true } },
+          responsavelBP: {
+            select: { nome: true, sobrenome: true, apelido: true },
+          },
         },
         orderBy: [{ pessoa: { nome: 'asc' } }],
       },

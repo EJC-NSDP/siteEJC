@@ -21,12 +21,12 @@ export function ProxEncontroCard() {
       queryKey: ['disponibilidade'],
     })
 
-  const { data: equipes, isLoading: isLoadingEquipes } = useQuery<SelectArray[]>(
-    {
-      queryFn: async () => await getEquipes(),
-      queryKey: ['equipes'],
-    },
-  )
+  const { data: equipes, isLoading: isLoadingEquipes } = useQuery<
+    SelectArray[]
+  >({
+    queryFn: async () => await getEquipes(),
+    queryKey: ['equipes'],
+  })
 
   const { control } = form
 

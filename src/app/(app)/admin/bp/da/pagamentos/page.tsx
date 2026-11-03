@@ -81,7 +81,9 @@ export default function PagamentosOnibusPage() {
   const [filtroOnibus, setFiltroOnibus] = useState('todos')
   const [filtroTipo, setFiltroTipo] = useState('todos')
   const [orderByField, setOrderByField] = useState<string | null>('data')
-  const [orderByDirection, setOrderByDirection] = useState<string | null>('desc')
+  const [orderByDirection, setOrderByDirection] = useState<string | null>(
+    'desc',
+  )
   const [pageIndex, setPageIndex] = useState(1)
 
   const { data: daData, isLoading: daLoading } = useQuery<DAResponse>({
@@ -103,8 +105,7 @@ export default function PagamentosOnibusPage() {
   const isLoading = daLoading || (!!da && pagamentosLoading)
 
   const limparHistorico = useMutation({
-    mutationFn: () =>
-      api.delete(`/da/pagamentos-onibus?idDA=${da!.id}`),
+    mutationFn: () => api.delete(`/da/pagamentos-onibus?idDA=${da!.id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['da-pagamentos-onibus', da?.id],
@@ -214,7 +215,9 @@ export default function PagamentosOnibusPage() {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Zerar histórico de pagamentos?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    Zerar histórico de pagamentos?
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
                     Todos os lançamentos registrados pelos BPs serão
                     permanentemente excluídos. Os status de pagamento das
@@ -387,7 +390,9 @@ export default function PagamentosOnibusPage() {
                   <TableCell className="pl-4 font-medium text-zinc-700">
                     {nomePessoa(p.pessoa)}
                   </TableCell>
-                  <TableCell className="text-zinc-500">{p.onibus.nome}</TableCell>
+                  <TableCell className="text-zinc-500">
+                    {p.onibus.nome}
+                  </TableCell>
                   <TableCell
                     className={`font-medium ${p.valor >= 0 ? 'text-emerald-700' : 'text-red-600'}`}
                   >
@@ -419,7 +424,6 @@ export default function PagamentosOnibusPage() {
           </TableFooter>
         </Table>
       </div>
-
     </div>
   )
 }

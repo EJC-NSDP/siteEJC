@@ -223,7 +223,10 @@ export async function PATCH(
       where: { idPessoa_idDA: { idPessoa, idDA } },
       select: { idOnibusDAAnterior: true, valorPago: true },
     })
-    if (inscricaoAtual?.idOnibusDAAnterior && inscricaoAtual.valorPago != null) {
+    if (
+      inscricaoAtual?.idOnibusDAAnterior &&
+      inscricaoAtual.valorPago != null
+    ) {
       await prisma.pagamentoOnibusDA.create({
         data: {
           idDA,

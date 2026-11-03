@@ -1,5 +1,12 @@
 # Changelog
 
+## v5.17.4 — 2026-11-03
+
+### Correções de linting e formatação
+
+- DA — Transporte: parâmetro `valorPorOnibus` renomeado para `_valorPorOnibus` em `mutationFn` de `togglePagamento` e `corrigirPagamento` para suprimir warning de variável não utilizada
+- Reformatação automática (Prettier) em múltiplos arquivos: `pagamentos/page.tsx`, `transporte/page.tsx`, `inscricoes/route.ts`, exportações CSV de carros, ônibus, inscritos e pagamentos, e sidebar de BPs
+
 ## v5.17.3 — 2026-11-03
 
 ### Dia da Amizade (DA) — convites de veículo

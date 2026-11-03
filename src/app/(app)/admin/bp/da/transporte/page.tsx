@@ -354,7 +354,12 @@ export default function TransportePage() {
   const isLoading = daLoading || transporteLoading
 
   useEffect(() => {
-    if (transporte && !activePessoa && !movePendingRef.current && !paymentPendingRef.current)
+    if (
+      transporte &&
+      !activePessoa &&
+      !movePendingRef.current &&
+      !paymentPendingRef.current
+    )
       setPessoas(buildPessoas(transporte))
   }, [transporte, activePessoa])
 
@@ -403,7 +408,7 @@ export default function TransportePage() {
     mutationFn: ({
       idPessoa,
       pagouOnibus,
-      valorPorOnibus,
+      valorPorOnibus: _valorPorOnibus,
     }: {
       idPessoa: string
       pagouOnibus: boolean
@@ -440,7 +445,7 @@ export default function TransportePage() {
   const corrigirPagamento = useMutation({
     mutationFn: ({
       idPessoa,
-      valorPorOnibus,
+      valorPorOnibus: _valorPorOnibus,
     }: {
       idPessoa: string
       valorPorOnibus: number
@@ -479,7 +484,10 @@ export default function TransportePage() {
       setPessoas((prev) =>
         prev.map((p) =>
           String(p.id) === idPessoa
-            ? { ...p, content: { ...p.content, pagouOnibus: false, valorPago: null } }
+            ? {
+                ...p,
+                content: { ...p.content, pagouOnibus: false, valorPago: null },
+              }
             : p,
         ),
       )
@@ -932,7 +940,7 @@ export default function TransportePage() {
                             }
                             className="disabled:cursor-not-allowed disabled:opacity-50"
                           >
-                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-xs text-amber-700 hover:bg-amber-100">
+                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center border-amber-300 bg-amber-50 text-xs whitespace-nowrap text-amber-700 hover:bg-amber-100">
                               <span className="flex items-center gap-1">
                                 <AlertTriangle className="size-3 shrink-0" />
                                 {formatBRL(p.content.valorPago!)}
@@ -952,7 +960,7 @@ export default function TransportePage() {
                             }
                             className="disabled:cursor-not-allowed disabled:opacity-50"
                           >
-                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-xs text-amber-700 hover:bg-amber-100">
+                            <Badge className="w-[5.5rem] cursor-[inherit] justify-center border-amber-300 bg-amber-50 text-xs whitespace-nowrap text-amber-700 hover:bg-amber-100">
                               <span className="flex items-center gap-1">
                                 <AlertTriangle className="size-3 shrink-0" />
                                 {formatBRL(onibus.valorPorPessoa)}
@@ -978,7 +986,7 @@ export default function TransportePage() {
                           >
                             <Badge
                               className={cn(
-                                'w-[5.5rem] cursor-[inherit] justify-center whitespace-nowrap text-xs',
+                                'w-[5.5rem] cursor-[inherit] justify-center text-xs whitespace-nowrap',
                                 p.content.pagouOnibus
                                   ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                                   : 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100',
@@ -1448,53 +1456,56 @@ export default function TransportePage() {
                             currency: 'BRL',
                           })
                         return (
-                        <CardPessoa
-                          key={String(p.id)}
-                          pessoa={p}
-                          actions={
-                            <div className="flex items-center gap-1">
-                              {p.content.pagouOnibus && p.content.valorPago !== null && (
+                          <CardPessoa
+                            key={String(p.id)}
+                            pessoa={p}
+                            actions={
+                              <div className="flex items-center gap-1">
+                                {p.content.pagouOnibus &&
+                                  p.content.valorPago !== null && (
+                                    <button
+                                      title={`Pagou ${formatBRL(p.content.valorPago)} — clique para confirmar devolução`}
+                                      disabled={devolverPagamento.isPending}
+                                      onClick={() =>
+                                        devolverPagamento.mutate({
+                                          idPessoa: String(p.id),
+                                        })
+                                      }
+                                      className="disabled:cursor-not-allowed disabled:opacity-50"
+                                    >
+                                      <Badge className="cursor-pointer justify-center border-amber-300 bg-amber-50 text-[10px] whitespace-nowrap text-amber-700 hover:bg-amber-100">
+                                        <span className="flex items-center gap-1">
+                                          <Banknote className="size-3 shrink-0" />
+                                          Já pago
+                                        </span>
+                                      </Badge>
+                                    </button>
+                                  )}
                                 <button
-                                  title={`Pagou ${formatBRL(p.content.valorPago)} — clique para confirmar devolução`}
-                                  disabled={devolverPagamento.isPending}
-                                  onClick={() =>
-                                    devolverPagamento.mutate({
+                                  title="Converter em motorista"
+                                  className="text-zinc-400 hover:text-blue-500"
+                                  onClick={async () => {
+                                    const { data } = await api.get(
+                                      `/da/carro-anterior?idPessoa=${String(p.id)}`,
+                                    )
+                                    setMotoristaModelo(data?.modeloCarro ?? '')
+                                    setMotoristaPlaca(data?.placaCarro ?? '')
+                                    setMotoristaVagas(
+                                      data
+                                        ? String(data.lugaresCarro - 1)
+                                        : '4',
+                                    )
+                                    setConvertendoMotorista({
                                       idPessoa: String(p.id),
+                                      nome: p.content.nome,
                                     })
-                                  }
-                                  className="disabled:cursor-not-allowed disabled:opacity-50"
+                                  }}
                                 >
-                                  <Badge className="cursor-pointer justify-center whitespace-nowrap border-amber-300 bg-amber-50 text-[10px] text-amber-700 hover:bg-amber-100">
-                                    <span className="flex items-center gap-1">
-                                      <Banknote className="size-3 shrink-0" />
-                                      Já pago
-                                    </span>
-                                  </Badge>
+                                  <Car className="size-3.5" />
                                 </button>
-                              )}
-                              <button
-                                title="Converter em motorista"
-                                className="text-zinc-400 hover:text-blue-500"
-                                onClick={async () => {
-                                  const { data } = await api.get(
-                                    `/da/carro-anterior?idPessoa=${String(p.id)}`,
-                                  )
-                                  setMotoristaModelo(data?.modeloCarro ?? '')
-                                  setMotoristaPlaca(data?.placaCarro ?? '')
-                                  setMotoristaVagas(
-                                    data ? String(data.lugaresCarro - 1) : '4',
-                                  )
-                                  setConvertendoMotorista({
-                                    idPessoa: String(p.id),
-                                    nome: p.content.nome,
-                                  })
-                                }}
-                              >
-                                <Car className="size-3.5" />
-                              </button>
-                            </div>
-                          }
-                        />
+                              </div>
+                            }
+                          />
                         )
                       })}
                   </Droppable>

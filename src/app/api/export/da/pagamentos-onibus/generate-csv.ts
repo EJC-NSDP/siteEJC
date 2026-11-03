@@ -4,7 +4,11 @@ import * as XLSX from 'xlsx'
 
 import { prisma } from '@/lib/prisma'
 
-function nomePessoa(p: { nome: string; sobrenome: string; apelido: string | null }) {
+function nomePessoa(p: {
+  nome: string
+  sobrenome: string
+  apelido: string | null
+}) {
   return p.apelido ?? `${p.nome} ${p.sobrenome}`
 }
 
@@ -24,7 +28,7 @@ export async function generateCSV(idDA: string) {
     Ônibus: p.onibus.nome,
     'Valor (R$)': Number(p.valor).toFixed(2),
     'Registrado por': nomePessoa(p.usuario),
-    Data: format(p.createdAt, "dd/MM/yyyy HH:mm", { locale: ptBR }),
+    Data: format(p.createdAt, 'dd/MM/yyyy HH:mm', { locale: ptBR }),
   }))
 
   const worksheet = XLSX.utils.json_to_sheet(rows)

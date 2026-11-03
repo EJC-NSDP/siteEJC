@@ -21,8 +21,7 @@ export async function generateCSV(idDA: string) {
   })
 
   const rows = inscricoes.map((i) => ({
-    Nome:
-      i.pessoa.apelido ?? `${i.pessoa.nome} ${i.pessoa.sobrenome}`,
+    Nome: i.pessoa.apelido ?? `${i.pessoa.nome} ${i.pessoa.sobrenome}`,
     Encontro: i.pessoa.encontreiro?.encontro?.numeroEncontro ?? '',
   }))
 
