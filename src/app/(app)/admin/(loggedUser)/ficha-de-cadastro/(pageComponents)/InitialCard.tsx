@@ -20,7 +20,7 @@ export function InitialCard({ loaded, updateNext }: InitialCard) {
           com o seu dirigente ou coordenador responsável.
         </p>
 
-        <Button onClick={() => updateNext(true)}>
+        <Button onClick={() => updateNext(true)} disabled={!loaded}>
           {loaded ? (
             <span className="text-xl font-semibold text-nowrap">Preencher</span>
           ) : (

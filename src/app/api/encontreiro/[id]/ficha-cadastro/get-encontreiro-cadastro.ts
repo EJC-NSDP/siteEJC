@@ -100,6 +100,7 @@ export async function getEncontreiroCadastro(id: string) {
           disponibilidade: true,
           encontro: {
             select: {
+              id: true,
               numeroEncontro: true,
             },
           },
@@ -184,7 +185,9 @@ export async function getEncontreiroCadastro(id: string) {
   )
 
   const podeUsarDados =
-    !encontroIsOpen || equipeEncontroAtual?.fichaPreenchida === true
+    !encontroIsOpen ||
+    !equipeEncontroAtual ||
+    equipeEncontroAtual.fichaPreenchida
 
   const encontreiroResponse: EncontreiroCadastroData = {
     id: encontreiro.id,
@@ -235,7 +238,9 @@ export async function getEncontreiroCadastro(id: string) {
       isOpen: encontroIsOpen,
       equipe: equipeEncontroAtual
         ? equipeEncontroAtual.equipe.equipeLabel
-        : 'Não irá participar',
+        : encontreiro.encontreiro?.encontro?.id === encontro.id
+          ? 'Encontrista'
+          : 'Não irá participar',
       coordenou: equipeEncontroAtual ? equipeEncontroAtual.coordenou : false,
     },
     proxEncontro: {

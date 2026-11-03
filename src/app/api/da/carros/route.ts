@@ -138,16 +138,51 @@ export async function POST(request: NextRequest) {
   // Cria convites para os passageiros convidados pelo motorista
   if (convidados && convidados.length > 0) {
     const novosConvidados = convidados.filter((id) => id !== motoristId)
-    if (novosConvidados.length > 0) {
-      await prisma.conviteVeiculoDA.createMany({
-        data: novosConvidados.map((idConvidado) => ({
+
+    for (const idConvidado of novosConvidados) {
+      // Convite reverso: carona já convidou este motorista → auto-aprova e vincula ao carro
+      const conviteReverso = await prisma.conviteVeiculoDA.findFirst({
+        where: {
+          idDA,
+          idMotorista: motoristId,
+          idConvidado,
+          iniciador: 'CARONA',
+          status: { not: 'RECUSADO' },
+        },
+      })
+
+      if (conviteReverso) {
+        await prisma.conviteVeiculoDA.update({
+          where: { id: conviteReverso.id },
+          data: { status: 'ACEITO', idCarroDA: carro.id },
+        })
+        await prisma.inscricaoDA.updateMany({
+          where: {
+            idPessoa: idConvidado,
+            idDA,
+            comoVai: 'CARONA',
+            idCarroDA: null,
+          },
+          data: { idCarroDA: carro.id },
+        })
+        continue
+      }
+
+      // Bloqueia convidado que já tem convite ativo em outro carro deste DA
+      const conviteAtivo = await prisma.conviteVeiculoDA.findFirst({
+        where: { idDA, idConvidado, status: { not: 'RECUSADO' } },
+      })
+      if (conviteAtivo) continue
+
+      await prisma.conviteVeiculoDA.create({
+        data: {
           idDA,
           idMotorista: motoristId,
           idCarroDA: carro.id,
           idConvidado,
-          iniciador: 'MOTORISTA' as const,
-          status: 'PENDENTE' as const,
-        })),
+          iniciador: 'MOTORISTA',
+          status: 'PENDENTE',
+        },
       })
     }
   }

@@ -15,15 +15,18 @@ import { getDisponibilidade, getEquipes } from '@/utils/fetch-domains'
 export function ProxEncontroCard() {
   const form = useFormContext()
 
-  const { data: disponibilidade } = useQuery<SelectArray[]>({
-    queryFn: async () => await getDisponibilidade(),
-    queryKey: ['disponibilidade'],
-  })
+  const { data: disponibilidade, isLoading: isLoadingDisponibilidade } =
+    useQuery<SelectArray[]>({
+      queryFn: async () => await getDisponibilidade(),
+      queryKey: ['disponibilidade'],
+    })
 
-  const { data: equipes } = useQuery<SelectArray[]>({
-    queryFn: async () => await getEquipes(),
-    queryKey: ['equipes'],
-  })
+  const { data: equipes, isLoading: isLoadingEquipes } = useQuery<SelectArray[]>(
+    {
+      queryFn: async () => await getEquipes(),
+      queryKey: ['equipes'],
+    },
+  )
 
   const { control } = form
 
@@ -40,6 +43,7 @@ export function ProxEncontroCard() {
                 placeholder="Selecione uma opção"
                 onChange={field.onChange}
                 value={field.value}
+                disabled={isLoadingDisponibilidade}
               >
                 {disponibilidade &&
                   disponibilidade.map((item) => {
@@ -71,13 +75,14 @@ export function ProxEncontroCard() {
             name="preferencia1"
             render={({ field }) => {
               return (
-                <label className="flex w-full items-center gap-4">
+                <div className="flex w-full items-center gap-4">
                   <FormLabel>1.</FormLabel>
                   <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}
                       value={field.value}
+                      disabled={isLoadingEquipes}
                     >
                       {equipes &&
                         equipes.map((item) => {
@@ -91,7 +96,7 @@ export function ProxEncontroCard() {
                         })}
                     </SelectGroupInput>
                   </div>
-                </label>
+                </div>
               )
             }}
           />
@@ -100,13 +105,14 @@ export function ProxEncontroCard() {
             name="preferencia2"
             render={({ field }) => {
               return (
-                <label className="flex w-full items-center gap-4">
+                <div className="flex w-full items-center gap-4">
                   <FormLabel>2.</FormLabel>
                   <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}
                       value={field.value}
+                      disabled={isLoadingEquipes}
                     >
                       {equipes &&
                         equipes.map((item) => {
@@ -120,7 +126,7 @@ export function ProxEncontroCard() {
                         })}
                     </SelectGroupInput>
                   </div>
-                </label>
+                </div>
               )
             }}
           />
@@ -130,13 +136,14 @@ export function ProxEncontroCard() {
             name="preferencia3"
             render={({ field }) => {
               return (
-                <label className="flex w-full items-center gap-4">
+                <div className="flex w-full items-center gap-4">
                   <FormLabel>3.</FormLabel>
                   <div className="w-full">
                     <SelectGroupInput
                       placeholder="Selecione uma opção"
                       onChange={field.onChange}
                       value={field.value}
+                      disabled={isLoadingEquipes}
                     >
                       {equipes &&
                         equipes.map((item) => {
@@ -150,7 +157,7 @@ export function ProxEncontroCard() {
                         })}
                     </SelectGroupInput>
                   </div>
-                </label>
+                </div>
               )
             }}
           />

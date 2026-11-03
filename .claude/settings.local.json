@@ -59,7 +59,17 @@
       "Bash(Get-ChildItem -Path \"D:\\\\joao_\\\\Documents\\\\Site EJC\\\\Frontend\\\\siteejcv4\\\\src\\\\app\\\\api\\\\da\" -Recurse -Filter \"*.ts\")",
       "Bash(Select-String -Pattern \"CHANGE|change|Change\")",
       "Bash(Select-String -Pattern \"CHANGE|change|Change|version|VERSION\")",
-      "Bash(Remove-Item *)"
+      "Bash(Remove-Item *)",
+      "Bash(npm info *)",
+      "Bash(node -e \"const s = require\\('@radix-ui/react-visually-hidden'\\); console.log\\(JSON.stringify\\(s.VISUALLY_HIDDEN_STYLES || require\\('@radix-ui/react-visually-hidden/dist/index.js'\\).VISUALLY_HIDDEN_STYLES\\)\\)\")",
+      "WebSearch",
+      "Bash(gh issue *)",
+      "Bash(gh api *)",
+      "WebFetch(domain:github.com)",
+      "Bash(Get-Content package.json)",
+      "Bash(Select-String '\"version\"')",
+      "Bash(xargs grep -l \"dia_amizade\\\\|convites_veiculo_da\\\\|convites_carne_da\\\\|carros_da\")",
+      "Bash(xargs grep -l \"ConviteVeiculo\\\\|ConviteCarne\")"
     ]
   }
 }

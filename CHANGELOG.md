@@ -1,5 +1,30 @@
 # Changelog
 
+## v5.17.3 — 2026-11-03
+
+### Dia da Amizade (DA) — convites de veículo
+
+- Corrigido bug que permitia múltiplos convites para a mesma carona no mesmo DA: uma carona agora só pode ter um convite ativo por DA (qualquer motorista)
+- Detecção de convite reverso: se a carona já convidou o motorista (ou vice-versa), o convite existente é aprovado automaticamente ao invés de criar um segundo convite
+- `POST /da/carros`: ao convidar passageiros, o sistema agora detecta convite reverso (carona já havia convidado o motorista) e auto-aprova o convite, vinculando ao carro recém-criado; convidados com convite ativo em outro carro são silenciosamente ignorados
+- Frontend: tratamento do novo código de erro `CARONA_JA_TEM_CONVITE` no fluxo de inscrição
+- Script de limpeza executado: 1 par de convites reversos resolvido e 16 convites duplicados recusados no banco de dados
+
+## v5.17.2 — 2026-11-03
+
+### Ficha de cadastro — `/admin/ficha-de-cadastro`
+
+- Botão "Preencher" desabilitado enquanto os dados ainda estão carregando, evitando clique antes do formulário estar pronto
+- Selects de disponibilidade e preferências de equipe desabilitados durante o carregamento dos dados de domínio
+- Corrigida lógica de `podeUsarDados`: caso em que o encontreiro não tem equipe no encontro atual (`equipeEncontroAtual` nulo) não bloqueava incorretamente o uso de dados anteriores
+- Equipe do encontro atual exibida como "Encontrista" quando o encontreiro está inscrito como encontrista no encontro vigente (em vez de "Não irá participar")
+- Layout da página (`layout.tsx`): `h-screen` substituído por `min-h-screen` para evitar corte do conteúdo em páginas mais longas
+
+### Correções gerais
+
+- `SelectGroupInput` e cards de preferências de equipe: `<label>` substituído por `<div>` para corrigir aninhamento inválido de elementos de formulário
+- Removida regra CSS `html { overflow-y: scroll }` que forçava scrollbar permanente em todas as páginas
+
 ## v5.17.1 — 2026-11-02
 
 ### Fechar Encontro — `/admin/dirigente/gerenciar-encontro/fechar-encontro`

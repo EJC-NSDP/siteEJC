@@ -70,20 +70,52 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Impede convite duplicado
-  const existingConvite = await prisma.conviteVeiculoDA.findFirst({
+  // Convite reverso: motorista já convidou esta carona → auto-aprova
+  const conviteReverso = await prisma.conviteVeiculoDA.findFirst({
     where: {
       idDA,
       idMotorista,
       idConvidado: session.user.id,
+      iniciador: 'MOTORISTA',
+      status: 'PENDENTE',
+    },
+  })
+
+  if (conviteReverso) {
+    await prisma.conviteVeiculoDA.update({
+      where: { id: conviteReverso.id },
+      data: { status: 'ACEITO' },
+    })
+    if (conviteReverso.idCarroDA) {
+      await prisma.inscricaoDA.updateMany({
+        where: {
+          idPessoa: session.user.id,
+          idDA,
+          comoVai: 'CARONA',
+          idCarroDA: null,
+        },
+        data: { idCarroDA: conviteReverso.idCarroDA },
+      })
+    }
+    const updated = await prisma.conviteVeiculoDA.findUnique({
+      where: { id: conviteReverso.id },
+    })
+    return NextResponse.json(updated, { status: 200 })
+  }
+
+  // Bloqueia carona com convite ativo em qualquer carro deste DA
+  const conviteAtivoCarona = await prisma.conviteVeiculoDA.findFirst({
+    where: {
+      idDA,
+      idConvidado: session.user.id,
       status: { not: 'RECUSADO' },
     },
   })
-  if (existingConvite)
+  if (conviteAtivoCarona)
     return NextResponse.json(
       {
-        error: 'CONVITE_DUPLICADO',
-        mensagem: 'Você já enviou um convite para este motorista.',
+        error: 'CARONA_JA_TEM_CONVITE',
+        mensagem: 'Você já possui um convite de carona ativo neste DA.',
       },
       { status: 409 },
     )

@@ -450,7 +450,11 @@ export default function DAEncontreiroPage() {
           )
           return
         }
-        if (errData?.error !== 'CONVITE_DUPLICADO') {
+        const errosQuePermitemContinuar = [
+          'CONVITE_DUPLICADO',
+          'CARONA_JA_TEM_CONVITE',
+        ]
+        if (!errosQuePermitemContinuar.includes(errData?.error ?? '')) {
           toast.error(
             errData?.mensagem ?? errData?.error ?? 'Erro ao enviar convite.',
           )

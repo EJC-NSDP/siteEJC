@@ -60,7 +60,7 @@ export function SelectGroupInput({
   return (
     <Tooltip open={open} onOpenChange={setOpen} delayDuration={0}>
       <FormItem {...props}>
-        <label className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <div className={cn(label ? 'flex items-center gap-2' : 'hidden')}>
             {label && <FormLabel>{label}</FormLabel>}
             {tip && (
@@ -83,7 +83,7 @@ export function SelectGroupInput({
             <SelectContent>{children}</SelectContent>
           </Select>
           {description && <FormDescription>{description}</FormDescription>}
-        </label>
+        </div>
         <FormMessage />
       </FormItem>
       <TooltipContent className="w-80 lg:w-100">{tip}</TooltipContent>
