@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
           sobrenome: true,
           apelido: true,
           avatarUrl: true,
+          celular: true,
           encontreiro: {
             select: { encontro: { select: { numeroEncontro: true } } },
           },
@@ -83,6 +84,7 @@ export async function GET(request: NextRequest) {
       sobrenome: ins.pessoa.sobrenome,
       apelido: ins.pessoa.apelido,
       avatarUrl: ins.pessoa.avatarUrl,
+      celular: ins.pessoa.celular,
       numeroEJC: ins.pessoa.encontreiro?.encontro?.numeroEncontro ?? null,
     },
     item: {

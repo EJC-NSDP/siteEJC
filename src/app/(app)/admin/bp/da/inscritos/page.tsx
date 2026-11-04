@@ -80,6 +80,7 @@ interface InscricaoDA {
     sobrenome: string
     apelido: string | null
     avatarUrl: string | null
+    celular: string
     numeroEJC: number | null
   }
   item: { id: string; nome: string; quantidade: number | null }
@@ -337,6 +338,7 @@ export default function DAInscritosPage() {
               <TableHead className="min-w-[160px] rounded-tl-xl pl-4">
                 Nome
               </TableHead>
+              <TableHead className="text-nowrap">Telefone</TableHead>
               <TableHead className="text-nowrap">O que vai levar</TableHead>
               <TableHead className="text-nowrap">Transporte</TableHead>
               <TableHead className="text-nowrap">BP Responsável</TableHead>
@@ -349,6 +351,9 @@ export default function DAInscritosPage() {
                 <TableRow key={i} className="bg-white">
                   <TableCell className="pl-4">
                     <Skeleton className="h-4 w-40" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-28" />
                   </TableCell>
                   <TableCell>
                     <Skeleton className="h-4 w-32" />
@@ -397,6 +402,11 @@ export default function DAInscritosPage() {
                           {ins.pessoa.numeroEJC}º EJC
                         </p>
                       )}
+                    </TableCell>
+
+                    {/* Telefone */}
+                    <TableCell className="text-nowrap text-zinc-600">
+                      {ins.pessoa.celular}
                     </TableCell>
 
                     {/* Item */}
@@ -586,13 +596,13 @@ export default function DAInscritosPage() {
               })}
           </TableBody>
           <TableFooter>
-            {isLoading && <PaginationSkeleton totalCol={5} />}
+            {isLoading && <PaginationSkeleton totalCol={6} />}
             {!isLoading && !!da && (
               <Pagination
                 pageIndex={pageIndex}
                 totalCount={inscricoesFiltradas.length}
                 perPage={perPage}
-                totalCol={5}
+                totalCol={6}
                 onPageChange={(idx) => setPageIndex(idx + 1)}
               />
             )}

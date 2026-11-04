@@ -1,5 +1,11 @@
 # Changelog
 
+## v5.17.5 — 2026-11-03
+
+### Dia da Amizade (DA) — inscritos
+
+- Tabela de inscritos: adicionada coluna "Telefone" com o celular de cada inscrito
+
 ## v5.17.4 — 2026-11-03
 
 ### Correções de linting e formatação
